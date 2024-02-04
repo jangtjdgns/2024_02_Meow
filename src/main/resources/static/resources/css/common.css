@@ -1,0 +1,53 @@
+/* 폰트 */
+
+/* https://noonnu.cc/font_page/694 */
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* https://noonnu.cc/font_page/527 */
+@font-face {
+    font-family: 'Cute_siu';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_02@1.0/Cut_siu.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* https://noonnu.cc/font_page/1053 */
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* https://noonnu.cc/font_page/415 */
+@font-face {
+    font-family: 'ChosunGu';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 프리덴다드 */
+.font-Pretendard {
+	font-family: 'Pretendard-Regular';
+}
+
+/* 큐트시우 */
+.font-NanumSquareNeo {
+	font-family: 'Cute_siu';
+}
+
+/* 나눔스퀘어 네오 */
+.font-NanumSquareNeo {
+	font-family: 'NanumSquareNeo-Variable';
+}
+
+/* 조선 굴림체 */
+.font-ChosunGu {
+	font-family: 'ChosunGu';
+}

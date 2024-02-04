@@ -1,0 +1,79 @@
+DROP DATABASE IF EXISTS MEOW;
+CREATE DATABASE MEOW;
+USE MEOW;
+
+# article 테이블
+CREATE TABLE article(
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	title VARCHAR(50) NOT NULL,
+	`body` TEXT NOT NULL
+);
+
+# member 테이블
+CREATE TABLE `member`(
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	loginId VARCHAR(20) NOT NULL UNIQUE,
+	loginPw VARCHAR(100) NOT NULL,
+	authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '권한 레벨 (일반 = 1, 관리자 = 0 )',
+	`name` VARCHAR(20) NOT NULL,
+	nickname VARCHAR(20) NOT NULL,
+	cellphoneNum VARCHAR(20) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	delStatus INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴 여부 (탈퇴 전 = 0, 탈퇴 후 = 1)',
+	delDate DATETIME COMMENT '탈퇴 날짜'
+);
+
+# board 테이블
+CREATE TABLE board(
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	`code` VARCHAR(20) NOT NULL COMMENT 'notice(공지사항), free(자유), ...',
+	`name` VARCHAR(20) NOT NULL
+);
+
+# recommendPoint 테이블
+CREATE TABLE recommendPoint(
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	memberId INT UNSIGNED NOT NULL,
+    relTypeCode VARCHAR(20) NOT NULL COMMENT '관련 데이터 타입 코드',
+    relId INT UNSIGNED NOT NULL COMMENT '관련 데이터 번호',
+    `point` INT UNSIGNED NOT NULL DEFAULT 0
+);
+
+# reply 테이블
+CREATE TABLE reply(
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	memberId INT UNSIGNED NOT NULL,
+	relTypeCode VARCHAR(20) NOT NULL COMMENT '관련 데이터 타입 코드',
+	relId INT UNSIGNED NOT NULL COMMENT '관련 데이터 번호',
+	`body` TEXT NOT NULL
+);
+
+
+## 테스트 데이터
+# article
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '테스트 제목1',
+`body` = '테스트 내용1';
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '테스트 제목2',
+`body` = '테스트 내용2';
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '테스트 제목3',
+`body` = '테스트 내용3';
+
