@@ -7,29 +7,31 @@ CREATE TABLE article(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
+	memberId INT UNSIGNED NOT NULL,
+	boardId INT UNSIGNED NOT NULL,
 	title VARCHAR(50) NOT NULL,
 	`body` TEXT NOT NULL
 );
 
 ### member
 CREATE TABLE `member` (
-  id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '회원 번호',
-  regDate DATETIME NOT NULL COMMENT '가입일',
-  updateDate DATETIME NOT NULL COMMENT '수정일',
-  loginId VARCHAR(20) NOT NULL UNIQUE COMMENT '아이디',
-  loginPw VARCHAR(64) NOT NULL COMMENT '비밀번호',
-  authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '권한 레벨 (일반 = 1, 관리자 = 0)',
-  `name` VARCHAR(50) NOT NULL COMMENT '이름',
-  nickname VARCHAR(20) NOT NULL COMMENT '닉네임',
-  age INT UNSIGNED NOT NULL COMMENT '나이',
-  cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
-  email VARCHAR(50) NOT NULL COMMENT '이메일',
-  `status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',
-  delDate DATETIME COMMENT '탈퇴일',
-  lastLoginDate DATETIME COMMENT '마지막 로그인 일시',
-  lastLoginDays INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '미접속일',
-  profilePicturePath VARCHAR(255) COMMENT '프로필사진 파일명',
-  aboutMe VARCHAR(100) COMMENT '자기소개'
+  	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '회원 번호',
+  	regDate DATETIME NOT NULL COMMENT '가입일',
+  	updateDate DATETIME NOT NULL COMMENT '수정일',
+  	loginId VARCHAR(20) NOT NULL UNIQUE COMMENT '아이디',
+	  loginPw VARCHAR(64) NOT NULL COMMENT '비밀번호',
+	  authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '권한 레벨 (일반 = 1, 관리자 = 0)',
+ 	 `name` VARCHAR(50) NOT NULL COMMENT '이름',
+ 	 nickname VARCHAR(20) NOT NULL COMMENT '닉네임',
+ 	 age INT UNSIGNED NOT NULL COMMENT '나이',
+ 	 cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
+  	email VARCHAR(50) NOT NULL COMMENT '이메일',
+ 	`status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',
+ 	 delDate DATETIME COMMENT '탈퇴일',
+  	lastLoginDate DATETIME COMMENT '마지막 로그인 일시',
+ 	 lastLoginDays INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '미접속일',
+  	profilePicturePath VARCHAR(255) COMMENT '프로필사진 파일명',
+ 	 aboutMe VARCHAR(100) COMMENT '자기소개'
 );
 
 ### board 테이블
@@ -37,8 +39,8 @@ CREATE TABLE board(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
-	`code` VARCHAR(20) NOT NULL COMMENT 'notice(공지사항), free(자유), ...',
-	`name` VARCHAR(20) NOT NULL
+	`code` VARCHAR(20) NOT NULL COMMENT 'all, notice, catCompanion, free, trade, meeting',
+	`name` VARCHAR(20) NOT NULL COMMENT '전체, 공지사항, 반려묘, 자유, 거래, 모임'
 );
 
 ### recommendPoint 테이블
@@ -67,20 +69,43 @@ CREATE TABLE reply(
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
+memberId = 1,
+boardId = 2,
 title = '테스트 제목1',
 `body` = '테스트 내용1';
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
+memberId = 1,
+boardId = 3,
+title = '테스트 제목1',
+`body` = '테스트 내용1';
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+boardId = 4,
 title = '테스트 제목2',
 `body` = '테스트 내용2';
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
+memberId = 3,
+boardId = 5,
 title = '테스트 제목3',
 `body` = '테스트 내용3';
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+boardId = 6,
+title = '테스트 제목3',
+`body` = '테스트 내용3';
+
 
 ### member
 INSERT INTO `member`
@@ -119,3 +144,41 @@ age = 30,
 cellphoneNum = '01000020002',
 email = 'test2@test.com',
 lastLoginDate = NOW();
+
+
+### board
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'all',
+`name` = '전체';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'notice',
+`name` = '공지사항';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'catCompanion',
+`name` = '반려묘';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'free',
+`name` = '자유';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'trade',
+`name` = '거래';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'meeting',
+`name` = '모임';

@@ -23,19 +23,19 @@
 		<div class="menu-box">
 			<ul class="w-full h-full font-NanumSquareNeo bg-white text-center">
 				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line">
-					<a href="1">메인</a>
+					<a href="/">메인</a>
 				</li>
 				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line">
-					<a href="2">반려묘</a>
+					<a href="">반려묘</a>
 					<ul>
 						<li><a href="">등록</a></li>
 						<li><a href="">정보수정</a></li>
 					</ul>
 				</li>
 				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line">
-					<a href="../article/list">게시판</a>
+					<a href="../article/list?boardId=1">게시판</a>
 					<ul>
-						<li><a href="">공지사항</a></li>
+						<li><a href="../article/list?boardId=2">공지사항</a></li>
 						<li><a href="">갤러리</a></li>
 						<li><a href="">글쓰기</a></li>
 					</ul>

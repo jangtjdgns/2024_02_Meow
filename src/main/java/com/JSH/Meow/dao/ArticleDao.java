@@ -15,11 +15,22 @@ public interface ArticleDao {
 
 	
 	@Select("""
-			SELECT * FROM article
-			ORDER BY id DESC;
+			<script>
+				SELECT A.*, M.nickname writerName
+				FROM article A
+				LEFT JOIN `member` M
+				ON A.memberId = M.id
+				LEFT JOIN board B
+				ON A.boardId = B.id
+				<if test="boardId != null and boardId != 1">
+					WHERE A.boardId = #{boardId}
+				</if>
+				ORDER BY A.id DESC
+				LIMIT 0, 10;
+			</script>
 			""")
-	public List<Article> getArticles();
-
+	public List<Article> getArticles(int boardId);
+	
 	@Select("""
 			SELECT * FROM article
 			WHERE id = #{id}

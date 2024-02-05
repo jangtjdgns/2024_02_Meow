@@ -5,31 +5,43 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.service.ArticleService;
+import com.JSH.Meow.service.BoardService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Article;
+import com.JSH.Meow.vo.Board;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
 public class ArticleController {
 	
 	private ArticleService articleService;
+	private BoardService boardService;
 	private Rq rq;
 	
-	public ArticleController(ArticleService articleService, Rq rq) {
+	public ArticleController(ArticleService articleService, BoardService boardService, Rq rq) {
 		this.articleService = articleService;
+		this.boardService = boardService;
 		this.rq = rq;
 	}
 	
 	
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model) {
+	public String showList(Model model, @RequestParam(defaultValue  = "1") int boardId) {
 		
-		List<Article> articles = articleService.getArticles();
+		if(!(boardId >= 1 && boardId <= 6)) {
+			return rq.jsReturnOnView("존재하지않는 게시판 입니다.");
+		}
+		
+		List<Article> articles = articleService.getArticles(boardId);
+		List<Board> boards = boardService.getBoards();
 		
 		model.addAttribute("articles", articles);
+		model.addAttribute("boards", boards);
+		model.addAttribute("boardId", boardId);
 		
 		return "usr/article/list";
 	}
@@ -43,7 +55,7 @@ public class ArticleController {
 		if(article == null) {
 			return rq.jsReturnOnView(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
-				
+		
 		model.addAttribute("article", article);
 		
 		return "usr/article/detail";
