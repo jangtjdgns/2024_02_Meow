@@ -6,7 +6,7 @@
 
 <%@ include file="../common/toastUi.jsp"%>
 
-<section class="">
+<section class="h-body">
 	<form action="doModify" method="post" onsubmit="submitForm(this); return false;">
 		<input name="id" type="hidden" value="${article.id }" />
 		<textarea name="body" class="hidden">${article.body }</textarea>

@@ -38,7 +38,7 @@
 	})
 </script>
 
-<section>
+<section class="h-body">
 	<textarea id="body" class="hidden">${article.body}</textarea>
 	<div>${article.id }</div>
 	<div>${article.regDate }</div>

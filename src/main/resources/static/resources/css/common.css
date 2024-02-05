@@ -38,7 +38,7 @@
 }
 
 /* 큐트시우 */
-.font-NanumSquareNeo {
+.font-cuteSiu {
 	font-family: 'Cute_siu';
 }
 
@@ -50,4 +50,20 @@
 /* 조선 굴림체 */
 .font-ChosunGu {
 	font-family: 'ChosunGu';
+}
+
+
+.h-top-t {
+	min-height: 4vh;
+	height: 4vh;
+}
+
+.h-top-b {
+	min-height: 8vh;
+	height: 8vh;
+}
+
+.h-body {
+	min-height: 88vh;
+	height: 88vh;
 }

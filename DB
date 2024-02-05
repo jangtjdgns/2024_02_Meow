@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS MEOW;
 CREATE DATABASE MEOW;
 USE MEOW;
 
-# article 테이블
+### article 테이블
 CREATE TABLE article(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
@@ -11,23 +11,28 @@ CREATE TABLE article(
 	`body` TEXT NOT NULL
 );
 
-# member 테이블
-CREATE TABLE `member`(
-	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	regDate DATETIME NOT NULL,
-	updateDate DATETIME NOT NULL,
-	loginId VARCHAR(20) NOT NULL UNIQUE,
-	loginPw VARCHAR(100) NOT NULL,
-	authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '권한 레벨 (일반 = 1, 관리자 = 0 )',
-	`name` VARCHAR(20) NOT NULL,
-	nickname VARCHAR(20) NOT NULL,
-	cellphoneNum VARCHAR(20) NOT NULL,
-	email VARCHAR(50) NOT NULL,
-	delStatus INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴 여부 (탈퇴 전 = 0, 탈퇴 후 = 1)',
-	delDate DATETIME COMMENT '탈퇴 날짜'
+### member
+CREATE TABLE `member` (
+  id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '회원 번호',
+  regDate DATETIME NOT NULL COMMENT '가입일',
+  updateDate DATETIME NOT NULL COMMENT '수정일',
+  loginId VARCHAR(20) NOT NULL UNIQUE COMMENT '아이디',
+  loginPw VARCHAR(64) NOT NULL COMMENT '비밀번호',
+  authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '권한 레벨 (일반 = 1, 관리자 = 0)',
+  `name` VARCHAR(50) NOT NULL COMMENT '이름',
+  nickname VARCHAR(20) NOT NULL COMMENT '닉네임',
+  age INT UNSIGNED NOT NULL COMMENT '나이',
+  cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
+  email VARCHAR(50) NOT NULL COMMENT '이메일',
+  `status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',
+  delDate DATETIME COMMENT '탈퇴일',
+  lastLoginDate DATETIME COMMENT '마지막 로그인 일시',
+  lastLoginDays INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '미접속일',
+  profilePicturePath VARCHAR(255) COMMENT '프로필사진 파일명',
+  aboutMe VARCHAR(100) COMMENT '자기소개'
 );
 
-# board 테이블
+### board 테이블
 CREATE TABLE board(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
@@ -36,7 +41,7 @@ CREATE TABLE board(
 	`name` VARCHAR(20) NOT NULL
 );
 
-# recommendPoint 테이블
+### recommendPoint 테이블
 CREATE TABLE recommendPoint(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	memberId INT UNSIGNED NOT NULL,
@@ -45,7 +50,7 @@ CREATE TABLE recommendPoint(
     `point` INT UNSIGNED NOT NULL DEFAULT 0
 );
 
-# reply 테이블
+### reply 테이블
 CREATE TABLE reply(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
@@ -58,7 +63,7 @@ CREATE TABLE reply(
 
 
 ## 테스트 데이터
-# article
+### article
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
@@ -77,3 +82,40 @@ updateDate = NOW(),
 title = '테스트 제목3',
 `body` = '테스트 내용3';
 
+### member
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'admin',
+loginPw = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',		# admin
+authLevel = 0,
+`name` = '관리자',
+nickname = '관리자',
+age = 24,
+cellphoneNum = '01020000208',
+email = 'admin@admin.com',
+lastLoginDate = NOW();
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'testId01',
+loginPw = '3237e2749c5fb3bec0053123a7585e8cfac345753a2d9aadb8d082da065f9fc2',		# testPw01!@
+`name` = '테스트1',
+nickname = '테스트1',
+age = 50,
+cellphoneNum = '01000010001',
+email = 'test1@test.com',
+lastLoginDate = NOW();
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'testId02',
+loginPw = '47af0d2d6601bde1ca27b7c8f48bb8e53c87e78b899a8d0c6c2fb4f66917354f',		# testPw02!@
+`name` = '테스트2',
+nickname = '테스트2',
+age = 30,
+cellphoneNum = '01000020002',
+email = 'test2@test.com',
+lastLoginDate = NOW();

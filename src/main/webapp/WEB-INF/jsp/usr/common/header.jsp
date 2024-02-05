@@ -12,7 +12,7 @@
 
 <body>
 
-<header class="h-10 border-b" style="background-color: #EEEDEB;">
+<header class="h-top-t" style="background-color: #EEEDEB;">
 	<div class="h-full mx-auto max-w-4xl flex items-center justify-end">
 		<div class="font-Pretendard pr-6">
 			<!-- <a class="btn btn-ghost btn-xs text-sm">공지사항</a>
@@ -20,17 +20,17 @@
 			<a class="btn btn-ghost btn-xs text-sm">도움</a> -->
 		</div>
 
-		<div class="grid grid-flow-col gap-4 px-4">
+		<div class="flex items-center px-4">
 			<a href=""><i class="fa-brands fa-instagram"></i></a>
-			<a href=""><i class="fa-brands fa-facebook-f"></i></a>
+			<a href="" class="px-2.5"><i class="fa-brands fa-facebook-f"></i></a>
 			<a href=""><i class="fa-brands fa-youtube"></i></a>
-			<a href=""><i class="fa-brands fa-github"></i></a>
+			<a href="" class="pl-2.5"><i class="fa-brands fa-github"></i></a>
 		</div>
 	</div>
 </header>
 
-<section class="mx-auto max-w-4xl ">
-	<div class="navbar bg-base-100 py-5">
+<section class="h-top-b mx-auto max-w-4xl">
+	<div class="h-full navbar bg-base-100">
 		<div class="navbar-start">
 			<div class="dropdown">
 				<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
@@ -45,7 +45,7 @@
 			</div>
 		</div>
 		<div class="navbar-center">
-			<a href="/" class="btn btn-ghost text-xl">Logo</a>
+			<a href="/" class="btn btn-ghost text-xl">Meow</a>
 		</div>
 		<div class="navbar-end">
 			<button class="btn btn-ghost btn-circle">
