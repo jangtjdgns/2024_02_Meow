@@ -5,7 +5,7 @@
 <%@ include file="../common/header.jsp"%>
 
   
-<section class="h-body">
+<section class="h-body mx-auto max-w-4xl">
 	<c:forEach var="article" items="${articles }">
 		<div>${article.id }</div>
 		<div>${article.regDate }</div>

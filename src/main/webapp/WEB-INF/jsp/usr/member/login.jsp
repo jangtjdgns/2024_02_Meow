@@ -26,7 +26,7 @@
 </script>
 
 <section class="m-width">
-	<div class="hero h-body flex items-start justify-center pt-20" style="background-image: url(https://cdn.pixabay.com/photo/2020/08/15/18/02/paws-5491105_1280.png); background-size: cover">
+	<div class="hero b-mh flex items-start justify-center pt-20" style="background-image: url(https://cdn.pixabay.com/photo/2020/08/15/18/02/paws-5491105_1280.png); background-size: cover">
 	    <div class="hero-content">
 	        <div class="text-center lg:text-right pr-10">
 	            <h1 class="text-5xl font-bold">안녕하세요!</h1>

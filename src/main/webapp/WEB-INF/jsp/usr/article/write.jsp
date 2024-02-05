@@ -6,7 +6,7 @@
 
 <%@ include file="../common/toastUi.jsp"%>
 
-<section class="h-body">
+<section class="h-body mx-auto max-w-4xl">
 	<form action="doWrite" method="post" onsubmit="submitForm(this); return false;">
 		<textarea name="body" class="hidden"></textarea>
 		<div>

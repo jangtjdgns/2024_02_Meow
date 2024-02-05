@@ -123,6 +123,6 @@ public class ArticleController {
 		
 		articleService.doModify(id, title, body);
 		
-		return Util.jsReplace(Util.f("%d번 게시물이 수정되었습니다.", id), "list");
+		return Util.jsReplace(Util.f("%d번 게시물이 수정되었습니다.", id), Util.f("detail?id=%d", id));
 	}
 }
