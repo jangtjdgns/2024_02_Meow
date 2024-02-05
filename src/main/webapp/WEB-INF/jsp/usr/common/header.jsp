@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    
 <!DOCTYPE html>
 <html>
 
@@ -60,19 +62,28 @@
 				</div>
 			</button>
 		</div>
-
-		<div class="dropdown dropdown-start">
-			<div tabindex="0" role="button"
-				class="btn btn-ghost btn-circle avatar">
+		
+		<c:if test="${rq.loginedMemberId == 0 }">
+			<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
 				<div class="w-10 rounded-full">
-					<img alt="Tailwind CSS Navbar component" src="https://cdn.pixabay.com/photo/2020/11/15/18/31/cat-5746771_960_720.png" />
+					<a href="../member/login">로그인</a>
 				</div>
 			</div>
-			<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-24">
-				<li><a>프로필</a></li>
-				<li><a>계정관리</a></li>
-				<li><a>로그아웃</a></li>
-			</ul>
-		</div>
+		</c:if>
+
+		<c:if test="${rq.loginedMemberId != 0 }">
+			<div class="dropdown dropdown-start">
+				<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+					<div class="w-10 rounded-full">
+						<img alt="Tailwind CSS Navbar component" src="https://cdn.pixabay.com/photo/2020/11/15/18/31/cat-5746771_960_720.png" />
+					</div>
+				</div>
+				<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-24">
+					<li><a>프로필</a></li>
+					<li><a>계정관리</a></li>
+					<li><a href="../member/doLogout" onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;">로그아웃</a></li>
+				</ul>
+			</div>
+		</c:if>
 	</div>
 </section>

@@ -52,14 +52,14 @@ public class ArticleController {
 	
 	@RequestMapping("/usr/article/write")
 	public String write() {
-		
+
 		return "usr/article/write";
 	}
 	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public String doWrtie(String title, String body) {
-		
+
 		if(Util.isEmpty(title)) {
 			return Util.jsHistoryBack("제목을 입력하세요.");
 		}
@@ -77,7 +77,7 @@ public class ArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {
-		
+
 		Article article = articleService.getArticleById(id);
 		
 		if (article == null) {
