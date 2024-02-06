@@ -30,18 +30,56 @@ public class ArticleController {
 	
 	
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, @RequestParam(defaultValue  = "1") int boardId) {
+	public String showList(Model model
+			, @RequestParam(defaultValue = "1") int boardId
+			, @RequestParam(defaultValue = "1") int page
+			, @RequestParam(defaultValue = "15") int itemsInAPage
+			, @RequestParam(defaultValue = "0") int listStyle
+			, @RequestParam(defaultValue = "1") int searchType
+			, @RequestParam(defaultValue = "") String searchKeyword){
 		
+		// 게시판 번호에 해당되지 않을 때
 		if(!(boardId >= 1 && boardId <= 6)) {
 			return rq.jsReturnOnView("존재하지않는 게시판 입니다.");
 		}
 		
-		List<Article> articles = articleService.getArticles(boardId);
-		List<Board> boards = boardService.getBoards();
+		// 페이지 번호가 0이하일 때
+		if (page <= 0){
+			return rq.jsReturnOnView("페이지 번호가 올바르지 않습니다.");
+		}
 		
+		// DB limit 시작 부분
+		int limitFrom = (page - 1) * itemsInAPage;
+		
+		// 게시물의 전체 수
+		int articlesCnt = articleService.getTotalCount(boardId, searchType, searchKeyword);
+		
+		// 전체 페이지 수
+		int totalPageCnt = (int) Math.ceil((double) articlesCnt / itemsInAPage);
+		
+		// 페이징 버튼 시작
+		int from = ((page - 1) / 10) * 10 + 1;
+		
+		// 페이징 버튼 끝
+		int end = ((page - 1) / 10 + 1) * 10;
+		
+		// 전체 페이지 수를 벗어나는 경우
+		end = end > totalPageCnt ? totalPageCnt : end;
+		
+		List<Article> articles = articleService.getArticles(boardId, limitFrom, itemsInAPage, searchType, searchKeyword);
+		List<Board> boards = boardService.getBoards();
+
 		model.addAttribute("articles", articles);
 		model.addAttribute("boards", boards);
 		model.addAttribute("boardId", boardId);
+		model.addAttribute("articlesCnt", articlesCnt);
+		model.addAttribute("totalPageCnt", totalPageCnt);
+		model.addAttribute("page", page);
+		model.addAttribute("from", from);
+		model.addAttribute("end", end);
+		model.addAttribute("listStyle", listStyle);
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("searchKeyword", searchKeyword);
 		
 		return "usr/article/list";
 	}

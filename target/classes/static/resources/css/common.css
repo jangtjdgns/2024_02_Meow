@@ -1,4 +1,6 @@
 /* 폰트 */
+/* https://noonnu.cc/font_page/1269 */
+@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
 
 /* https://noonnu.cc/font_page/694 */
 @font-face {
@@ -52,37 +54,79 @@
 	font-family: 'ChosunGu';
 }
 
-
-.h-mh {
-	min-height: 11vh;
-	max-height: 11vh;
-	margin-bottom: 50px;
+/* Wanted Sans */
+.font-WantedSans {
+	font-family: 'Wanted Sans', sans-serif;
 }
 
-.h-h {
-	height: 11vh;
+/* 폰트적용 */
+body {
+	font-family:"Wanted Sans Variable";
+}
+
+.h-mh {
+	min-height: calc(11vh + 50px);
+	padding-bottom: 50px;
 }
 
 .b-mh {
 	min-height: 89vh;
 }
 
-.img-h {
+.img-section-mh {
 	min-height: 30vh;
+	height: 30vh;
 	max-height: 30vh;
+}
+
+.img-section {
+	height: 30vh;
 	background-size: cover;
 	background-position-y: 53%;
 }
 
+/* 게시물 목록 테이블 */
+.table :where(tbody>tr) {
+	opacity: 0;
+	animation: changeOpacity 0.5s ease;
+	animation-fill-mode: forwards;
+}
 
+
+
+.table :where(th:not(:last-child)) {
+    border-right: 2px solid #fff;
+}
+
+/* 게시물 목록 스타일 2 */
+.list-style-2 {
+	opacity: 0;
+	animation: changeOpacity 0.5s ease;
+	animation-fill-mode: forwards;
+}
+
+.scale {
+	transition: transform .2s;
+}
+
+.scale:hover {
+	transform: scale(1.02);
+}
+
+@keyframes changeOpacity {
+    from {
+		opacity: 0;
+    }
+    to {
+		opacity: 1;
+    }
+}
 
 /* 버튼 */
 .nav-btn {
 	display: inline-block;
 	color: #3C586B;
-	padding: 8px 12px;
     background-color: #fff;
-    /*padding: 0.75rem 0.12rem;*/
     border-radius: 4px;
     position: relative;
     white-space: nowrap;
@@ -131,6 +175,11 @@
 	margin: 0 5px;
 }
 
+.menu-box > ul > li > a {
+	display: block;
+	padding: 8px 12px;
+}
+
 .menu-box > ul ul {
 	width: 100%;
 	padding-top: 8px;
@@ -146,7 +195,7 @@
 }
 
 .menu-box > ul ul > li {
-	padding: 2px 10px;
+	padding: 2px 6px;
 	font-size: 1rem;
 	transition: text-shadow .3s;
 }

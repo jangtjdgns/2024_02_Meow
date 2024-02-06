@@ -17,8 +17,8 @@ public class ArticleService {
 	}
 	
 	
-	public List<Article> getArticles(int boardId) {
-		return articleDao.getArticles(boardId);
+	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage, int searchType, String searchKeyword) {
+		return articleDao.getArticles(boardId, limitFrom, itemsInAPage, searchType, searchKeyword);
 	}
 
 	public Article getArticleById(int id) {
@@ -43,6 +43,11 @@ public class ArticleService {
 
 	public int getLastInsertId() {
 		return articleDao.getLastInsertId();
+	}
+
+
+	public int getTotalCount(int boardId, int searchType, String searchKeyword) {
+		return articleDao.getTotalCount(boardId, searchType, searchKeyword);
 	}
 	
 }
