@@ -19,19 +19,31 @@ CREATE TABLE `member` (
   	regDate DATETIME NOT NULL COMMENT '가입일',
   	updateDate DATETIME NOT NULL COMMENT '수정일',
   	loginId VARCHAR(20) NOT NULL UNIQUE COMMENT '아이디',
-	  loginPw VARCHAR(64) NOT NULL COMMENT '비밀번호',
-	  authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '권한 레벨 (일반 = 1, 관리자 = 0)',
- 	 `name` VARCHAR(50) NOT NULL COMMENT '이름',
- 	 nickname VARCHAR(20) NOT NULL COMMENT '닉네임',
- 	 age INT UNSIGNED NOT NULL COMMENT '나이',
- 	 cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
+	loginPw VARCHAR(64) NOT NULL COMMENT '비밀번호',
+	authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '권한 레벨 (일반 = 1, 관리자 = 0)',
+ 	`name` VARCHAR(50) NOT NULL COMMENT '이름',
+ 	nickname VARCHAR(255) NOT NULL UNIQUE COMMENT '닉네임',
+ 	age INT UNSIGNED NOT NULL COMMENT '나이',
+ 	cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
   	email VARCHAR(50) NOT NULL COMMENT '이메일',
  	`status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',
- 	 delDate DATETIME COMMENT '탈퇴일',
+ 	delDate DATETIME COMMENT '탈퇴일',
   	lastLoginDate DATETIME COMMENT '마지막 로그인 일시',
- 	 lastLoginDays INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '미접속일',
-  	profilePicturePath VARCHAR(255) COMMENT '프로필사진 파일명',
- 	 aboutMe VARCHAR(100) COMMENT '자기소개'
+ 	lastLoginDays INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '미접속일',
+  	profileImage VARCHAR(255) COMMENT '프로필사진 파일명',
+ 	aboutMe VARCHAR(100) COMMENT '자기소개'
+);
+
+### sns_info
+CREATE TABLE sns_info (
+  id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '소셜 로그인 회원번호',
+  snsId VARCHAR(255) NOT NULL UNIQUE COMMENT '소셜 로그인 계정 고유ID',
+  snsConnectDate DATETIME NULL COMMENT '첫 소셜 로그인 일',
+  snsType VARCHAR(10) NOT NULL COMMENT 'SNS 타입 (naver, kakao, google)',
+  memberId INT UNSIGNED NOT NULL,
+  `name` VARCHAR(255) NOT NULL COMMENT '소셜 계정 이름',
+  mobile VARCHAR(20) NULL COMMENT '소셜 계정 전화번호',
+  email VARCHAR(255) NULL COMMENT '소셜 계정 이메일'
 );
 
 ### board 테이블

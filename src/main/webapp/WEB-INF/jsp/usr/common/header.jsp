@@ -27,13 +27,17 @@
 					<a href="" class="btn btn-ghost btn-xs h-8">회원가입</a>		
 				</div>
 			</c:if>
-		
 			<c:if test="${rq.loginedMemberId != 0 }">
 				<div class="w-full flex items-center justify-end">
 					<div class="dropdown dropdown-start">
 						<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
 							<div class="w-10 rounded-full">
-								<img alt="Tailwind CSS Navbar component" src="https://cdn.pixabay.com/photo/2020/11/15/18/31/cat-5746771_960_720.png" />
+								<c:if test="${rq.loginedMemberProfileImage != null}">
+									<img alt="Tailwind CSS Navbar component" src="${rq.loginedMemberProfileImage }" />									
+								</c:if>
+								<c:if test="${rq.loginedMemberProfileImage == null}">
+									<img alt="Tailwind CSS Navbar component" src="https://cdn.pixabay.com/photo/2020/11/15/18/31/cat-5746771_960_720.png" />									
+								</c:if>
 							</div>
 						</div>
 						<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-24">

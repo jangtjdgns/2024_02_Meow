@@ -57,6 +57,9 @@
 	                <div class="form-control mt-6">
 	                    <button class="btn btn-primary">로그인</button>
 	                </div>
+	                <div>
+	                	<a href="login/naver"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
+	                </div>
 	            </form>
 	        </div>
 	    </div>

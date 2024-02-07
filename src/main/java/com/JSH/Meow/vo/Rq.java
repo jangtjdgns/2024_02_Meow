@@ -21,6 +21,8 @@ public class Rq {
 	private int loginedMemberId;
 	@Getter
 	private String loginedMemberNickname;
+	@Getter
+	private String loginedMemberProfileImage;
 	
 	private HttpServletRequest req;
 	private HttpServletResponse res;
@@ -37,6 +39,7 @@ public class Rq {
 		if(this.session.getAttribute("loginedMemberId") != null) {
 			loginedMemberId = (int) this.session.getAttribute("loginedMemberId");
 			loginedMemberNickname = (String) this.session.getAttribute("loginedMemberNickname");
+			loginedMemberProfileImage = (String) this.session.getAttribute("loginedMemberProfileImage");
 		}
 		
 		this.loginedMemberId = loginedMemberId;
@@ -51,12 +54,14 @@ public class Rq {
 	public void login(Member member) {
 		this.session.setAttribute("loginedMemberId", member.getId());
 		this.session.setAttribute("loginedMemberNickname", member.getNickname());
+		this.session.setAttribute("loginedMemberProfileImage", member.getProfileImage());
 	}
 		
 	// session logout
 	public void logout() {
 		this.session.removeAttribute("loginedMemberId");
 		this.session.removeAttribute("loginedMemberNickname");
+		this.session.removeAttribute("loginedMemberProfileImage");
 	}
 
 	// jsPrintHistoryBack

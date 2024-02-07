@@ -23,6 +23,6 @@ public class Member {
 	private String delDate;
 	private String lastLoginDate;
 	private int lastLoginDays;
-	private String profilePicturePath;
+	private String profileImage;
 	private String aboueMe;
 }
