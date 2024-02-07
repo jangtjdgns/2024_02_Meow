@@ -24,6 +24,7 @@ CREATE TABLE `member` (
  	`name` VARCHAR(50) NOT NULL COMMENT '이름',
  	nickname VARCHAR(255) NOT NULL UNIQUE COMMENT '닉네임',
  	age INT UNSIGNED NOT NULL COMMENT '나이',
+ 	address VARCHAR (255) NOT NULL COMMENT '주소',
  	cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
   	email VARCHAR(50) NOT NULL COMMENT '이메일',
  	`status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',
@@ -51,8 +52,8 @@ CREATE TABLE board(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
-	`code` VARCHAR(20) NOT NULL COMMENT 'all, notice, catCompanion, free, trade, meeting',
-	`name` VARCHAR(20) NOT NULL COMMENT '전체, 공지사항, 반려묘, 자유, 거래, 모임'
+	`CODE` VARCHAR(20) NOT NULL COMMENT 'all, notice, free, catCompanion, trade, meeting',
+	`NAME` VARCHAR(20) NOT NULL COMMENT '전체, 공지사항, 자유, 반려묘, 거래, 모임'
 );
 
 ### recommendPoint 테이블
@@ -82,41 +83,25 @@ INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 1,
-boardId = 2,
-title = '테스트 제목1',
-`body` = '테스트 내용1';
-
-INSERT INTO article
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 1,
-boardId = 3,
-title = '테스트 제목1',
-`body` = '테스트 내용1';
+boardId = FLOOR(RAND() * 6 + 1),
+title = CONCAT('테스트 제목_', FLOOR(RAND() * 10000 + 1)),
+`body` = CONCAT('테스트 내용_', FLOOR(RAND() * 10000 + 1));
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 2,
-boardId = 4,
-title = '테스트 제목2',
-`body` = '테스트 내용2';
+boardId = FLOOR(RAND() * 4 + 3),
+title = CONCAT('테스트 제목_', FLOOR(RAND() * 10000 + 1)),
+`body` = CONCAT('테스트 내용_', FLOOR(RAND() * 10000 + 1));
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 3,
-boardId = 5,
-title = '테스트 제목3',
-`body` = '테스트 내용3';
-
-INSERT INTO article
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 3,
-boardId = 6,
-title = '테스트 제목3',
-`body` = '테스트 내용3';
+boardId = FLOOR(RAND() * 4 + 3),
+title = CONCAT('테스트 제목_', FLOOR(RAND() * 10000 + 1)),
+`body` = CONCAT('테스트 내용_', FLOOR(RAND() * 10000 + 1));
 
 
 ### member
@@ -129,6 +114,7 @@ authLevel = 0,
 `name` = '관리자',
 nickname = '관리자',
 age = 24,
+address = '단양',
 cellphoneNum = '01020000208',
 email = 'admin@admin.com',
 lastLoginDate = NOW();
@@ -141,6 +127,7 @@ loginPw = '3237e2749c5fb3bec0053123a7585e8cfac345753a2d9aadb8d082da065f9fc2',		#
 `name` = '테스트1',
 nickname = '테스트1',
 age = 50,
+address = '대전',
 cellphoneNum = '01000010001',
 email = 'test1@test.com',
 lastLoginDate = NOW();
@@ -153,6 +140,7 @@ loginPw = '47af0d2d6601bde1ca27b7c8f48bb8e53c87e78b899a8d0c6c2fb4f66917354f',		#
 `name` = '테스트2',
 nickname = '테스트2',
 age = 30,
+address = '서울',
 cellphoneNum = '01000020002',
 email = 'test2@test.com',
 lastLoginDate = NOW();
@@ -174,14 +162,14 @@ updateDate = NOW(),
 INSERT INTO board
 SET regDate = NOW(),
 updateDate = NOW(),
-`code` = 'catCompanion',
-`name` = '반려묘';
+`code` = 'free',
+`name` = '자유';
 
 INSERT INTO board
 SET regDate = NOW(),
 updateDate = NOW(),
-`code` = 'free',
-`name` = '자유';
+`code` = 'catCompanion',
+`name` = '반려묘';
 
 INSERT INTO board
 SET regDate = NOW(),

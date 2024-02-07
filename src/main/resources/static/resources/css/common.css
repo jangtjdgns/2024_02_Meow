@@ -34,6 +34,14 @@
     font-style: normal;
 }
 
+/* https://noonnu.cc/font_page/738 */
+@font-face {
+    font-family: 'SBAggroB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* 프리덴다드 */
 .font-Pretendard {
 	font-family: 'Pretendard-Regular';
@@ -58,6 +66,32 @@
 .font-WantedSans {
 	font-family: 'Wanted Sans', sans-serif;
 }
+
+/* 어그로체 */
+.font-SBAggroB {
+	font-family: 'SBAggroB';
+}
+
+
+/* 네이버 로그인 커스텀 버튼 */
+.naver-login-btn {
+    width: 60px;
+    height: 60px;
+    background-color: rgb(3, 199, 90);
+    color: white;
+}
+
+.naver-login-btn-font{
+    font-family: 'SBAggroB';
+    font-size: 32px;
+    padding-top: 5px;
+}
+
+.naver-login-btn:hover,
+.naver-login-btn-font:hover {
+    background-color: rgb(3, 186, 85);
+}
+
 
 /* 폰트적용 */
 body {
@@ -209,4 +243,9 @@ body {
 
 .menu-box > ul ul > li:hover {
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+/* select 태그에서 readonly와 비슷한 기능을 사용하기 위함 */
+select[readonly] {
+	pointer-events: none;
 }

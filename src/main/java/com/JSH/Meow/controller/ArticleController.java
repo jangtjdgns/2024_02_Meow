@@ -74,6 +74,7 @@ public class ArticleController {
 		model.addAttribute("boardId", boardId);
 		model.addAttribute("articlesCnt", articlesCnt);
 		model.addAttribute("totalPageCnt", totalPageCnt);
+		model.addAttribute("itemsInAPage", itemsInAPage);
 		model.addAttribute("page", page);
 		model.addAttribute("from", from);
 		model.addAttribute("end", end);
@@ -86,7 +87,7 @@ public class ArticleController {
 	
 
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(Model model, int id) {
+	public String showDetail(Model model, int id, int boardId) {
 		
 		Article article = articleService.getArticleById(id);
 		
@@ -95,21 +96,26 @@ public class ArticleController {
 		}
 		
 		model.addAttribute("article", article);
+		model.addAttribute("boardId", boardId);
 		
 		return "usr/article/detail";
 	}
 	
 	
 	@RequestMapping("/usr/article/write")
-	public String write() {
+	public String write(Model model) {
 
+		List<Board> boards = boardService.getBoards();
+		
+		model.addAttribute("boards", boards);
+		
 		return "usr/article/write";
 	}
 	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrtie(String title, String body) {
-
+	public String doWrtie(int boardId, String title, String body) {
+		
 		if(Util.isEmpty(title)) {
 			return Util.jsHistoryBack("제목을 입력하세요.");
 		}
@@ -118,10 +124,11 @@ public class ArticleController {
 			return Util.jsHistoryBack("내용을 입력하세요.");
 		}
 		
-		articleService.doWrite(title, body);
+		articleService.doWrite(rq.getLoginedMemberId(), boardId, title, body);
 		
 		int id = articleService.getLastInsertId();
-		return Util.jsReplace(Util.f("%d번 게시물이 작성되었습니다.", id), Util.f("detail?id=%d", id));
+		
+		return Util.jsReplace(Util.f("%d번 게시물이 작성되었습니다.", id), Util.f("detail?id=%d&boardId=%d", id, boardId));
 	}
 	
 	@RequestMapping("/usr/article/doDelete")
@@ -134,13 +141,17 @@ public class ArticleController {
 			return Util.jsHistoryBack(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
+		if(article.getMemberId() != rq.getLoginedMemberId()) {
+			return Util.jsHistoryBack(Util.f("%d번 게시물에 대한 권한이 없습니다.", id));
+		}
+		
 		articleService.doDeleteById(id);
 		
 		return Util.jsReplace(Util.f("%d번 게시물이 삭제되었습니다.", id), "list");
 	}
 	
 	@RequestMapping("/usr/article/modify")
-	public String modify(Model model, int id) {
+	public String modify(Model model, int id, int boardId) {
 		
 		Article article = articleService.getArticleById(id);
 		
@@ -148,22 +159,22 @@ public class ArticleController {
 			return rq.jsReturnOnView(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
+		if(article.getMemberId() != rq.getLoginedMemberId()) {
+			return rq.jsReturnOnView(Util.f("%d번 게시물에 대한 권한이 없습니다.", id));
+		}
+		
+		List<Board> boards = boardService.getBoards();
+		
 		model.addAttribute("article", article);
+		model.addAttribute("boards", boards);
+		model.addAttribute("boardId", boardId);
 		
 		return "usr/article/modify";
 	}
 	
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String modify(int id, String title, String body) {
-		
-		if(Util.isEmpty(title)) {
-			return Util.jsHistoryBack("제목을 입력하세요.");
-		}
-		
-		if(Util.isEmpty(body)) {
-			return Util.jsHistoryBack("내용을 입력하세요.");
-		}
+	public String modify(int id, int boardId,String title, String body) {
 		
 		Article article = articleService.getArticleById(id);
 		
@@ -171,8 +182,12 @@ public class ArticleController {
 			return Util.jsHistoryBack(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
+		if(article.getMemberId() != rq.getLoginedMemberId()) {
+			return Util.jsHistoryBack(Util.f("%d번 게시물에 대한 권한이 없습니다.", id));
+		}
+		
 		articleService.doModify(id, title, body);
 		
-		return Util.jsReplace(Util.f("%d번 게시물이 수정되었습니다.", id), Util.f("detail?id=%d", id));
+		return Util.jsReplace(Util.f("%d번 게시물이 수정되었습니다.", id), Util.f("detail?id=%d&boardId=%d", id, boardId));
 	}
 }

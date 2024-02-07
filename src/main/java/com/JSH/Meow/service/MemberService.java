@@ -26,8 +26,8 @@ public class MemberService {
 		return memberDao.getMemberByIdNickname(nickname);
 	}
 	
-	public void joinMember(String loginId, String loginPw, String name, String nickname, int age, String cellphoneNum, String email, String profileImage, String aboutMe) {
-		memberDao.joinMember(loginId, loginPw, name, nickname, age, cellphoneNum, email, profileImage, aboutMe);
+	public void joinMember(String loginId, String loginPw, String name, String nickname, int age, String address, String cellphoneNum, String email, String profileImage, String aboutMe) {
+		memberDao.joinMember(loginId, loginPw, name, nickname, age, address, cellphoneNum, email, profileImage, aboutMe);
 	}
 
 	public int getLastInsertId() {

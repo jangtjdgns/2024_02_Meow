@@ -5,7 +5,7 @@
 <%@ include file="../common/header.jsp"%>
 
 <!-- 기본 uri -->
-<c:set var="baseUri" value="?boardId=${boardId }&searchType=${searchType }&searchKeyword=${searchKeyword }&listStyle=${listStyle }"></c:set>
+<c:set var="baseUri" value="?boardId=${boardId }&searchType=${searchType }&searchKeyword=${searchKeyword }&itemsInAPage=${itemsInAPage }&listStyle=${listStyle }"></c:set>
 <script>
 	$(function(){
 		// list-style 변경 시
@@ -15,6 +15,8 @@
 			
 			// list-style 버튼 클릭 시, checked 속성에 따라 0, 1 저장
 			const listStyle = !\$("#list-style-change-btn").prop("checked") ? 0 : 1;
+			
+			$("#listStyle").val(listStyle);
 			
 			let baseUri = "${baseUri }";						// 기본uri
 			baseUri = baseUri.substr(0, baseUri.length - 1);	// 기본uri의 listStyle 값을 자른 나머지 저장
@@ -62,10 +64,15 @@
 		<div class="flex items-center">
 		
 			<div class="flex">
-				<form action="list" method=post>
+				<form action="list" method="get">
 					<input type="hidden" name="boardId" value="${boardId }" />
-					<input type="hidden" name="listStyle" value="${listStyle }" />
+					<input type="hidden" id="listStyle" name="listStyle" value="${listStyle }" />
 					<div class="join mr-2">
+						<select name="itemsInAPage" class="select select-bordered select-sm h-10 join-item">
+							<c:forEach var="i" begin="10" end="30" step="5">
+								<option value="${i }" ${itemsInAPage == i ? 'selected' : '' }>${i }</option>
+							</c:forEach>
+						</select>
 					    <div>
 					    	<input name="searchKeyword" class="input input-bordered h-10 join-item" placeholder="Search" value="${searchKeyword }" />
 					    </div>
@@ -114,7 +121,7 @@
 				<c:forEach var="article" items="${articles }" varStatus="status">
 					<tr style="animation-delay: ${(status.index + 1) * 20 }ms;">
 						<td>${article.id }</td>
-						<td class="hover:underline text-left px-5"><a href="detail?boardId=${board.id}&id=${article.id }">${article.title }</a></td>
+						<td class="hover:underline text-left px-5"><a href="detail?boardId=${boardId}&id=${article.id }">${article.title }</a></td>
 						<td>${article.writerName }</td>
 						<td class="text-center">${article.formattedRegDate }</td>
 						<td>0</td>
@@ -135,7 +142,7 @@
 				</div>
 			</c:if>
 			<c:forEach var="article" items="${articles }" varStatus="status">
-				<a href="detail?id=${article.id }">
+				<a href="detail?id=${article.id }&boardId=${boardId }">
 					<div class="h-72 overflow-hidden border rounded-lg grid list-style-2 scale" style="grid-template-rows: 3fr 1fr; animation-delay: ${(status.index + 1) * 100 }ms;">
 						<div class="bg-gray-200">
 							<img src=""/>
@@ -180,7 +187,7 @@
 			</c:if>
 			
 			<c:forEach var="i" begin="${from }" end="${end }" step="1">
-				<a href="${baseUri }&page=${i }" class="join-item btn btn-sm ${page == i ? 'btn-active' : '' } ${end != 1 ? 'join-item' : ''}">${i }</a>
+				<a href="${baseUri }&page=${i }" class="${end != 1 ? 'join-item' : ''} ${page == i ? 'btn-active' : '' } btn btn-sm">${i }</a>
 			</c:forEach>
 			
 			

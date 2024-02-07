@@ -2,9 +2,6 @@ package com.JSH.Meow.dao;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-
-import com.JSH.Meow.vo.SnsInfo;
 
 @Mapper
 public interface NaverLoginDao {

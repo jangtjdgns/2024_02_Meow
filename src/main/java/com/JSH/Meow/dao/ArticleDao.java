@@ -58,10 +58,12 @@ public interface ArticleDao {
 			INSERT INTO article
 				SET regDate = NOW()
 					, updateDate = NOW()
+					, memberId = #{loginedMemberId}
+					, boardId = #{boardId}
 					, title = #{title}
 					, `body` = #{body}
 			""")
-	public void doWrite(String title, String body);
+	public void doWrite(int loginedMemberId, int boardId, String title, String body);
 
 	@Delete("""
 			DELETE FROM article
@@ -70,11 +72,17 @@ public interface ArticleDao {
 	public void doDeleteById(int id);
 
 	@Update("""
+			<script>
 			UPDATE article
-			SET updateDate = NOW()
-				, title = #{title}
-				, `body` = #{body}
-			WHERE id = #{id}
+				SET updateDate = NOW()
+					<if test="title != null and title != ''">
+						, title = #{title}
+					</if>
+					<if test="body != null and title != ''">
+						, `body` = #{body}
+					</if>
+				WHERE id = #{id}
+			</script>
 			""")
 	public void doModify(int id, String title, String body);
 

@@ -18,6 +18,7 @@ public interface MemberDao {
 					, `name` = #{name}
 					, nickname = #{nickname}
 					, age = #{age}
+					, address = #{address}
 					, cellphoneNum = #{cellphoneNum}
 					, email = #{email}
 					, lastLoginDate = NOW()
@@ -25,7 +26,7 @@ public interface MemberDao {
 					, aboutMe = #{aboutMe}
 			</script>
 			""")
-	public void joinMember(String loginId, String loginPw, String name, String nickname, int age, String cellphoneNum, String email, String profileImage, String aboutMe);
+	public void joinMember(String loginId, String loginPw, String name, String nickname, int age, String address, String cellphoneNum, String email, String profileImage, String aboutMe);
 	
 	@Select("""
 			SELECT * FROM `member`

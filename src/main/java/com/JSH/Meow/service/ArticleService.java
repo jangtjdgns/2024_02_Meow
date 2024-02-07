@@ -26,8 +26,8 @@ public class ArticleService {
 	}
 
 
-	public void doWrite(String title, String body) {
-		articleDao.doWrite(title, body);
+	public void doWrite(int loginedMemberId, int boardId, String title, String body) {
+		articleDao.doWrite(loginedMemberId, boardId, title, body);
 	}
 
 

@@ -10,9 +10,20 @@
 	<form action="doModify" method="post" onsubmit="submitForm(this); return false;">
 		<input name="id" type="hidden" value="${article.id }" />
 		<textarea name="body" class="hidden">${article.body }</textarea>
-		<div>
-			<span>제목</span> <input name="title" placeholder="제목을 입력해주세요" type="text" value="${article.title }">
+		
+		<div class="flex">
+			<div>
+				<span>제목</span> <input name="title" placeholder="제목을 입력해주세요" type="text" value="${article.title }">
+			</div>
+			<div>
+				<select readonly name="boardId" id="select-board" class="select select-bordered select-sm text-base mx-1">
+					<c:forEach var="board" items="${boards }" begin="${rq.loginedMemberId == 1 ? 1 : 2 }">
+						<option value="${board.id }" ${boardId == board.id ? 'selected' : '' }>${board.name }</option>
+					</c:forEach>
+				</select>
+			</div>
 		</div>
+		
 		<div>
 			<span>내용</span>
 			<div id="editor" class="toast-ui-editor">
