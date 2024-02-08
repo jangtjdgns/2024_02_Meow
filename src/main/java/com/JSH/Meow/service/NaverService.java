@@ -12,16 +12,16 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.JSH.Meow.dao.NaverLoginDao;
+import com.JSH.Meow.dao.NaverDao;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
-public class NaverLoginService {
+public class NaverService {
 	
-	private NaverLoginDao naverLoginDao;
+	private NaverDao naverLoginDao;
 	
-	public NaverLoginService(NaverLoginDao naverLoginDao) {
+	public NaverService(NaverDao naverLoginDao) {
 		this.naverLoginDao = naverLoginDao;
 	}
 	

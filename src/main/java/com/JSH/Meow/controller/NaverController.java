@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.config.NaverConfig;
 import com.JSH.Meow.service.MemberService;
-import com.JSH.Meow.service.NaverLoginService;
+import com.JSH.Meow.service.NaverService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.Rq;
@@ -24,14 +24,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class NaverLoginController {
+public class NaverController {
 
-	private NaverLoginService naverLoginService;
+	private NaverService naverLoginService;
 	private MemberService memberService;
 	private Rq rq;
 	private NaverConfig naverConfig;
 	
-	public NaverLoginController(NaverLoginService naverLoginService, MemberService memberService, Rq rq, NaverConfig naverConfig){
+	public NaverController(NaverService naverLoginService, MemberService memberService, Rq rq, NaverConfig naverConfig){
 		this.naverLoginService = naverLoginService;
 		this.memberService = memberService;
 		this.rq = rq;
