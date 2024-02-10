@@ -1,22 +1,40 @@
 package com.JSH.Meow.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.JSH.Meow.config.NaverConfig;
+import com.JSH.Meow.config.KakaoConfig;
+import com.JSH.Meow.service.MemberService;
+import com.JSH.Meow.vo.Member;
+import com.JSH.Meow.vo.Rq;
 
 @Controller
 public class HomeController {
 	
-	private NaverConfig naverConfig;
+	private MemberService memberService;
+	private KakaoConfig kakaoConfig;
+	private Rq rq;
 	
-	public HomeController( NaverConfig naverConfig) {
-		this.naverConfig = naverConfig;
+	public HomeController(MemberService memberService, KakaoConfig kakaoConfig, Rq rq) {
+		this.memberService = memberService;
+		this.kakaoConfig = kakaoConfig;
+		this.rq = rq;
 	}
 	
 	@RequestMapping("/usr/home/main")
-	public String main() {
+	public String main(Model model) {
+		
+		String memberAddress = "대전광역시 서구 둔산로 52";
+		
+		Member member = memberService.getMemberById(rq.getLoginedMemberId());
+		
+		if(member != null) {
+			memberAddress = member.getAddress();
+		}
+		
+		model.addAttribute("memberAddress", memberAddress);
+		model.addAttribute("javaScriptKey", kakaoConfig.getJavaScriptKey());		// 앱키 js
 		
 		return "usr/home/main";
 	}
@@ -28,9 +46,8 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/test")
-	@ResponseBody
 	public String test() {
-        
-        return naverConfig.getClientId();
+		
+        return "test/test"; 
 	}
 }

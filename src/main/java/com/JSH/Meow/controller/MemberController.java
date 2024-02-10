@@ -1,6 +1,7 @@
 package com.JSH.Meow.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,4 +61,12 @@ public class MemberController {
 		return Util.jsReplace("로그아웃 되었습니다.", "/");
 	}
 	
+	@RequestMapping("/usr/member/getMembers")
+	@ResponseBody
+	public List<Member> getMembers() {
+		
+		List<Member> members = memberService.getMembersExceptLoginedMember(rq.getLoginedMemberId());
+		
+		return members;
+	}
 }

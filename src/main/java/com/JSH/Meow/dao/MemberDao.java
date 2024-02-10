@@ -1,5 +1,7 @@
 package com.JSH.Meow.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -44,11 +46,17 @@ public interface MemberDao {
 			SELECT * FROM `member`
 			WHERE nickname = #{nickname}
 			""")
-	public Member getMemberByIdNickname(String nickname);
+	public Member getMemberByNickname(String nickname);
 	
 	@Select("""
 			SELECT LAST_INSERT_ID();
 			""")
 	public int getLastInsertId();
+
+	@Select("""
+			SELECT * FROM `member`
+			WHERE id != #{loginedMemberId}
+			""")
+	public List<Member> getMembersExceptLoginedMember(int loginedMemberId);
 	
 }

@@ -1,5 +1,7 @@
 package com.JSH.Meow.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.JSH.Meow.dao.MemberDao;
@@ -22,8 +24,8 @@ public class MemberService {
 		return memberDao.getMemberByLoginId(loginId);
 	}
 
-	public Member getMemberByIdNickname(String nickname) {
-		return memberDao.getMemberByIdNickname(nickname);
+	public Member getMemberByNickname(String nickname) {
+		return memberDao.getMemberByNickname(nickname);
 	}
 	
 	public void joinMember(String loginId, String loginPw, String name, String nickname, int age, String address, String cellphoneNum, String email, String profileImage, String aboutMe) {
@@ -32,6 +34,10 @@ public class MemberService {
 
 	public int getLastInsertId() {
 		return memberDao.getLastInsertId();
+	}
+
+	public List<Member> getMembersExceptLoginedMember(int loginedMemberId) {
+		return memberDao.getMembersExceptLoginedMember(loginedMemberId);
 	}
 
 	

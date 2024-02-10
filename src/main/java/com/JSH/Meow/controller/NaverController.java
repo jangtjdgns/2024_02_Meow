@@ -114,7 +114,7 @@ public class NaverController {
             e.printStackTrace();
         }
 		
-		Member member = memberService.getMemberByIdNickname(nickname);
+		Member member = memberService.getMemberByNickname(nickname);
 		
 		// 첫 로그인 시 회원 등록
 		if(member == null) {
