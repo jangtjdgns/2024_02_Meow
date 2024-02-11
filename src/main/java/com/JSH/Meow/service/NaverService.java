@@ -12,17 +12,17 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.JSH.Meow.dao.NaverDao;
+import com.JSH.Meow.dao.SnsInfoDao;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class NaverService {
 	
-	private NaverDao naverLoginDao;
+	private SnsInfoDao snsInfoDao;
 	
-	public NaverService(NaverDao naverLoginDao) {
-		this.naverLoginDao = naverLoginDao;
+	public NaverService(SnsInfoDao snsInfoDao) {
+		this.snsInfoDao = snsInfoDao;
 	}
 	
 	// RestTemplate를 사용 (현재는 WebClinet 사용을 권장한다함)
@@ -93,10 +93,4 @@ public class NaverService {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
     }
-
-	public void saveSnsMemberInfo(String snsId, String snsType, int memberId, String name, String mobile, String email) {
-		naverLoginDao.saveSnsMemberInfo(snsId, snsType, memberId, name, mobile, email);
-	}
-
-
 }

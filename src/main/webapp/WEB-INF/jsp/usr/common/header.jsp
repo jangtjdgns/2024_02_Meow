@@ -41,7 +41,7 @@
 							</div>
 						</div>
 						<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-24">
-							<li><a>프로필</a></li>
+							<li><a href="../member/profile?memberId=${rq.loginedMemberId }">프로필</a></li>
 							<li><a>계정관리</a></li>
 							<li><a href="../member/doLogout" onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;">로그아웃</a></li>
 						</ul>

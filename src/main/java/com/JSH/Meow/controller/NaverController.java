@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.JSH.Meow.config.NaverConfig;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.service.NaverService;
+import com.JSH.Meow.service.SnsInfoService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.Rq;
@@ -27,12 +28,14 @@ import jakarta.servlet.http.HttpSession;
 public class NaverController {
 
 	private NaverService naverLoginService;
+	private SnsInfoService snsInfoService;
 	private MemberService memberService;
 	private Rq rq;
 	private NaverConfig naverConfig;
 	
-	public NaverController(NaverService naverLoginService, MemberService memberService, Rq rq, NaverConfig naverConfig){
+	public NaverController(NaverService naverLoginService, SnsInfoService snsInfoService, MemberService memberService, Rq rq, NaverConfig naverConfig){
 		this.naverLoginService = naverLoginService;
+		this.snsInfoService = snsInfoService;
 		this.memberService = memberService;
 		this.rq = rq;
 		this.naverConfig = naverConfig;
@@ -135,7 +138,7 @@ public class NaverController {
 
 	    Member newMember = memberService.getMemberById(memberId);
 
-	    naverLoginService.saveSnsMemberInfo(snsId, "naver", memberId, name, mobile, email);
+	    snsInfoService.saveSnsMemberInfo(snsId, "naver", memberId, name, mobile, email);
 	    
 	    return newMember;
 	}

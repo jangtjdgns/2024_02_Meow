@@ -4,10 +4,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.service.MemberService;
+import com.JSH.Meow.service.SnsInfoService;
 import com.JSH.Meow.util.SHA256;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Member;
@@ -17,10 +19,12 @@ import com.JSH.Meow.vo.Rq;
 public class MemberController {
 	
 	private MemberService memberService;
+	private SnsInfoService snsInfoService;
 	private Rq rq;
 	
-	public MemberController(MemberService memberService, Rq rq) {
+	public MemberController(MemberService memberService, SnsInfoService snsInfoService, Rq rq) {
 		this.memberService = memberService;
+		this.snsInfoService = snsInfoService;
 		this.rq = rq;
 	}
 	
@@ -61,6 +65,25 @@ public class MemberController {
 		return Util.jsReplace("로그아웃 되었습니다.", "/");
 	}
 	
+	@RequestMapping("/usr/member/profile")
+	public String showProfile(Model model, int memberId) {
+		
+		Member member = memberService.getMemberById(memberId);
+		
+		if(member == null) {
+			return rq.jsReturnOnView(Util.f("%d번 회원은 존재하지 않습니다.", memberId));
+		}
+		
+		String snsType = snsInfoService.getSnsTypeBymemberId(memberId);
+		
+		model.addAttribute("member", member);
+		model.addAttribute("snsType", snsType);
+		
+		return "usr/member/profile";
+	}
+	
+	
+	// 지도 표시, ajax
 	@RequestMapping("/usr/member/getMembers")
 	@ResponseBody
 	public List<Member> getMembers() {

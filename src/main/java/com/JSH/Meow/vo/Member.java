@@ -25,5 +25,5 @@ public class Member {
 	private String lastLoginDate;
 	private int lastLoginDays;
 	private String profileImage;
-	private String aboueMe;
+	private String aboutMe;
 }

@@ -2,9 +2,10 @@ package com.JSH.Meow.dao;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
-public interface NaverDao {
+public interface SnsInfoDao {
 
 	@Insert("""
 			INSERT INTO sns_info
@@ -17,5 +18,12 @@ public interface NaverDao {
 				, email = #{email}
 			""")
 	public void saveSnsMemberInfo(String snsId, String snsType, int memberId, String name, String mobile, String email);
+
+	@Select("""
+			SELECT SNStYPE
+			FROM sns_info
+			WHERE memberId = #{memberId}
+			""")
+	public String getSnsTypeBymemberId(int memberId);
 	
 }

@@ -42,6 +42,14 @@
     font-style: normal;
 }
 
+/* https://noonnu.cc/font_page/1050 */
+@font-face {
+    font-family: 'LINESeedKR-Bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
 /* 프리덴다드 */
 .font-Pretendard {
 	font-family: 'Pretendard-Regular';
@@ -64,12 +72,17 @@
 
 /* Wanted Sans */
 .font-WantedSans {
-	font-family: 'Wanted Sans', sans-serif;
+	font-family:"Wanted Sans Variable";
 }
 
 /* 어그로체 */
 .font-SBAggroB {
 	font-family: 'SBAggroB';
+}
+
+/* LINE Seed */
+.font-LINESeed {
+	font-family: 'LINESeedKR-Bd';
 }
 
 
@@ -119,14 +132,13 @@ body {
 	background-position-y: 53%;
 }
 
+
 /* 게시물 목록 테이블 */
 .table :where(tbody>tr) {
 	opacity: 0;
 	animation: changeOpacity 0.5s ease;
 	animation-fill-mode: forwards;
 }
-
-
 
 .table :where(th:not(:last-child)) {
     border-right: 2px solid #fff;
@@ -248,4 +260,28 @@ body {
 /* select 태그에서 readonly와 비슷한 기능을 사용하기 위함 */
 select[readonly] {
 	pointer-events: none;
+}
+
+
+
+/* profile.jsp */
+
+.min-h {
+	min-height: 200vh;
+}
+
+.profile-layout {
+	display: grid;
+	grid-template-columns: 280px 1fr;
+	gap: 3rem;
+}
+
+#profile-side {
+	position: absolute;
+	top: 197.65px;
+	transition: top .8s ease-out;
+}
+
+.side-btn-wrap > .btn {
+	justify-content: start;
 }

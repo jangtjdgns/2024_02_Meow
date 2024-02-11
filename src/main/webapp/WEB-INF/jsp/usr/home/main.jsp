@@ -43,7 +43,7 @@ function getMembers(map) {
                             <div>
                             	<ul>
                             		<li>${'${member.nickname}'}</li>
-                            		<a href="/">asdasd</a>
+                            		<a href="#">링크이동</a>
                             	</ul>
                             </div>
                         </div>
