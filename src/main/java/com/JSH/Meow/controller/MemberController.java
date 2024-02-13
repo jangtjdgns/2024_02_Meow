@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.service.MemberService;
@@ -150,6 +149,7 @@ public class MemberController {
 		return Util.jsReplace(Util.f("%s님 환영합니다.", member.getNickname()), "/");
 	}
 	
+	
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
 	public String doLogout() {
@@ -158,6 +158,7 @@ public class MemberController {
 		
 		return Util.jsReplace("로그아웃 되었습니다.", "/");
 	}
+	
 	
 	@RequestMapping("/usr/member/profile")
 	public String showProfile(Model model, int memberId) {
@@ -177,12 +178,36 @@ public class MemberController {
 	}
 	
 	
+	@RequestMapping("/usr/member/modify")
+	public String modify(Model model, int memberId) {
+		// 권한체크
+		
+		Member member = memberService.getMemberById(memberId);
+		
+		if(member == null) {
+			return rq.jsReturnOnView(Util.f("%d번 회원은 존재하지 않습니다.", memberId));
+		}
+		
+		model.addAttribute("member", member);
+		
+		return "usr/member/modify";
+	}
+	
+	
 	// 지도 표시, ajax
 	@RequestMapping("/usr/member/getMembers")
 	@ResponseBody
 	public List<Member> getMembers() {
 		
-		List<Member> members = memberService.getMembersExceptLoginedMember(rq.getLoginedMemberId());
+		List<Member> members = memberService.getMembers();
+		
+		for(Member member : members) {
+			String address = Util.getAddress(member.getAddress());
+			System.out.println(address);
+			member.setAddress(address);
+		}
+		
+		System.out.println(members);
 		
 		return members;
 	}

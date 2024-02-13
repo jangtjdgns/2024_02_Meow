@@ -58,5 +58,10 @@ public interface MemberDao {
 			WHERE id != #{loginedMemberId}
 			""")
 	public List<Member> getMembersExceptLoginedMember(int loginedMemberId);
+
+	@Select("""
+			SELECT * FROM `member`;
+			""")
+	public List<Member> getMembers();
 	
 }

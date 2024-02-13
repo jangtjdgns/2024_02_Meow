@@ -47,6 +47,8 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/member/doLogin");
 		ir.addPathPatterns("/usr/member/login/naver");
 		ir.addPathPatterns("/usr/member/doLogin/naver");
+		ir.addPathPatterns("/usr/member/join");
+		ir.addPathPatterns("/usr/member/doJoin");
 	}
 
 }

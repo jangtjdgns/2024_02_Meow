@@ -3,6 +3,9 @@ package com.JSH.Meow.util;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class Util {
 
 	// String - null, blank check
@@ -74,5 +77,23 @@ public class Util {
 		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yy.MM.dd.(E) HH:mm");
 		LocalDateTime dateTime = LocalDateTime.parse(date, inputFormatter);
 		return dateTime.format(outputFormatter);
+	}
+	
+	public static String getAddress(String address) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        
+        try {
+            // JSON 문자열을 JsonNode로 파싱
+            JsonNode jsonNode = objectMapper.readTree(address);
+            
+            // 필요한 정보 추출
+            address = "";
+            address += jsonNode.get("sido").asText();
+            address += jsonNode.get("bname").asText();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return address;
 	}
 }

@@ -5,7 +5,7 @@
 <%@ include file="../common/header.jsp"%>
 <script src="/resources/js/profile.js"></script>
 
-<section id="profile-bg" class="py-12 w-full min-h profile-bg-h border-t" style="background: linear-gradient(#EBE8E6, #E5D7D1);">
+<section id="profile-bg" class="py-12 w-full min-h border-t" style="background: linear-gradient(#EBE8E6, #E5D7D1);">
 	<div class="mx-auto max-w-6xl profile-layout">
 		<div>
 			<div id="profile-side" class="bg-white w-72 rounded-3xl p-6 shadow-2xl">
@@ -114,7 +114,7 @@
 					<div class="profile-content">
 						<div class="text-xl border-b border-black p-2">계정관리</div>
 						<div class="py-12 px-6">
-							<a href="" class="btn">계정 정보 수정</a>
+							<a href="modify?memberId=${member.id }" class="btn">계정 정보 수정</a>
 							<a href="" class="btn">비밀번호 재설정</a>
 							<a href="" class="btn btn-error">계정 탈퇴</a>
 						</div>

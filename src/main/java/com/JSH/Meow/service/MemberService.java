@@ -28,6 +28,10 @@ public class MemberService {
 		return memberDao.getMemberByNickname(nickname);
 	}
 	
+	public List<Member> getMembers() {
+		return memberDao.getMembers();
+	}
+	
 	public void joinMember(String loginId, String loginPw, String name, String nickname, int age, String address, String cellphoneNum, String email, String profileImage, String aboutMe) {
 		memberDao.joinMember(loginId, loginPw, name, nickname, age, address, cellphoneNum, email, profileImage, aboutMe);
 	}

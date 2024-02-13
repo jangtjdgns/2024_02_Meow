@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.JSH.Meow.config.KakaoConfig;
 import com.JSH.Meow.service.MemberService;
+import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.Rq;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class HomeController {
@@ -29,8 +32,8 @@ public class HomeController {
 		
 		Member member = memberService.getMemberById(rq.getLoginedMemberId());
 		
-		if(member != null) {
-			memberAddress = member.getAddress();
+		if(member != null && member.getAddress().length() != 0) {
+	        memberAddress = Util.getAddress(member.getAddress());
 		}
 		
 		model.addAttribute("memberAddress", memberAddress);
