@@ -24,7 +24,7 @@
 			<c:if test="${rq.loginedMemberId == 0 }">
 				<div class="w-full flex justify-end">
 					<a href="../member/login" class="btn btn-ghost btn-xs h-8">로그인</a>
-					<a href="" class="btn btn-ghost btn-xs h-8">회원가입</a>		
+					<a href="../member/join" class="btn btn-ghost btn-xs h-8">회원가입</a>		
 				</div>
 			</c:if>
 			<c:if test="${rq.loginedMemberId != 0 }">
@@ -33,10 +33,10 @@
 						<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
 							<div class="w-10 rounded-full">
 								<c:if test="${rq.loginedMemberProfileImage != null}">
-									<img alt="Tailwind CSS Navbar component" src="${rq.loginedMemberProfileImage }" />									
+									<img src="${rq.loginedMemberProfileImage }" />
 								</c:if>
 								<c:if test="${rq.loginedMemberProfileImage == null}">
-									<img alt="Tailwind CSS Navbar component" src="https://cdn.pixabay.com/photo/2020/11/15/18/31/cat-5746771_960_720.png" />									
+									<div class="border w-full h-full rounded-full flex items-center justify-center">프로필 이미지</div>
 								</c:if>
 							</div>
 						</div>

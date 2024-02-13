@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.service.MemberService;
@@ -13,6 +14,7 @@ import com.JSH.Meow.service.SnsInfoService;
 import com.JSH.Meow.util.SHA256;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Member;
+import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
@@ -26,6 +28,98 @@ public class MemberController {
 		this.memberService = memberService;
 		this.snsInfoService = snsInfoService;
 		this.rq = rq;
+	}
+	
+	@RequestMapping("/usr/member/join")
+	public String join() {
+		
+		return "usr/member/join";
+	}
+	
+	@RequestMapping("/usr/member/duplicationCheck")
+	@ResponseBody
+	public ResultData duplicationCheck(String loginId) {
+		
+		if(Util.isEmpty(loginId)) {
+			return  ResultData.from("F-1", "아이디를 입력해주세요.");
+		}
+		
+		Member member = memberService.getMemberByLoginId(loginId);
+		
+		if(member != null) {
+			return ResultData.from("F-2", Util.f("%s 은(는) 이미 사용중인 아이디입니다.", loginId));
+		}
+		
+		return ResultData.from("S-1", Util.f("%s 은(는) 사용가능한 아이디입니다.", loginId));
+	}
+	
+	@RequestMapping("/usr/member/doJoin")
+	@ResponseBody
+	public String doJoin(String loginId
+				, String loginPw
+				, String name
+				, String nickname
+				, int age
+				, String address
+				, String cellphoneNum
+				, String email
+				, String profileImage
+				, String aboutMe) {
+		
+		if (Util.isEmpty(loginId)) {
+			return Util.jsHistoryBack("아이디를 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(loginPw)) {
+			return Util.jsHistoryBack("비밀번호를 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(name)) {
+			return Util.jsHistoryBack("이름을 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(nickname)) {
+			return Util.jsHistoryBack("닉네임을 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(age)) {
+			return Util.jsHistoryBack("나이를 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(address)) {
+			return Util.jsHistoryBack("주소를 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(cellphoneNum)) {
+			return Util.jsHistoryBack("전화번호를 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(email)) {
+			return Util.jsHistoryBack("이메일을 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(profileImage)) {
+			profileImage = null;
+		}
+		
+		Member member = memberService.getMemberByLoginId(loginId);
+
+		if (member != null) {
+			return Util.jsHistoryBack(Util.f("%s은(는) 이미 사용중인 아이디입니다.", loginId));
+		}
+		
+		SHA256 sha256 = new SHA256();
+		
+		try {
+			loginPw = sha256.encrypt(loginPw);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		
+		memberService.joinMember(loginId, loginPw, name, nickname, age, address, cellphoneNum, email, profileImage, aboutMe);
+		
+		
+		return Util.jsReplace(Util.f("%s 님이 가입되었습니다.", nickname), "/");
 	}
 	
 	

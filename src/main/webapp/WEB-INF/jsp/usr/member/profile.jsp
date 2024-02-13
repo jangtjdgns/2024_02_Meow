@@ -57,7 +57,7 @@
 			<div class="bg-white border shadow-2xl rounded-3xl">
 				<div class="p-10 text-3xl">내 정보</div>
 				<div class="p-6">
-					<div id="profile-image-wrap">
+					<div class="profile-content">
 						<!-- sns 로그인 유저인 경우 해당 페이지로 이동  -->
 						<div class="text-xl border-b border-black p-2">프로필 이미지</div>
 						<div class="flex items-start justify-between pt-12 pb-24 px-6">
@@ -101,7 +101,7 @@
 							</div>
 						</div>
 					</div>
-					<div id="about-me-wrap">
+					<div class="profile-content">
 						<div class="text-xl border-b border-black p-2">소개말</div>
 						<div class="pt-12 pb-24 px-6">
 							<textarea name="" placeholder="소개말을 작성해보세요 :)" class="textarea textarea-bordered w-full h-28 resize-none" readonly>${member.aboutMe != null ? '' : member.aboutMe}</textarea>
@@ -111,7 +111,7 @@
 						</div>
 					</div>
 					
-					<div id="option-wrap">
+					<div class="profile-content">
 						<div class="text-xl border-b border-black p-2">계정관리</div>
 						<div class="py-12 px-6">
 							<a href="" class="btn">계정 정보 수정</a>

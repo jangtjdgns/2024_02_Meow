@@ -1,32 +1,28 @@
 $(function(){
-	const documentHeight = document.documentElement.scrollHeight;		// 문서의 전체 높이
-	const headerHeight = $(".h-mh").css("height");						// 헤더 높이
-	
 	// 프로필 페이지 사이드바 top 기본(최상위) 위치, (헤더 높이 + 3rem)		3rem == 48px 
 	const defaultPos = parseFloat($(".h-mh").css("height")) + 48;
 	
-	const totalHeight = documentHeight - window.innerHeight;		// 페이지 높이 계산, -50px(여유분)
-	
+	const documentHeight = document.documentElement.scrollHeight;		// 문서의 전체 높이
+	const totalHeight = documentHeight - window.innerHeight;			// 페이지 높이 계산
 	const profileSideHeight = $("#profile-side").css("height");			// 프로필 사이드바 높이
 	
-	const profileY = parseInt($("#profile-image-wrap").offset().top);	// 내정보, 프로필 위치
-	const aboueMeY = parseInt($("#about-me-wrap").offset().top);		// 내정보, 소개말 위치
-	const optionY = parseInt($("#option-wrap").offset().top);			// 내정보, 계정관리 위치
-
+	const profileContentY = [];
+	
+	$(".profile-content").each(function(idx, item){
+		profileContentY.push(parseInt($(item).offset().top));
+	});
+	
+	$(".side-btn").eq(0).css("backgroundColor", "oklch(0.278078 0.029596 256.848 / 0.2)");
+	
 	// 사이드 버튼 클릭
 	$(".side-btn").each(function(idx, item){
 		$(item).click(function(){
-			let scrT = 0;
-			if(idx == 0) {
-				scrT = profileY;
-			} else if(idx == 1) {
-				scrT = aboueMeY;
-			} else {
-				scrT = optionY;
-			}
+			$(".side-btn").css("backgroundColor", ""); // 사이드 버튼 색상 초기화
+			
+			$(item).css("backgroundColor", "oklch(0.278078 0.029596 256.848 / 0.2)");
 			
 			$('html, body').animate({
-   				scrollTop: scrT - 50
+   				scrollTop: profileContentY[idx] - 50
 			}, 800);
 		})
 	});
@@ -46,7 +42,15 @@ $(function(){
 	$(window).scroll(function() {
         // 현재 스크롤 위치
         const scrollPosition = parseInt($(window).scrollTop());
-  
+  		
+  		$(".side-btn").css("backgroundColor", "");
+  		for(let i = 0; i < profileContentY.length; i++){
+			if(scrollPosition <= profileContentY[i]) {
+				$(".side-btn").eq(i).css("backgroundColor", "oklch(0.278078 0.029596 256.848 / 0.2)");
+				break;
+			}
+		}
+  		
         if(scrollPosition > defaultPos) {
         	parseInt($("#profile-side").css("top", scrollPosition + 50));
         } else {

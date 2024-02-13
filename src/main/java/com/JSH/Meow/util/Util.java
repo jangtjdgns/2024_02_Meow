@@ -14,6 +14,11 @@ public class Util {
 
 		return str.trim().length() == 0;
 	}
+	
+	public static boolean isEmpty(Integer num) {
+		
+		return num == null;
+	}
 
 	// String foramt
 	public static String f(String format, Object... args) {
