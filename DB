@@ -24,7 +24,7 @@ CREATE TABLE `member` (
  	`name` VARCHAR(50) NOT NULL COMMENT '이름',
  	nickname VARCHAR(255) NOT NULL UNIQUE COMMENT '닉네임',
  	age INT UNSIGNED NOT NULL COMMENT '나이',
- 	address VARCHAR (255) NOT NULL COMMENT '주소',
+ 	address TEXT NOT NULL COMMENT '주소, json형태',
  	cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
   	email VARCHAR(50) NOT NULL COMMENT '이메일',
  	`status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',

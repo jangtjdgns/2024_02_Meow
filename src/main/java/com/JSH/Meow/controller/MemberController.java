@@ -101,6 +101,10 @@ public class MemberController {
 			profileImage = null;
 		}
 		
+		if (Util.isEmpty(aboutMe)) {
+			aboutMe = null;
+		}
+		
 		Member member = memberService.getMemberByLoginId(loginId);
 
 		if (member != null) {
@@ -116,7 +120,6 @@ public class MemberController {
 		}
 		
 		memberService.joinMember(loginId, loginPw, name, nickname, age, address, cellphoneNum, email, profileImage, aboutMe);
-		
 		
 		return Util.jsReplace(Util.f("%s 님이 가입되었습니다.", nickname), "/");
 	}
@@ -203,7 +206,6 @@ public class MemberController {
 		
 		for(Member member : members) {
 			String address = Util.getAddress(member.getAddress());
-			System.out.println(address);
 			member.setAddress(address);
 		}
 		
