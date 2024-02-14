@@ -112,11 +112,31 @@
 					</div>
 					
 					<div class="profile-content">
-						<div class="text-xl border-b border-black p-2">계정관리</div>
+						<div class="border-b border-black p-2 flex justify-between">
+							<span class="text-xl">계정관리</span>
+							<span class="text-xs pl-2 self-end">* SNS 회원의 경우 <strong>프로필 이미지</strong>, <strong>소개말</strong> 변경가능 (+주소?)</span>
+						</div>
+						
 						<div class="py-12 px-6">
-							<a href="modify?memberId=${member.id }" class="btn">계정 정보 수정</a>
-							<a href="" class="btn">비밀번호 재설정</a>
-							<a href="" class="btn btn-error">계정 탈퇴</a>
+							<c:choose>
+							    <c:when test="${snsType == 'naver'}">
+							    	<div>* 네이버 로그인 계정입니다.</div>
+							    	<a href="https://nid.naver.com/user2/help/myInfoV2?m=viewSecurity&lang=ko_KR" class="btn">네이버 계정 정보 수정</a>
+							    </c:when>
+							    <c:when test="${snsType == 'kakao'}">
+							    	<div>* 카카오 로그인 계정입니다.</div>
+							    	<a href="" class="btn">카카오 계정 정보 수정</a>
+							    </c:when>
+							    <c:when test="${snsType == 'google'}">
+							    	<div>* 구글 로그인 계정입니다.</div>
+							    	<a href="" class="btn">구글 계정 정보 수정</a>
+							    </c:when>
+							    <c:otherwise>
+							        <a href="modify?memberId=${member.id }" class="btn">계정 정보 수정</a>
+									<a href="" class="btn">비밀번호 재설정</a>
+									<a href="" class="btn btn-error">계정 탈퇴</a>
+							    </c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</div>

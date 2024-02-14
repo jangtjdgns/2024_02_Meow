@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.JSH.Meow.vo.Member;
 
@@ -13,7 +14,7 @@ public interface MemberDao {
 	@Insert("""
 			<script>
 				INSERT INTO `member`
-					SET regDate = NOW()
+				SET regDate = NOW()
 					, updateDate = NOW()
 					, loginId = #{loginId}
 					, loginPw = #{loginPw}
@@ -63,5 +64,17 @@ public interface MemberDao {
 			SELECT * FROM `member`;
 			""")
 	public List<Member> getMembers();
+	
+	@Update("""
+			UPDATE `member`
+			SET updateDate = NOW()
+				, name = #{name}
+				, age = #{age}
+				, address = #{address}
+				, cellphoneNum = #{cellphoneNum}
+				, email = #{email}
+			WHERE id = #{memberId}
+			""")
+	public void doModify(int memberId, String name, int age, String address, String cellphoneNum, String email);
 	
 }

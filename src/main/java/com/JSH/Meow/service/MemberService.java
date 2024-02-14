@@ -44,5 +44,9 @@ public class MemberService {
 		return memberDao.getMembersExceptLoginedMember(loginedMemberId);
 	}
 
+	public void doModify(int memberId, String name, int age, String address, String cellphoneNum, String email) {
+		memberDao.doModify(memberId, name, age, address, cellphoneNum, email);
+	}
+
 	
 }

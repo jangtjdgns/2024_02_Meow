@@ -51,7 +51,7 @@
 		</div>
 		
 		<div class="menu-box">
-			<ul class="w-full h-full font-NanumSquareNeo bg-white text-center">
+			<ul class="w-full h-full bg-white text-center">
 				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line">
 					<a href="/">메인</a>
 				</li>

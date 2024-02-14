@@ -18,14 +18,6 @@
     font-style: normal;
 }
 
-/* https://noonnu.cc/font_page/1053 */
-@font-face {
-    font-family: 'NanumSquareNeo-Variable';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
 /* https://noonnu.cc/font_page/415 */
 @font-face {
     font-family: 'ChosunGu';
@@ -58,11 +50,6 @@
 /* 큐트시우 */
 .font-cuteSiu {
 	font-family: 'Cute_siu';
-}
-
-/* 나눔스퀘어 네오 */
-.font-NanumSquareNeo {
-	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 조선 굴림체 */
@@ -113,7 +100,8 @@ body {
 
 .h-mh {
 	min-height: calc(11vh + 50px);
-	padding-bottom: 50px;
+	padding-top: 10px;
+	padding-bottom: 40px;
 }
 
 .b-mh {
@@ -133,42 +121,10 @@ body {
 }
 
 
-/* 게시물 목록 테이블 */
-.table :where(tbody>tr) {
-	opacity: 0;
-	animation: changeOpacity 0.5s ease;
-	animation-fill-mode: forwards;
-}
 
-.table :where(th:not(:last-child)) {
-    border-right: 2px solid #fff;
-}
 
-/* 게시물 목록 스타일 2 */
-.list-style-2 {
-	opacity: 0;
-	animation: changeOpacity 0.5s ease;
-	animation-fill-mode: forwards;
-}
 
-.scale {
-	transition: transform .2s;
-}
-
-.scale:hover {
-	transform: scale(1.02);
-}
-
-@keyframes changeOpacity {
-    from {
-		opacity: 0;
-    }
-    to {
-		opacity: 1;
-    }
-}
-
-/* 버튼 */
+/* header 버튼 */
 .nav-btn {
 	display: inline-block;
 	color: #3C586B;
@@ -211,8 +167,7 @@ body {
   transform: scaleX(1.2);
 }
 
-
-/* nav */
+/* header nav */
 .menu-box > ul {
 	position: relative;
 }
@@ -261,6 +216,69 @@ body {
 select[readonly] {
 	pointer-events: none;
 }
+
+
+
+
+
+/* main.jsp */
+#map > div:first-child > div > div:last-child img {
+	transform-origin: bottom center;
+	transition: transform .1s;
+}
+
+#map > div:first-child > div > div:last-child img:hover {
+	transform: scale(1.07);
+}
+
+.plus-btn {
+	color: black;
+	transition: color .6s, transform .6s ease-in-out;
+}
+
+.plus-btn:hover {
+	transform: rotate( 90deg );
+	color: #404040;
+}
+
+
+/* list.jsp */
+/* 게시물 목록 테이블 */
+.table :where(tbody>tr) {
+	opacity: 0;
+	animation: changeOpacity 0.5s ease;
+	animation-fill-mode: forwards;
+}
+
+.table :where(th:not(:last-child)) {
+    border-right: 2px solid #fff;
+}
+
+/* 게시물 목록 스타일 2 */
+.list-style-2 {
+	opacity: 0;
+	animation: changeOpacity 0.5s ease;
+	animation-fill-mode: forwards;
+}
+
+.scale {
+	transition: transform .2s;
+}
+
+.scale:hover {
+	transform: scale(1.02);
+}
+
+@keyframes changeOpacity {
+    from {
+		opacity: 0;
+    }
+    to {
+		opacity: 1;
+    }
+}
+
+
 
 
 

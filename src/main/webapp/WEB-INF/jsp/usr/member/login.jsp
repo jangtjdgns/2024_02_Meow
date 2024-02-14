@@ -37,21 +37,24 @@
 	            <form action="doLogin" method="post" class="card-body" onsubmit="loginFormOnSubmit(this); return false;">
 	                <div class="form-control">
 	                    <label class="label">
-	                        <span class="label-text font-NanumSquareNeo">아이디</span>
+	                        <span class="label-text">아이디</span>
 	                    </label>
 	                    <input name="loginId" type="text" placeholder="LoginId" class="input input-bordered" required />
 	                </div>
+	                
+	                
+	                
 	                <div class="form-control">
 	                    <label class="label">
-	                        <span class="label-text font-NanumSquareNeo">비밀번호</span>
+	                        <span class="label-text">비밀번호</span>
 	                    </label>
 	                    <input name="loginPw" type="password" placeholder="Password" class="input input-bordered" required />
 	                    <label class="label">
 	                    	<div>
-	                        	<a href="#" class="label-text-alt link link-hover">아이디 /</a>
-	                        	<a href="#" class="label-text-alt link link-hover">비밀번호 찾기</a>
+	                        	<a href="#" class="label-text-alt link link-hover">아이디 찾기 |</a>
+	                        	<a href="#" class="label-text-alt link link-hover">비밀번호 재설정</a>
 	                        </div>
-	                        <a href="#" class="label-text-alt link link-hover">비밀번호 재설정</a>
+	                        <a href="join" class="label-text-alt link link-hover">회원가입</a>
 	                    </label>
 	                </div>
 	                <div class="form-control mt-6">

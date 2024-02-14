@@ -79,7 +79,8 @@ public class Util {
 		return dateTime.format(outputFormatter);
 	}
 	
-	public static String getAddress(String address) {
+	// 지도에 마커 표시용
+	public static String convertAddressJsonToString(String address) {
         ObjectMapper objectMapper = new ObjectMapper();
         
         try {

@@ -35,22 +35,6 @@ public class MemberController {
 		return "usr/member/join";
 	}
 	
-	@RequestMapping("/usr/member/duplicationCheck")
-	@ResponseBody
-	public ResultData duplicationCheck(String loginId) {
-		
-		if(Util.isEmpty(loginId)) {
-			return  ResultData.from("F-1", "아이디를 입력해주세요.");
-		}
-		
-		Member member = memberService.getMemberByLoginId(loginId);
-		
-		if(member != null) {
-			return ResultData.from("F-2", Util.f("%s 은(는) 이미 사용중인 아이디입니다.", loginId));
-		}
-		
-		return ResultData.from("S-1", Util.f("%s 은(는) 사용가능한 아이디입니다.", loginId));
-	}
 	
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
@@ -183,12 +167,24 @@ public class MemberController {
 	
 	@RequestMapping("/usr/member/modify")
 	public String modify(Model model, int memberId) {
-		// 권한체크
 		
 		Member member = memberService.getMemberById(memberId);
 		
+		// 존재 유뮤 확인
 		if(member == null) {
 			return rq.jsReturnOnView(Util.f("%d번 회원은 존재하지 않습니다.", memberId));
+		}
+		
+		// 권한 체크
+		if(memberId != rq.getLoginedMemberId()) {
+			return rq.jsReturnOnView("본인 계정이 아닙니다.");
+		}
+
+		// sns 회원은 계정 수정이 불가함, 단, 이미지, 소개말은 가능 (+주소?)
+		String snsType = snsInfoService.getSnsTypeBymemberId(memberId);
+		
+		if(snsType != null) {
+			return rq.jsReturnOnView("SNS 로그인 회원은 계정 정보 수정이 불가합니다.");
 		}
 		
 		model.addAttribute("member", member);
@@ -197,20 +193,75 @@ public class MemberController {
 	}
 	
 	
-	// 지도 표시, ajax
+	// 한개만 수정해도 모든 값을 다가져와서 수정하고있음, 후에 수정예정
+	@RequestMapping("/usr/member/doModify")
+	@ResponseBody
+	public String doModify(int memberId, String name, int age, String address, String cellphoneNum, String email) {
+		
+		Member member = memberService.getMemberById(memberId);
+		
+		// 존재 유뮤 확인
+		if(member == null) {
+			return rq.jsReturnOnView(Util.f("%d번 회원은 존재하지 않습니다.", memberId));
+		}
+		
+		// 권한 체크
+		if(memberId != rq.getLoginedMemberId()) {
+			return rq.jsReturnOnView("본인 계정이 아닙니다.");
+		}
+
+		String snsType = snsInfoService.getSnsTypeBymemberId(memberId);
+		
+		if(snsType != null) {
+			return rq.jsReturnOnView("SNS 로그인 회원은 계정 정보 변경이 불가합니다.");
+		}
+		
+		memberService.doModify(memberId, name, age, address, cellphoneNum, email);
+		
+		return Util.jsReplace(Util.f("%s님의 계정 정보가 변경되었습니다.", member.getNickname()), "/");
+	}
+	
+	
+	// 회원가입 중복확인, ajax
+	@RequestMapping("/usr/member/duplicationCheck")
+	@ResponseBody
+	public ResultData duplicationCheck(String loginId) {
+		
+		if(Util.isEmpty(loginId)) {
+			return  ResultData.from("F-1", "아이디를 입력해주세요.");
+		}
+		
+		Member member = memberService.getMemberByLoginId(loginId);
+		
+		if(member != null) {
+			return ResultData.from("F-2", Util.f("%s 은(는) 이미 사용중인 아이디입니다.", loginId));
+		}
+		
+		return ResultData.from("S-1", Util.f("%s 은(는) 사용가능한 아이디입니다.", loginId));
+	}
+	
+	
+	// 메인페이지 지도 마커 표시용, ajax
 	@RequestMapping("/usr/member/getMembers")
 	@ResponseBody
-	public List<Member> getMembers() {
+	public ResultData<List<Member>> getMembers() {
 		
 		List<Member> members = memberService.getMembers();
 		
+		if(members.size() == 0) {
+			return ResultData.from("F-1", "현재 등록된 회원이 없습니다.");
+		}
+		
 		for(Member member : members) {
-			String address = Util.getAddress(member.getAddress());
+			// sns 회원의 경우 주소가 없음
+			if(member.getAddress().length() == 0) {
+				continue;
+			}
+			
+			String address = Util.convertAddressJsonToString(member.getAddress());
 			member.setAddress(address);
 		}
 		
-		System.out.println(members);
-		
-		return members;
+		return ResultData.from("S-1", "성공", members);
 	}
 }

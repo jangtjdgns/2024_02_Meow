@@ -21,12 +21,12 @@ public class Member {
 	// 주소, json 타입
 	private String address;
 //	private String zonecode;
-//    private String sido;
-//    private String sigungu;
-//    private String bname;
-//    private String jibunAddress;
-//    private String roadAddress;
-//    private String detailAddress;
+//	private String sido;
+//	private String sigungu;
+//	private String bname;
+//	private String jibunAddress;
+//	private String roadAddress;
+//	private String detailAddress;
 	
 	private String cellphoneNum;
 	private String email;

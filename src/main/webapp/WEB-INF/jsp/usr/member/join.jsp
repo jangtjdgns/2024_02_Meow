@@ -160,7 +160,7 @@ $(function(){
 </script>
 
 <section class="h-body py-5">
-	<div class="max-w-xl mx-auto card shrink-0 w-full bg-base-100 font-NanumSquareNeo">
+	<div class="max-w-xl mx-auto card shrink-0 w-full bg-base-100">
 		<form action="doJoin" method="post" class="card-body" onsubmit="joinFormOnSubmit(this); return false;">
 			<div class="form-control">
 		        <label class="label">
@@ -204,7 +204,7 @@ $(function(){
 	                <span class="label-text">주소</span>
 	            </label>
 	            <div id="address" class="flex flex-col gap-2">
-	            	<input type="hidden" name="address" value="" />
+	            	<input id="addressInput" type="hidden" name="address" value="" />
 		            <div class="flex gap-2">
 		            	<input type="text" id="postcode" placeholder="우편번호" class="input input-bordered w-1/3" readonly>
 		            	<button type="button" onclick="getPostInfo()" class="btn">우편번호 찾기</button>
