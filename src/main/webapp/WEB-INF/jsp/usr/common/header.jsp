@@ -14,7 +14,7 @@
 
 <body>
 
-<section class="h-mh mx-auto max-w-7xl flex justify-between">
+<section class="h-mh mw flex justify-around">
 	<div class="self-end">
 		<a href="/"><img src="/resources/images/Meow-logo.png" class="w-24" /></a>
 	</div>

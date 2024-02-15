@@ -5,7 +5,7 @@
 
 <%@ include file="../common/toastUi.jsp"%>
 
-<section class="h-body mx-auto max-w-4xl">
+<section class="mx-auto max-w-4xl">
 	<textarea id="body" class="hidden">${article.body}</textarea>
 	<div>${article.id }</div>
 	<div>${article.regDate }</div>

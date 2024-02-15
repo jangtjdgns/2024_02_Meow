@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.JSH.Meow.service.MemberDeletionService;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.service.SnsInfoService;
 import com.JSH.Meow.util.SHA256;
@@ -20,11 +22,13 @@ import com.JSH.Meow.vo.Rq;
 public class MemberController {
 	
 	private MemberService memberService;
+	private MemberDeletionService memberDeletionService;
 	private SnsInfoService snsInfoService;
 	private Rq rq;
 	
-	public MemberController(MemberService memberService, SnsInfoService snsInfoService, Rq rq) {
+	public MemberController(MemberService memberService, MemberDeletionService memberDeletionService, SnsInfoService snsInfoService, Rq rq) {
 		this.memberService = memberService;
+		this.memberDeletionService = memberDeletionService;
 		this.snsInfoService = snsInfoService;
 		this.rq = rq;
 	}
@@ -125,6 +129,11 @@ public class MemberController {
 			return Util.jsHistoryBack(Util.f("%s은(는) 존재하지 않는 아이디입니다.", loginId)); 
 		}
 		
+		// 탈퇴 회원인 경우 로그인 제한
+		if(member.getStatus() == 3) {
+			return Util.jsHistoryBack("탈퇴 처리된 계정입니다");
+		}
+		
 		SHA256 sha256 = new SHA256();
 		
 		if(sha256.passwordsNotEqual(loginPw, member.getLoginPw())) {
@@ -165,8 +174,9 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping("/usr/member/modify")
-	public String modify(Model model, int memberId) {
+	// 계정 관리 페이지
+	@RequestMapping("/usr/member/userAccount")
+	public String userAccount(int memberId) {
 		
 		Member member = memberService.getMemberById(memberId);
 		
@@ -179,17 +189,33 @@ public class MemberController {
 		if(memberId != rq.getLoginedMemberId()) {
 			return rq.jsReturnOnView("본인 계정이 아닙니다.");
 		}
-
-		// sns 회원은 계정 수정이 불가함, 단, 이미지, 소개말은 가능 (+주소?)
-		String snsType = snsInfoService.getSnsTypeBymemberId(memberId);
 		
-		if(snsType != null) {
-			return rq.jsReturnOnView("SNS 로그인 회원은 계정 정보 수정이 불가합니다.");
+		return "usr/member/userAccount";
+	}
+	
+	
+	// 계정 관리 관련 jsp 가져오기 (수정, 비밀번호 재설정, 삭제), ajax
+	@RequestMapping("/usr/member/getUserAccountJsp")
+	public String getUserAccountJsp(Model model, int memberId, @RequestParam(defaultValue = "-1") int sectionNo) {
+		
+		Member member = memberService.getMemberById(memberId);
+		
+		if(sectionNo == 0) {
+			// sns 회원은 계정 수정이 불가함, 단, 이미지, 소개말은 가능 (+주소?)
+			String snsType = snsInfoService.getSnsTypeBymemberId(memberId);
+			
+			if(snsType != null) {
+				return rq.jsReturnOnView("SNS 로그인 회원은 계정 정보 수정이 불가합니다.");
+			}
+			
+			model.addAttribute("member", member);
+			
+			return "usr/member/modify";
+		} else if(sectionNo == 2) {
+			return "usr/member/delete";
 		}
 		
-		model.addAttribute("member", member);
-		
-		return "usr/member/modify";
+		return "usr/member/userAccountDefault";
 	}
 	
 	
@@ -219,6 +245,35 @@ public class MemberController {
 		memberService.doModify(memberId, name, age, address, cellphoneNum, email);
 		
 		return Util.jsReplace(Util.f("%s님의 계정 정보가 변경되었습니다.", member.getNickname()), "/");
+	}
+	
+	
+	@RequestMapping("/usr/member/doDelete")
+	@ResponseBody
+	public String doDelete(int memberId, String deletionReasonCode, @RequestParam(defaultValue = "") String customDeletionReason) {
+		
+		Member member = memberService.getMemberById(memberId);
+		
+		// 존재 유뮤 확인
+		if(member == null) {
+			return rq.jsReturnOnView(Util.f("%d번 회원은 존재하지 않습니다.", memberId));
+		}
+		
+		// 권한 체크
+		if(memberId != rq.getLoginedMemberId()) {
+			return rq.jsReturnOnView("본인 계정이 아닙니다.");
+		}
+		
+		// 실제로 데이터 삭제 X, status 칼럼을 3(탈퇴)로 변경
+		memberService.doDelete(memberId, 3);
+		
+		// 탈퇴 이유 추가
+		memberDeletionService.writeDeletionReason(memberId, deletionReasonCode, customDeletionReason);
+		
+		// 세션 초기화
+		rq.logout();
+		
+		return Util.jsReplace("탈퇴되었습니다.", "/");
 	}
 	
 	

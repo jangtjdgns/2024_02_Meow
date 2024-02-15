@@ -77,4 +77,11 @@ public interface MemberDao {
 			""")
 	public void doModify(int memberId, String name, int age, String address, String cellphoneNum, String email);
 	
+	@Update("""
+			UPDATE `member`
+			SET `status` = #{status}
+			WHERE id = #{memberId}
+			""")
+	public void doDelete(int memberId, int status);
+	
 }

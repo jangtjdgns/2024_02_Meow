@@ -108,6 +108,22 @@ body {
 	min-height: 89vh;
 }
 
+/* 
+	레이아웃 최소 길이
+	mw: min-width. p-mw: padding-min-width, a-mw: article-min-width 
+*/
+.mw,
+.p-mw {
+	min-width: 1024px;
+	width: 100vw;
+}
+
+.p-mw {
+	padding-left: 60px;
+	padding-right: 60px;
+}
+
+
 .img-section-mh {
 	min-height: 30vh;
 	height: 30vh;
@@ -285,13 +301,14 @@ select[readonly] {
 /* profile.jsp */
 
 .min-h {
-	min-height: 200vh;
+	/*min-height: 200vh;*/
+	min-height: calc(100vh - 149.65px);
 }
 
 .profile-layout {
 	display: grid;
-	grid-template-columns: 280px 1fr;
-	gap: 3rem;
+	grid-template-columns: 280px minmax(600px, 1fr);
+	gap: 2.5rem;
 }
 
 #profile-side {

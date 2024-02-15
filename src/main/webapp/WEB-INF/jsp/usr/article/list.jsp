@@ -38,12 +38,11 @@
 	})
 </script>
 
-<section class="img-section-mh">
+<section class="img-section-mh mw">
 	<div class="img-section" style="background-image: url(https://i.pinimg.com/originals/8b/ca/9a/8bca9a987e1a1873e01d83371e4a31ca.jpg);"></div>
 </section>
 
-<section class="mx-auto max-w-5xl">
-
+<section class="mx-auto max-w-5xl mw">
 	<!-- 게시판 선택 -->
 	<div class="flex pb-16">
 		<div class="flex items-center border-2 border-t-0">

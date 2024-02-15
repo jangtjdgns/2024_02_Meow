@@ -48,5 +48,9 @@ public class MemberService {
 		memberDao.doModify(memberId, name, age, address, cellphoneNum, email);
 	}
 
+	public void doDelete(int memberId, int status) {
+		memberDao.doDelete(memberId, status);
+	}
+
 	
 }

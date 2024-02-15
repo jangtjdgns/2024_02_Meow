@@ -17,14 +17,14 @@
 	}
 </script> -->
 
-<section class="">
+<section class="p-mw">
 	<div class="flex justify-center gap-10">
 		<c:if test="${rq.loginedMemberId != 0 }">
 			<div id="map" class="shadow" style="width:700px; height: 700px;"></div>
 		</c:if>
 		
 		<c:if test="${rq.loginedMemberId == 0 }">
-			<div class="flex items-center justify-center border bg-black opacity-70" style="width:700px; height: 700px;">
+			<div class="flex items-center justify-center border bg-gray-500 opacity-90" style="width:700px; height: 700px;">
 				<span class="text-white pr-1.5">로그인 후 이용가능합니다.</span>
 				<a class="text-red-500 hover:text-red-600 hover:underline " href="../member/login">로그인 이동</a>
 			</div>

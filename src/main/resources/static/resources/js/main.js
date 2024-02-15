@@ -79,7 +79,7 @@ function getMembers(map) {
 						`;
 						
 						// 유저 닉네임 추가
-						$(nicknames).each(function(idx, nikcname){
+						$(nicknames).each(function(idx, nikcname) {
 							content += `
 								<li class="flex items-center justify-between py-1 px-2 text-sm">
 									<div>${nikcname}</div>
@@ -88,6 +88,7 @@ function getMembers(map) {
 									  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 border shadow-lg bg-base-100 rounded-box">
 											<li><a>프로필 보기</a></li>
 											<li><a>친구추가</a></li>
+											<li><a>신고</a></li>
 										</ul>
 									</div>
 								</li>
@@ -96,7 +97,7 @@ function getMembers(map) {
 						
 						content += `
 	                            	</ul>
-	                            	<a href="#">링크이동</a>
+	                            	
 	                            </div>
 	                        </div>						
 						`;

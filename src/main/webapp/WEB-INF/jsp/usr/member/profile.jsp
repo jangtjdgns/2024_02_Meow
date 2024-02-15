@@ -3,17 +3,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@ include file="../common/header.jsp"%>
-<script src="/resources/js/profile.js"></script>
+<script src="/resources/js/member/profile.js"></script>
 
-<section id="profile-bg" class="py-12 w-full min-h border-t" style="background: linear-gradient(#EBE8E6, #E5D7D1);">
+<section id="profile-bg" class="py-12 p-mw min-h border-t" style="background: linear-gradient(#EBE8E6, #E5D7D1);">
 	<div class="mx-auto max-w-6xl profile-layout">
 		<div>
 			<div id="profile-side" class="bg-white w-72 rounded-3xl p-6 shadow-2xl">
-				<div class="text-center">
-					<div class="top-bot-btn btn btn-xs w-full">∧</div>
+				<div role="tablist" class="tabs tabs-bordered mb-4">
+				  	<a role="tab" class="tab tab-active">프로필</a>
+				  	<a href="userAccount?memberId=${rq.loginedMemberId }" role="tab" class="tab">계정관리</a>
+				</div>
+				<div class="flex flex-col absolute bg-white rounded-xl p-2 shadow-2xl -translate-y-1/2" style="top: 50%; left: -50px">
+					<div class="top-bot-btn btn btn-xs mb-2">∧</div>
+					<div class="top-bot-btn btn btn-xs">∨</div>
 				</div>
 				<div class="pb-4">
-					<div class="text-sm font-bold py-2 border-b-2">내 정보</div>
+					<div class="text-sm font-bold py-2 border-b-2">
+						<i class="fa-solid fa-user pr-1"></i>
+						<span>내 정보</span>
+					</div>
 					<div class="side-btn-wrap flex flex-col pt-2">
 						<div class="side-btn btn btn-ghost btn-sm mx-1">프로필 이미지</div>
 						<div class="side-btn btn btn-ghost btn-sm mx-1">소개말</div>
@@ -22,9 +30,12 @@
 				</div>
 			
 				<div class="pb-4">
-					<div class="text-sm font-bold py-2 border-b-2">반려묘 정보</div>
+					<div class="text-sm font-bold py-2 border-b-2">
+						<i class="fa-solid fa-cat pr-1"></i>
+						<span>반려묘 정보</span>
+					</div>
 					<div class="side-btn-wrap flex flex-col pt-2">
-						<div class="side-btn btn btn-ghost btn-sm mx-1">반려묘 등록</div>			
+						<div class="side-btn btn btn-ghost btn-sm mx-1">반려묘 등록</div>
 					</div>
 					<!--
 					없으면
@@ -39,15 +50,13 @@
 				</div>
 			
 				<div class="pb-4">
-					<div class="text-sm font-bold py-2 border-b-2">친구</div>
+					<div class="text-sm font-bold py-2 border-b-2">
+						<i class="fa-solid fa-user-group pr-1"></i>
+						<span>친구</span>
+					</div>
 					<div class="side-btn-wrap flex flex-col pt-2">
 						<div class="side-btn btn btn-ghost btn-sm mx-1">목록</div>	
 					</div>
-				</div>
-
-				
-				<div class="text-center">
-					<div class="top-bot-btn btn btn-xs w-full">∨</div>
 				</div>
 			</div>
 		</div>
@@ -132,9 +141,10 @@
 							    	<a href="" class="btn">구글 계정 정보 수정</a>
 							    </c:when>
 							    <c:otherwise>
-							        <a href="modify?memberId=${member.id }" class="btn">계정 정보 수정</a>
+							    	<a href="userAccount?memberId=${member.id }" class="btn">계정 관리 바로가기</a>
+							        <%-- <a href="userAccount?memberId=${member.id }&sectionNo=0" class="btn">계정 정보 수정</a>
 									<a href="" class="btn">비밀번호 재설정</a>
-									<a href="" class="btn btn-error">계정 탈퇴</a>
+									<a href="userAccount?memberId=${member.id }&sectionNo=2" class="btn btn-error">계정 탈퇴</a> --%>
 							    </c:otherwise>
 							</c:choose>
 						</div>
@@ -158,8 +168,6 @@
 			</div>
 		</div>
 	</div>
-	
-	
 </section>
 
 <%@ include file="../common/footer.jsp"%>
