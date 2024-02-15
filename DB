@@ -28,7 +28,6 @@ CREATE TABLE `member` (
  	cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
   	email VARCHAR(50) NOT NULL UNIQUE COMMENT '이메일',
  	`status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',
- 	delDate DATETIME COMMENT '탈퇴일',
   	lastLoginDate DATETIME COMMENT '마지막 로그인 일시',
  	lastLoginDays INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '미접속일',
   	profileImage VARCHAR(255) COMMENT '프로필사진 파일명',

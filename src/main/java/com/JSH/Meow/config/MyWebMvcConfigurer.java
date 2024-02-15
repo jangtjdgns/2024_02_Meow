@@ -40,6 +40,10 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/article/doModify");
 		ir.addPathPatterns("/usr/article/doDelete");
 		ir.addPathPatterns("/usr/member/doLogout");
+		ir.addPathPatterns("/usr/member/profile");
+		ir.addPathPatterns("/usr/member/userAccount");
+		ir.addPathPatterns("/usr/member/doModify");
+		ir.addPathPatterns("/usr/member/doDelete");
 		
 		// 로그아웃 필요
 		ir = registry.addInterceptor(needLogoutInterceptor);
