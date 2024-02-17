@@ -214,7 +214,8 @@ body {
 .menu-box > ul ul > li {
 	padding: 2px 6px;
 	font-size: 1rem;
-	transition: text-shadow .3s;
+	transform-origin: center bottom;
+	transition: transform .1s;
 }
 
 .menu-box ul > li:hover > ul {
@@ -225,7 +226,7 @@ body {
 }
 
 .menu-box > ul ul > li:hover {
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  	transform: scale(1.1);
 }
 
 /* select 태그에서 readonly와 비슷한 기능을 사용하기 위함 */
@@ -319,4 +320,19 @@ select[readonly] {
 
 .side-btn-wrap > .btn {
 	justify-content: start;
+}
+
+/* 반려묘 정보란 */
+.catInfo-wrap {
+	display: grid;
+	grid-template-rows: 1fr 1fr 160px;
+	/*grid-row-gap: 0.25rem;*/
+	padding: 0.25rem;
+	padding-right: 1rem;
+}
+
+.catInfo {
+	display: grid;
+	grid-template-columns: 90px minmax(128px, 360px);
+	/*grid-column-gap: 0.25rem;*/
 }

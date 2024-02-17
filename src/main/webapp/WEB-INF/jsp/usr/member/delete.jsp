@@ -6,7 +6,7 @@
 	<div class="p-10 text-3xl">계정 탈퇴</div>
 	<div class="p-6 w-4/5 mx-auto">
 		<div class="pb-2">*서비스를 더 개선하기 위해 여러분의 소중한 의견을 알려주세요.</div>
-		<div class="border-b-2 pb-10 mb-10">
+		<div class="pb-10 mb-10">
 			<div class="grid grid-cols-3 gap-2">
 			  	<label class="cursor-pointer label">
 			    	<input type="checkbox" class="checkbox hidden" />
@@ -30,7 +30,7 @@
 			  	</label>
 			  	<label class="cursor-pointer label">
 			    	<input type="checkbox" class="checkbox hidden" />
-			    	<span class="btn btn-outline w-full">직접입력</span>
+			    	<span class="btn btn-outline w-full">직접 입력</span>
 			  	</label>
 		  	</div>
 		  	

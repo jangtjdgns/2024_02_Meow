@@ -4,6 +4,7 @@
 
 <%@ include file="../common/header.jsp"%>
 <script src="/resources/js/member/profile.js"></script>
+<script src="/resources/js/common/carousel.js"></script>
 
 <section id="profile-bg" class="py-12 p-mw min-h border-t" style="background: linear-gradient(#EBE8E6, #E5D7D1);">
 	<div class="mx-auto max-w-6xl profile-layout">
@@ -31,22 +32,13 @@
 			
 				<div class="pb-4">
 					<div class="text-sm font-bold py-2 border-b-2">
-						<i class="fa-solid fa-cat pr-1"></i>
-						<span>반려묘 정보</span>
+						<i class="fa-solid fa-paw pr-1"></i>
+						<span>반려묘</span>
 					</div>
 					<div class="side-btn-wrap flex flex-col pt-2">
-						<div class="side-btn btn btn-ghost btn-sm mx-1">반려묘 등록</div>
+						<div class="side-btn btn btn-ghost btn-sm mx-1">내 반려묘</div>
+						<div class="side-btn btn btn-ghost btn-sm mx-1">반려묘 관리</div>
 					</div>
-					<!--
-					없으면
-					<div>반려묘를 등록하세요!</div>
-					-->
-					<!--
-					있으면 
-					<div>이름1</div>
-					<div>이미지</div>
-					<div>소개</div>
-					-->
 				</div>
 			
 				<div class="pb-4">
@@ -130,21 +122,18 @@
 							<c:choose>
 							    <c:when test="${snsType == 'naver'}">
 							    	<div>* 네이버 로그인 계정입니다.</div>
-							    	<a href="https://nid.naver.com/user2/help/myInfoV2?m=viewSecurity&lang=ko_KR" class="btn">네이버 계정 정보 수정</a>
+							    	<a href="https://nid.naver.com/user2/help/myInfoV2?m=viewSecurity&lang=ko_KR" target="_blank" class="btn">네이버 계정 정보 수정</a>
 							    </c:when>
 							    <c:when test="${snsType == 'kakao'}">
 							    	<div>* 카카오 로그인 계정입니다.</div>
-							    	<a href="" class="btn">카카오 계정 정보 수정</a>
+							    	<a href="" target="_blank" class="btn">카카오 계정 정보 수정</a>
 							    </c:when>
 							    <c:when test="${snsType == 'google'}">
 							    	<div>* 구글 로그인 계정입니다.</div>
-							    	<a href="" class="btn">구글 계정 정보 수정</a>
+							    	<a href="" target="_blank" class="btn">구글 계정 정보 수정</a>
 							    </c:when>
 							    <c:otherwise>
 							    	<a href="userAccount?memberId=${member.id }" class="btn">계정 관리 바로가기</a>
-							        <%-- <a href="userAccount?memberId=${member.id }&sectionNo=0" class="btn">계정 정보 수정</a>
-									<a href="" class="btn">비밀번호 재설정</a>
-									<a href="userAccount?memberId=${member.id }&sectionNo=2" class="btn btn-error">계정 탈퇴</a> --%>
 							    </c:otherwise>
 							</c:choose>
 						</div>
@@ -155,14 +144,61 @@
 			<div class="bg-white border shadow-2xl rounded-3xl my-32">
 				<div class="p-10 text-3xl">반려묘</div>
 				<div class="p-6">
-					<div>
+					<div class="profile-content">
 						<div class="text-xl border-b border-black p-2">내 반려묘</div>
-						<div class="pt-12 pb-24 px-6">
-							123
+						<div class="py-12 mb-12 px-8 relative">
+							<c:if test="${companionCats.size() == 0 }">
+								<div class="border rounded w-full h-80 flex items-center justify-center">
+									<span>현재 등록된 반려묘가 없습니다.</span>
+									<a href="../CompanionCat/register" class="ml-1 text-red-600 hover:underline">등록하러가기</a>
+								</div>
+							</c:if>
+							
+							<c:if test="${companionCats.size() > 1}">
+								<div class="absolute flex justify-between transform -translate-y-1/2 -left-3 -right-3 top-1/2">
+							      	<div class="carouselMoveBtn btn btn-circle btn-ghost">❮</div>
+							      	<div class="carouselMoveBtn btn btn-circle btn-ghost">❯</div>
+							    </div>
+						    </c:if>
+						    
+						    <c:if test="${companionCats.size() > 0 }">
+								<div class="carousel w-full h-80">
+									<c:forEach var="cat" items="${companionCats }" varStatus="status">
+										<div class="carousel-item w-full my-3 grid gap-6" style="grid-template-columns: 14rem 1fr;">
+								        	<img class="w-48 h-48 border-2 rounded-full self-center justify-self-center" src="https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554_1280.jpg"/>
+							    			<div class="catInfo-wrap">
+									    		<div class="catInfo">
+									    			<div class="border-t border-l rounded-tl-md py-1 px-2 text-center"><span class="h-full flex items-center justify-center">이름</span></div>
+									    			<input class="input input-bordered border-b-0 rounded-tr-md rounded-none h-full" value="${cat.name }" readonly />
+									    		</div>
+									    		<div class="catInfo">
+									    			<div class="border-t border-l py-1 px-2 text-center"><span class="h-full flex items-center justify-center">생년월일</span></div>
+									    			<input class="input input-bordered border-b-0 rounded-none h-full" value="${cat.birthDate != null ? cat.birthDate : '생일을 입력해주세요!'}" readonly />
+									    		</div>
+									    		<div class="catInfo">
+									    			<div class="border border-r-0 rounded-bl-md py-1 px-2"><span class="h-full flex items-center justify-center">소개말</span></div>
+										    		<textarea placeholder="${cat.name }(이)를 소개해보세요!" class="resize-none border rounded-br-md py-2 px-4" disabled>${cat.aboutCat }</textarea>
+									    		</div>
+									    	</div>
+								    	</div>
+									</c:forEach>
+								</div>
+							</c:if>
+							
+							<c:if test="${companionCats.size() > 1}">
+								<%-- <input class="join-item btn btn-outline [min-height:1rem] [height:1.2rem] [padding-left:.5rem]" type="radio" name="options" ${i == 1 ? 'checked' : '' }/> --%>
+								<div class="join absolute left-1/2 -translate-x-1/2 bottom-4">
+									<c:forEach var="i" begin="1" end="${companionCats.size() }" step="1">
+										<input class="carouselRadio radio radio-info mx-1 glass" type="radio" name="options" ${i == 1 ? 'checked' : '' }/>
+									</c:forEach>
+								</div>
+							</c:if>
 						</div>
-						<!-- <div>반려묘 정보</div>
-						<div>반려묘 이미지</div>
-						<div>반려묘 소개말</div> -->
+					</div>
+					
+					<div class="profile-content">
+						<div class="text-xl border-b border-black p-2">반려묘 관리</div>
+						<div class="pt-12 pb-24 px-6">
 					</div>
 				</div>
 			</div>

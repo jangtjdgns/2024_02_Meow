@@ -13,7 +13,7 @@ CREATE TABLE article(
 	`body` TEXT NOT NULL
 );
 
-### member
+### member 테이블
 CREATE TABLE `member` (
   	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '회원 번호',
   	regDate DATETIME NOT NULL COMMENT '가입일',
@@ -34,7 +34,7 @@ CREATE TABLE `member` (
  	aboutMe VARCHAR(100) COMMENT '자기소개'
 );
 
-### sns_info
+### sns_info 테이블
 CREATE TABLE sns_info (
   id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '소셜 로그인 회원번호',
   snsId VARCHAR(255) NOT NULL UNIQUE COMMENT '소셜 로그인 계정 고유ID',
@@ -46,7 +46,7 @@ CREATE TABLE sns_info (
   email VARCHAR(255) NULL COMMENT '소셜 계정 이메일'
 );
 
-### member_deletion_reason
+### member_deletion_reason 테이블
 CREATE TABLE member_deletion_reason (
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL COMMENT '탈퇴일',
@@ -54,6 +54,19 @@ CREATE TABLE member_deletion_reason (
     memberId INT UNSIGNED NOT NULL,
     deletionReasonCode VARCHAR(20) NOT NULL COMMENT '복수선택, 1 = 콘텐츠 불만족, 2 = 부정적인 커뮤니티 경험, 3 = 다른 서비스 이용, 4 = 이용 빈도 낮음, 5 = 서비스 불만족, 6 = 직접 입력',
     customDeletionReason VARCHAR(100) COMMENT '직접 입력 데이터 (100글자 제한)'
+);
+
+### companion_cat 테이블
+CREATE TABLE companion_cat (
+  	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '반려묘 번호',
+  	regDate DATETIME NOT NULL COMMENT '등록일',
+  	updateDate DATETIME NOT NULL COMMENT '수정일',
+  	memberId INT UNSIGNED NOT NULL COMMENT '유저 ID',
+ 	`name` VARCHAR(50) NOT NULL COMMENT '이름',
+ 	gender VARCHAR(1) NOT NULL '성별',
+ 	birthDate DATE COMMENT '필수X, 생년월일',
+ 	profileImage VARCHAR(255) COMMENT '프로필사진',
+ 	aboutCat VARCHAR(100) COMMENT '반려묘 소개'
 );
 
 ### board 테이블
@@ -153,6 +166,53 @@ address = {"zonecode": "35272", "sido": "대전", "sigungu": "서구", "bname": 
 cellphoneNum = '01000020002',
 email = 'test2@test.com',
 lastLoginDate = NOW();
+
+
+### companion_cat
+INSERT INTO companion_cat
+SET regDate = NOW()
+    , updateDate = NOW()
+    , memberId = 2
+    , `name` = '하늘'
+    , gender = 'M'
+    , birthDate = '2020-02-16'
+    , aboutCat = '안녕하세요. 하늘입니다.';
+
+INSERT INTO companion_cat
+SET regDate = NOW()
+    , updateDate = NOW()
+    , memberId = 2
+    , `name` = '하루'
+    , gender = 'M'
+    , birthDate = '2016-05-24'
+    , aboutCat = '안녕하세요. 하루입니다.';
+
+INSERT INTO companion_cat
+SET regDate = NOW()
+    , updateDate = NOW()
+    , memberId = 2
+    , `name` = '하나'
+    , gender = 'F'
+    , birthDate = '2016-12-24'
+    , aboutCat = '안녕하세요. 하나입니다.';
+
+INSERT INTO companion_cat
+SET regDate = NOW()
+    , updateDate = NOW()
+    , memberId = 2
+    , `name` = '하니'
+    , gender = 'F'
+    , birthDate = '2020-11-11'
+    , aboutCat = '안녕하세요. 하니입니다.';
+    
+INSERT INTO companion_cat
+SET regDate = NOW()
+    , updateDate = NOW()
+    , memberId = 2
+    , `name` = '하하하'
+    , gender = 'M'
+    , birthDate = '2014-01-01'
+    , aboutCat = '안녕하세요. 하하하입니다.';
 
 
 ### board

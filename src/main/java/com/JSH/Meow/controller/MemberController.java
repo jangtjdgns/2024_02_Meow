@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.JSH.Meow.service.CompanionCatService;
 import com.JSH.Meow.service.MemberDeletionService;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.service.SnsInfoService;
 import com.JSH.Meow.util.SHA256;
 import com.JSH.Meow.util.Util;
+import com.JSH.Meow.vo.CompanionCat;
 import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
@@ -23,12 +25,14 @@ public class MemberController {
 	
 	private MemberService memberService;
 	private MemberDeletionService memberDeletionService;
+	private CompanionCatService companionCatService;
 	private SnsInfoService snsInfoService;
 	private Rq rq;
 	
-	public MemberController(MemberService memberService, MemberDeletionService memberDeletionService, SnsInfoService snsInfoService, Rq rq) {
+	public MemberController(MemberService memberService, MemberDeletionService memberDeletionService, CompanionCatService companionCatService, SnsInfoService snsInfoService, Rq rq) {
 		this.memberService = memberService;
 		this.memberDeletionService = memberDeletionService;
+		this.companionCatService = companionCatService;
 		this.snsInfoService = snsInfoService;
 		this.rq = rq;
 	}
@@ -167,8 +171,11 @@ public class MemberController {
 		
 		String snsType = snsInfoService.getSnsTypeBymemberId(memberId);
 		
+		List<CompanionCat> companionCats = companionCatService.getCompanionCats(memberId);
+		
 		model.addAttribute("member", member);
 		model.addAttribute("snsType", snsType);
+		model.addAttribute("companionCats", companionCats);
 		
 		return "usr/member/profile";
 	}

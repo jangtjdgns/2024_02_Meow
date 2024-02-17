@@ -59,7 +59,7 @@
 					<a href="">반려묘</a>
 					<ul>
 						<li><a href="">등록</a></li>
-						<li><a href="">정보수정</a></li>
+						<li><a href="">관리</a></li>
 					</ul>
 				</li>
 				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line">

@@ -16,4 +16,3 @@
 
 <!-- common -->
 <link rel="stylesheet" href="/resources/css/common.css" />
-<script src="/resources/js/common.js" defer></script>
