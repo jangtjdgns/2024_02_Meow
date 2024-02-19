@@ -23,17 +23,17 @@ public interface FriendDao {
 	@Update("""
 			<script>
 				UPDATE friend
-				<if test="resStatus == 'accepted'">
-					SET acceptDate = NOW()
+				SET `status` = #{status}
+				<if test="status == 'accepted'">
+					, acceptDate = NOW()
 				</if>
-				<if test="resStatus == 'refuse'">
-					SET refuseDate = NOW()
+				<if test="status == 'refuse'">
+					, refuseDate = NOW()
 				</if>
-					, `status` = #{resStatus}
-				WHERE id = #{sendReqId}
+				WHERE id = #{id}
 			</script>
 			""")
-	void sendResponse(int sendReqId, String resStatus);	
+	void sendResponse(int id, String status);	
 	
 	@Select("""
 			SELECT F.*, M.nickname writerName, TIMESTAMPDIFF(SECOND, requestDate, NOW()) timeDiffSec
@@ -45,10 +45,15 @@ public interface FriendDao {
 			""")
 	List<Friend> checkRequests(int memberId);
 
+	
 	@Select("""
 			SELECT * FROM friend
-			WHERE id = #{sendReqId}
+			WHERE (
+				(senderId = #{senderId} AND receiverId = #{receiverId})
+			    OR (senderId = #{receiverId} AND receiverId = #{senderId})
+			)
+			AND `status` != 'refuse'
 			""")
-	Friend getFreindById(int sendReqId);
+	Friend getFriendStatus(int senderId, int receiverId);
 	
 }

@@ -26,14 +26,33 @@ public class FriendController {
 	@RequestMapping("/usr/friend/sendRequest")
 	@ResponseBody
 	public ResultData sendRequest(int senderId, int receiverId) {
-		// 값이 null인가?
-		// 보내는 회원이 존재하는가?
+		// 값이 null인가?=
 		// 받는 회원이 존재하는가?
-		// 아직 요청중인 회원인가? -> 보류
 		// 수락인가? 거절인가?
-		
 		// 이미 수락된 경우 제한
 		
+		// 요청 권한 확인
+		if(senderId != rq.getLoginedMemberId()) {
+			return ResultData.from("F-1", "해당 요청에 대한 권한이 없습니다.");
+		}
+		
+		Friend friend = friendService.getFriendStatus(senderId, receiverId);
+		
+		if(friend != null) {
+			// 요청중인 회원인가? (보류 상태)
+			if(friend.getSenderId() == rq.getLoginedMemberId() && friend.getStatus().equals("pending")) {
+				return ResultData.from("F-2", "이미 친구요청 상태입니다.");
+			}
+			// 요청받는 회원인가? (보류 상태)
+			else if(friend.getReceiverId() == rq.getLoginedMemberId() && friend.getStatus().equals("pending")) {
+				return ResultData.from("F-3", "이미 상대방이 친구요청을 보냈습니다. 알림을 확인해주세요.");
+			}
+			
+			// 친구인 회원인가? (수락 상태)
+			if(friend.getStatus().equals("accepted")) {
+				return ResultData.from("F-4", "이미 친구 상태입니다.");
+			}
+		}
 		
 		friendService.sendRequest(senderId, receiverId);
 		
@@ -44,33 +63,28 @@ public class FriendController {
 	// 친구요청에 대한 응답 보내기
 	@RequestMapping("/usr/friend/sendResponse")
 	@ResponseBody
-	public ResultData sendResponse(int sendReqId, String resStatus) {
-		// 값이 null인가?
-		// 기록되어있는 응답회원과 로그인된 회원이 일치하는가?
-		// 같은 사람에게 요청하는가?
-		// 수락한 경우, 수락일 업데이트
-		// 거절한 경우, 거절일 업데이트
-		
-		Friend friend = friendService.getFreindById(sendReqId);
-		
-		// 해당 요청이 없는 경우
-		if(friend == null) {
-			return ResultData.from("F-1", Util.f("%d번의 요청 결과가 없습니다.", sendReqId));
-		}
-		
-		// 이미 처리된 요청인 경우, 보류상태가 아닌경우
-		if(!friend.getStatus().equals("pending")) {
-			return ResultData.from("F-2", "이미 처리된 요청입니다.");
-		}
+	public ResultData sendResponse(int id, int senderId, int receiverId, String status) {
 		
 		// 응답 권한 확인
-		if(friend.getReceiverId() != rq.getLoginedMemberId()) {
-			return ResultData.from("F-3", Util.f("%d번의 요청에 대한 권한이 없습니다.", sendReqId));
+		if(receiverId != rq.getLoginedMemberId()) {
+			return ResultData.from("F-1", "해당 요청에 대한 응답권한이 없습니다.");
 		}
 		
-		friendService.sendResponse(sendReqId, resStatus);
+		Friend friend = friendService.getFriendStatus(senderId, receiverId);
+		System.out.println(friend);
 		
-		return ResultData.from("S-1", Util.f("%d번 회원의 요청 %s", friend.getSenderId(), resStatus), resStatus);
+		if(friend != null) {
+			// 이미 친구인 경우
+			if(friend.getStatus().equals("accepted")) {
+				return ResultData.from("F-2", "이미 친구 상태입니다.");
+			}
+		}
+		
+		friendService.sendResponse(id, status);
+		
+		String msg = status.equals("accepted") ? "수락 되었습니다." : "거절 되었습니다.";
+		
+		return ResultData.from("S-1", msg);
 	}
 	
 	

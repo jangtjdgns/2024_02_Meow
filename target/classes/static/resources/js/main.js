@@ -53,7 +53,7 @@ function getMembers(map) {
 				
 			  	if (existIdx === -1) {						// 중복이 아닌 경우
 			  		memberObj.address = address;			// memberObj 객체의 address 속성에 member의 주소를 값으로 추가
-			  		memberObj.memberId = member.id;
+			  		memberObj.memberId = `${member.id}`;
 			    	memberObj.members = member.nickname;	// memberObj 객체의 members 속성에 member의 닉네임을 값으로 추가
 			   	 	membersAddress.push(memberObj);			// membersAddress 배열에 memberObj 객체를 추가
 			  	} else {															// 중복인 경우
@@ -91,7 +91,7 @@ function getMembers(map) {
 									  	<div tabindex="0" role="button" class="plus-btn"><i class="fa-solid fa-plus"></i></div>
 									  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 border shadow-lg bg-base-100 rounded-box">
 											<li><a>프로필 보기</a></li>
-											${nickname != loginedMemberNickname ? '<li><button>친구추가</a></li><li><a>신고</a></li>' : ''}
+											${nickname != loginedMemberNickname ? '<li><button onclick="requestFriend(' + memberId[idx] + ')">친구추가</a></li><li><a>신고</a></li>' : ''}
 										</ul>
 									</div>
 								</li>

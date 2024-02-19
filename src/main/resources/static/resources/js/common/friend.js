@@ -23,8 +23,8 @@ function checkRequests(loginedMemberId) {
 						<div class=" col-start-2 col-end-3 flex items-center justify-between">
 							<div class="text-xs">${getTimeDiff(timeDiffSec)}</div>
 							<div class="flex">
-								<button class="btn btn-xs btn-ghost w-6" onclick='responseFreind(${result[i].id}, "accepted")'><i class="fa-solid fa-check"></i></button>
-								<button class="btn btn-xs btn-ghost w-6" onclick='responseFreind(${result[i].id}, "refuse")'><i class="fa-solid fa-x"></i></button>
+								<button class="btn btn-xs btn-ghost w-6" onclick='responseFreind(${result[i].id}, ${result[i].senderId}, "accepted")'><i class="fa-solid fa-check"></i></button>
+								<button class="btn btn-xs btn-ghost w-6" onclick='responseFreind(${result[i].id}, ${result[i].senderId}, "refuse")'><i class="fa-solid fa-x"></i></button>
 							</div>
 						</div>
 					</div>
@@ -48,9 +48,8 @@ function checkRequests(loginedMemberId) {
 }
 
 // 친구요청
-function requestFriend() {
-	const senderId = $("#m1").val();
-	const receiverId = $("#m2").val();
+function requestFriend(receiverId) {
+	const senderId = $(".loginedMemberId").val();
 	
 	$.ajax({
 		url: '../friend/sendRequest',
@@ -61,7 +60,11 @@ function requestFriend() {
 	    },
 	    dataType: 'json',
 	    success: function(data) {
+			
 			if(data.success) {
+				alertMsg("친구요청 되었습니다.");
+			} else {
+				alertMsg(data.msg);
 			}
 		},
 	      	error: function(xhr, status, error) {
@@ -70,24 +73,23 @@ function requestFriend() {
 	});
 }
 
-// 친구요청 응답결과
-function responseFreind(sendReqId, resStatus) {
+// 친구요청 응답
+function responseFreind(id, senderId, status) {
+	const receiverId = $(".loginedMemberId").val();
 	
 	$.ajax({
 		url: '../friend/sendResponse',
 	    method: 'GET',
 	    data: {
-	    	sendReqId: sendReqId,
-	    	resStatus: resStatus,
+			id: id,
+	    	senderId: senderId,
+	    	receiverId: receiverId,
+	    	status: status,
 	    },
 	    dataType: 'json',
 	    success: function(data) {
-			const result = data.data;
-			
-			if(data.success) {
-				checkRequests($(".loginedMemberId").val());
-				alertMsg(result);
-			}
+			checkRequests(receiverId);
+			alertMsg(data.msg);
 		},
 	      	error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);
@@ -97,8 +99,7 @@ function responseFreind(sendReqId, resStatus) {
 
 // alert 창 띄우기
 let alertTimeOut;
-function alertMsg(result) {
-	const msg = result == 'accepted' ? '수락' : '거절';
+function alertMsg(msg) {
 	
 	if (alertTimeOut) {
 		clearTimeout(alertTimeOut);
@@ -109,7 +110,7 @@ function alertMsg(result) {
 	      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
 	        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 	      </svg>
-	      <span class="mx-auto">${msg} 되었습니다.</span>
+	      <span class="mx-auto">${msg}</span>
 	    </div>
 	`;
 

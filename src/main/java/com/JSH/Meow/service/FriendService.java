@@ -20,17 +20,16 @@ public class FriendService {
 		friendDao.sendRequest(senderId, receiverId);
 	}
 	
-	public void sendResponse(int sendReqId, String resStatus) {
-		friendDao.sendResponse(sendReqId, resStatus);
+	public void sendResponse(int id, String status) {
+		friendDao.sendResponse(id, status);
 	}
 
 	public List<Friend> checkRequests(int memberId) {
 		return friendDao.checkRequests(memberId);
 	}
 
-
-	public Friend getFreindById(int sendReqId) {
-		return friendDao.getFreindById(sendReqId);
+	public Friend getFriendStatus(int senderId, int receiverId) {
+		return friendDao.getFriendStatus(senderId, receiverId);
 	}
 
 }
