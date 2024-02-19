@@ -1,0 +1,142 @@
+
+// 친구요청 알림 확인
+function checkRequests(loginedMemberId) {
+	$.ajax({
+		url: '../friend/checkRequests',
+	    method: 'GET',
+	    data: {
+	    	memberId: loginedMemberId,
+	    },
+	    dataType: 'json',
+	    success: function(data) {
+			const result = data.data;
+			
+			$("#notification").text("");
+			
+			for(let i = result.length - 1; i >= 0; i--) {
+				const timeDiffSec = result[i].timeDiffSec;
+				
+				$("#notification").append(`
+					<div class="grid items-center gap-1 my-0.5 p-0.5 text-sm text-center rounded-lg hover:bg-gray-100" style="grid-template-columns: 30px 1fr">
+						<div>${i + 1}</div>
+						<div class="text-left">${result[i].writerName}님의 친구요청</div>
+						<div class=" col-start-2 col-end-3 flex items-center justify-between">
+							<div class="text-xs">${getTimeDiff(timeDiffSec)}</div>
+							<div class="flex">
+								<button class="btn btn-xs btn-ghost w-6" onclick='responseFreind(${result[i].id}, "accepted")'><i class="fa-solid fa-check"></i></button>
+								<button class="btn btn-xs btn-ghost w-6" onclick='responseFreind(${result[i].id}, "refuse")'><i class="fa-solid fa-x"></i></button>
+							</div>
+						</div>
+					</div>
+				`);
+			}
+			
+			if(result.length > 0) {
+				$("#notification-count").removeClass("hidden");
+				$("#notification-count").text(result.length);
+			} else {
+				$("#notification-count").addClass("hidden");
+				$("#notification").append(`
+					<div class="text-center">현재 알림이 없습니다.</div>
+				`)
+			}
+		},
+	      	error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		}
+	});
+}
+
+// 친구요청
+function requestFriend() {
+	const senderId = $("#m1").val();
+	const receiverId = $("#m2").val();
+	
+	$.ajax({
+		url: '../friend/sendRequest',
+	    method: 'GET',
+	    data: {
+	    	senderId: senderId,
+	    	receiverId: receiverId,
+	    },
+	    dataType: 'json',
+	    success: function(data) {
+			if(data.success) {
+			}
+		},
+	      	error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		}
+	});
+}
+
+// 친구요청 응답결과
+function responseFreind(sendReqId, resStatus) {
+	
+	$.ajax({
+		url: '../friend/sendResponse',
+	    method: 'GET',
+	    data: {
+	    	sendReqId: sendReqId,
+	    	resStatus: resStatus,
+	    },
+	    dataType: 'json',
+	    success: function(data) {
+			const result = data.data;
+			
+			if(data.success) {
+				checkRequests($(".loginedMemberId").val());
+				alertMsg(result);
+			}
+		},
+	      	error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		}
+	});
+}
+
+// alert 창 띄우기
+let alertTimeOut;
+function alertMsg(result) {
+	const msg = result == 'accepted' ? '수락' : '거절';
+	
+	if (alertTimeOut) {
+		clearTimeout(alertTimeOut);
+	}
+
+	const alert = `
+	    <div role="alert" class="alert">
+	      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
+	        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+	      </svg>
+	      <span class="mx-auto">${msg} 되었습니다.</span>
+	    </div>
+	`;
+
+	$("#alert").append(alert);
+
+	alertTimeOut = setTimeout(function() {
+		$(alert).empty();
+	}, 3000);
+}
+
+
+// 시간차
+function getTimeDiff(time) {
+    let timeDiffSec;
+    const minute = 60;				// 분
+    const hour = 60 * minute;		// 시간
+    const day = 24 * hour;			// 일
+
+	timeDiffSec = parseInt(time / minute)+ "분 전";
+	
+	if (time >= hour) {
+        timeDiffSec = parseInt(time / hour) + "시간 전";
+    }
+    
+    if (time >= day) {
+        timeDiffSec = parseInt(time / day) + "일 전";
+    }
+
+    return timeDiffSec;
+}

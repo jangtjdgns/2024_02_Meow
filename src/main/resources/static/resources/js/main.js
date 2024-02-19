@@ -39,6 +39,7 @@ function getMembers(map) {
 			$(members).each(function(idx, member){
 				// 반복마다 초기화
 				memberObj = {
+					memberId: '',
 					address: '',
 					members: ''
 				}
@@ -52,9 +53,11 @@ function getMembers(map) {
 				
 			  	if (existIdx === -1) {						// 중복이 아닌 경우
 			  		memberObj.address = address;			// memberObj 객체의 address 속성에 member의 주소를 값으로 추가
+			  		memberObj.memberId = member.id;
 			    	memberObj.members = member.nickname;	// memberObj 객체의 members 속성에 member의 닉네임을 값으로 추가
 			   	 	membersAddress.push(memberObj);			// membersAddress 배열에 memberObj 객체를 추가
 			  	} else {															// 중복인 경우
+			    	membersAddress[existIdx].memberId += ',' + member.id;		// 중복되는 배열의 idx를 통해 해당 배열의 객체 속성인 members에 닉네임을 이어서 추가
 			    	membersAddress[existIdx].members += ',' + member.nickname;		// 중복되는 배열의 idx를 통해 해당 배열의 객체 속성인 members에 닉네임을 이어서 추가
 		  		}
 			});
@@ -64,6 +67,7 @@ function getMembers(map) {
 				geocoder.addressSearch(addressInfo.address, function(result, status) {
 					if (status === kakao.maps.services.Status.OK) {
 						const nicknames = addressInfo.members.split(",");
+						const memberId = addressInfo.memberId.split(",");
 						
 						let content = `
 	                        <div id="${idx}" class="overlay-wrap w-56 border shadow-2xl rounded-xl bg-white p-2.5 absolute z-0 bottom-12 -left-32 whitespace-nowrap cursor-default">
@@ -79,16 +83,15 @@ function getMembers(map) {
 						`;
 						
 						// 유저 닉네임 추가
-						$(nicknames).each(function(idx, nikcname) {
+						$(nicknames).each(function(idx, nickname) {
 							content += `
 								<li class="flex items-center justify-between py-1 px-2 text-sm">
-									<div>${nikcname}</div>
+									<div>${nickname}</div>
 									<div class="dropdown dropdown-right">
 									  	<div tabindex="0" role="button" class="plus-btn"><i class="fa-solid fa-plus"></i></div>
 									  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 border shadow-lg bg-base-100 rounded-box">
 											<li><a>프로필 보기</a></li>
-											<li><a>친구추가</a></li>
-											<li><a>신고</a></li>
+											${nickname != loginedMemberNickname ? '<li><button>친구추가</a></li><li><a>신고</a></li>' : ''}
 										</ul>
 									</div>
 								</li>

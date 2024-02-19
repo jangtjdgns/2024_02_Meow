@@ -14,6 +14,8 @@
 
 <body>
 
+<div id="alert"></div>
+
 <section class="h-mh mw flex justify-around">
 	<div class="self-end">
 		<a href="/"><img src="/resources/images/Meow-logo.png" class="w-24" /></a>
@@ -27,7 +29,11 @@
 					<a href="../member/join" class="btn btn-ghost btn-xs h-8">회원가입</a>		
 				</div>
 			</c:if>
+			
 			<c:if test="${rq.loginedMemberId != 0 }">
+				<script>$(function(){ checkRequests(${rq.loginedMemberId});})</script>
+				<input class="loginedMemberId" type="hidden" value="${rq.loginedMemberId }" />
+				
 				<div class="w-full flex items-center justify-end">
 					<div class="dropdown dropdown-start">
 						<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
@@ -45,6 +51,20 @@
 							<li><a>계정관리</a></li>
 							<li><a href="../member/doLogout" onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;">로그아웃</a></li>
 						</ul>
+					</div>
+					
+					<div class="z-10">
+						<div class="dropdown dropdown-bottom dropdown-end">
+							<button tabindex="0" role="button" class="btn btn-ghost btn-circle m-1">
+								<div class="indicator text-lg">
+									<i class="fa-regular fa-bell p-1"></i>
+									<span id="notification-count" class="badge badge-xs badge-primary indicator-item hidden"></span>
+								</div>
+							</button>
+						  	<div tabindex="0" id="notification" class="dropdown-content z-[1] p-2 menu shadow bg-base-100 rounded-box w-56">
+						  		
+						  	</div>
+						</div>						
 					</div>
 				</div>
 			</c:if>

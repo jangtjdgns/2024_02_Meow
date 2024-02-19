@@ -16,3 +16,6 @@
 
 <!-- common -->
 <link rel="stylesheet" href="/resources/css/common.css" />
+
+<!-- common, 알림기능 -->
+<script src="/resources/js/common/friend.js"></script>
