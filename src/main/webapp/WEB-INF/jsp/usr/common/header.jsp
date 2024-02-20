@@ -13,12 +13,11 @@
 </head>
 
 <body>
-
 <div id="alert"></div>
 
 <section class="h-mh mw flex justify-around">
 	<div class="self-end">
-		<a href="/"><img src="/resources/images/Meow-logo.png" class="w-24" /></a>
+		<a href="/"><img src="/resources/images/Meow-logo.png" class="w-24 jello-horizontal" /></a>
 	</div>
 	
 	<div class="flex flex-col items-end justify-around h-h w-1/2">
@@ -46,7 +45,7 @@
 								</c:if>
 							</div>
 						</div>
-						<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-24">
+						<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-30 p-2 shadow bg-base-100 rounded-box w-24">
 							<li class="font-bold"><a>${rq.loginedMemberNickname } 님</a></li>
 							<li><a href="../member/profile?memberId=${rq.loginedMemberId }">프로필</a></li>
 							<li><a>계정관리</a></li>
@@ -58,7 +57,7 @@
 						<div class="dropdown dropdown-bottom dropdown-end">
 							<button tabindex="0" role="button" class="btn btn-ghost btn-circle m-1">
 								<div class="indicator text-lg">
-									<i class="fa-regular fa-bell p-1"></i>
+									<i class="fa-regular fa-bell p-1 wobble-hor-top"></i>
 									<span id="notification-count" class="badge badge-xs badge-primary indicator-item hidden"></span>
 								</div>
 							</button>

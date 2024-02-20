@@ -71,7 +71,6 @@ public class FriendController {
 		}
 		
 		Friend friend = friendService.getFriendStatus(senderId, receiverId);
-		System.out.println(friend);
 		
 		if(friend != null) {
 			// 이미 친구인 경우

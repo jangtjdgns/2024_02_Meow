@@ -61,7 +61,8 @@ public interface MemberDao {
 	public List<Member> getMembersExceptLoginedMember(int loginedMemberId);
 
 	@Select("""
-			SELECT * FROM `member`;
+			SELECT * FROM `member`
+			WHERE `status` = 0;
 			""")
 	public List<Member> getMembers();
 	

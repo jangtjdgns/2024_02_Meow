@@ -1,7 +1,9 @@
 package com.JSH.Meow.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -325,5 +327,25 @@ public class MemberController {
 		}
 		
 		return ResultData.from("S-1", "성공", members);
+	}
+	
+	// 메인페이지 지도 마커 커스텀 오버레이의 닉네임 클릭 시, ajax
+	@RequestMapping("/usr/member/getMemberById")
+	@ResponseBody
+	public ResultData getMemberById(int memberId) {
+		
+		Member member = memberService.getMemberById(memberId);
+		List<CompanionCat> companionCats = companionCatService.getCompanionCats(memberId);
+		
+		if(member == null) {
+			return ResultData.from("F-1", Util.f("%s 회원은 존재하지 않습니다.", member.getNickname()));
+		}
+		
+		// 두 개의 타입 반환
+		Map<String, Object> result = new HashMap<>();
+		result.put("member", member);
+		result.put("companionCats", companionCats);
+		
+		return ResultData.from("S-1", "성공", result);
 	}
 }

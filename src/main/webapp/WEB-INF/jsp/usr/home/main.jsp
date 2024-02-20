@@ -8,6 +8,7 @@
 <c:if test="${rq.loginedMemberId != 0 }">
 	<script>const loginedMemberAddress = "${memberAddress}"; const loginedMemberNickname = "${rq.loginedMemberNickname}"</script>
 	<script type="text/javascript" src="/resources/js/main.js"></script>
+	<script src="/resources/js/common/carousel.js"></script>
 </c:if>
 <!-- <script>
 	//메인페이지에만 효과 적용
@@ -17,21 +18,34 @@
 	}
 </script> -->
 
-<section class="p-mw">
-	<div class="flex justify-center gap-10">
+<section class="mw">
+	<div class="relative overflow-hidden">
 		<c:if test="${rq.loginedMemberId != 0 }">
-			<div id="map" class="shadow" style="width:700px; height: 700px;"></div>
+			<div id="map" class="shadow" style="width:100vw; height: 500px;">
+				<div id="radioBtn" class="join absolute z-20 top-2 left-2">
+				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="1000" aria-label="1km">
+				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="2000" aria-label="2km" checked>
+				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="3000" aria-label="3km" />
+				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="4000" aria-label="4km" />
+				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="5000" aria-label="5km" />
+				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="10000" aria-label="10km" />
+				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="500000" aria-label="all" />
+				</div>
+			</div>
+			<div id="map-info-wrap" class="border-2 rounded-lg p-2 opacity-90">
+				<button class="btn btn-circle btn-sm m-1" onclick="closeInfoWarp()">
+				  	<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+				</button>
+				<div class="px-4 h-5/6 rounded-none flex flex-col justify-between"></div>
+			</div>
 		</c:if>
 		
 		<c:if test="${rq.loginedMemberId == 0 }">
-			<div class="flex items-center justify-center border bg-gray-500 opacity-90" style="width:700px; height: 700px;">
-				<span class="text-white pr-1.5">로그인 후 이용가능합니다.</span>
-				<a class="text-red-500 hover:text-red-600 hover:underline " href="../member/login">로그인 이동</a>
+			<div class="flex items-center justify-center border bg-gray-200 opacity-90 text-lg" style="width:width:100vw; height: 500px;">
+				<span class="pr-1.5">로그인 후 이용가능합니다.</span>
+				<a class="text-red-600 hover:text-red-700 hover:underline " href="../member/login">로그인 이동</a>
 			</div>
 		</c:if>
-		<div class="w-96 h-96 border-2">
-			
-		</div>
 	</div>
 </section>
 
