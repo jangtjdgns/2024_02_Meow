@@ -5,10 +5,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- 데이지UI -->
-<link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.1/dist/full.min.css" rel="stylesheet" type="text/css" />
 
 <!-- 테일윈드치트시트 -->
-<link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.1/dist/full.min.css" rel="stylesheet" type="text/css" />
 <script src="https://cdn.tailwindcss.com"></script>
 
 <!-- 폰트어썸 font-awesome -->
@@ -17,5 +16,5 @@
 <!-- common -->
 <link rel="stylesheet" href="/resources/css/common.css" />
 
-<!-- common, 알림기능 -->
+<!-- common, 친구요청 알림 -->
 <script src="/resources/js/common/friend.js"></script>

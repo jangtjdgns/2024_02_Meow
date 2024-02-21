@@ -44,7 +44,7 @@ public class SocketHandler extends TextWebSocketHandler {
 	//소켓 연결
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		
+
 		onWebSocketOpenClose(session, "님이 접속하셨습니다.", "open");
 		super.afterConnectionEstablished(session);
 		sessionMap.put(session.getId(), session);			 	// 웹소켓 세션을 맵에 추가
@@ -54,7 +54,7 @@ public class SocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		
-        sessionMap.remove(session.getId()); 				// 웹소켓 세션을 맵에서 제거
+        sessionMap.remove(session.getId()); 					// 웹소켓 세션을 맵에서 제거
         onWebSocketOpenClose(session, "님이 종료하셨습니다.", "close");
         super.afterConnectionClosed(session, status);
 	}
@@ -104,11 +104,11 @@ public class SocketHandler extends TextWebSocketHandler {
 			// 확인용 roomId
 			int chkRoomId = Integer.parseInt(wss.getUri().toString().substring(defaultUri.length()));
 			
-			// roomId가 일치한 경우
+			// roomId가 일치한 경우 메시지 전송
 			if(roomId == chkRoomId) {
 				try {
 					wss.sendMessage(new TextMessage(jsonMsg));
-				}catch(Exception e) {
+				} catch(Exception e) {
 					e.printStackTrace();
 				}
 			}

@@ -151,8 +151,14 @@ function getTimeDiff(time) {
 
 
 // 채팅 팝업창 열기
+let popup;
 function openPop() {
-	let openUrl = '/usr/chat/popUp';
-	let popOption = 'width=500px, height=500px, top=200px, scrollbars=yes';
-	window.open(openUrl, 'pop', popOption);
+	if (!popup || popup.closed) {
+        let openUrl = '/usr/chat/popUp';
+        let popOption = 'width=500px, height=500px, top=200px, scrollbars=yes';
+        popup = window.open(openUrl, 'pop', popOption);
+    } else {
+        // 팝업이 이미 열려있는 경우, 포커스를 해당 팝업으로 이동
+        popup.focus();
+    }
 }
