@@ -3,6 +3,7 @@ package com.JSH.Meow.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.JSH.Meow.config.KakaoConfig;
 import com.JSH.Meow.service.MemberService;
@@ -47,8 +48,9 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/test")
-	public String test() {
-		
-        return "test/test"; 
+	public ModelAndView test() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("test/test");
+		return mv;
 	}
 }

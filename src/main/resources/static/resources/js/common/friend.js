@@ -41,9 +41,16 @@ function checkRequests(loginedMemberId) {
 				`)
 			}
 		},
-	      	error: function(xhr, status, error) {
+	    error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);
-		}
+		},
+		complete: function() {
+            // 일정 시간 간격으로 주기적으로 다시 요청
+            setTimeout(function() {
+				console.log("hi");
+                checkRequests($(".loginedMemberId").val());
+            }, 1000 * 60 * 5);
+        }
 	});
 }
 
@@ -140,4 +147,12 @@ function getTimeDiff(time) {
     }
 
     return timeDiffSec;
+}
+
+
+// 채팅 팝업창 열기
+function openPop() {
+	let openUrl = '/usr/chat/popUp';
+	let popOption = 'width=500px, height=500px, top=200px, scrollbars=yes';
+	window.open(openUrl, 'pop', popOption);
 }

@@ -2,49 +2,15 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.min.css" rel="stylesheet" type="text/css" />
-<link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.1/dist/full.min.css" rel="stylesheet" type="text/css" />
-<script src="https://cdn.tailwindcss.com"></script>
 
-<meta charset="UTF-8">
-	<title>Chating</title>
-	<style>
-		*{
-			margin:0;
-			padding:0;
-		}
-		.container{
-			width: 500px;
-			margin: 0 auto;
-			padding: 25px
-		}
-		.container h1{
-			text-align: left;
-			padding: 5px 5px 5px 15px;
-			color: #FFBB00;
-			border-left: 3px solid #FFBB00;
-			margin-bottom: 20px;
-		}
-		
-		.chating{
-			border: 2px solid;
-			width: 500px;
-			height: 500px;
-			overflow: auto;
-		}
-		
-		input{
-			width: 330px;
-			height: 25px;
-		}
-		#yourMsg{
-			display: none;
-		}
-	</style>
+<head>
+	<meta charset="UTF-8">
+	<title>Meow</title>
+	<link rel="icon" href="/resources/images/favicon/cat-pow.ico" type="image/x-icon">
+	<%@ include file="../common/head.jsp"%>
 </head>
 
+<body>
 <script type="text/javascript">
 	var ws;	// 웹소켓 담을 변수
 	var message = {			// 웹소캣 메시지 객체
@@ -67,7 +33,7 @@
 		
 		// 웹소켓이 열릴 때 호출되는 함수
 		ws.onopen = function(data){
-			$("#chating").append("<p>" + $("#roomId").val() + "번 방 입장</p>");
+			$("#chating").append("<p>" + 1 + "번 방 입장</p>");
 		}
 		
 		// 웹소켓이 메시지를 수신할 때 호출되는 함수
@@ -106,11 +72,11 @@
 		}
 		
 		// 엔터 클릭 시 메시지 전송
-		document.addEventListener("keypress", function(e){
+		/* document.addEventListener("keypress", function(e){
 			if(e.keyCode == 13){ //enter press
 				send();
 			}
-		});
+		}); */
 	}
 	
 	
@@ -131,10 +97,11 @@
 	// 메시지 전송 함수
 	function send() {
 		message.sender = $("#userName").val();		// 사용자 이름
-		message.content = $("#chatting").val();		// 내용
+		message.content = $("#content").val();		// 내용
 		message.type = "send";						// 메시지 타입
+		console.log(message);
 		ws.send(JSON.stringify(message));			// 웹소켓을 통해 메시지 전송
-		$('#chatting').val("");						// 메시지 입력 폼 초기화
+		$('#content').val("");						// 메시지 입력 폼 초기화
 	}
 	
 	// 웹소켓 종료 함수
@@ -144,10 +111,12 @@
 	}
 	
 	$(function(){
-		$("#roomBtn").click(function(){
+		wsOpen("1");
+		/* $("#roomBtn").click(function(){
 			chatName($("#roomId").val());
-		});
+		}); */
 		
+		// 팝업을 닫을 때
 		$(window).on('beforeunload', function() {
 			if (ws) {
 		        return ' ';
@@ -155,26 +124,16 @@
 		});
 	})
 </script>
-<body>
-	<div id="container" class="container">
-		<h1>채팅</h1>
-		<div id="chating" class="chating">
-		</div>
-		
-		<div id="yourMsg">
-			<table class="inputTable">
-				<tr>
-					<th>메시지</th>
-					<th><input id="chatting" placeholder="보내실 메시지를 입력하세요."></th>
-					<th><button onclick="send()" id="sendBtn">보내기</button></th>
-				</tr>
-			</table>
-		</div>
-	</div>
-	<button onclick="closeWebSocket();">웹소켓 닫기</button>
+
+<section class="grid" style="width: 100%; height: 500px; grid-template-rows: 3fr 1fr;">
+	<div id="chating" class="chating bg-gray-100 overflow-y-scroll"></div>
 	
-	<input type="text" name="userName" id="userName" value="${rq.loginedMemberNickname }" />
-	<input type="text" id="roomId" value="1"/>
-	<button id="roomBtn">연결</button>
-</body>
-</html>
+	<div id="yourMsg" class="m-2 flex gap-2">
+		<textarea id="content" class="textarea textarea-bordered border-2 resize-none w-full h-full placeholder="메시지를 입력하세요."></textarea>
+		<!-- <input class="input input-bordered join-item w-full" placeholder="메시지를 입력하세요." /> -->
+	    <button class="btn" onclick="send()">보내기</button>
+	</div>
+</section>
+<input id="userName" type="hidden" value="${rq.loginedMemberNickname }" />
+
+<%@ include file="../common/footer.jsp"%>

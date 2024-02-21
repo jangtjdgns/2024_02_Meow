@@ -118,6 +118,8 @@ body {
 }
 
 .p-mw {
+	min-width: 1024px;
+	width: 100%;
 	padding-left: 60px;
 	padding-right: 60px;
 }

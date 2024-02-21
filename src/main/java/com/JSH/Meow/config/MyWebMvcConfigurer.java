@@ -46,6 +46,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/member/doDelete");
 		ir.addPathPatterns("/usr/CompanionCat/register");
 		ir.addPathPatterns("/usr/CompanionCat/doRegister");
+		ir.addPathPatterns("/usr/chat/popUp");
 		
 		// 로그아웃 필요
 		ir = registry.addInterceptor(needLogoutInterceptor);

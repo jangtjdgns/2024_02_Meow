@@ -65,8 +65,6 @@ function getMembers(map, radius) {
 		  		}
 			});
 			
-			let i = 0;
-			
 			$(membersAddress).each(function(idx, addressInfo){
 				
 				geocoder.addressSearch(addressInfo.address, function(result, status) {
@@ -93,19 +91,22 @@ function getMembers(map, radius) {
 									<div>${nickname == loginedMemberNickname ? nickname + ' (나)' : nickname}</div>
 									<div class="dropdown dropdown-right">
 									  	<div tabindex="0" role="button" class="plus-btn"><i class="fa-solid fa-plus"></i></div>
-									  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 border shadow-lg bg-base-100 rounded-box">
+									  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 border shadow-lg bg-base-100 rounded-box w-32">
 											<li><a>프로필 보기</a></li>
-											${nickname != loginedMemberNickname ? '<li><button onclick="requestFriend(' + memberId[idx] + ')">친구추가</a></li><li><a>신고</a></li>' : ''}
-										</ul>
-									</div>
-								</li>
 							`;
+							
+							if(nickname != loginedMemberNickname) {
+								content += `
+									<li><button onclick="requestFriend(${memberId[idx]})">친구추가</button></li>
+									<li><button onclick="openPop();">채팅</button></li>
+									<li><a>신고</a></li>
+								`;
+							}
+							
+							content += `</ul></div></li>`
 						});
 						
-						content += `
-	                            	</ul>
-	                            </div>
-	                        </div>						
+						content += `</ul></div></div>						
 						`;
 						
 						// 마커 커스텀 이미지
@@ -191,18 +192,19 @@ function clickNickname(memberId){
 						<li>${i + 1}. ${result.companionCats[i].name}</li>
 					`;
 				}
-				memberInfo += `
-						</ul>
-					</div>
-					<div class="grid grid-cols-3 join">
-						<button class="join-item btn btn-outline">프로필 보기</button>
-						${nickname != loginedMemberNickname ? 
-							'<button class="join-item btn btn-outline" onclick="requestFriend('+ result.member.id + ')">친구추가</button>'
-							: '<div></div>'
-						}
-						<button class="join-item btn btn-outline">신고</button>
-					</div>
-				`;
+				
+				if(nickname != loginedMemberNickname) {
+					memberInfo += `
+								</ul>
+							</div>
+							<div class="grid grid-cols-4 join">
+								<button class="join-item btn btn-outline">프로필 보기</button>
+								<button class="join-item btn btn-outline" onclick="requestFriend(${result.member.id})">친구추가</button>
+								<button class="join-item btn btn-outline" onclick="openPop();">채팅</button>
+								<button class="join-item btn btn-outline">신고</button>
+							</div>
+						`;
+					}
 				
 				$("#map-info-wrap>div").html(memberInfo);
 				$("#map-info-wrap").css({

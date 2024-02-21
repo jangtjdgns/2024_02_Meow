@@ -21,7 +21,7 @@
 <section class="mw">
 	<div class="relative overflow-hidden">
 		<c:if test="${rq.loginedMemberId != 0 }">
-			<div id="map" class="shadow" style="width:100vw; height: 500px;">
+			<div id="map" class="shadow" style="width:100%; height: 500px;">
 				<div id="radioBtn" class="join absolute z-20 top-2 left-2">
 				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="1000" aria-label="1km">
 				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="2000" aria-label="2km" checked>
