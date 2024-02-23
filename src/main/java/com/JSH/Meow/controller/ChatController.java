@@ -11,7 +11,6 @@ import com.JSH.Meow.service.ChatService;
 import com.JSH.Meow.service.ReqResService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Chat;
-import com.JSH.Meow.vo.Friend;
 import com.JSH.Meow.vo.ReqRes;
 import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
@@ -69,6 +68,7 @@ public class ChatController {
 	}
 	
 	// 채팅방 초대 요청 확인
+	/*
 	@RequestMapping("/usr/chat/checkRequests")
 	@ResponseBody
 	public ResultData<List<ReqRes>> checkRequests(int memberId) {
@@ -81,6 +81,7 @@ public class ChatController {
 		
 		return ResultData.from("S-1", Util.f("%d개의 채팅 요청이 있음", reqRes.size()), reqRes);
 	}
+	*/
 	
 
 	// 채팅방 초대 요청에 대한 응답 보내기
@@ -88,12 +89,21 @@ public class ChatController {
 	@ResponseBody
 	public ResultData sendResponse(int id, int requesterId, int recipientId, String status) {
 		
+		Chat chat = chatService.getChatByCreaterId(requesterId);
+
+		if(chat != null) {
+			// 이미 초대를 보낸 상황
+			if(chat.getCloseDate() != null) {
+				return ResultData.from("F-1", "이미 친구 상태입니다.");
+			}
+		}
+		
 		reqResService.sendResponse(id, status);
 		
 		if(status.equals("accepted")) {
 			return ResultData.from("S-1", "채팅 요청을 수락하셨습니다.");
 		} else {
-			return ResultData.from("F-1", "채팅 요청을 거절하셨습니다.");
+			return ResultData.from("F-2", "채팅 요청을 거절하셨습니다.");
 		}
 	}
 }

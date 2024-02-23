@@ -9,9 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReqRes {
 	private int id;
-	// 친구요청도 포함시키면 요청일, 응답일 추가해야할 듯
+	private String requestDate;
+	private String acceptDate;
+	private String refuseDate;
 	private int requesterId;
 	private int recipientId;
 	private String status;
 	private String code;
+	
+	private String writerName;
+	private int timeDiffSec;
 }

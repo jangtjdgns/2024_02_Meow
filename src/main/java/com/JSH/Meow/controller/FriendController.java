@@ -60,6 +60,20 @@ public class FriendController {
 	}
 	
 	
+	// 친구 요청 확인
+	@RequestMapping("/usr/friend/checkRequests")
+	@ResponseBody
+	public ResultData<List<Friend>> checkRequests(int memberId) {
+		// 값이 null인가?
+		// 보류 상태인가?
+		// 몇개의 요청이 있는가?
+		
+		List<Friend> requests = friendService.checkRequests(memberId);
+		
+		return ResultData.from("S-1", Util.f("%d개의 친구요청이 있음", requests.size()), requests);
+	}
+	
+	
 	// 친구요청에 대한 응답 보내기
 	@RequestMapping("/usr/friend/sendResponse")
 	@ResponseBody
@@ -84,19 +98,5 @@ public class FriendController {
 		String msg = status.equals("accepted") ? "수락 되었습니다." : "거절 되었습니다.";
 		
 		return ResultData.from("S-1", msg);
-	}
-	
-	
-	// 친구 요청 확인
-	@RequestMapping("/usr/friend/checkRequests")
-	@ResponseBody
-	public ResultData<List<Friend>> checkRequests(int memberId) {
-		// 값이 null인가?
-		// 보류 상태인가?
-		// 몇개의 요청이 있는가?
-		
-		List<Friend> requests = friendService.checkRequests(memberId);
-		
-		return ResultData.from("S-1", Util.f("%d개의 친구요청이 있음", requests.size()), requests);
 	}
 }

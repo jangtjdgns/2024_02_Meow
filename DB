@@ -63,7 +63,7 @@ CREATE TABLE companion_cat (
   	updateDate DATETIME NOT NULL COMMENT '수정일',
   	memberId INT UNSIGNED NOT NULL COMMENT '유저 ID',
  	`name` VARCHAR(50) NOT NULL COMMENT '이름',
- 	gender VARCHAR(1) NOT NULL '성별',
+ 	gender VARCHAR(1) NOT NULL COMMENT '성별',
  	birthDate DATE COMMENT '필수X, 생년월일',
  	profileImage VARCHAR(255) COMMENT '프로필사진',
  	aboutCat VARCHAR(100) COMMENT '반려묘 소개'
@@ -192,7 +192,7 @@ loginPw = '47af0d2d6601bde1ca27b7c8f48bb8e53c87e78b899a8d0c6c2fb4f66917354f',		#
 `name` = '테스트2',
 nickname = '테스트2',
 age = 30,
-address = {"zonecode": "35272", "sido": "대전", "sigungu": "서구", "bname": "갈마동", "jibunAddress": "대전 서구 갈마동 349-1", "roadAddress": "대전 서구 갈마중로16번길 17", "detailAddress": "향백하우스 201호"},
+address = '{"zonecode": "35272", "sido": "대전", "sigungu": "서구", "bname": "갈마동", "jibunAddress": "대전 서구 갈마동 349-1", "roadAddress": "대전 서구 갈마중로16번길 17", "detailAddress": "향백하우스 201호"}',
 cellphoneNum = '01000020002',
 email = 'test2@test.com',
 lastLoginDate = NOW();

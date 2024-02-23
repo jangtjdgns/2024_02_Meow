@@ -167,28 +167,30 @@ function openPop(requesterId, recipientId) {
 // 채팅 초대 알림 확인
 function checkInviteRoom(loginedMemberId) {
 	$.ajax({
-		url: '../chat/checkRequests',
+		url: '../reqRes/checkRequests',
 	    method: 'GET',
 	    data: {
 	    	memberId: loginedMemberId,
 	    },
 	    dataType: 'json',
 	    success: function(data) {
+			console.log(data);
+			
 			
 			if(data.success) {
 				const result = data.data;
-			
+				console.log(result);
+				
 				// $("#notification").text("");
 				for(let i = 0; i < result.length; i++) {
-					// const timeDiffSec = result[i].timeDiffSec;
-					// <div class="text-xs">${getTimeDiff(timeDiffSec)}</div>
+					const timeDiffSec = result[i].timeDiffSec;
 					
 					$("#notification").append(`
 						<div class="grid items-center gap-1 my-0.5 p-0.5 text-sm text-center rounded-lg hover:bg-gray-100" style="grid-template-columns: 30px 1fr">
 							<div>${i + 1}</div>
 							<div class="text-left">${result[i].writerName}님의 채팅방 초대</div>
 							<div class=" col-start-2 col-end-3 flex items-center justify-between">
-								
+								<div class="text-xs">${getTimeDiff(timeDiffSec)}</div>
 								<div class="flex">
 									<button class="btn btn-xs btn-ghost w-6" onclick='responseChat(${result[i].id}, ${result[i].requesterId}, "accepted")'><i class="fa-solid fa-check"></i></button>
 									<button class="btn btn-xs btn-ghost w-6" onclick='responseChat(${result[i].id}, ${result[i].requesterId}, "refuse")'><i class="fa-solid fa-x"></i></button>
@@ -213,8 +215,7 @@ function checkInviteRoom(loginedMemberId) {
 		complete: function() {
             // 일정 시간 간격으로 주기적으로 다시 요청
             setTimeout(function() {
-				console.log("hi");
-                checkRequests($(".loginedMemberId").val());
+                checkInviteRoom($(".loginedMemberId").val());
             }, 1000 * 60 * 5);
         }
 	});

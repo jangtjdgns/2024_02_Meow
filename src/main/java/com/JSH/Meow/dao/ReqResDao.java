@@ -14,14 +14,15 @@ public interface ReqResDao {
 	
 	@Insert("""
 			INSERT INTO req_res
-			SET requesterId = #{requesterId}
+			SET requestDate = NOW()
+				, requesterId = #{requesterId}
 			    , recipientId = #{recipientId}
 			    , `code` = #{code}
 			""")
 	void sendRequest(int requesterId, int recipientId, String code);
 	
 	@Select("""
-			SELECT R.*, M.nickname writerName
+			SELECT R.*, M.nickname writerName, TIMESTAMPDIFF(SECOND, requestDate, NOW()) timeDiffSec
 			FROM req_res R
 			INNER JOIN `member` M
 			ON R.requesterId = M.id
@@ -31,9 +32,17 @@ public interface ReqResDao {
 	List<ReqRes> checkRequests(int memberId);
 	
 	@Update("""
-			UPDATE req_res
-			SET `status` = #{status}
-			WHERE id = #{id}
+			<script>
+				UPDATE req_res
+				SET `status` = #{status}
+				<if test="status == 'accepted'">
+					, acceptDate = NOW()
+				</if>
+				<if test="status == 'refuse'">
+					, refuseDate = NOW()
+				</if>
+				WHERE id = #{id}
+			</script>
 			""")
 	void sendResponse(int id, String status);	
 	
