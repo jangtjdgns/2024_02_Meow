@@ -150,15 +150,103 @@ function getTimeDiff(time) {
 }
 
 
+/* 채팅방 기능 */
 // 채팅 팝업창 열기
 let popup;
-function openPop() {
+function openPop(requesterId, recipientId) {
 	if (!popup || popup.closed) {
-        let openUrl = '/usr/chat/popUp';
+        let openUrl = `/usr/chat/popUp?requesterId=${requesterId}&recipientId=${recipientId}`;
         let popOption = 'width=500px, height=500px, top=200px, scrollbars=yes';
         popup = window.open(openUrl, 'pop', popOption);
     } else {
         // 팝업이 이미 열려있는 경우, 포커스를 해당 팝업으로 이동
         popup.focus();
     }
+}
+
+// 채팅 초대 알림 확인
+function checkInviteRoom(loginedMemberId) {
+	$.ajax({
+		url: '../chat/checkRequests',
+	    method: 'GET',
+	    data: {
+	    	memberId: loginedMemberId,
+	    },
+	    dataType: 'json',
+	    success: function(data) {
+			
+			if(data.success) {
+				const result = data.data;
+			
+				// $("#notification").text("");
+				for(let i = 0; i < result.length; i++) {
+					// const timeDiffSec = result[i].timeDiffSec;
+					// <div class="text-xs">${getTimeDiff(timeDiffSec)}</div>
+					
+					$("#notification").append(`
+						<div class="grid items-center gap-1 my-0.5 p-0.5 text-sm text-center rounded-lg hover:bg-gray-100" style="grid-template-columns: 30px 1fr">
+							<div>${i + 1}</div>
+							<div class="text-left">${result[i].writerName}님의 채팅방 초대</div>
+							<div class=" col-start-2 col-end-3 flex items-center justify-between">
+								
+								<div class="flex">
+									<button class="btn btn-xs btn-ghost w-6" onclick='responseChat(${result[i].id}, ${result[i].requesterId}, "accepted")'><i class="fa-solid fa-check"></i></button>
+									<button class="btn btn-xs btn-ghost w-6" onclick='responseChat(${result[i].id}, ${result[i].requesterId}, "refuse")'><i class="fa-solid fa-x"></i></button>
+								</div>
+							</div>
+						</div>
+					`);
+				}
+				
+				$("#notification-count").removeClass("hidden");
+				$("#notification-count").text(result.length);
+			} else {
+				$("#notification-count").addClass("hidden");
+				$("#notification").append(`
+					<div class="text-center">현재 알림이 없습니다.</div>
+				`)
+			}
+		},
+	    error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		},
+		complete: function() {
+            // 일정 시간 간격으로 주기적으로 다시 요청
+            setTimeout(function() {
+				console.log("hi");
+                checkRequests($(".loginedMemberId").val());
+            }, 1000 * 60 * 5);
+        }
+	});
+}
+
+// 채팅방 초대 응답
+function responseChat(id, requesterId, status) {
+	const recipientId = $(".loginedMemberId").val();
+	
+	console.log(recipientId);
+	
+	$.ajax({
+		url: '../chat/sendResponse',
+	    method: 'GET',
+	    data: {
+			id: id,
+	    	requesterId: requesterId,
+	    	recipientId: recipientId,
+	    	status: status,
+	    },
+	    dataType: 'json',
+	    success: function(data) {
+			// openPop(${result[0].requesterId}, ${result[0].recipientId})
+			checkInviteRoom($("#recipientId").val());
+			alertMsg(data.msg);
+			
+			if(data.success) {
+				openPop(requesterId, recipientId);
+			}
+		},
+	      	error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		}
+	});
 }

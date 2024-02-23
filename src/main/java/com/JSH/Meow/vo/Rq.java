@@ -63,6 +63,16 @@ public class Rq {
 		this.session.removeAttribute("loginedMemberNickname");
 		this.session.removeAttribute("loginedMemberProfileImage");
 	}
+	
+	// session createChatRoom
+	public void createChatRoom(int roomId) {
+		this.session.setAttribute("createChatRoom", roomId);
+	}
+	
+	// session deleteChatRoom
+	public void deleteChatRoom() {
+		this.session.removeAttribute("createChatRoom");
+	}
 
 	// jsPrintHistoryBack
 	public void jsPrintHistoryBack(String msg) {

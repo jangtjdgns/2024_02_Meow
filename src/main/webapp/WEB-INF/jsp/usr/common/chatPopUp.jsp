@@ -35,7 +35,11 @@
 	</div>
 </section>
 
+<input id="userId" type="hidden" value="${rq.loginedMemberId }" />
 <input id="userName" type="hidden" value="${rq.loginedMemberNickname }" />
+<input id="requesterId" type="hidden" value="${requesterId }"/>
+<input id="recipientId" type="hidden" value="${recipientId }"/>
+<input id="roomId" type="hidden" />
 
 </body>
 </html>

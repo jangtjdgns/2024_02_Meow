@@ -30,7 +30,14 @@
 			</c:if>
 			
 			<c:if test="${rq.loginedMemberId != 0 }">
-				<script>$(function(){ checkRequests(${rq.loginedMemberId});})</script>
+				<script>
+				const loginedMemberId = "${rq.loginedMemberId}";
+					$(function() {
+						checkRequests(${rq.loginedMemberId});
+						checkInviteRoom(${rq.loginedMemberId});
+					})
+				</script>
+				
 				<input class="loginedMemberId" type="hidden" value="${rq.loginedMemberId }" />
 				
 				<div class="w-full flex items-center justify-end">

@@ -1,6 +1,5 @@
 package com.JSH.Meow.handler;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import org.springframework.stereotype.Component;
@@ -9,11 +8,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.JSH.Meow.service.ChatService;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.util.Util;
-import com.JSH.Meow.vo.Rq;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -25,10 +22,12 @@ public class SocketHandler extends TextWebSocketHandler {
 	
 	// memberService, 유저 아이디를 가져오기 위함
 	private MemberService memberService;
+	private ChatService chatService;
 
     // 생성자를 통해 HttpSession, 서비스, Rq 주입
-    public SocketHandler(MemberService memberService, Rq rq) {
+    public SocketHandler(MemberService memberService, ChatService chatService) {
         this.memberService = memberService;
+        this.chatService = chatService;
     }
 
 	// 메시지 전송
@@ -44,7 +43,7 @@ public class SocketHandler extends TextWebSocketHandler {
 	//소켓 연결
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-
+		
 		onWebSocketOpenClose(session, "님이 접속하셨습니다.", "open");
 		super.afterConnectionEstablished(session);
 		sessionMap.put(session.getId(), session);			 	// 웹소켓 세션을 맵에 추가
@@ -53,6 +52,8 @@ public class SocketHandler extends TextWebSocketHandler {
 	//소켓 종료
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		HttpSession httpSession = (HttpSession) session.getAttributes().get("HTTP_SESSION");
+		chatService.deleteRoom((int) httpSession.getAttribute("loginedMemberId"));			// 방 삭제
 		
         sessionMap.remove(session.getId()); 					// 웹소켓 세션을 맵에서 제거
         onWebSocketOpenClose(session, "님이 종료하셨습니다.", "close");

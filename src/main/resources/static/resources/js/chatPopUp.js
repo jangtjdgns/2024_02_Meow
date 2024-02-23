@@ -6,9 +6,9 @@ let message = {			// 웹소캣 메시지 객체
 };
 
 // 웹 소켓 오픈 함수
-function wsOpen(roomId){
+function wsOpen(){
 	// 현재 호스트와 "/chating/{roomId}" 엔드포인트에 대한 웹소켓 생성
-	ws = new WebSocket("ws://" + location.host + "/chating/" + roomId);
+	ws = new WebSocket("ws://" + location.host + "/chating/" + $("#roomId").val());
 	
 	// 웹소켓 이벤트 함수 호출
 	wsEvt();
@@ -19,7 +19,7 @@ function wsEvt() {
 	
 	// 웹소켓이 열릴 때 호출되는 함수
 	ws.onopen = function(data) {
-		const msg = 1 + "번 방 입장";
+		const msg = $("#roomId").val() + "번 방 입장";
 		$("#chating").append(`
 			<div class="flex justify-center p-2">
 				<div class="badge badge-neutral">${msg}</div>
@@ -70,20 +70,6 @@ function wsEvt() {
 	}
 }
 
-
-// 사용자 이름 입력 및 웹소켓 열기
-function chatName(roomId){
-	let userName = $("#userName").val();			// 사용자 이름
-	if(userName == null || userName.trim() == ""){	// 사용자 이름이 비어있으면 이름 입력
-		alert("사용자 이름을 입력해주세요.");
-		$("#userName").focus();
-	} else {										// 사용자 이름이 비어있지 않으면 웹소켓 열기
-		wsOpen(roomId);
-		//$("#yourName").hide();
-		$("#yourMsg").show();
-	}
-}
-
 // 메시지 전송 함수
 function send() {
 	let content = $("#content").val();			// 내용
@@ -119,8 +105,58 @@ function handleEnterKey(event) {
     }
 }
 
+
+// 방 검색 ajax
+function checkOpenedRoom() {
+	$.ajax({
+		url: '../chat/checkOpenedRoom',
+	    method: 'GET',
+	    data: {
+			createrId: $("#requesterId").val(),
+	    },
+	    dataType: 'json',
+	    success: function(data) {
+			if(data.success) {
+				const result = data.data;
+				
+				$("#roomId").val(result.id);
+				
+				wsOpen();
+
+			} else {
+				createRoom($("#recipientId").val());
+			}
+		},
+	      	error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		}
+	});
+}
+
+// 방 생성 ajax
+function createRoom(recipientId) {
+	$.ajax({
+		url: '../chat/createRoom',
+	    method: 'GET',
+	    data: {
+			createrId: $("#userId").val(),
+			recipientId: recipientId,
+	    },
+	    dataType: 'json',
+	    success: function(data) {
+			if(data.success) {
+				$("#roomId").val(data.data);
+				wsOpen();
+			}
+		},
+	      	error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		}
+	});
+}
+
 $(function(){
-	wsOpen("1");
+	checkOpenedRoom();
 	
 	// 채팅방(팝업)을 닫을 때
 	$(window).on('beforeunload', function() {

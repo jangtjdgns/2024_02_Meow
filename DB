@@ -78,6 +78,36 @@ CREATE TABLE board(
 	`NAME` VARCHAR(20) NOT NULL COMMENT '전체, 공지사항, 자유, 반려묘, 거래, 모임'
 );
 
+
+### friend 테이블
+CREATE TABLE friend (
+  id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '친구 관계 번호',
+  requestDate DATETIME NOT NULL COMMENT '친구 요청일',
+  acceptDate DATETIME COMMENT '친구 수락일',
+  refuseDate DATETIME COMMENT '친구 거절일',
+  senderId INT UNSIGNED NOT NULL COMMENT '요청 회원 ID',
+  receiverId INT UNSIGNED NOT NULL COMMENT '응답 회원 ID',
+  `status` VARCHAR(10) NULL DEFAULT 'pending' COMMENT '친구 요청 상태, 보류 = pending, 수락 = accepted, 거절 = refuse'
+);
+
+### chat 테이블 
+CREATE TABLE chat (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '방 번호',
+    openDate DATETIME NOT NULL COMMENT '개설일',
+    closeDate DATETIME NULL COMMENT '종료일',
+    createrId INT UNSIGNED NOT NULL COMMENT '개설자 ID'
+);
+
+### req_res 테이블
+CREATE TABLE req_res (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '요청 번호',
+    requesterId INT NOT NULL COMMENT '요청 보낸 회원 ID',
+    recipientId INT NOT NULL COMMENT '응답 받는 회원 ID',
+    `status` VARCHAR(10) NULL DEFAULT 'pending' COMMENT '친구 요청 상태, 보류 = pending, 수락 = accepted, 거절 = refuse',
+    `code` VARCHAR(20) NOT NULL COMMENT '요청 코드(friend, chat)'
+);
+
+
 ### recommendPoint 테이블
 CREATE TABLE recommendPoint(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,

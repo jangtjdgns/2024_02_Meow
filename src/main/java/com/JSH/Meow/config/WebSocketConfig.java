@@ -8,8 +8,8 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 
 import com.JSH.Meow.handler.SocketHandler;
 import com.JSH.Meow.interceptor.HttpSessionHandshakeInterceptor;
+import com.JSH.Meow.service.ChatService;
 import com.JSH.Meow.service.MemberService;
-import com.JSH.Meow.vo.Rq;
 
 @Configuration
 @EnableWebSocket
@@ -21,10 +21,12 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	
 	// memberService
 	private MemberService memberService;
+	private ChatService chatService;
 	
 	// 의존성 주입
-    public WebSocketConfig(MemberService memberService, Rq rq) {
+    public WebSocketConfig(MemberService memberService, ChatService chatService) {
         this.memberService = memberService;
+        this.chatService = chatService;
     }
     
 	// WebSocketConfigurer 인터페이스의 메서드를 구현

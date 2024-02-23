@@ -17,7 +17,7 @@ public class HttpSessionHandshakeInterceptor implements HandshakeInterceptor {
         if (request instanceof ServletServerHttpRequest) {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             HttpSession session = servletRequest.getServletRequest().getSession();
-            attributes.put("HTTP_SESSION", session);
+            attributes.put("HTTP_SESSION", session);		// 웹소켓에서 세션을 사용하기위해 HTTP_SESSION 이란 이름의 속성추가 
         }
         return true;
     }

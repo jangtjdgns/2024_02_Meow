@@ -6,7 +6,10 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${javaScriptKey }&libraries=services"></script>
 <!-- 유저의 주소 가져오기, 기본값 대전 둔산동 -->
 <c:if test="${rq.loginedMemberId != 0 }">
-	<script>const loginedMemberAddress = "${memberAddress}"; const loginedMemberNickname = "${rq.loginedMemberNickname}"</script>
+	<script>
+		const loginedMemberAddress = "${memberAddress}";
+		const loginedMemberNickname = "${rq.loginedMemberNickname}";
+	</script>
 	<script type="text/javascript" src="/resources/js/main.js"></script>
 	<script src="/resources/js/common/carousel.js"></script>
 </c:if>

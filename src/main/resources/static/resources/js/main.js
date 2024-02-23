@@ -98,7 +98,7 @@ function getMembers(map, radius) {
 							if(nickname != loginedMemberNickname) {
 								content += `
 									<li><button onclick="requestFriend(${memberId[idx]})">친구추가</button></li>
-									<li><button onclick="openPop();">채팅</button></li>
+									<li><button onclick="openPop(${loginedMemberId}, ${memberId[idx]});">채팅</button></li>
 									<li><a>신고</a></li>
 								`;
 							}
@@ -200,7 +200,7 @@ function clickNickname(memberId){
 							<div class="grid grid-cols-4 join">
 								<button class="join-item btn btn-outline">프로필 보기</button>
 								<button class="join-item btn btn-outline" onclick="requestFriend(${result.member.id})">친구추가</button>
-								<button class="join-item btn btn-outline" onclick="openPop();">채팅</button>
+								<button class="join-item btn btn-outline" onclick="openPop(${loginedMemberId}, ${result.member.id});">채팅</button>
 								<button class="join-item btn btn-outline">신고</button>
 							</div>
 						`;
