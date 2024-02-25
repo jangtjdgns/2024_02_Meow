@@ -19,7 +19,7 @@ public interface ReqResDao {
 			    , recipientId = #{recipientId}
 			    , `code` = #{code}
 			""")
-	void sendRequest(int requesterId, int recipientId, String code);
+	public void sendRequest(int requesterId, int recipientId, String code);
 	
 	@Select("""
 			SELECT R.*, M.nickname writerName, TIMESTAMPDIFF(SECOND, requestDate, NOW()) timeDiffSec
@@ -29,7 +29,7 @@ public interface ReqResDao {
 			WHERE R.recipientId = #{memberId}
 			AND R.`status` = 'pending';
 			""")
-	List<ReqRes> checkRequests(int memberId);
+	public List<ReqRes> checkRequests(int memberId);
 	
 	@Update("""
 			<script>
@@ -44,17 +44,28 @@ public interface ReqResDao {
 				WHERE id = #{id}
 			</script>
 			""")
-	void sendResponse(int id, String status);	
-	
-	/*
+	public void sendResponse(int id, String status);
+
 	@Select("""
-			SELECT F.*, M.nickname writerName, TIMESTAMPDIFF(SECOND, requestDate, NOW()) timeDiffSec
-			FROM friend F
-			INNER JOIN `member` M
-			ON F.senderId = M.id
-			WHERE F.receiverId = #{memberId}
-			AND F.`status` = 'pending';
+			SELECT * FROM req_res
+			WHERE (
+				(requesterId = #{requesterId} AND recipientId = #{recipientId})
+			    OR (requesterId = #{recipientId} AND recipientId = #{requesterId})
+			)
+			AND `status` != 'refuse'
+			AND `code` = #{code}
+			ORDER BY id DESC
+			LIMIT 1;
 			""")
-	List<Friend> checkRequests(int memberId);
-	*/
+	public ReqRes getReqStatus(int requesterId, int recipientId, String code);
+	
+	@Update("""
+			UPDATE req_res
+			SET refuseDate = NOW()
+			    , `status` = 'refuse'
+			WHERE requesterId = #{senderId}
+			AND `status` = 'pending'
+			AND `code` = 'chat';
+			""")
+	public void deleteRoom(int senderId);
 }

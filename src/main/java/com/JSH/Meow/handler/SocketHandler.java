@@ -10,6 +10,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.JSH.Meow.service.ChatService;
 import com.JSH.Meow.service.MemberService;
+import com.JSH.Meow.service.ReqResService;
 import com.JSH.Meow.util.Util;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,11 +24,13 @@ public class SocketHandler extends TextWebSocketHandler {
 	// memberService, 유저 아이디를 가져오기 위함
 	private MemberService memberService;
 	private ChatService chatService;
+	private ReqResService reqResService;
 
     // 생성자를 통해 HttpSession, 서비스, Rq 주입
-    public SocketHandler(MemberService memberService, ChatService chatService) {
+    public SocketHandler(MemberService memberService, ChatService chatService, ReqResService reqResService) {
         this.memberService = memberService;
         this.chatService = chatService;
+        this.reqResService = reqResService;
     }
 
 	// 메시지 전송
@@ -53,7 +56,9 @@ public class SocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		HttpSession httpSession = (HttpSession) session.getAttributes().get("HTTP_SESSION");
-		chatService.deleteRoom((int) httpSession.getAttribute("loginedMemberId"));			// 방 삭제
+		int senderId = (int) httpSession.getAttribute("loginedMemberId");
+		chatService.deleteRoom(senderId);			// 방 삭제
+		reqResService.deleteRoom(senderId);
 		
         sessionMap.remove(session.getId()); 					// 웹소켓 세션을 맵에서 제거
         onWebSocketOpenClose(session, "님이 종료하셨습니다.", "close");

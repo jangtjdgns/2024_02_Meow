@@ -16,5 +16,8 @@
 <!-- common -->
 <link rel="stylesheet" href="/resources/css/common.css" />
 
-<!-- common, 친구요청 알림 -->
-<script src="/resources/js/common/friend.js"></script>
+<!-- common, 알림 확인 -->
+<script src="/resources/js/common/reqRes.js"></script>
+
+<!-- common, alert 메시지 띄우기 -->
+<script src="/resources/js/common/alert.js"></script>

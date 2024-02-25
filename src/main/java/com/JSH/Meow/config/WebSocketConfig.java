@@ -10,6 +10,7 @@ import com.JSH.Meow.handler.SocketHandler;
 import com.JSH.Meow.interceptor.HttpSessionHandshakeInterceptor;
 import com.JSH.Meow.service.ChatService;
 import com.JSH.Meow.service.MemberService;
+import com.JSH.Meow.service.ReqResService;
 
 @Configuration
 @EnableWebSocket
@@ -22,11 +23,13 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	// memberService
 	private MemberService memberService;
 	private ChatService chatService;
+	private ReqResService reqResService;
 	
 	// 의존성 주입
-    public WebSocketConfig(MemberService memberService, ChatService chatService) {
+    public WebSocketConfig(MemberService memberService, ChatService chatService, ReqResService reqResService) {
         this.memberService = memberService;
         this.chatService = chatService;
+        this.reqResService = reqResService;
     }
     
 	// WebSocketConfigurer 인터페이스의 메서드를 구현

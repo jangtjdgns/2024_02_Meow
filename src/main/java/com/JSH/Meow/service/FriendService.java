@@ -15,13 +15,8 @@ public class FriendService {
 		this.friendDao = friendDao;
 	}
 	
-
-	public void sendRequest(int senderId, int receiverId) {
-		friendDao.sendRequest(senderId, receiverId);
-	}
-	
-	public void sendResponse(int id, String status) {
-		friendDao.sendResponse(id, status);
+	public void sendResponse(int senderId, int receiverId) {
+		friendDao.sendResponse(senderId, receiverId);
 	}
 
 	public List<Friend> checkRequests(int memberId) {

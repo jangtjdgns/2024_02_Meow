@@ -9,13 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Friend {
 	private int id;
-	private String requestDate;
 	private String acceptDate;
-	private String refuseDate;
-	private int senderId;
-	private int receiverId;
-	private String status;
-	
-	private String writerName;
-	private int timeDiffSec;
+	private String deleteDate;
+	private String senderId;
+	private String receiverId;
 }

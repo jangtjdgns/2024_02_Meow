@@ -12,6 +12,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.1/dist/full.min.css" rel="stylesheet" type="text/css" />
 	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="/resources/js/common/dateTime.js"></script>
+	<script src="/resources/js/common/alert.js"></script>
 	<script src="/resources/js/chatPopUp.js"></script>
 </head>
 

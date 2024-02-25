@@ -14,26 +14,12 @@ public interface FriendDao {
 	
 	@Insert("""
 			INSERT INTO friend
-			SET requestDate = NOW()
-			    , senderId = #{senderId}
-			    , receiverId = #{receiverId};
+			SET acceptDate = NOW()
+				, senderId = #{senderId}
+			    , receiverId = #{receiverId}
 			""")
-	void sendRequest(int senderId, int receiverId);
+	public void sendResponse(int senderId, int receiverId);
 
-	@Update("""
-			<script>
-				UPDATE friend
-				SET `status` = #{status}
-				<if test="status == 'accepted'">
-					, acceptDate = NOW()
-				</if>
-				<if test="status == 'refuse'">
-					, refuseDate = NOW()
-				</if>
-				WHERE id = #{id}
-			</script>
-			""")
-	void sendResponse(int id, String status);	
 	
 	@Select("""
 			SELECT F.*, M.nickname writerName, TIMESTAMPDIFF(SECOND, requestDate, NOW()) timeDiffSec
@@ -43,7 +29,7 @@ public interface FriendDao {
 			WHERE F.receiverId = #{memberId}
 			AND F.`status` = 'pending';
 			""")
-	List<Friend> checkRequests(int memberId);
+	public List<Friend> checkRequests(int memberId);
 
 	
 	@Select("""
@@ -54,6 +40,6 @@ public interface FriendDao {
 			)
 			AND `status` != 'refuse'
 			""")
-	Friend getFriendStatus(int senderId, int receiverId);
+	public Friend getFriendStatus(int senderId, int receiverId);
 	
 }

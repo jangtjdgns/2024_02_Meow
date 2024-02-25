@@ -27,4 +27,12 @@ public class ReqResService {
 	public void sendResponse(int id, String status) {
 		reqResDao.sendResponse(id, status);
 	}
+
+	public ReqRes getReqStatus(int requesterId, int recipientId, String code) {
+		return reqResDao.getReqStatus(requesterId, recipientId, code);
+	}
+	
+	public void deleteRoom(int senderId) {
+		reqResDao.deleteRoom(senderId);
+	}
 }

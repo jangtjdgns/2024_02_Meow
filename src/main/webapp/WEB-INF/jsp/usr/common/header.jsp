@@ -31,14 +31,11 @@
 			
 			<c:if test="${rq.loginedMemberId != 0 }">
 				<script>
-				const loginedMemberId = "${rq.loginedMemberId}";
+					const loginedMemberId = "${rq.loginedMemberId}";
 					$(function() {
 						checkRequests(${rq.loginedMemberId});
-						checkInviteRoom(${rq.loginedMemberId});
 					})
 				</script>
-				
-				<input class="loginedMemberId" type="hidden" value="${rq.loginedMemberId }" />
 				
 				<div class="w-full flex items-center justify-end">
 					<div class="dropdown dropdown-start">

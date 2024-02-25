@@ -106,7 +106,7 @@ function handleEnterKey(event) {
 }
 
 
-// 방 검색 ajax
+// 방 검색 ajax, 채팅방을 생성하기 전 상대방이 초대 요청을 보냈는지 확인
 function checkOpenedRoom() {
 	$.ajax({
 		url: '../chat/checkOpenedRoom',
@@ -117,12 +117,8 @@ function checkOpenedRoom() {
 	    dataType: 'json',
 	    success: function(data) {
 			if(data.success) {
-				const result = data.data;
-				
-				$("#roomId").val(result.id);
-				
+				$("#roomId").val(data.data.id);
 				wsOpen();
-
 			} else {
 				createRoom($("#recipientId").val());
 			}
@@ -133,7 +129,7 @@ function checkOpenedRoom() {
 	});
 }
 
-// 방 생성 ajax
+// 방 생성 ajax, 초대 요청이 없다면 생성
 function createRoom(recipientId) {
 	$.ajax({
 		url: '../chat/createRoom',
@@ -147,6 +143,7 @@ function createRoom(recipientId) {
 			if(data.success) {
 				$("#roomId").val(data.data);
 				wsOpen();
+				sendRequest(recipientId, 'chat');
 			}
 		},
 	      	error: function(xhr, status, error) {
@@ -154,6 +151,30 @@ function createRoom(recipientId) {
 		}
 	});
 }
+
+// 채팅방 초대 요청 ajax, 방을 생성하면 상대방에게 초대 요청을 보냄
+// (reqRes.js에서 이미 사용중인 함수)
+function sendRequest(recipientId, code) {
+	const requesterId = $("#userId").val();
+	
+	$.ajax({
+		url: '../reqRes/sendRequest',
+	    method: 'GET',
+	    data: {
+	    	requesterId: requesterId,
+	    	recipientId: recipientId,
+	    	code: code,
+	    },
+	    dataType: 'json',
+	    success: function(data) {
+			alertMsg(data.msg);
+		},
+	      	error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		}
+	});
+}
+
 
 $(function(){
 	checkOpenedRoom();

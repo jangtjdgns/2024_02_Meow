@@ -66,12 +66,17 @@ public class Rq {
 	
 	// session createChatRoom
 	public void createChatRoom(int roomId) {
-		this.session.setAttribute("createChatRoom", roomId);
+		this.session.setAttribute("chatRoomId", roomId);
+	}
+	
+	// session getChatRoomId
+	public int getChatRoomId() {
+		return (int) this.session.getAttribute("chatRoomId");
 	}
 	
 	// session deleteChatRoom
 	public void deleteChatRoom() {
-		this.session.removeAttribute("createChatRoom");
+		this.session.removeAttribute("chatRoomId");
 	}
 
 	// jsPrintHistoryBack
