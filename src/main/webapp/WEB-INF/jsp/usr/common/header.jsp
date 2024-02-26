@@ -13,7 +13,121 @@
 </head>
 
 <body>
+<!-- alert -->
 <div id="alert"></div>
+
+<!-- customer center modal -->
+<div id="customer-center-modal">
+	<dialog id="my_modal_3" class="modal">
+	  	<div class="modal-box">
+	    	<form method="dialog">
+	      		<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+	    	</form>
+	    	<h3 class="font-bold text-lg">고객센터</h3>
+	    	<p class="py-4 text-sm">문의, 신고, 버그 제보 등 다양한 사항들을 자유롭게 남겨주세요.</p>
+	    	
+	    	<div class="py-2">
+		    	<select id="customer-type" class="select select-sm select-bordered">
+		    		<option value="inquiry">문의</option>
+		    		<option value="report">신고</option>
+		    		<option value="bug">버그 제보</option>
+		    		<option value="suggestion">기타 건의 사항</option>
+		    	</select>
+	    	</div>
+	    	
+	    	<div class="py-2">
+	    		<label class="label" for="customer-image">
+	    			<span class="label-text">이미지 업로드</span>
+	    		</label>
+		    	<input id="customer-image" type="file" class="file-input file-input-sm file-input-bordered w-56" accept="image/gif, image/jpeg, image/png" />
+	    	</div>
+	    	
+	    	<div class="py-2">
+	    		<label class="label" for="customer-title">
+	    			<span class="label-text"><span class="text-red-700">*</span>제목</span>
+	    		</label>
+		    	<input id="customer-title" class="input input-sm input-bordered" type="text" />
+	    	</div>
+	    	
+	    	<div class="py-2">
+		    	<label class="label" for="customer-body">
+		    		<span class="label-text"><span class="text-red-700">*</span>내용</span>
+		    	</label>
+		    	<textarea id="customer-body" class="textarea textarea-bordered resize-none w-full"></textarea>
+		    </div>
+		    
+		    <div class="py-2 text-right">
+		    	<button class="btn" onclick="submitRequest();">접수</button>
+		    </div>
+	  	</div> 
+	</dialog>
+</div>
+
+<script>
+$(function(){
+	$("#customer-title").change(function(){
+		$(this).removeClass("input-error");
+		if($(this).val().trim().length == 0){
+			$(this).addClass("input-error");
+		}
+	});
+	
+	$("#customer-body").change(function(){
+		$(this).removeClass("textarea-error");
+		if($(this).val().trim().length == 0){
+			$(this).addClass("textarea-error");
+		}
+	});
+	
+})
+
+function submitRequest() {
+	const type = $("#customer-type").val();
+	const title = $("#customer-title").val().trim();
+	let body = $("#customer-body").val();
+	const imagePath = $("#customer-image").val();
+	
+	if(title.length == 0) {
+		alertMsg("접수하실 제목을 입력해주세요.", "warning");
+		$("#customer-title").addClass("input-error");
+		return $("#customer-title").focus();
+	}
+	
+	if(body.trim().length == 0) {
+		alertMsg("접수하실 내용을 입력해주세요.", "warning");
+		$("#customer-body").addClass("textarea-error");
+		return $("#customer-body").focus();
+	}
+	
+	
+	$.ajax({
+		url: '../customer/submitRequest',
+	    method: 'POST',
+	    data: {
+	    	memberId: loginedMemberId,
+	    	type: type,
+	    	title: title,
+	    	body: body,
+	    	imagePath: imagePath,
+	    },
+	    dataType: 'json',
+	    success: function(data) {
+	    	$("#customer-title").val("");
+	    	$("#customer-body").val("");
+	    	if(data.success) {
+	    		let msg = `접수번호: \${data.data}번\n`
+	    				+ `제목: \${title}\n`
+	    				+ '접수 되었습니다.';
+	    		alert(msg);
+	    	}
+		},
+	      	error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		}
+	});
+}
+</script>
+
 
 <section class="h-mh mw flex justify-around">
 	<div class="self-end">
@@ -53,6 +167,7 @@
 							<li class="font-bold"><a>${rq.loginedMemberNickname } 님</a></li>
 							<li><a href="../member/profile?memberId=${rq.loginedMemberId }">프로필</a></li>
 							<li><a>계정관리</a></li>
+							<li><button onclick="my_modal_3.showModal()">문의</button></li>
 							<li><a href="../member/doLogout" onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;">로그아웃</a></li>
 						</ul>
 					</div>
@@ -94,8 +209,8 @@
 						<li><a href="">글쓰기</a></li>
 					</ul>
 				</li>
-				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line"><a href="">지도</a></li>
-				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line"><a href="">서비스</a></li>
+				<!-- <li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line"><a href="">지도</a></li> -->
+				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line"><a href="">고객센터</a></li>
 			</ul>
 		</div>
 	</div>

@@ -1,3 +1,5 @@
+### TRUNCATE TABLE 테이블명 # 테이블 초기화
+
 DROP DATABASE IF EXISTS MEOW;
 CREATE DATABASE MEOW;
 USE MEOW;
@@ -28,10 +30,10 @@ CREATE TABLE `member` (
  	cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
   	email VARCHAR(50) NOT NULL UNIQUE COMMENT '이메일',
  	`status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',
-  	lastLoginDate DATETIME COMMENT '마지막 로그인 일시',
+  	lastLoginDate DATETIME NULL COMMENT '마지막 로그인 일시',
  	lastLoginDays INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '미접속일',
-  	profileImage VARCHAR(255) COMMENT '프로필사진 파일명',
- 	aboutMe VARCHAR(100) COMMENT '자기소개'
+  	profileImage VARCHAR(255) NULL COMMENT '프로필사진 파일명',
+ 	aboutMe VARCHAR(100) NULL COMMENT '자기소개'
 );
 
 ### sns_info 테이블
@@ -53,7 +55,7 @@ CREATE TABLE member_deletion_reason (
 	updateDate DATETIME NOT NULL,
     memberId INT UNSIGNED NOT NULL,
     deletionReasonCode VARCHAR(20) NOT NULL COMMENT '복수선택, 1 = 콘텐츠 불만족, 2 = 부정적인 커뮤니티 경험, 3 = 다른 서비스 이용, 4 = 이용 빈도 낮음, 5 = 서비스 불만족, 6 = 직접 입력',
-    customDeletionReason VARCHAR(100) COMMENT '직접 입력 데이터 (100글자 제한)'
+    customDeletionReason VARCHAR(100) NULL COMMENT '직접 입력 데이터 (100글자 제한)'
 );
 
 ### companion_cat 테이블
@@ -64,9 +66,9 @@ CREATE TABLE companion_cat (
   	memberId INT UNSIGNED NOT NULL COMMENT '유저 ID',
  	`name` VARCHAR(50) NOT NULL COMMENT '이름',
  	gender VARCHAR(1) NOT NULL COMMENT '성별',
- 	birthDate DATE COMMENT '필수X, 생년월일',
- 	profileImage VARCHAR(255) COMMENT '프로필사진',
- 	aboutCat VARCHAR(100) COMMENT '반려묘 소개'
+ 	birthDate DATE NULL COMMENT '필수X, 생년월일',
+ 	profileImage VARCHAR(255) NULL COMMENT '프로필사진',
+ 	aboutCat VARCHAR(100) NULL COMMENT '반려묘 소개'
 );
 
 ### board 테이블
@@ -81,13 +83,11 @@ CREATE TABLE board(
 
 ### friend 테이블
 CREATE TABLE friend (
-  id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '친구 관계 번호',
-  requestDate DATETIME NOT NULL COMMENT '친구 요청일',
-  acceptDate DATETIME COMMENT '친구 수락일',
-  refuseDate DATETIME COMMENT '친구 거절일',
-  senderId INT UNSIGNED NOT NULL COMMENT '요청 회원 ID',
-  receiverId INT UNSIGNED NOT NULL COMMENT '응답 회원 ID',
-  `status` VARCHAR(10) NULL DEFAULT 'pending' COMMENT '친구 요청 상태, 보류 = pending, 수락 = accepted, 거절 = refuse'
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '친구 관계 번호',
+    acceptDate DATETIME NULL COMMENT '친구 수락일',
+    deleteDate DATETIME NULL COMMENT '친구 삭제일',
+    senderId INT UNSIGNED NOT NULL COMMENT '친구 요청 회원 ID',
+    receiverId INT UNSIGNED NOT NULL COMMENT '친구 응답 회원 ID'
 );
 
 ### chat 테이블 
@@ -101,10 +101,27 @@ CREATE TABLE chat (
 ### req_res 테이블
 CREATE TABLE req_res (
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '요청 번호',
+    requestDate DATETIME NOT NULL COMMENT '요청일',
+    acceptDate DATETIME NULL COMMENT '수락일',
+    refuseDate DATETIME NULL COMMENT '거절일',
     requesterId INT NOT NULL COMMENT '요청 보낸 회원 ID',
     recipientId INT NOT NULL COMMENT '응답 받는 회원 ID',
     `status` VARCHAR(10) NULL DEFAULT 'pending' COMMENT '친구 요청 상태, 보류 = pending, 수락 = accepted, 거절 = refuse',
     `code` VARCHAR(20) NOT NULL COMMENT '요청 코드(friend, chat)'
+);
+
+
+### customer_center 테이블
+CREATE TABLE customer_center (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '접수 번호',
+    regDate DATETIME NOT NULL COMMENT '접수일',
+    updateDate DATETIME NULL COMMENT '처리일',
+    memberId INT UNSIGNED NOT NULL COMMENT '접수한 회원 ID',
+    `type` VARCHAR(20) NOT NULL COMMENT '접수 유형, 문의 = inquiry, 신고 = report, 버그제보 = bug, 기타건의사항 = suggestion',
+    title VARCHAR(50) NOT NULL COMMENT '제목',
+    `body` TEXT NOT NULL COMMENT '내용',
+    imagePath VARCHAR(255) NOT NULL COMMENT '이미지 참고 시 경로 여부, java 매개변수 기본값이 빈 문자열',
+    `status` VARCHAR(20) NOT NULL COMMENT '상태, 접수 중 = progress, 해결 완료 = resolved'
 );
 
 

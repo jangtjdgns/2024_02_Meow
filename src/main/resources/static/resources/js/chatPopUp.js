@@ -167,7 +167,7 @@ function sendRequest(recipientId, code) {
 	    },
 	    dataType: 'json',
 	    success: function(data) {
-			alertMsg(data.msg);
+			alertMsg(data.msg, "default");
 		},
 	      	error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);
