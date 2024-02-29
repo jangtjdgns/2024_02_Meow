@@ -198,7 +198,7 @@
 					
 					<div class="profile-content">
 						<div class="text-xl border-b border-black p-2">반려묘 관리</div>
-						<div class="pt-12 pb-24 px-6">
+						<div class="pt-12 pb-24 px-6"></div>
 					</div>
 				</div>
 			</div>

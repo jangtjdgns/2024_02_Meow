@@ -21,7 +21,7 @@
 	}
 </script> -->
 
-<section class="mw">
+<section class="mw b-mh">
 	<div class="relative overflow-hidden">
 		<c:if test="${rq.loginedMemberId != 0 }">
 			<div id="map" class="shadow" style="width:100%; height: 500px;">

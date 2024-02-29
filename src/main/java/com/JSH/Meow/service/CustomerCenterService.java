@@ -1,8 +1,11 @@
 package com.JSH.Meow.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.JSH.Meow.dao.CustomerCenterDao;
+import com.JSH.Meow.vo.CustomerCenter;
 
 @Service
 public class CustomerCenterService {
@@ -20,5 +23,15 @@ public class CustomerCenterService {
 
 	public int getLastInsertId() {
 		return customerCenterDao.getLastInsertId();
+	}
+
+
+	public List<CustomerCenter> getInquiryHistory(int memberId) {
+		return customerCenterDao.getInquiryHistory(memberId);
+	}
+
+
+	public CustomerCenter getInquiryByReceiptId(int receiptId) {
+		return customerCenterDao.getInquiryByReceiptId(receiptId);
 	}
 }

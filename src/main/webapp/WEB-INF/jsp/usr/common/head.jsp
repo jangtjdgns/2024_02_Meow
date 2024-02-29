@@ -16,8 +16,12 @@
 <!-- common -->
 <link rel="stylesheet" href="/resources/css/common.css" />
 
+<!-- common 관련 js를 합칠까 고민중 -->
 <!-- common, 알림 확인 -->
 <script src="/resources/js/common/reqRes.js"></script>
 
 <!-- common, alert 메시지 띄우기 -->
 <script src="/resources/js/common/alert.js"></script>
+
+<!-- common, alert 메시지 띄우기 -->
+<script src="/resources/js/common/inputUtils.js"></script>

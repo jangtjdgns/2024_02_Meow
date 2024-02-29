@@ -113,15 +113,15 @@ CREATE TABLE req_res (
 
 ### customer_center 테이블
 CREATE TABLE customer_center (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '접수 번호',
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '접수 번호, receiptId',
     regDate DATETIME NOT NULL COMMENT '접수일',
     updateDate DATETIME NULL COMMENT '처리일',
     memberId INT UNSIGNED NOT NULL COMMENT '접수한 회원 ID',
     `type` VARCHAR(20) NOT NULL COMMENT '접수 유형, 문의 = inquiry, 신고 = report, 버그제보 = bug, 기타건의사항 = suggestion',
     title VARCHAR(50) NOT NULL COMMENT '제목',
     `body` TEXT NOT NULL COMMENT '내용',
-    imagePath VARCHAR(255) NOT NULL COMMENT '이미지 참고 시 경로 여부, java 매개변수 기본값이 빈 문자열',
-    `status` VARCHAR(20) NOT NULL COMMENT '상태, 접수 중 = progress, 해결 완료 = resolved'
+    imagePath VARCHAR(255) NOT NULL COMMENT '이미지 참고 시 경로 여부',
+    `status` VARCHAR(20) NOT NULL COMMENT '상태, 처리중 = progress, 처리완료 = complete'
 );
 
 

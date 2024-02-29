@@ -67,7 +67,7 @@ function sendRequest(recipientId, code) {
 	    },
 	    dataType: 'json',
 	    success: function(data) {
-			alertMsg(data.msg);
+			alertMsg(data.msg, "default");
 		},
 	      	error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);
@@ -93,7 +93,7 @@ function sendResponse(id, requesterId, status, code) {
 	    success: function(data) {
 			// openPop(${result[0].requesterId}, ${result[0].recipientId})
 			checkRequests($("#recipientId").val());
-			alertMsg(data.msg);
+			alertMsg(data.msg, "default");
 			
 			if(status == 'accepted' && code == 'chat') {
 				openPop(requesterId, recipientId);

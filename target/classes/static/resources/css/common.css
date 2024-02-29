@@ -42,6 +42,14 @@
     font-style: normal;
 }
 
+/* https://noonnu.cc/font_page/115 */
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* 프리덴다드 */
 .font-Pretendard {
 	font-family: 'Pretendard-Regular';
@@ -72,6 +80,14 @@
 	font-family: 'LINESeedKR-Bd';
 }
 
+/* 여기어때 잘난체 */
+.font-Jalnan {
+	font-family: 'yg-jalnan';
+}
+
+
+
+
 
 /* 네이버 로그인 커스텀 버튼 */
 .naver-login-btn {
@@ -93,6 +109,9 @@
 }
 
 
+
+
+
 /* 폰트적용 */
 body {
 	font-family:"Wanted Sans Variable";
@@ -105,7 +124,7 @@ body {
 }
 
 .b-mh {
-	min-height: 89vh;
+	min-height: calc(100vh - var(--header-height));
 }
 
 /* 
@@ -368,7 +387,7 @@ body {
   	transform: scale(1.1);
 }
 
-/* select 태그에서 readonly와 비슷한 기능을 사용하기 위함 */
+/* select 태그에서 readonly와 비슷한 기능을 사용하기 위함, 현재 사용x */
 select[readonly] {
 	pointer-events: none;
 }
@@ -483,7 +502,6 @@ select[readonly] {
 
 
 /* profile.jsp */
-
 .min-h {
 	/*min-height: 200vh;*/
 	min-height: calc(100vh - 149.65px);
@@ -518,4 +536,13 @@ select[readonly] {
 	display: grid;
 	grid-template-columns: 90px minmax(128px, 360px);
 	/*grid-column-gap: 0.25rem;*/
+}
+
+
+
+
+
+/* customer-center, 고객센터 페이지 */
+.customer-center > .grid > .grid {
+	transition: opacity .4s, background-color .1s, transform .4s ease-out, width .4s ease-out, border-radius .4s;
 }

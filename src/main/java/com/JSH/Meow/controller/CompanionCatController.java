@@ -19,13 +19,13 @@ public class CompanionCatController {
 	}
 	
 	
-	@RequestMapping("/usr/CompanionCat/register")
+	@RequestMapping("/usr/companionCat/register")
 	public String register() {
 		
-		return "usr/CompanionCat/register";
+		return "usr/companionCat/register";
 	}
 	
-	@RequestMapping("/usr/CompanionCat/doRegister")
+	@RequestMapping("/usr/companionCat/doRegister")
 	@ResponseBody
 	public String doRegister(int memberId, String name, String gender, String birthDate, String profileImage, String aboutCat) {
 		
