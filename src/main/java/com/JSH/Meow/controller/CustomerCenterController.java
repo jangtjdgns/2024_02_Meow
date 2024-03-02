@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.JSH.Meow.service.CustomerCenterService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.CustomerCenter;
+import com.JSH.Meow.vo.CustomerFeedback;
 import com.JSH.Meow.vo.ResultData;
 
 @Controller
@@ -43,8 +44,14 @@ public class CustomerCenterController {
 			getJsp = "history";
 			List<CustomerCenter> inquiries = customerCenterService.getInquiryHistory(memberId);
 			model.addAttribute("inquiries", inquiries);
+		} else if(contentId == 2) {
+			getJsp = "faq";
+		} else if(contentId == 3) {
+			// 고객 의견 수렴 피드백 가져오기, 별도의 customer_feedback 테이블 사용
+			getJsp = "feedback";
+			List<CustomerFeedback> feedback = customerCenterService.getFeedback();
+			model.addAttribute("feedback", feedback);
 		}
-		
 		
 		return "usr/customerCenter/" + getJsp;
 	}
@@ -58,10 +65,11 @@ public class CustomerCenterController {
 		
 		customerCenterService.submitRequest(memberId, type, title, body, imagePath);
 		
-		int receiptNum = customerCenterService.getLastInsertId();
+		int receiptId = customerCenterService.getLastInsertId();
 		
-		return ResultData.from("S-1", Util.f("접수번호: %d, 접수완료", receiptNum), receiptNum);
+		return ResultData.from("S-1", Util.f("접수번호: %d, 접수완료", receiptId), receiptId);
 	}
+	
 	
 	// 문의 내역 가져오기, ajax
 	@RequestMapping("/usr/customer/showDetail")
@@ -71,5 +79,30 @@ public class CustomerCenterController {
 		CustomerCenter customerCenter = customerCenterService.getInquiryByReceiptId(receiptId);
 		
 		return ResultData.from("S-1", Util.f("접수번호 %d번 상세보기", receiptId), customerCenter);
+	}
+	
+	
+	// 피드백 작성, ajax
+	@RequestMapping("/usr/customer/doWriteFeedback")
+	@ResponseBody
+	public ResultData<CustomerFeedback> doWriteFeedback(int memberId, String content) {
+		
+		customerCenterService.doWriteFeedback(memberId, content);
+		
+		int feedbackId = customerCenterService.getLastInsertId();
+		
+		CustomerFeedback customerFeedback = customerCenterService.getCustomerFeedbackByFeedbackId(feedbackId);
+		
+		return ResultData.from("S-1", Util.f("%d번 피드백이 작성되었습니다.", feedbackId), customerFeedback);
+	}
+	
+	// 피드백 수정, ajax
+	@RequestMapping("/usr/customer/doModifyFeedback")
+	@ResponseBody
+	public ResultData<CustomerFeedback> doModifyFeedback(int feedbackId, String content) {
+		
+		customerCenterService.doModifyFeedback(feedbackId, content);
+		
+		return ResultData.from("S-1", Util.f("%d번 피드백이 수정되었습니다.", feedbackId));
 	}
 }

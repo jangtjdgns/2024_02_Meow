@@ -124,6 +124,15 @@ CREATE TABLE customer_center (
     `status` VARCHAR(20) NOT NULL COMMENT '상태, 처리중 = progress, 처리완료 = complete'
 );
 
+### customer_feedback 테이블
+CREATE TABLE customer_feedback (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '번호',
+    regDate DATETIME NOT NULL COMMENT '작성일',
+    updateDate DATETIME NULL COMMENT '수정일',
+    memberId INT UNSIGNED NOT NULL COMMENT '작성자 ID',
+    content TEXT NOT NULL COMMENT '개선사항 or 피드백 내용'
+);
+
 
 ### recommendPoint 테이블
 CREATE TABLE recommendPoint(
@@ -298,3 +307,59 @@ SET regDate = NOW(),
 updateDate = NOW(),
 `code` = 'meeting',
 `name` = '모임';
+
+
+### customer_feedback
+INSERT INTO customer_feedback
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 6,
+content = '로그인 버튼 디자인좀 수정해주세요.';
+
+INSERT INTO customer_feedback
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 4,
+content = '회원가입이 어려워요.';
+
+INSERT INTO customer_feedback
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+content = '서비스가 매우 만족스러워요.';
+
+INSERT INTO customer_feedback
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+content = '웹사이트 사용이 편리합니다.';
+
+INSERT INTO customer_feedback
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+content = '고객센터 응대가 좋아요.';
+
+INSERT INTO customer_feedback
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 4,
+content = '서비스가 향상되었으면 좋겠어요.';
+
+INSERT INTO customer_feedback
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 5,
+content = '좀 더 다양한 기능이 추가되었으면 좋겠어요.';
+
+INSERT INTO customer_feedback
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 6,
+content = '고객 의견을 더욱 수용해주셨으면 좋겠어요.';
+
+INSERT INTO customer_feedback
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 7,
+content = '더 나은 서비스를 위해 노력해주셔서 감사합니다.';

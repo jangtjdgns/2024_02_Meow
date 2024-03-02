@@ -4,7 +4,8 @@
 	bindFormInputEvent($(".customer-title").eq(1), "input-error");
 	bindFormInputEvent($(".customer-body").eq(1), "textarea-error");
 </script>
-<div class="border-2 shadow-xl rounded-2xl p-10">
+
+<div class="border-2 shadow-xl rounded-2xl p-10 relative overflow-hidden">
 	<div class="grid grid-cols-10">
 		<div class="col-start-1 col-end-2 self-center">
 			<span class="text-lg"><span class="text-red-700">* </span>제목</span>

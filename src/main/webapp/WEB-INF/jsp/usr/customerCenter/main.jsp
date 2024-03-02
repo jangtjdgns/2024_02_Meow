@@ -6,6 +6,7 @@
 <script>
 let widthToggle = false;
 let tempWt = 0;
+let contentId;
 $(function(){
 // 	textWriterAnimation();
 	$(".customer-center>.grid>.grid").click(function(){
@@ -37,6 +38,7 @@ function textWriterAnimation() {
 function customerBtnClick($this){
 	
 	const idx = $this.index();
+	contentId = idx;
 	let wt = 0;
 	let ht = 0;
 	
@@ -63,7 +65,6 @@ function customerBtnClick($this){
 		$this.css("transform", `translate(\${-wt}px, \${-ht}px)`);
 		
 		getCustomerContent(idx);
-		
 		
 		$('html, body').animate({
 				scrollTop: parseFloat($(".h-mh").css("height")),
@@ -97,6 +98,18 @@ function getCustomerContent(contentId) {
 	    dataType: 'html',
 	    success: function(data) {
 	    	$("#customer-content").html(data);
+	    	
+	    	if(loginedMemberId == 0 && (contentId == 0 || contentId == 1 || contentId == 3)) {
+				$("#customer-content>div").addClass("pointer-events-none");
+				$("#customer-content>div").append(`
+					<div class="absolute top-0 left-0 w-full h-full bg-white opacity-70">
+						<div class="h-full flex items-center justify-center text-lg font-bold pb-20">
+							로그인 후 이용가능합니다.
+						</div>
+					</div>
+				`);
+				console.log("12312")
+			}
 		},
 	      	error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);
@@ -111,8 +124,8 @@ function getCustomerContent(contentId) {
 		
 		<div class="customer-subtitle p-4 grid grid-cols-6 gap-3 text-base">
 <!-- 			<button class="btn btn-circle btn-outline btn-active w-full">메 인</button> -->
-			<button class="btn btn-circle btn-outline w-full">문 의</button>
-			<button class="btn btn-circle btn-outline w-full">내 역</button>
+			<button class="btn btn-circle btn-outline w-full">문의하기</button>
+			<button class="btn btn-circle btn-outline w-full">접수 내역 확인하기</button>
 			<button class="btn btn-circle btn-outline w-full ">자주 묻는 질문</button>
 			<button class="btn btn-circle btn-outline w-full">고객 의견 수렴</button>
 			<button class="btn btn-circle btn-outline w-full">바로가기</button>
@@ -154,7 +167,7 @@ function getCustomerContent(contentId) {
 					<div class="text-7xl col-start-2 col-end-4"><i class="fa-solid fa-comments fa-2xs" style="color: #c8c8c8;"></i></div>
 					<div class="col-start-5 col-end-10">
 						<div class="text-lg pb-1.5">고객 의견 수렴</div>
-						<div class="text-sm">개선 제안이나 피드백을 언제든지 보내주세요.</div>
+						<div class="text-sm">개선 제안이나 피드백을 자유롭게 작성해주세요.</div>
 					</div>
 				</div>
 				
@@ -170,7 +183,7 @@ function getCustomerContent(contentId) {
 				<div id="customer-content" class="bg-white absolute top-20 left-0 mx-4 pb-20 [width:calc(100%-2rem)] z-0 opacity-0" style="transition: opacity .4s;"></div>
 			</div>
 			
-<!-- 			<div>asdasd</div> -->
+<!-- 		<div>asdasd</div> -->
 		</div>
 	</div>
 </section>

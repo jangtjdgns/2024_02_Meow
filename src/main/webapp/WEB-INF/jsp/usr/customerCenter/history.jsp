@@ -83,44 +83,42 @@
 <div class="border-2 shadow-xl rounded-2xl p-10">
 	<div class="pb-4">접수 횟수: ${inquiries.size() }</div>
 
-	<div>
-		<div class="overflow-x-auto" style="max-height: 70vh;">
-			<table class="table table-sm">
-				<thead class="text-base">
+	<div class="overflow-x-auto [max-height:70vh]">
+		<table class="table table-sm">
+			<thead class="text-base">
+				<tr>
+					<th></th>
+					<th>닉네임</th>
+					<th>유형</th>
+					<th>제목</th>
+					<th>내용</th>
+					<th>접수일</th>
+					<th class="w-24">처리내역</th>
+					<th class="text-center"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:if test="${inquiries.size() == 0}">
 					<tr>
-						<th></th>
-						<th>닉네임</th>
-						<th>유형</th>
-						<th>제목</th>
-						<th>내용</th>
-						<th>접수일</th>
-						<th class="w-24">처리내역</th>
-						<th class="text-center"></th>
+						<td class="text-center" colspan=7>현재 접수한 내역이 없습니다.</td>
 					</tr>
-				</thead>
-				<tbody>
-					<c:if test="${inquiries.size() == 0}">
-						<tr>
-							<td class="text-center" colspan=7>현재 접수한 내역이 없습니다.</td>
-						</tr>
-					</c:if>
-					<c:forEach var="inquiry" items="${inquiries }" varStatus="status">
-						<tr class="hover:bg-base-200">
-							<th>${status.count }</th>
-							<td>${inquiry.nickname }</td>
-							<td>${inquiry.type }</td>
-							<td class="truncate" style="max-width: 150px;">${inquiry.title }</td>
-							<td class="truncate" style="max-width: 150px;">${inquiry.body }</td>
-							<td>${inquiry.regDate.substring(2, 10) }</td>
-							<td>
-								<span><i class="fa-solid fa-circle" style="color:${inquiry.status == '처리중' ? '#ffcc00' : '#00cc00'}; font-size: 8px;"></i></span>
-								<span>${inquiry.status }</span>
-							</td>
-							<td class="text-center"><button class="btn btn-xs btn-ghost" onclick="showDetail(${inquiry.id }, ${status.count }, ${inquiry.nickname })">상세보기</button></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
+				</c:if>
+				<c:forEach var="inquiry" items="${inquiries }" varStatus="status">
+					<tr class="hover:bg-base-200">
+						<th>${status.count }</th>
+						<td>${inquiry.nickname }</td>
+						<td>${inquiry.type }</td>
+						<td class="truncate" style="max-width: 150px;">${inquiry.title }</td>
+						<td class="truncate" style="max-width: 150px;">${inquiry.body }</td>
+						<td>${inquiry.regDate.substring(2, 10) }</td>
+						<td>
+							<span><i class="fa-solid fa-circle" style="color:${inquiry.status == '처리중' ? '#ffcc00' : '#00cc00'}; font-size: 8px;"></i></span>
+							<span>${inquiry.status }</span>
+						</td>
+						<td class="text-center"><button class="btn btn-xs btn-ghost" onclick="showDetail(${inquiry.id }, ${status.count }, ${inquiry.nickname })">상세보기</button></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
 </div>

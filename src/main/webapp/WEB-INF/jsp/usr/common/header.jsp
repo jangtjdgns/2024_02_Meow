@@ -11,7 +11,8 @@
 	<link rel="icon" href="/resources/images/favicon/cat-pow.ico" type="image/x-icon">
 	<%@ include file="../common/head.jsp"%>
 	<script>
-	let submitType = 0;
+		const loginedMemberId = "${rq.loginedMemberId}";
+		let submitType = 0;
 		$(function(){
 			const headerHeight = $(".h-mh").css("height");
 			$('.b-mh').css('--header-height', headerHeight);	// body 부분 최소 height 지정
@@ -77,7 +78,7 @@
 
 <body>
 <!-- alert -->
-<div id="alert" class="fixed top-0 left-1/2 transform -translate-x-1/2"></div>
+<div id="alert" class="fixed top-0 left-1/2 transform -translate-x-1/2 z-50"></div>
 
 <!-- customer center modal -->
 <div id="customer-center-modal">
@@ -143,7 +144,6 @@
 			
 			<c:if test="${rq.loginedMemberId != 0 }">
 				<script>
-					const loginedMemberId = "${rq.loginedMemberId}";
 					$(function() {
 						checkRequests(${rq.loginedMemberId});
 					})

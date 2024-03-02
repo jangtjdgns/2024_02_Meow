@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.JSH.Meow.dao.CustomerCenterDao;
 import com.JSH.Meow.vo.CustomerCenter;
+import com.JSH.Meow.vo.CustomerFeedback;
 
 @Service
 public class CustomerCenterService {
@@ -33,5 +34,25 @@ public class CustomerCenterService {
 
 	public CustomerCenter getInquiryByReceiptId(int receiptId) {
 		return customerCenterDao.getInquiryByReceiptId(receiptId);
+	}
+
+
+	public List<CustomerFeedback> getFeedback() {
+		return customerCenterDao.getFeedback();
+	}
+
+
+	public void doWriteFeedback(int memberId, String content) {
+		customerCenterDao.doWriteFeedback(memberId, content);
+	}
+
+
+	public CustomerFeedback getCustomerFeedbackByFeedbackId(int feedbackId) {
+		return customerCenterDao.getCustomerFeedbackByFeedbackId(feedbackId);
+	}
+
+
+	public void doModifyFeedback(int feedbackId, String content) {
+		customerCenterDao.doModifyFeedback(feedbackId, content);
 	}
 }
