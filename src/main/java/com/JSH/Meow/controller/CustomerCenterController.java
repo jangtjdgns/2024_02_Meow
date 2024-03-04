@@ -51,6 +51,8 @@ public class CustomerCenterController {
 			getJsp = "feedback";
 			List<CustomerFeedback> feedback = customerCenterService.getFeedback();
 			model.addAttribute("feedback", feedback);
+		} else {
+			getJsp = "allPages";
 		}
 		
 		return "usr/customerCenter/" + getJsp;

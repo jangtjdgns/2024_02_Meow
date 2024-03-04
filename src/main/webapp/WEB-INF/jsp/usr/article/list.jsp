@@ -171,7 +171,7 @@
 	<!-- 작성 버튼 -->
 	<c:if test="${rq.loginedMemberId != 0 }">
 		<div class="flex justify-end mt-4">
-			<a href="write" class="btn">글작성</a>
+			<a href="write" class="btn">게시글 작성</a>
 		</div>
 	</c:if>
 	
