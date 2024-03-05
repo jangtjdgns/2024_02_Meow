@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.JSH.Meow.config.KakaoConfig;
+import com.JSH.Meow.config.component.KakaoComponent;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Member;
@@ -15,10 +15,10 @@ import com.JSH.Meow.vo.Rq;
 public class HomeController {
 	
 	private MemberService memberService;
-	private KakaoConfig kakaoConfig;
+	private KakaoComponent kakaoConfig;
 	private Rq rq;
 	
-	public HomeController(MemberService memberService, KakaoConfig kakaoConfig, Rq rq) {
+	public HomeController(MemberService memberService, KakaoComponent kakaoConfig, Rq rq) {
 		this.memberService = memberService;
 		this.kakaoConfig = kakaoConfig;
 		this.rq = rq;

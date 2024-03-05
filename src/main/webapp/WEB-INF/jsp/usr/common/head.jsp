@@ -23,5 +23,5 @@
 <!-- common, alert 메시지 띄우기 -->
 <script src="/resources/js/common/alert.js"></script>
 
-<!-- common, alert 메시지 띄우기 -->
+<!-- common, input 유틸리티 -->
 <script src="/resources/js/common/inputUtils.js"></script>

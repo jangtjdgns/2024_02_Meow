@@ -19,7 +19,7 @@ public class SHA256 {
         return builder.toString();
     }
     
-    public boolean passwordsNotEqual(String loginPw, String confirmPw) throws NoSuchAlgorithmException {
+    public boolean getPasswordEquality(String loginPw, String confirmPw) throws NoSuchAlgorithmException {
     	
     	//비밀번호 불일치 여부
 		/* System.out.println(!confirmPw.equals(encrypt(loginPw))); */

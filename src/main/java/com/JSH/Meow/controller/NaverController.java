@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.JSH.Meow.config.NaverConfig;
+import com.JSH.Meow.config.component.NaverComponent;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.service.NaverService;
 import com.JSH.Meow.service.SnsInfoService;
@@ -31,21 +31,21 @@ public class NaverController {
 	private SnsInfoService snsInfoService;
 	private MemberService memberService;
 	private Rq rq;
-	private NaverConfig naverConfig;
+	private NaverComponent naverComponent;
 	
-	public NaverController(NaverService naverLoginService, SnsInfoService snsInfoService, MemberService memberService, Rq rq, NaverConfig naverConfig){
+	public NaverController(NaverService naverLoginService, SnsInfoService snsInfoService, MemberService memberService, Rq rq, NaverComponent naverComponent){
 		this.naverLoginService = naverLoginService;
 		this.snsInfoService = snsInfoService;
 		this.memberService = memberService;
 		this.rq = rq;
-		this.naverConfig = naverConfig;
+		this.naverComponent = naverComponent;
 	}
 	
 	// 네이버 login
 	@RequestMapping("/usr/member/login/naver")
 	public String naverLogin(HttpSession session) throws UnsupportedEncodingException {
 
-		String clientId = naverConfig.getClientId();//애플리케이션 클라이언트 아이디값";
+		String clientId = naverComponent.getClientId();//애플리케이션 클라이언트 아이디값";
 	    String redirectURI = URLEncoder.encode("http://localhost:8085/usr/member/doLogin/naver", "UTF-8");
 	    SecureRandom random = new SecureRandom();
 	    String state = new BigInteger(130, random).toString();
@@ -62,7 +62,7 @@ public class NaverController {
 	@RequestMapping("/usr/member/doLogin/naver")
 	@ResponseBody
 	public String naverLoginCallback(HttpServletRequest request) {
-		String jsonResponse = naverLoginService.getJsonResponse(request, naverConfig.getClientId(), naverConfig.getCliendSecret());
+		String jsonResponse = naverLoginService.getJsonResponse(request, naverComponent.getClientId(), naverComponent.getCliendSecret());
 		
 		String access_token = "";
 		String refresh_token = "";
@@ -81,7 +81,7 @@ public class NaverController {
 		String token = access_token; 		// 네이버 로그인 접근 토큰;
 		String header = "Bearer " + token;
 		
-		String apiURL = naverConfig.getInfoUrl();
+		String apiURL = naverComponent.getInfoUrl();
 		
 		Map<String, String> requestHeaders = new HashMap<>();
 		requestHeaders.put("Authorization", header);

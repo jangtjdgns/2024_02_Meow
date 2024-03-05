@@ -1,5 +1,6 @@
 package com.JSH.Meow.controller;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
@@ -10,12 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.JSH.Meow.config.component.UploadComponent;
 import com.JSH.Meow.service.CompanionCatService;
 import com.JSH.Meow.service.MemberDeletionService;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.service.SnsInfoService;
-import com.JSH.Meow.util.SHA256;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.CompanionCat;
 import com.JSH.Meow.vo.Member;
@@ -30,13 +32,15 @@ public class MemberController {
 	private CompanionCatService companionCatService;
 	private SnsInfoService snsInfoService;
 	private Rq rq;
+	private UploadComponent uploadComponent;
 	
-	public MemberController(MemberService memberService, MemberDeletionService memberDeletionService, CompanionCatService companionCatService, SnsInfoService snsInfoService, Rq rq) {
+	public MemberController(MemberService memberService, MemberDeletionService memberDeletionService, CompanionCatService companionCatService, SnsInfoService snsInfoService, Rq rq, UploadComponent uploadComponent) {
 		this.memberService = memberService;
 		this.memberDeletionService = memberDeletionService;
 		this.companionCatService = companionCatService;
 		this.snsInfoService = snsInfoService;
 		this.rq = rq;
+		this.uploadComponent = uploadComponent;
 	}
 	
 	@RequestMapping("/usr/member/join")
@@ -56,8 +60,8 @@ public class MemberController {
 				, String address
 				, String cellphoneNum
 				, String email
-				, String profileImage
-				, String aboutMe) {
+				, @RequestParam MultipartFile[] profileImage
+				, String aboutMe) throws NoSuchAlgorithmException, IOException {
 		
 		if (Util.isEmpty(loginId)) {
 			return Util.jsHistoryBack("아이디를 입력해주세요.");
@@ -91,10 +95,6 @@ public class MemberController {
 			return Util.jsHistoryBack("이메일을 입력해주세요.");
 		}
 		
-		if (Util.isEmpty(profileImage)) {
-			profileImage = null;
-		}
-		
 		if (Util.isEmpty(aboutMe)) {
 			aboutMe = null;
 		}
@@ -105,16 +105,25 @@ public class MemberController {
 			return Util.jsHistoryBack(Util.f("%s은(는) 이미 사용중인 아이디입니다.", loginId));
 		}
 		
-		SHA256 sha256 = new SHA256();
+		// 비밀번호 암호화
+		String encryptPw = memberService.encryptPassword(loginPw);
 		
-		try {
-			loginPw = sha256.encrypt(loginPw);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+		// 이미지
+		String imagePath = null;
+		for(MultipartFile image: profileImage) {
+			// 이미지 타입 확인, jpg, jpeg, png, gif 가능
+			boolean isImageTypeSupported = memberService.isImageTypeValid(image);
+			
+			if(isImageTypeSupported) {
+				// 이미지 업로드
+				memberService.uploadFile(image);
+				imagePath = uploadComponent.getFilePath();
+				break;
+			}
 		}
 		
-		memberService.joinMember(loginId, loginPw, name, nickname, age, address, cellphoneNum, email, profileImage, aboutMe);
-		
+		memberService.joinMember(loginId, encryptPw, name, nickname, age, address, cellphoneNum, email, imagePath, aboutMe);
+
 		return Util.jsReplace(Util.f("%s 님이 가입되었습니다.", nickname), "/");
 	}
 	
@@ -140,9 +149,10 @@ public class MemberController {
 			return Util.jsHistoryBack("탈퇴 처리된 계정입니다");
 		}
 		
-		SHA256 sha256 = new SHA256();
+		// 비밀번호 일치유무 가져오기
+		boolean equalsPw = memberService.getPasswordEquality(loginPw, member.getLoginPw());
 		
-		if(sha256.passwordsNotEqual(loginPw, member.getLoginPw())) {
+		if(equalsPw) {
 			return Util.jsHistoryBack("비밀번호가 일치하지 않습니다.");
 		}
 		

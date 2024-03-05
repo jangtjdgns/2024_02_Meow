@@ -24,15 +24,15 @@ CREATE TABLE `member` (
 	loginPw VARCHAR(64) NOT NULL COMMENT '비밀번호',
 	authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '권한 레벨 (일반 = 1, 관리자 = 0)',
  	`name` VARCHAR(50) NOT NULL COMMENT '이름',
- 	nickname VARCHAR(255) NOT NULL UNIQUE COMMENT '닉네임',
+ 	nickname VARCHAR(12) NOT NULL UNIQUE COMMENT '닉네임',
  	age INT UNSIGNED NOT NULL COMMENT '나이',
  	address TEXT NOT NULL COMMENT '주소, json형태',
  	cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
-  	email VARCHAR(50) NOT NULL UNIQUE COMMENT '이메일',
+  	email VARCHAR(254) NOT NULL UNIQUE COMMENT '이메일',
  	`status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',
   	lastLoginDate DATETIME NULL COMMENT '마지막 로그인 일시',
  	lastLoginDays INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '미접속일',
-  	profileImage VARCHAR(255) NULL COMMENT '프로필사진 파일명',
+  	profileImage VARCHAR(255) NOT NULL COMMENT '프로필사진 파일명',
  	aboutMe VARCHAR(100) NULL COMMENT '자기소개'
 );
 
