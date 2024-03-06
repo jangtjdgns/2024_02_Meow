@@ -3,8 +3,37 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@ include file="../common/header.jsp"%>
-<script src="/resources/js/member/profile.js"></script>
-<script src="/resources/js/common/carousel.js"></script>
+<script src="/js/member/profile.js"></script>
+<script src="/js/common/carousel.js"></script>
+
+<!-- 프로필 이미지 변경 모달 -->
+<dialog id="my_modal_4" class="modal">
+	<div class="modal-box">
+		<form method="dialog">
+			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+		</form>
+		<h3 class="font-bold text-lg">이미지 변경</h3>
+		<p class="py-2 pl-2 text-sm">* 소셜 유저의 경우 본래의 SNS 프로필 이미지는 변경되지않습니다.</p>
+		
+		<div class="py-4">
+			<span>현재 이미지 정보</span>
+			<div class="dropdown dropdown-bottom scale-75 rounded-full">
+				<div tabindex="0" role="button" class="btn btn-sm btn-circle m-1"><i class="fa-solid fa-exclamation"></i></div>
+				<p tabindex="0" class="dropdown-content z-[1] menu p2 shadow bg-base-100 rounded-box w-52 break-all">
+					${member.profileImage }
+			</p>
+		</div>
+		<img class="w-1/2 mx-auto" src="${member.profileImage }" alt="" />
+		</div>
+		
+		<p class="pt-4 pb-2">이미지를 업로드해주세요.</p>
+		<input type="file" class="file-input file-input-bordered w-full max-w-xs" accept="image/gif, image/jpeg, image/png" />
+		
+		<div class="text-right">
+			<button class="btn">변경</button>
+		</div>
+	</div>
+</dialog>
 
 <section id="profile-bg" class="py-12 p-mw min-h border-t" style="background: linear-gradient(#EBE8E6, #E5D7D1);">
 	<div class="mx-auto max-w-6xl profile-layout">
@@ -69,43 +98,16 @@
 								<img class="h-72 w-72 rounded-full" src="${member.profileImage}"/>
 							</c:if>
 							
-							<!-- 이미지 변경 모달 -->
+							<!-- 프로필 이미지 변경 버튼 -->
 							<div>
-								<button class="btn" onclick="my_modal_3.showModal()">이미지 변경</button>
-								<dialog id="my_modal_3" class="modal">
-									<div class="modal-box">
-										<form method="dialog">
-											<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-										</form>
-										<h3 class="font-bold text-lg">이미지 변경</h3>
-										<p class="py-2 pl-2 text-sm">* 소셜 유저의 경우 본래의 SNS 프로필 이미지는 변경되지않습니다.</p>
-										
-										<div class="py-4">
-											<span>현재 이미지 정보</span>
-											<div class="dropdown dropdown-bottom scale-75 rounded-full">
-												<div tabindex="0" role="button" class="btn btn-sm btn-circle m-1"><i class="fa-solid fa-exclamation"></i></div>
-												<p tabindex="0" class="dropdown-content z-[1] menu p2 shadow bg-base-100 rounded-box w-52 break-all">
-													${member.profileImage }
-												</p>
-											</div>
-											<img class="w-1/2 mx-auto" src="${member.profileImage }" alt="" />
-										</div>
-										
-										<p class="pt-4 pb-2">이미지를 업로드해주세요.</p>
-										<input type="file" class="file-input file-input-bordered w-full max-w-xs" accept="image/gif, image/jpeg, image/png" />
-										
-										<div class="text-right">
-											<button class="btn">변경</button>
-										</div>
-									</div>
-								</dialog>
+								<button class="btn" onclick="my_modal_4.showModal()">이미지 변경</button>
 							</div>
 						</div>
 					</div>
 					<div class="profile-content">
 						<div class="text-xl border-b border-black p-2">소개말</div>
 						<div class="pt-12 pb-24 px-6">
-							<textarea name="" placeholder="소개말을 작성해보세요 :)" class="textarea textarea-bordered w-full h-28 resize-none" readonly>${member.aboutMe != null ? '' : member.aboutMe}</textarea>
+							<textarea name="" placeholder="소개말을 작성해보세요 :)" class="textarea textarea-bordered w-full h-28 resize-none" readonly>${member.aboutMe == null ? '' : member.aboutMe}</textarea>
 							<div class="text-right">
 								<button class="btn btn-sm px-6">변경</button>
 							</div>
@@ -150,7 +152,7 @@
 							<c:if test="${companionCats.size() == 0 }">
 								<div class="border rounded w-full h-80 flex items-center justify-center">
 									<span>현재 등록된 반려묘가 없습니다.</span>
-									<a href="../CompanionCat/register" class="ml-1 text-red-600 hover:underline">등록하러가기</a>
+									<a href="../companionCat/register" class="ml-1 text-red-600 hover:underline">등록하러가기</a>
 								</div>
 							</c:if>
 							

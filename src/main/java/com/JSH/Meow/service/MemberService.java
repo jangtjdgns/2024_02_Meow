@@ -78,4 +78,9 @@ public class MemberService {
 	public void uploadFile(MultipartFile image) throws IOException {
 		uploadComponent.uploadFile(image);
 	}
+	
+	// 프로필 이미지 가져오기
+	public String getProfileImagePath() {
+		return uploadComponent.getProfileImagePath();
+	}
 }

@@ -8,7 +8,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Meow</title>
-	<link rel="icon" href="/resources/images/favicon/cat-pow.ico" type="image/x-icon">
+	<link rel="icon" href="/images/favicon/cat-pow.ico" type="image/x-icon">
 	<%@ include file="../common/head.jsp"%>
 	<script>
 		const loginedMemberId = "${rq.loginedMemberId}";
@@ -130,7 +130,7 @@
 
 <section class="h-mh mw flex justify-around">
 	<div class="self-end">
-		<a href="/"><img src="/resources/images/Meow-logo.png" class="w-24 jello-horizontal" /></a>
+		<a href="/"><img src="/images/Meow-logo.png" class="w-24 jello-horizontal" /></a>
 	</div>
 	
 	<div class="flex flex-col items-end justify-around h-h w-1/2">
@@ -162,7 +162,7 @@
 							</div>
 						</div>
 						<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-30 p-2 shadow bg-base-100 rounded-box w-24">
-							<li class="font-bold"><a>${rq.loginedMemberNickname } 님</a></li>
+							<li class="font-bold break-all"><a>${rq.loginedMemberNickname } 님</a></li>
 							<li><a href="../member/profile?memberId=${rq.loginedMemberId }">프로필</a></li>
 							<li><a>계정관리</a></li>
 							<li><button onclick="my_modal_3.showModal()">문의</button></li>

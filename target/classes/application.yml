@@ -15,4 +15,4 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 upload:
-  directory: C:/JSH_work_space/Project_JSH/MeowImages
+  directory: src/main/resources/static

@@ -7,13 +7,13 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Meow</title>
-	<link rel="icon" href="/resources/images/favicon/cat-pow.ico" type="image/x-icon">
+	<link rel="icon" href="/images/favicon/cat-pow.ico" type="image/x-icon">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.1/dist/full.min.css" rel="stylesheet" type="text/css" />
 	<script src="https://cdn.tailwindcss.com"></script>
-	<script src="/resources/js/common/dateTime.js"></script>
-	<script src="/resources/js/common/alert.js"></script>
-	<script src="/resources/js/chatPopUp.js"></script>
+	<script src="/js/common/dateTime.js"></script>
+	<script src="/js/common/alert.js"></script>
+	<script src="/js/chatPopUp.js"></script>
 </head>
 
 <body>

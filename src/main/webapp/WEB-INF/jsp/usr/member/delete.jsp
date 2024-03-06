@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<script src="/resources/js/member/delete.js"></script>
+<script src="/js/member/delete.js"></script>
 
 <div class="bg-white border shadow-2xl rounded-3xl">
 	<div class="p-10 text-3xl">계정 탈퇴</div>

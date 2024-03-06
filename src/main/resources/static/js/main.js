@@ -73,14 +73,16 @@ function getMembers(map, radius) {
 						const memberId = addressInfo.memberId.split(",");
 						let content = `
 	                        <div id="${idx}" class="overlay-wrap w-56 border shadow-2xl rounded-xl bg-white p-2.5 absolute z-0 bottom-12 -left-32 whitespace-nowrap cursor-default">
-	                        	<div class="flex justify-between">
-	                    			<div><i class="fa-solid fa-location-dot"></i> <span>${result[0].address_name}</span></div>
-	                    			<button class="btn btn-xs btn-square" onclick="closeMarker(this, ${idx});">
+	                        	<div class="grid grid-cols-10 w-full break-all">
+	                    			<div class="col-start-1 col-end-2"><i class="fa-solid fa-location-dot"></i></div>
+	                    			<div class="col-start-2 col-end-10 whitespace-normal">${result[0].address_name}</div>
+	                    			<button class="btn btn-xs btn-square col-start-10 col-end-11" onclick="closeMarker(this, ${idx});">
 										<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
 									</button>
+		                    		<div class="col-start-1 col-end-2"><i class="fa-solid fa-user"></i></div>
+		                    		<div class="col-start-2 col-end-11">${nicknames.length}</div>
 	                    		</div>
 	                            <div>
-	                            	<div><i class="fa-solid fa-user"></i> <span>${nicknames.length}</span></div>
 	                            	<ul class="border-2 rounded">
 						`;
 						
@@ -110,7 +112,7 @@ function getMembers(map, radius) {
 						`;
 						
 						// 마커 커스텀 이미지
-						/*let imageSrc = '/resources/images/marker/2.png',
+						/*let imageSrc = '/images/marker/2.png',
 						    imageSize = new kakao.maps.Size(36, 37),
 						    imageOption = {offset: new kakao.maps.Point(27, 69)};
 						

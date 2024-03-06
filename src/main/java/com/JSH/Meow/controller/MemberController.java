@@ -117,7 +117,7 @@ public class MemberController {
 			if(isImageTypeSupported) {
 				// 이미지 업로드
 				memberService.uploadFile(image);
-				imagePath = uploadComponent.getFilePath();
+				imagePath = memberService.getProfileImagePath();
 				break;
 			}
 		}

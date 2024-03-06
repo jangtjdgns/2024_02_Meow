@@ -6,7 +6,7 @@
 
 <%@ include file="../common/header.jsp"%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/resources/js/member/join.js"></script>
+<script src="/js/member/join.js"></script>
 
 <section class="h-body py-5">
 	<div class="max-w-xl mx-auto card shrink-0 w-full bg-base-100">
