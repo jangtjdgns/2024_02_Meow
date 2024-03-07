@@ -80,7 +80,15 @@
 	            <label class="label">
 	                <span class="label-text">이메일</span>
 	            </label>
-	            <input name="email" type="email" placeholder="이메일 입력" data-korName="이메일" class="input input-bordered" minlength="6" maxlength="200" required />
+	            <div class="flex gap-2 pb-2">
+		            <input id="inputEmail" name="email" type="email" placeholder="이메일 입력" data-korName="이메일" class="input input-bordered w-full" minlength="6" maxlength="200" required />
+	            	<button type="button" class="btn" onclick="sendMailAuthCode()">인증코드 발송</button>
+	            </div>
+	            
+	            <div id="authCodeWrap" class="flex gap-2 hidden">
+	            	<input id="authCode" type="text" placeholder="이메일 인증코드 입력 6자리" class="input input-bordered w-full" minlength="6" maxlength="6" required />
+	           		<button type="button" class="btn" onclick="checkAuthCode()">확인</button>
+	           	</div>
 	        </div>
 	        
 	        <div class="form-control">

@@ -48,7 +48,7 @@ const regexPatterns = [
 	{
 		name: "emailRE",
 		pattern: /^[a-zA-Z0-9._%+-]{1,128}@[a-zA-Z0-9.-]{1,64}\.[a-zA-Z]{2,8}$/,
-		failedMassage: "test@test.com 형식의 이메일 주소 형식을 입력하세요.",
+		failedMassage: "test@test.com 형식의 이메일 주소를 입력하세요.",
 	},
 ];
 

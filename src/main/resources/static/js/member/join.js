@@ -47,6 +47,8 @@ function resetImage(){
 
 // 로그인 아이디 검사용 변수
 let validLoginId = '';
+// 서브밋 가능 여부
+let canSubmit = true;
 
 // 회원가입 유효성 검사 함수
 const joinFormOnSubmit = function(form){
@@ -60,7 +62,7 @@ const joinFormOnSubmit = function(form){
 		, form.email
 	];
 	
-	let canSubmit = true;
+	canSubmit = true;
 	
 	$(formFields).each(function(idx, field){
 		
@@ -73,6 +75,7 @@ const joinFormOnSubmit = function(form){
 	  	}
 	  	
 	  	// 공백 아님을 검증
+	  	// (정규표현식에서 길이 검사도 하는데 이거 굳이 필요한가??)
 	  	const checkNotBlank = validateNotBlank($(field).val().trim(), $(field).attr('data-korName'));
 	  	if (!checkNotBlank[0]){
 			canSubmit = false;
@@ -118,12 +121,64 @@ function dupCheck(loginId){
 	})
 }
 
+// 인증코드 발송 함수
+let authCode = "";			// 인증코드
+let isEmailSent = false;	// 인증코드를 문제없이 전송했을 때, 인증코드 발송 버튼을 막기위한 변수
+function sendMailAuthCode() {
+	
+	const email = $("#inputEmail");
+	
+	const checkEmail = validateRegex(email.val().trim(), 6);
+	
+	if(!checkEmail[0]) {
+		alertMsg(checkEmail[1], "error");
+		return email.focus();
+	}
+	
+	$("#authCodeWrap").removeClass("hidden");
+	
+	alertMsg("인증코드를 발송중입니다.", "default");
+	
+	$.ajax({
+		url : "../sendMail/join",
+		method : "post",
+		data : {
+			"email" : email.val().trim(),
+		},
+		dataType : "json",
+		success : function(data){
+			if(data.success){
+				authCode = data.data;
+				isEmailSent = true;
+				alertMsg("발송되었습니다. 이메일을 확인해주세요.", "default");
+			} else {
+				authCode = "";
+				isEmailSent = false;
+			}
+		},
+		error : function(xhr, status, error){
+			console.error("ERROR : " + status + " - " + error);
+		}
+	})
+}
+
+// 이메일 인증코드 확인 함수
+function checkAuthCode() {
+	if($("#authCode").val() != authCode) {
+		canSubmit = false;
+		isEmailSent = false;
+		return alertMsg("인증코드가 일치하지 않습니다. 다시 확인해주세요.", "error");
+	}
+	
+	alertMsg("인증되었습니다.", "success");
+}
+
 $(function(){
 	$(".dupCheckBtn").click(function(){
 		dupCheck($("#loginId"));
 	})
 	
-	bindFormInputEvent($("input:not(#address input, #profileImage)"), "input-error");
+	bindFormInputEvent($("input:not(#address input, #profileImage, #authCode)"), "input-error");
 	
 	$("#detailAddress").change(function(){
 		address.detailAddress = $("#detailAddress").val();
