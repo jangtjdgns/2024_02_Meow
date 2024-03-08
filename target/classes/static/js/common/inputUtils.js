@@ -4,20 +4,19 @@
 // form 관련 input, textarea 태그의 값이 변경될 때를 감지하는 이벤트 함수
 function bindFormInputEvent(selector, errorClass) {
     $(selector).change(function () {
-        $(this).removeClass(errorClass);
+		changeInputBorderColor($(this), true, errorClass);
+        
         if ($(this).val().trim().length == 0) {
-            $(this).addClass(errorClass);
+            changeInputBorderColor($(this), false, errorClass);
         }
     });
 }
 
-
-
-// Meow 정규표현식 정리 링크 [https://www.notion.so/b6a4d7b2673f440d8c363ea05094ae48?pvs=4]
+// join관련 Meow 정규표현식 정리 링크 [https://www.notion.so/b6a4d7b2673f440d8c363ea05094ae48?pvs=4]
 const regexPatterns = [
 	{
 		name: "identifierRE",
-		pattern: /^(?=.*[a-zA-Z])(?=.*\d).{8,20}$/,
+		pattern: /^[a-zA-Z\d]{8,20}$/,
 		failedMassage: "영문자와 숫자를 최소 1개 이상 포함하며, 총 길이는 8~20글자 사이여야 합니다.",
 	},
 	{
@@ -52,24 +51,34 @@ const regexPatterns = [
 	},
 ];
 
-// 정규 표현식 검증 (Regular Expression)
-function validateRegex(value, idx){
-	if(regexPatterns[idx].pattern.test(value)) {
-		
+// join관련 정규 표현식 검증 (Regular Expression)
+function validateRegex(field, idx){
+	if(regexPatterns[idx].pattern.test($(field).val().trim())) {
+		changeInputBorderColor(field, true, "input-error");
 		return [true, "이상없음"];
 	}
-	
+	changeInputBorderColor(field, false, "input-error");
 	return [false, regexPatterns[idx].failedMassage];
 }
 
 
-// 공백 아님을 검증
-function validateNotBlank(value, name){
+// join 관련 공백 아님을 검증
+function validateNotBlank(field, name){
 	
-	if(value.length > 0) {
-		console.log(value)
+	if(field.val().trim().length > 0) {
+		changeInputBorderColor(field, true, "input-error");
 		return [true, "이상없음"];
 	}
-	
+	changeInputBorderColor(field, false, "input-error");
 	return [false, name + "을(를) 입력해주세요."];
+}
+
+// input 색상 변경 함수
+function changeInputBorderColor(field, isValid, errorClass){
+	field.removeClass(errorClass);
+	
+	if(!isValid) {
+		field.addClass(errorClass);
+	}
+	
 }

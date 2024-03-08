@@ -50,6 +50,12 @@ public interface MemberDao {
 	public Member getMemberByNickname(String nickname);
 	
 	@Select("""
+			SELECT * FROM `member`
+			WHERE email = #{email}
+			""")
+	public Member getMemberByEmail(String email);
+	
+	@Select("""
 			SELECT LAST_INSERT_ID();
 			""")
 	public int getLastInsertId();
@@ -84,5 +90,5 @@ public interface MemberDao {
 			WHERE id = #{memberId}
 			""")
 	public void doDelete(int memberId, int status);
-	
+
 }

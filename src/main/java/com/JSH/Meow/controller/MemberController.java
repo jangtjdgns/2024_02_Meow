@@ -299,19 +299,26 @@ public class MemberController {
 	// 회원가입 중복확인, ajax
 	@RequestMapping("/usr/member/duplicationCheck")
 	@ResponseBody
-	public ResultData duplicationCheck(String loginId) {
+	public ResultData duplicationCheck(String type, String inputVal) {
 		
-		if(Util.isEmpty(loginId)) {
-			return  ResultData.from("F-1", "아이디를 입력해주세요.");
+		String inputName = type.equals("loginId") ? "아이디" : "닉네임";
+		
+		if(Util.isEmpty(inputVal)) {
+			return ResultData.from("F-1", Util.f("%s를 입력해주세요.", inputName));
 		}
 		
-		Member member = memberService.getMemberByLoginId(loginId);
+		Member member = null;
+		if(type.equals("loginId")) {
+			member = memberService.getMemberByLoginId(inputVal);
+		} else {
+			member = memberService.getMemberByNickname(inputVal);
+		}
 		
 		if(member != null) {
-			return ResultData.from("F-2", Util.f("%s 은(는) 이미 사용중인 아이디입니다.", loginId));
+			return ResultData.from("F-2", Util.f("%s 은(는) 이미 사용중인 %s입니다.", inputVal, inputName));
 		}
 		
-		return ResultData.from("S-1", Util.f("%s 은(는) 사용가능한 아이디입니다.", loginId));
+		return ResultData.from("S-1", Util.f("%s 은(는) 사용가능한 %s입니다.", inputVal, inputName));
 	}
 	
 	

@@ -30,6 +30,215 @@ function getPostInfo() {
     }).open();
 }
 
+
+/* 회원가입 */
+let validLoginId = '';				// 로그인 아이디 검사용 변수
+let isDupChecked = [false, false];	// 중복 확인 되었는지 여부, [아이디, 닉네임]
+let isPwConfirmed = false;			// 비밀번호 확인되었는지 여부
+let isCodeConfirmed = false;		// 이메일 인증코드 확인 되었는지 여부
+
+// 회원가입 유효성 검사 함수
+const joinFormOnSubmit = function(form){
+	const formFields = [
+		form.loginId,
+		form.loginPw,
+		form.name,
+		form.nickname,
+		form.age,
+		form.cellphoneNum,
+		form.email
+	];
+	
+	for (let i = 0; i < formFields.length; i++) {
+	    const field = formFields[i];
+		
+		// 공백 아님을 검증
+	    if(!checkNotBlank($(field))) {
+			return field.focus();
+		}
+		
+	    // 정규표현식 검증
+	    if(!checkRegex($(field), i)) {
+			return field.focus();
+		}
+  	}
+	
+	// 우편번호로 주소를 입력했는지 검증, 필수이기 때문
+	if(!address.zonecode) {
+		alertMsg("주소를 입력해주세요.", "error");
+		return $(".find-postal-code").focus();
+	}
+	
+	const addressToJson = JSON.stringify(address);
+	form.address.value = addressToJson;
+	
+	// 중복 확인(로그인 아이디)
+	if(!isDupChecked[0]) {
+		alertMsg("아이디 중복 확인을 진행해주세요.", "error");
+		return formFields[0].focus();
+	}
+	
+	// 중복 확인(닉네임)
+	if(!isDupChecked[1]) {
+		alertMsg("닉네임 중복 확인을 진행해주세요.", "error");
+		return formFields[3].focus();
+	}
+	
+	// 비밀번호 확인
+	checkPw();
+	if(!isPwConfirmed) {
+		alertMsg("비밀번호가 일치하지 않습니다.", "error");
+		return $("#loginPwChk").focus();
+	}
+	
+	// 이메일 인증 코드 확인
+	if(!isCodeConfirmed) {
+		alertMsg("이메일 인증 코드가 일치하지 않습니다.", "error");
+		return $("#authCode").focus();
+	}
+	
+	form.submit();
+}
+
+// 정규표현식 검사
+function checkRegex(field, idx){
+	const checkRegex = validateRegex(field, idx);
+    if (!checkRegex[0]) {
+      	alertMsg(checkRegex[1], "error");
+      	return checkRegex[0];
+    }
+    return checkRegex[0];
+}
+
+// 공백 검사
+function checkNotBlank(field){
+	const checkNotBlank = validateNotBlank(
+		field,
+		field.attr("data-korName")
+	);
+	
+	if (!checkNotBlank[0]) {
+      	alertMsg(checkNotBlank[1], "error");
+      	return checkNotBlank[0];
+    }
+    return checkNotBlank[0];
+}
+
+// 중복확인
+function dupCheck(type, input){
+	const inputName = type == 'loginId' ? '아이디' : '닉네임';
+	const regIdx = type == 'loginId' ? 0 : 3;
+	
+	$.ajax({
+		url : "../member/duplicationCheck",
+		method : "get",
+		data : {
+			"type": type,
+			"inputVal" : input.val().trim(),
+		},
+		dataType : "json",
+		success : function(data){
+			const success = data.success;
+			
+			if(!checkNotBlank(input)){
+				return input.focus();
+			}
+			
+			if(!checkRegex(input, regIdx)) {
+				return input.focus();
+			}
+			
+			if(type == "loginId") {
+				validLoginId = success ? input.val().trim() : '';
+				isDupChecked[0] = success;
+			} else {
+				isDupChecked[1] = success;
+			}
+			
+			const msg = success ? `사용가능한 ${inputName} 입니다.` : `사용할 수 없는 ${inputName} 입니다.`;
+			const alertType = success ? 'success' : 'error';
+			changeInputBorderColor(input, success, "input-error");
+			alertMsg(msg, alertType);
+			return input.focus();
+		},
+		error : function(xhr, status, error){
+			console.error("ERROR : " + status + " - " + error);
+		}
+	})
+}
+
+// 비밀번호 확인
+function checkPw(){	
+	let loginPw = $("#loginPw").val().trim();
+	let loginPwChk = $("#loginPwChk").val().trim();
+	
+	isPwConfirmed = true;
+	
+	if(loginPw.length != 0 && (loginPw != loginPwChk)) {
+		isPwConfirmed = false;
+		return alertMsg("비밀번호가 일치하지 않습니다.", "error");
+	}
+}
+
+
+// 인증코드 발송 함수
+let authCode = "";			// 인증코드
+let isEmailSent = false;	// 인증코드를 문제없이 전송했을 때, 인증코드 발송 버튼을 막기위한 변수
+function sendMailAuthCode() {
+	
+	const email = $("#inputEmail");
+	
+	const checkEmail = validateRegex(email, 6);
+	
+	if(!checkEmail[0]) {
+		alertMsg(checkEmail[1], "error");
+		return email.focus();
+	}
+	
+	alertMsg("인증코드를 발송중입니다.", "default");
+	$(".senMailBtn").attr("disabled", true);
+	
+	$.ajax({
+		url : "../sendMail/join",
+		method : "post",
+		data : {
+			"email" : email.val().trim(),
+		},
+		dataType : "json",
+		success : function(data){
+			if(data.success){
+				authCode = data.data;
+				isEmailSent = true;
+				$("#authCodeWrap").removeClass("hidden");
+				alertMsg(data.msg, "default");
+			} else {
+				authCode = "";
+				isEmailSent = false;
+				alertMsg(data.msg, "warning");
+			}
+			
+			$(".senMailBtn").attr("disabled", isEmailSent);
+		},
+		error : function(xhr, status, error){
+			console.error("ERROR : " + status + " - " + error);
+		}
+	})
+}
+
+// 이메일 인증코드 확인 함수
+function checkAuthCode() {
+	isCodeConfirmed = true;
+	
+	if($("#authCode").val() != authCode) {
+		isCodeConfirmed = false;
+		isEmailSent = false;
+		return alertMsg("인증코드가 일치하지 않습니다. 다시 확인해주세요.", "error");
+	}
+	
+	$("#authCode").attr("disabled", true);
+	alertMsg("인증되었습니다.", "success");
+}
+
 // 주소 초기화
 function resetAddress() {
 	$("#postcode").val("");
@@ -44,142 +253,28 @@ function resetImage(){
 	$("#imagePreview").attr("src", "");
 }
 
-
-// 로그인 아이디 검사용 변수
-let validLoginId = '';
-// 서브밋 가능 여부
-let canSubmit = true;
-
-// 회원가입 유효성 검사 함수
-const joinFormOnSubmit = function(form){
-	const formFields = [
-		form.loginId
-		, form.loginPw
-		, form.name
-		, form.nickname
-		, form.age
-		, form.cellphoneNum
-		, form.email
-	];
-	
-	canSubmit = true;
-	
-	$(formFields).each(function(idx, field){
-		
-		// 정규표현식 검증
-		const checkRegex = validateRegex($(field).val().trim(), idx);
-	  	if (!checkRegex[0]) {
-	  		canSubmit = false;
-	  		alertMsg(checkRegex[1], "error");
-	  		return field.focus();
-	  	}
-	  	
-	  	// 공백 아님을 검증
-	  	// (정규표현식에서 길이 검사도 하는데 이거 굳이 필요한가??)
-	  	const checkNotBlank = validateNotBlank($(field).val().trim(), $(field).attr('data-korName'));
-	  	if (!checkNotBlank[0]){
-			canSubmit = false;
-			alertMsg(checkNotBlank[1], "error");
-	  		return field.focus();
-		}
-	})
-	
-	// 우편번호로 주소를 입력했는지 검증, 필수이기 때문
-	if(!address.zonecode) {
-		alert("주소를 입력해주세요.");
-		return;
-	}
-	
-	const addressToJson = JSON.stringify(address);
-	form.address.value = addressToJson;
-	
-	if(canSubmit) {		
-		form.submit();
-	}
-}  
-
-function dupCheck(loginId){
-	$.ajax({
-		url : "../member/duplicationCheck",
-		method : "get",
-		data : {
-			"loginId" : loginId.val().trim(),
-		},
-		dataType : "json",
-		success : function(data){
-			if(data.success){
-				loginId.removeClass("input-error");
-				validLoginId = loginId.val().trim();
-			} else {
-				loginId.addClass("input-error");
-				validLoginId = '';
-			}
-		},
-		error : function(xhr, status, error){
-			console.error("ERROR : " + status + " - " + error);
-		}
-	})
-}
-
-// 인증코드 발송 함수
-let authCode = "";			// 인증코드
-let isEmailSent = false;	// 인증코드를 문제없이 전송했을 때, 인증코드 발송 버튼을 막기위한 변수
-function sendMailAuthCode() {
-	
-	const email = $("#inputEmail");
-	
-	const checkEmail = validateRegex(email.val().trim(), 6);
-	
-	if(!checkEmail[0]) {
-		alertMsg(checkEmail[1], "error");
-		return email.focus();
-	}
-	
-	$("#authCodeWrap").removeClass("hidden");
-	
-	alertMsg("인증코드를 발송중입니다.", "default");
-	
-	$.ajax({
-		url : "../sendMail/join",
-		method : "post",
-		data : {
-			"email" : email.val().trim(),
-		},
-		dataType : "json",
-		success : function(data){
-			if(data.success){
-				authCode = data.data;
-				isEmailSent = true;
-				alertMsg("발송되었습니다. 이메일을 확인해주세요.", "default");
-			} else {
-				authCode = "";
-				isEmailSent = false;
-			}
-		},
-		error : function(xhr, status, error){
-			console.error("ERROR : " + status + " - " + error);
-		}
-	})
-}
-
-// 이메일 인증코드 확인 함수
-function checkAuthCode() {
-	if($("#authCode").val() != authCode) {
-		canSubmit = false;
-		isEmailSent = false;
-		return alertMsg("인증코드가 일치하지 않습니다. 다시 확인해주세요.", "error");
-	}
-	
-	alertMsg("인증되었습니다.", "success");
-}
-
 $(function(){
+	
+	// 중복확인 버튼 클릭 시
 	$(".dupCheckBtn").click(function(){
-		dupCheck($("#loginId"));
+		const type = $(this).attr("data-input");  
+		dupCheck(type, $(`#${type}`));
 	})
 	
-	bindFormInputEvent($("input:not(#address input, #profileImage, #authCode)"), "input-error");
+	// 중복확인란 값 변경 시
+	$(".dupInput").change(function(){
+		$(this).attr("id") == 'loginId' ? isDupChecked[0] : isDupChecked[1];
+	})
 	
+	// 비밀번호 확인
+	$("#loginPwChk").change(function(){
+		checkPw();
+	})
+	
+	// 인풋 태그 변경 감지
+	bindFormInputEvent($("input:not(.no-validation)"), "input-error");
+	
+	// 주소 변경 될 때
 	$("#detailAddress").change(function(){
 		address.detailAddress = $("#detailAddress").val();
 	})
@@ -189,7 +284,6 @@ $(function(){
 		let imageFiles = $(this)[0].files;
 		if (imageFiles.length > 0) {
 	        const imageURL = URL.createObjectURL(imageFiles[0]);
-	        console.log(imageURL);
 	        $("#imagePreview").attr("src", imageURL);
 	    }
 	})
