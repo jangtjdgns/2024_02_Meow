@@ -98,6 +98,7 @@
 	        <div class="form-control">
 	            <label class="label">
 	                <span class="label-text">이메일</span>
+	                <span class="label-text"><span class="text-red-700">* </span>입력한 이메일을 변경할 시 재인증이 필요합니다.</span>
 	            </label>
 	            <div class="flex gap-2 pb-2">
 		            <input id="inputEmail" name="email" type="email" placeholder="이메일 입력" data-korName="이메일" class="input input-bordered w-full" minlength="6" maxlength="200" />

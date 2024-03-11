@@ -13,27 +13,6 @@ $(function(){
 		customerBtnClick($(this));
 	})
 })
-
-/* 글 작성하는 함수 
-function textWriterAnimation() {
-	const text = "여러분의 편의를 최우선으로 하는 고객센터에 오신 것을 환영합니다.|다양한 의견을 기다리고, 궁금한 점이 있으면 언제든지 물어주세요.|우리는 항상 여러분을 도와드리기 위해 여기 있습니다.";
-	let idx = 0;
-	
-	function write() {
-        if (idx < text.length) {
-        	if(text[idx] == "|") {
-        		$("#customer-text").append(`<br />`);
-        		idx++;
-        	}
-        	
-            $("#customer-text").append(text[idx]);
-            idx++;
-            setTimeout(write, 70);
-        }
-    }
-	write();
-}
- */
  
 function customerBtnClick($this){
 	

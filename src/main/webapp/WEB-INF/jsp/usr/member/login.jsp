@@ -23,35 +23,75 @@
 		
 		form.submit();
 	}
+	
+	// 글 작성하는 함수 
+	function textWriterAnimation() {
+	  	const text1 = "Meow에서는 귀여운 고양이 친구들과의 만남이 가능합니다!";
+	  	const text2 = "함께 즐거운 시간을 보내고, 고양이들의 사랑스러운 이야기를 들어보세요.";
+	  	const text3 = "여러분을 기다리고 있어요!";
+	
+	  	let idx1 = 0;
+	  	let idx2 = 0;
+	  	let idx3 = 0;
+	
+	  	function write() {
+			if (idx1 < text1.length || idx2 < text2.length || idx3 < text3.length) {
+	      		if (idx1 < text1.length) {
+	        		$("#login-text1").append(text1[idx1]);
+	        		idx1++;
+	      		}
+			
+		      	if (idx2 < text2.length) {
+		        	$("#login-text2").append(text2[idx2]);
+		        	idx2++;
+		      	}
+		      	
+		      	if (idx3 < text3.length) {
+		        	$("#login-text3").append(text3[idx3]);
+		        	idx3++;
+		      	}
+      			setTimeout(write, 60);
+    		}
+  		}
+		write();
+	}
+	
+	$(function(){
+		textWriterAnimation();
+	})
 </script>
 
-<section class="m-width">
-	<div class="hero b-mh flex items-start justify-center pt-20" style="background-image: url(https://cdn.pixabay.com/photo/2020/08/15/18/02/paws-5491105_1280.png); background-size: cover">
+<section>
+	<div class="hero b-mh flex items-start justify-center pt-20 border-t moveBg" style="background-image: url(https://cdn.pixabay.com/photo/2020/08/15/18/02/paws-5491105_1280.png); background-size: 105% cover;">
 	    <div class="hero-content">
 	        <div class="text-center lg:text-right pr-10">
-	            <h1 class="text-5xl font-bold">안녕하세요!</h1>
-	            <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-	                quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+	            <h1 class="text-5xl [color:#a6c1ee] font-bold font-meetme">안녕하세요! <span style="background: linear-gradient(to right top, #fbc2eb, #a6c1ee); color: transparent; -webkit-background-clip: text;">Meow</span> 입니다!</h1>
+	            <div class="py-6 [width:600px] text-lg [color:#35374B] font-Cutelively">
+	            	<p id="login-text1" class="hover:[font-size:1.15rem]"></p>
+	            	<p id="login-text2" class="hover:[font-size:1.15rem]"></p>
+	            	<p id="login-text3" class="hover:[font-size:1.15rem]"></p>
+	            </div>
 	        </div>
+	        
 	        <div class="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
 	            <form action="doLogin" method="post" class="card-body" onsubmit="loginFormOnSubmit(this); return false;">
+	            	<!-- 아이디 -->
 	                <div class="form-control">
 	                    <label class="label">
 	                        <span class="label-text">아이디</span>
 	                    </label>
-	                    <input name="loginId" type="text" placeholder="LoginId" class="input input-bordered" required />
+	                    <input name="loginId" type="text" placeholder="아이디 입력" class="input input-bordered" minlength="8" maxlength="20" required />
 	                </div>
 	                
-	                
-	                
+	                <!-- 비밀번호 -->
 	                <div class="form-control">
 	                    <label class="label">
 	                        <span class="label-text">비밀번호</span>
 	                    </label>
-	                    <input name="loginPw" type="password" placeholder="Password" class="input input-bordered" required />
+	                    <input name="loginPw" type="password" placeholder="비밀번호 입력" class="input input-bordered" minlength="10" maxlength="30" required />
 	                    <label class="label">
 	                    	<div>
-	                        	<a href="#" class="label-text-alt link link-hover">아이디 찾기 |</a>
+	                        	<a href="../find/loginId" class="label-text-alt link link-hover">아이디 찾기 |</a>
 	                        	<a href="#" class="label-text-alt link link-hover">비밀번호 재설정</a>
 	                        </div>
 	                        <a href="join" class="label-text-alt link link-hover">회원가입</a>

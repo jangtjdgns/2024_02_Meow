@@ -17,23 +17,14 @@ public class Member {
 	private String name;
 	private String nickname;
 	private int age;
-	
-	// 주소, json 타입
 	private String address;
-//	private String zonecode;
-//	private String sido;
-//	private String sigungu;
-//	private String bname;
-//	private String jibunAddress;
-//	private String roadAddress;
-//	private String detailAddress;
-	
 	private String cellphoneNum;
 	private String email;
 	private int status;
-	private String delDate;
 	private String lastLoginDate;
 	private int lastLoginDays;
 	private String profileImage;
 	private String aboutMe;
+	
+	private String snsType;
 }

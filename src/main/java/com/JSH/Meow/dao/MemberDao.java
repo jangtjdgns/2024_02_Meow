@@ -90,5 +90,15 @@ public interface MemberDao {
 			WHERE id = #{memberId}
 			""")
 	public void doDelete(int memberId, int status);
+	
+	@Select("""
+			SELECT M.*, S.snsType
+			FROM `member` M
+			LEFT JOIN sns_info S
+			ON M.id = S.memberId
+			WHERE M.name = #{name}
+			AND M.email = #{email}
+			""")
+	public Member doFindLoginId(String name, String email);
 
 }

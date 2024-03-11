@@ -15,12 +15,12 @@ import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
-public class ResReqController {
+public class ReqResController {
 	private ReqResService reqResService;
 	private FriendService friendService;
 	private Rq rq;
 	
-	public ResReqController(ReqResService reqResService, FriendService friendService, Rq rq) {
+	public ReqResController(ReqResService reqResService, FriendService friendService, Rq rq) {
 		this.reqResService = reqResService;
 		this.friendService = friendService;
 		this.rq = rq;

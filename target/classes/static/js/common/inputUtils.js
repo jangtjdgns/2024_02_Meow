@@ -52,7 +52,7 @@ const regexPatterns = [
 ];
 
 // join관련 정규 표현식 검증 (Regular Expression)
-function validateRegex(field, idx){
+function validataRegex(field, idx){
 	if(regexPatterns[idx].pattern.test($(field).val().trim())) {
 		changeInputBorderColor(field, true, "input-error");
 		return [true, "이상없음"];
@@ -63,7 +63,7 @@ function validateRegex(field, idx){
 
 
 // join 관련 공백 아님을 검증
-function validateNotBlank(field, name){
+function validataNotBlank(field, name){
 	
 	if(field.val().trim().length > 0) {
 		changeInputBorderColor(field, true, "input-error");

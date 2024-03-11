@@ -20,7 +20,8 @@ public class EmailService {
 		this.javaMailSender = javaMailSender;
 	}
 	
-	public String sendMail(String email) {
+	// 회원가입 인증 코드 발송
+	public String sendJoinMail(String email) {
 		String authCode = createAuthCode();
 		
 		Email emailInfo = new Email();
@@ -35,21 +36,49 @@ public class EmailService {
 				+ "<div id='mailAuthCode' style='font-size: 2rem; margin-top: .5rem;'>" + authCode + "</div>"
 				+ "</div></div>");
         
-
+		return sendMail(emailInfo, "join", authCode);
+	}
+	
+	
+	// 아이디 찾기, 로그인 아이디 메일 발송
+	public String sendIdFoundEmail(String email, String name, String loginId) {
+		Email emailInfo = new Email();
+		emailInfo.setTo(email);
+		emailInfo.setSubject("[Meow] 아이디 찾기");
+		emailInfo.setMessgae(""
+				+ "<div style='margin: 50px 100px'>"
+				+ "<h2>안녕하세요!</h2>"
+				+ "<h2>고양이를 위한 소중한 공간, Meow 입니다!🐱💖</h2><br>"
+				+ "<div style='border:2px solid; border-radius: 1rem; padding: 20px; text-align: center; font-weight: bold;'>"
+				+ "<div>" + name + "님의 아이디 입니다.</div>"
+				+ "<div id='mailAuthCode' style='font-size: 2rem; margin-top: .5rem;'>" + loginId + "</div>"
+				+ "</div></div>");
+		
+		return sendMail(emailInfo, "foundId", "");
+	}
+	
+	
+	// 메일 발송 메서드
+	private String sendMail(Email email, String type, String authCode) {
 		// MIME은 이메일에서 텍스트 이외의 다양한 데이터를 다룰 수 있게 하는 표준
 		// 텍스트, 이미지, 첨부 파일 등을 처리 가능
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-
+		
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-            mimeMessageHelper.setTo(emailInfo.getTo()); 				// 메일 수신자
-            mimeMessageHelper.setSubject(emailInfo.getSubject()); 		// 메일 제목
-            mimeMessageHelper.setText(emailInfo.getMessgae(), true); 	// 메일 본문 내용
+            mimeMessageHelper.setTo(email.getTo()); 				// 메일 수신자
+            mimeMessageHelper.setSubject(email.getSubject()); 		// 메일 제목
+            mimeMessageHelper.setText(email.getMessgae(), true); 	// 메일 본문 내용
             javaMailSender.send(mimeMessage);
             
             System.out.println("Success");
-            return authCode;
-
+            
+            if(type.equals("join")) {
+            	return authCode;
+            }
+            
+            return null;
+            
         } catch (MessagingException e) {
             System.out.println("Fail");
             throw new RuntimeException(e);
@@ -57,7 +86,7 @@ public class EmailService {
 	}
 	
 	// 6자리 인증 번호 생성 메서드
-	public String createAuthCode() {
+	private String createAuthCode() {
 		Random random = new Random();
 		StringBuffer key = new StringBuffer();		// 가변한 문자열을 처리하기 위한 클래스
 		

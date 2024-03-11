@@ -1,93 +1,14 @@
-/* 폰트 */
-/* https://noonnu.cc/font_page/1269 */
-@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+/* common.css */
 
-/* https://noonnu.cc/font_page/694 */
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
-
-/* https://noonnu.cc/font_page/527 */
-@font-face {
-    font-family: 'Cute_siu';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_02@1.0/Cut_siu.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-/* https://noonnu.cc/font_page/415 */
-@font-face {
-    font-family: 'ChosunGu';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-/* https://noonnu.cc/font_page/738 */
-@font-face {
-    font-family: 'SBAggroB';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-/* https://noonnu.cc/font_page/1050 */
-@font-face {
-    font-family: 'LINESeedKR-Bd';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-}
-
-/* https://noonnu.cc/font_page/115 */
-@font-face {
-    font-family: 'yg-jalnan';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-/* 프리덴다드 */
-.font-Pretendard {
-	font-family: 'Pretendard-Regular';
-}
-
-/* 큐트시우 */
-.font-cuteSiu {
-	font-family: 'Cute_siu';
-}
-
-/* 조선 굴림체 */
-.font-ChosunGu {
-	font-family: 'ChosunGu';
-}
-
-/* Wanted Sans */
-.font-WantedSans {
+body {
 	font-family:"Wanted Sans Variable";
 }
 
-/* 어그로체 */
-.font-SBAggroB {
-	font-family: 'SBAggroB';
-}
-
-/* LINE Seed */
-.font-LINESeed {
-	font-family: 'LINESeedKR-Bd';
-}
-
-/* 여기어때 잘난체 */
-.font-Jalnan {
-	font-family: 'yg-jalnan';
-}
 
 
 
 
+/* login.jsp */
 
 /* 네이버 로그인 커스텀 버튼 */
 .naver-login-btn {
@@ -111,11 +32,6 @@
 
 
 
-
-/* 폰트적용 */
-body {
-	font-family:"Wanted Sans Variable";
-}
 
 .h-mh {
 	min-height: calc(11vh + 50px);

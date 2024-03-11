@@ -102,7 +102,7 @@ const joinFormOnSubmit = function(form){
 
 // 정규표현식 검사
 function checkRegex(field, idx){
-	const checkRegex = validateRegex(field, idx);
+	const checkRegex = validataRegex(field, idx);
     if (!checkRegex[0]) {
       	alertMsg(checkRegex[1], "error");
       	return checkRegex[0];
@@ -112,7 +112,7 @@ function checkRegex(field, idx){
 
 // 공백 검사
 function checkNotBlank(field){
-	const checkNotBlank = validateNotBlank(
+	const checkNotBlank = validataNotBlank(
 		field,
 		field.attr("data-korName")
 	);
@@ -188,14 +188,14 @@ function sendMailAuthCode() {
 	
 	const email = $("#inputEmail");
 	
-	const checkEmail = validateRegex(email, 6);
+	const checkEmail = validataRegex(email, 6);
 	
 	if(!checkEmail[0]) {
 		alertMsg(checkEmail[1], "error");
 		return email.focus();
 	}
 	
-	alertMsg("인증코드를 발송중입니다.", "default");
+	alertMsg("", "loading");
 	$(".senMailBtn").attr("disabled", true);
 	
 	$.ajax({
@@ -277,6 +277,15 @@ $(function(){
 	// 주소 변경 될 때
 	$("#detailAddress").change(function(){
 		address.detailAddress = $("#detailAddress").val();
+	})
+	
+	// 이메일이 변경될 때
+	$("#inputEmail").change(function(){
+		isEmailSent = false;
+		$("#authCodeWrap>input").val("");
+		$(".senMailBtn").attr("disabled", false);
+		$("#authCode").attr("disabled", false);
+		$("#authCodeWrap").addClass("hidden");
 	})
 	
 	// 이미지 미리보기

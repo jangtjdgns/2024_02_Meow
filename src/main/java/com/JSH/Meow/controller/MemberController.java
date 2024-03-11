@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.JSH.Meow.config.component.UploadComponent;
 import com.JSH.Meow.service.CompanionCatService;
+import com.JSH.Meow.service.EmailService;
 import com.JSH.Meow.service.MemberDeletionService;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.service.SnsInfoService;
@@ -31,18 +32,22 @@ public class MemberController {
 	private MemberDeletionService memberDeletionService;
 	private CompanionCatService companionCatService;
 	private SnsInfoService snsInfoService;
+	private EmailService emailService;
 	private Rq rq;
 	private UploadComponent uploadComponent;
 	
-	public MemberController(MemberService memberService, MemberDeletionService memberDeletionService, CompanionCatService companionCatService, SnsInfoService snsInfoService, Rq rq, UploadComponent uploadComponent) {
+	public MemberController(MemberService memberService, MemberDeletionService memberDeletionService, CompanionCatService companionCatService, SnsInfoService snsInfoService, EmailService emailService, Rq rq, UploadComponent uploadComponent) {
 		this.memberService = memberService;
 		this.memberDeletionService = memberDeletionService;
 		this.companionCatService = companionCatService;
 		this.snsInfoService = snsInfoService;
+		this.emailService = emailService;
 		this.rq = rq;
 		this.uploadComponent = uploadComponent;
 	}
 	
+	
+	// 회원가입 페이지
 	@RequestMapping("/usr/member/join")
 	public String join() {
 		
@@ -50,6 +55,7 @@ public class MemberController {
 	}
 	
 	
+	// 회원가입
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
 	public String doJoin(String loginId
@@ -127,13 +133,35 @@ public class MemberController {
 		return Util.jsReplace(Util.f("%s 님이 가입되었습니다.", nickname), "/");
 	}
 	
+	// 회원가입 인증번호 발송, ajax
+	@RequestMapping("/usr/sendMail/join")
+	@ResponseBody
+	public ResultData sendJoinMail(String email) {
+		
+		// 가입한 적이 있는지 확인하는 메일, 탈퇴여부도 확인해야할듯
+		Member member = memberService.getMemberByEmail(email);
+		if(member != null) {
+			return ResultData.from("F-1", Util.f("%s은(는) 이미 가입되어있는 이메일입니다.", email));
+		}
+		
+		String authCode = emailService.sendJoinMail(email);
+		
+		if(Util.isEmpty(authCode)) {
+			return ResultData.from("F-2", "인증메일 발송을 실패했습니다.");
+		}
+		
+		return ResultData.from("S-1", "인증메일이 발송되었습니다. 이메일을 확인해주세요.", authCode);
+	}
 	
+	// 로그인 페이지
 	@RequestMapping("/usr/member/login")
 	public String login() {
 		
 		return "usr/member/login";
 	}
 	
+	
+	// 로그인
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public String doLogin(String loginId, String loginPw) throws NoSuchAlgorithmException {
@@ -162,6 +190,7 @@ public class MemberController {
 	}
 	
 	
+	// 로그아웃
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
 	public String doLogout() {
@@ -365,4 +394,33 @@ public class MemberController {
 		
 		return ResultData.from("S-1", "성공", result);
 	}
+	
+	// 아이디 찾기, jsp
+	@RequestMapping("/usr/find/loginId")
+	public String findLoginId() {
+		
+		return "usr/member/findLoginId";
+	}
+	
+	// 아이디 찾기, ajax
+	@RequestMapping("/usr/doFind/loginId")
+	@ResponseBody
+	public ResultData doFindLoginId(String name, String email) {
+		
+		Member member = memberService.doFindLoginId(name, email);
+		
+		if(member == null) {
+			return ResultData.from("F-1", "해당 정보와 일치하는 회원을 찾을 수 없습니다.");
+		}
+		
+		if(!Util.isEmpty(member.getSnsType())) {
+			return ResultData.from("F-2", "SNS를 통해 가입된 회원입니다. " + member.getSnsType() + "에서 아이디 찾기를 진행해주세요.");
+		}
+		
+		emailService.sendIdFoundEmail(email, name, member.getLoginId());
+		
+		return ResultData.from("S-1", "해당 이메일로 아이디가 발송 되었습니다.");
+	}
+	
+	// 비밀번호 찾기
 }

@@ -87,4 +87,9 @@ public class MemberService {
 	public String getProfileImagePath() {
 		return uploadComponent.getProfileImagePath();
 	}
+	
+	// 아이디 찾기
+	public Member doFindLoginId(String name, String email) {
+		return memberDao.doFindLoginId(name, email);
+	}
 }
