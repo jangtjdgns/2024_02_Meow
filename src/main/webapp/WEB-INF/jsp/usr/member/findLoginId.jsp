@@ -4,48 +4,7 @@
 
 <%@ include file="../common/header.jsp"%>
 
-<script>
-	function findLoginId(){
-		let checkRegex = validataRegex($("#name"), 2);
-		if (!checkRegex[0]) {
-	      	alertMsg(checkRegex[1], "error");
-	      	return checkRegex[0];
-	    }
-		
-		checkRegex = validataRegex($("#email"), 6);
-		if (!checkRegex[0]) {
-	      	alertMsg(checkRegex[1], "error");
-	      	return checkRegex[0];
-	    }
-		
-		$(".fintBtn").attr("disabled", true);
-		
-		alertMsg("", "loading");
-		
-		$.ajax({
-			url: '../doFind/loginId', 
-		    method: 'GET',
-		    data: {
-		    	"name": $("#name").val().trim(),
-				"email": $("#email").val().trim(),
-		    },
-		    dataType: 'json',
-		    success: function(data) {
-		    	const alertType = data.success ? "success" : "error";
-		    	alertMsg(data.msg, alertType);
-		    	$(".fintBtn").attr("disabled", false);
-			},
-		      	error: function(xhr, status, error) {
-		      	console.error('Ajax error:', status, error);
-			}
-		});
-	}
-	
-	$(function(){
-		bindFormInputEvent($("#name"), "input-error");
-		bindFormInputEvent($("#email"), "input-error");
-	})
-</script>
+<script src="/js/member/findAccount.js"></script>
 
 <section id="profile-bg" class="py-12 p-mw min-h border-t" style="background: linear-gradient(#EBE8E6, #E5D7D1);">
 	<div class="mx-auto max-w-5xl profile-layout">

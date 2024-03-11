@@ -53,25 +53,33 @@ const regexPatterns = [
 
 // join관련 정규 표현식 검증 (Regular Expression)
 function validataRegex(field, idx){
+	
 	if(regexPatterns[idx].pattern.test($(field).val().trim())) {
 		changeInputBorderColor(field, true, "input-error");
-		return [true, "이상없음"];
+		return true;
 	}
+	
 	changeInputBorderColor(field, false, "input-error");
-	return [false, regexPatterns[idx].failedMassage];
+	alertMsg(regexPatterns[idx].failedMassage, "error");
+	return false;
 }
 
 
 // join 관련 공백 아님을 검증
-function validataNotBlank(field, name){
+function validataNotBlank(field){
+	
+	const name = field.attr("data-korName");
 	
 	if(field.val().trim().length > 0) {
 		changeInputBorderColor(field, true, "input-error");
-		return [true, "이상없음"];
+		return true;
 	}
+	
 	changeInputBorderColor(field, false, "input-error");
-	return [false, name + "을(를) 입력해주세요."];
+	alertMsg(name + "을(를) 입력해주세요.", "error");
+	return false;
 }
+
 
 // input 색상 변경 함수
 function changeInputBorderColor(field, isValid, errorClass){

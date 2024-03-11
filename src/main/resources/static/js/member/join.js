@@ -53,12 +53,12 @@ const joinFormOnSubmit = function(form){
 	    const field = formFields[i];
 		
 		// 공백 아님을 검증
-	    if(!checkNotBlank($(field))) {
+	    if(!validataNotBlank($(field))) {
 			return field.focus();
 		}
 		
 	    // 정규표현식 검증
-	    if(!checkRegex($(field), i)) {
+	    if(!validataRegex($(field), i)) {
 			return field.focus();
 		}
   	}
@@ -100,30 +100,6 @@ const joinFormOnSubmit = function(form){
 	form.submit();
 }
 
-// 정규표현식 검사
-function checkRegex(field, idx){
-	const checkRegex = validataRegex(field, idx);
-    if (!checkRegex[0]) {
-      	alertMsg(checkRegex[1], "error");
-      	return checkRegex[0];
-    }
-    return checkRegex[0];
-}
-
-// 공백 검사
-function checkNotBlank(field){
-	const checkNotBlank = validataNotBlank(
-		field,
-		field.attr("data-korName")
-	);
-	
-	if (!checkNotBlank[0]) {
-      	alertMsg(checkNotBlank[1], "error");
-      	return checkNotBlank[0];
-    }
-    return checkNotBlank[0];
-}
-
 // 중복확인
 function dupCheck(type, input){
 	const inputName = type == 'loginId' ? '아이디' : '닉네임';
@@ -140,11 +116,11 @@ function dupCheck(type, input){
 		success : function(data){
 			const success = data.success;
 			
-			if(!checkNotBlank(input)){
+			if(!validataNotBlank(input)){
 				return input.focus();
 			}
 			
-			if(!checkRegex(input, regIdx)) {
+			if(!validataRegex(input, regIdx)) {
 				return input.focus();
 			}
 			
@@ -187,13 +163,8 @@ let isEmailSent = false;	// 인증코드를 문제없이 전송했을 때, 인�
 function sendMailAuthCode() {
 	
 	const email = $("#inputEmail");
-	
 	const checkEmail = validataRegex(email, 6);
-	
-	if(!checkEmail[0]) {
-		alertMsg(checkEmail[1], "error");
-		return email.focus();
-	}
+	if(!checkEmail) return email.focus();	// 정규식 통과못하면 return
 	
 	alertMsg("", "loading");
 	$(".senMailBtn").attr("disabled", true);
@@ -206,6 +177,7 @@ function sendMailAuthCode() {
 		},
 		dataType : "json",
 		success : function(data){
+			
 			if(data.success){
 				authCode = data.data;
 				isEmailSent = true;
