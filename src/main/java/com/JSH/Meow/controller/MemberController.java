@@ -248,6 +248,8 @@ public class MemberController {
 		
 		Member member = memberService.getMemberById(memberId);
 		
+		String jspPath = null;
+		
 		if(sectionNo == 0) {
 			// sns 회원은 계정 수정이 불가함, 단, 이미지, 소개말은 가능 (+주소?)
 			String snsType = snsInfoService.getSnsTypeBymemberId(memberId);
@@ -258,12 +260,17 @@ public class MemberController {
 			
 			model.addAttribute("member", member);
 			
-			return "usr/member/modify";
-		} else if(sectionNo == 2) {
-			return "usr/member/delete";
+			jspPath = "usr/member/modify";
+		} else if(sectionNo == 1) {
+			jspPath = "usr/member/resetLoginPwLogined";
+		}
+		else if(sectionNo == 2) {
+			jspPath = "usr/member/delete";
+		} else {
+			jspPath = "usr/member/userAccountDefault";
 		}
 		
-		return "usr/member/userAccountDefault";
+		return jspPath;
 	}
 	
 	
@@ -463,7 +470,7 @@ public class MemberController {
 	@ResponseBody
 	public ResultData resetLoginPwPop(@RequestParam(defaultValue = "0")int memberId, String resetLoginPw) throws NoSuchAlgorithmException {
 		
-		if(memberId == 0) {
+		if(memberId == 0 && rq.getLoginedMemberId() == 0) {
 			return ResultData.from("F-1", "이메일 인증이 확인되지 않았습니다.");
 		}
 		
@@ -480,7 +487,13 @@ public class MemberController {
 		
 		memberService.doResetLoginPw(memberId, encryptPw);
 		
-		return ResultData.from("S-1", "비밀번호가 변경되었습니다.");
+		// 로그인 전용 비밀번호 설정인 경우
+		if(rq.getLoginedMemberId() != 0) {
+			rq.logout();
+			return ResultData.from("S-1", "비밀번호가 변경되었습니다. 다시 로그인 해주세요.");
+		}
+		
+		return ResultData.from("S-2", "비밀번호가 변경되었습니다.");
 	}
 	
 }

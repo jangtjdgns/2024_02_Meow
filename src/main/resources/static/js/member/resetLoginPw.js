@@ -88,19 +88,20 @@ function checkPw(){
 function doResetPw() {
 	checkPw();
 	
+	if(!confirm("비밀번호를 변경하시겠습니까?")) return;
+	
     if(!validataRegex($("#resetPw"), 1) || !validataRegex($("#resetPwChk"), 1)) return isPwConfirmed = false;
 	if(!isPwConfirmed) return;
-	
+
 	$.ajax({
 		url: '../doReset/loginPw',
 	    method: 'POST',
 	    data: {
-			memberId: memberId,
+			memberId: loginedMemberId == 0 ? memberId : loginedMemberId,
 			resetLoginPw: $("#resetPw").val().trim(),
 	    },
 	    dataType: 'json',
 	    success: function(data) {
-			console.log(data);
 			
 			if(data.success) {
 				alert(data.msg);

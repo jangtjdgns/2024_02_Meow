@@ -53,9 +53,9 @@
 						<span>계정관리</span>
 					</div>
 					<div class="side-btn-wrap flex flex-col pt-2">
-						<a class="userAccount side-btn btn btn-ghost btn-sm mx-1">계정 정보 수정</a>
-						<div class="userAccount side-btn btn btn-ghost btn-sm mx-1">비밀번호 재설정</div>
-						<a class="userAccount side-btn btn btn-ghost btn-sm mx-1">계정 탈퇴</a>
+						<button class="userAccount side-btn btn btn-ghost btn-sm mx-1">계정 정보 수정</button>
+						<button class="userAccount side-btn btn btn-ghost btn-sm mx-1">비밀번호 재설정</button>
+						<button class="userAccount side-btn btn btn-ghost btn-sm mx-1">계정 탈퇴</button>
 					</div>
 				</div>
 			</div>
