@@ -92,7 +92,7 @@
 	                    <label class="label">
 	                    	<div>
 	                        	<a href="../find/loginId" class="label-text-alt link link-hover">아이디 찾기 |</a>
-	                        	<a href="#" class="label-text-alt link link-hover">비밀번호 재설정</a>
+	                        	<a href="../reset/loginPw" class="label-text-alt link link-hover">비밀번호 재설정</a>
 	                        </div>
 	                        <a href="join" class="label-text-alt link link-hover">회원가입</a>
 	                    </label>

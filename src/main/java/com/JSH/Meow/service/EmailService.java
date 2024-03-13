@@ -1,6 +1,7 @@
 package com.JSH.Meow.service;
 
 import java.util.Random;
+import java.util.UUID;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -58,6 +59,28 @@ public class EmailService {
 	}
 	
 	
+	// 비밀번호 재설정, 재설정 페이지 메일 발송
+	public String sendPwResetEmail(String email) {
+		// 랜덤 토큰 생성해서 검증하면 보안에 좋다고함, 우선순위 끝낸후 작업 가능하면 진행
+		
+		String authCode = createAuthCode();
+		
+		Email emailInfo = new Email();
+		emailInfo.setTo(email);
+		emailInfo.setSubject("[Meow] 비밀번호 재설정");
+		emailInfo.setMessgae(""
+				+ "<div class='font-bold' style='margin: 50px 100px'>"
+				+ "<h2>안녕하세요!</h2>"
+				+ "<h2>고양이를 위한 소중한 공간, Meow 입니다!🐱💖</h2><br>"
+				+ "<div style='border:2px solid; border-radius: 1rem; padding: 20px; text-align: center; font-weight: bold;'>"
+				+ "<div style='padding-bottom: 1.25rem;'>비밀번호 재설정 인증 코드 6자리 입니다.</div>"
+				+ "<div id='mailAuthCode' style='font-size: 2rem; margin-top: .5rem;'>" + authCode + "</div>"
+				+ "</div></div>");
+		
+		return sendMail(emailInfo, "resetPw", authCode);
+	}
+	
+	
 	// 메일 발송 메서드
 	private String sendMail(Email email, String type, String authCode) {
 		// MIME은 이메일에서 텍스트 이외의 다양한 데이터를 다룰 수 있게 하는 표준
@@ -73,7 +96,7 @@ public class EmailService {
             
             System.out.println("Success");
             
-            if(type.equals("join")) {
+            if(type.equals("join") || type.equals("resetPw")) {
             	return authCode;
             }
             

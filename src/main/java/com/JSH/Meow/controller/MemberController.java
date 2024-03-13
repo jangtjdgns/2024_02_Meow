@@ -395,7 +395,7 @@ public class MemberController {
 		return ResultData.from("S-1", "성공", result);
 	}
 	
-	// 아이디 찾기, jsp
+	// 아이디 찾기 페이지
 	@RequestMapping("/usr/find/loginId")
 	public String findLoginId() {
 		
@@ -407,14 +407,19 @@ public class MemberController {
 	@ResponseBody
 	public ResultData doFindLoginId(String name, String email) {
 		
-		Member member = memberService.doFindLoginId(name, email);
+		Member member = memberService.getMemberByCredentials(name, "", email);
 		
 		if(member == null) {
 			return ResultData.from("F-1", "해당 정보와 일치하는 회원을 찾을 수 없습니다.");
 		}
 		
+		// 탈퇴 회원인 경우
+		if(member.getStatus() == 3) {
+			return ResultData.from("F-2", "탈퇴 처리된 계정입니다");
+		}
+		
 		if(!Util.isEmpty(member.getSnsType())) {
-			return ResultData.from("F-2", "SNS를 통해 가입된 회원입니다. " + member.getSnsType() + "에서 아이디 찾기를 진행해주세요.");
+			return ResultData.from("F-3", "SNS를 통해 가입된 회원입니다. " + member.getSnsType() + "에서 아이디 찾기를 진행해주세요.");
 		}
 		
 		emailService.sendIdFoundEmail(email, name, member.getLoginId());
@@ -422,5 +427,60 @@ public class MemberController {
 		return ResultData.from("S-1", "해당 이메일로 아이디가 발송 되었습니다.");
 	}
 	
-	// 비밀번호 찾기
+	
+	// 비밀번호 재설정 이메일 인증 페이지
+	@RequestMapping("/usr/reset/loginPw")
+	public String resetLoginPwAuth() {
+		
+		return "usr/member/resetLoginPw";
+	}
+	
+	// 비밀번호 재설정 이메일 인증 및 발송, ajax
+	@RequestMapping("/usr/sendMail/resetPassword")
+	@ResponseBody
+	public ResultData sendPwResetEmail(String name, String loginId, String email) {
+		
+		Member member = memberService.getMemberByCredentials(name, loginId, email);
+		
+		if(member == null) {
+			return ResultData.from("F-1", "해당 정보와 일치하는 회원을 찾을 수 없습니다.");
+		}
+		
+		// 탈퇴 회원인 경우
+		if(member.getStatus() == 3) {
+			return ResultData.from("F-2", "탈퇴 처리된 계정입니다");
+		}
+		
+		String authCode = emailService.sendPwResetEmail(email);
+		
+		member.setAuthCode(authCode);
+		
+		return ResultData.from("S-1", "이메일 인증이 완료되었습니다. <br />해당 이메일을 통해 비밀번호 재설정을 진행해주세요.", member);
+	}
+	
+	// 비밀번호 재설정, ajax
+	@RequestMapping("/usr/doReset/loginPw")
+	@ResponseBody
+	public ResultData resetLoginPwPop(@RequestParam(defaultValue = "0")int memberId, String resetLoginPw) throws NoSuchAlgorithmException {
+		
+		if(memberId == 0) {
+			return ResultData.from("F-1", "이메일 인증이 확인되지 않았습니다.");
+		}
+		
+		Member member = memberService.getMemberById(memberId);
+		
+		// 이미 사용중인 비밀번호인지 확인
+		boolean usedPwCheck = memberService.getPasswordEquality(resetLoginPw, member.getLoginPw());
+		if(!usedPwCheck) {
+			return ResultData.from("F-3", "이전에 사용하던 비밀번호와 같습니다.<br>다른 비밀번호를 사용해주세요.");
+		}
+		
+		// 비밀번호 암호화
+		String encryptPw = memberService.encryptPassword(resetLoginPw);
+		
+		memberService.doResetLoginPw(memberId, encryptPw);
+		
+		return ResultData.from("S-1", "비밀번호가 변경되었습니다.");
+	}
+	
 }

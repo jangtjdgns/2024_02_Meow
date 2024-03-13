@@ -88,8 +88,13 @@ public class MemberService {
 		return uploadComponent.getProfileImagePath();
 	}
 	
-	// 아이디 찾기
-	public Member doFindLoginId(String name, String email) {
-		return memberDao.doFindLoginId(name, email);
+	// 자격 인증 [인증이 필요한 매개변수: 이름, 아이디, 이메일] (아이디 찾기, 비밀번호 재설정에서 사용)
+	public Member getMemberByCredentials(String name, String loginId, String email) {
+		return memberDao.getMemberByCredentials(name, loginId, email);
+	}
+	
+	// 비밀번호 변경
+	public void doResetLoginPw(int memberId, String resetLoginPw) {
+		memberDao.doResetLoginPw(memberId, resetLoginPw);
 	}
 }

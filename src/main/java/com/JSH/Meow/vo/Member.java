@@ -27,4 +27,5 @@ public class Member {
 	private String aboutMe;
 	
 	private String snsType;
+	private String authCode;
 }

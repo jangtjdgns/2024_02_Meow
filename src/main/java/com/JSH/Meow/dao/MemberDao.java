@@ -12,22 +12,20 @@ import com.JSH.Meow.vo.Member;
 @Mapper
 public interface MemberDao {
 	@Insert("""
-			<script>
-				INSERT INTO `member`
-				SET regDate = NOW()
-					, updateDate = NOW()
-					, loginId = #{loginId}
-					, loginPw = #{loginPw}
-					, `name` = #{name}
-					, nickname = #{nickname}
-					, age = #{age}
-					, address = #{address}
-					, cellphoneNum = #{cellphoneNum}
-					, email = #{email}
-					, lastLoginDate = NOW()
-					, profileImage = #{profileImage}
-					, aboutMe = #{aboutMe}
-			</script>
+			INSERT INTO `member`
+			SET regDate = NOW()
+				, updateDate = NOW()
+				, loginId = #{loginId}
+				, loginPw = #{loginPw}
+				, `name` = #{name}
+				, nickname = #{nickname}
+				, age = #{age}
+				, address = #{address}
+				, cellphoneNum = #{cellphoneNum}
+				, email = #{email}
+				, lastLoginDate = NOW()
+				, profileImage = #{profileImage}
+				, aboutMe = #{aboutMe}
 			""")
 	public void joinMember(String loginId, String loginPw, String name, String nickname, int age, String address, String cellphoneNum, String email, String profileImage, String aboutMe);
 	
@@ -92,13 +90,25 @@ public interface MemberDao {
 	public void doDelete(int memberId, int status);
 	
 	@Select("""
-			SELECT M.*, S.snsType
-			FROM `member` M
-			LEFT JOIN sns_info S
-			ON M.id = S.memberId
-			WHERE M.name = #{name}
-			AND M.email = #{email}
+			<script>
+				SELECT M.*, S.snsType
+				FROM `member` M
+				LEFT JOIN sns_info S
+				ON M.id = S.memberId
+				WHERE M.name = #{name}
+				AND M.email = #{email}
+				<if test="loginId != null and loginId != ''">
+					AND M.loginId = #{loginId}
+				</if>
+			</script>
 			""")
-	public Member doFindLoginId(String name, String email);
-
+	public Member getMemberByCredentials(String name, String loginId, String email);
+	
+	@Select("""
+			UPDATE `member`
+			SET updateDate = NOW()
+				, loginPw = #{resetLoginPw}
+			WHERE id = #{memberId}
+			""")
+	public void doResetLoginPw(int memberId, String resetLoginPw);
 }

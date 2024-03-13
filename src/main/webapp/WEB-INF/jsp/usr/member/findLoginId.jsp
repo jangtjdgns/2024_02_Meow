@@ -4,7 +4,7 @@
 
 <%@ include file="../common/header.jsp"%>
 
-<script src="/js/member/findAccount.js"></script>
+<script src="/js/member/findLoginId.js"></script>
 
 <section id="profile-bg" class="py-12 p-mw min-h border-t" style="background: linear-gradient(#EBE8E6, #E5D7D1);">
 	<div class="mx-auto max-w-5xl profile-layout">
@@ -16,8 +16,8 @@
 						<span>계정찾기</span>
 					</div>
 					<div class="side-btn-wrap flex flex-col pt-2">
-						<a class="side-btn btn btn-ghost btn-sm mx-1 btn-active">아이디 찾기</a>
-						<a class="side-btn btn btn-ghost btn-sm mx-1">비밀번호 재설정</a>
+						<a href="../find/loginId" class="side-btn btn btn-ghost btn-sm mx-1 btn-active">아이디 찾기</a>
+						<a href="../reset/loginPw" class="side-btn btn btn-ghost btn-sm mx-1">비밀번호 재설정</a>
 					</div>
 				</div>
 			</div>
@@ -25,11 +25,12 @@
 		
 		<div id="section-wrap">
 			<div class="bg-white border shadow-2xl rounded-3xl pb-10">
-				<div class="p-10 text-3xl">
+				<div class="pt-14 pb-4 px-20 text-3xl">
 					<i class="fa-solid fa-key pr-1"></i>
 					<span>아이디 찾기</span>
+					<div class="text-xs pt-3"><span class="text-red-700">* </span>SNS 회원은 아이디 찾기가 불가능합니다.</div>
 				</div>
-				<div class="p-6">
+				<div class="pb-4 px-20">
 					<div class="form-control">
 	                    <label class="label">
 	                        <span class="label-text">이름</span>
@@ -45,7 +46,7 @@
 	                </div>
 	                
 	                <div class="text-right pt-6">
-		                <button class="btn btn-wide fintBtn" onclick="findLoginId()">찾기</button>
+		                <button class="btn btn-wide findBtn" onclick="findLoginId()">찾기</button>
 	                </div>
 				</div>
 			</div>
