@@ -151,7 +151,7 @@ CREATE TABLE reply(
 	memberId INT UNSIGNED NOT NULL,
 	relTypeCode VARCHAR(20) NOT NULL COMMENT '관련 데이터 타입 코드',
 	relId INT UNSIGNED NOT NULL COMMENT '관련 데이터 번호',
-	`body` TEXT NOT NULL
+	`body` VARCHAR(300) NOT NULL COMMENT '댓글 수 300글자 제한'
 );
 
 

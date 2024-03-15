@@ -120,7 +120,15 @@
 				<c:forEach var="article" items="${articles }" varStatus="status">
 					<tr style="animation-delay: ${(status.index + 1) * 20 }ms;">
 						<td>${article.id }</td>
-						<td class="hover:underline text-left px-5"><a href="detail?boardId=${boardId}&id=${article.id }">${article.title }</a></td>
+						<td class="hover:underline text-left px-5">
+							<a href="detail?boardId=${boardId}&id=${article.id }">${article.title }${article.replyCnt }
+								<%-- 아직 dao 수정안함
+								<c:if test="${article.replyCnt != 0 }">
+									<span class="font-bold">(${article.replyCnt })</span>
+								</c:if>
+								--%>
+							</a>
+						</td>
 						<td>${article.writerName }</td>
 						<td class="text-center">${article.formattedRegDate }</td>
 						<td>0</td>

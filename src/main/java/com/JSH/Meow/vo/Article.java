@@ -19,6 +19,7 @@ public class Article {
 	private String body;
 	
 	private String writerName;
+	private int replyCnt;
 	
 	public String getFormattedRegDate() {
 		return Util.formattedDatetime(this.regDate);

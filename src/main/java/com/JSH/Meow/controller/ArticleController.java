@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.service.ArticleService;
 import com.JSH.Meow.service.BoardService;
+import com.JSH.Meow.service.ReplyService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Article;
 import com.JSH.Meow.vo.Board;
+import com.JSH.Meow.vo.Reply;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
@@ -20,11 +22,13 @@ public class ArticleController {
 	
 	private ArticleService articleService;
 	private BoardService boardService;
+	private ReplyService replyService;
 	private Rq rq;
 	
-	public ArticleController(ArticleService articleService, BoardService boardService, Rq rq) {
+	public ArticleController(ArticleService articleService, BoardService boardService, ReplyService replyService, Rq rq) {
 		this.articleService = articleService;
 		this.boardService = boardService;
+		this.replyService = replyService;
 		this.rq = rq;
 	}
 	
@@ -89,7 +93,7 @@ public class ArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id, int boardId) {
 		
-		Article article = articleService.getArticleById(id);
+		Article article = articleService.getArticleWithDetailsById(id);
 		
 		if(article == null) {
 			return rq.jsReturnOnView(Util.f("%d번 게시물은 존재하지 않습니다.", id));

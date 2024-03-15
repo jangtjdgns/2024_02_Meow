@@ -2,8 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <!-- dompurify -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.0/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.0/purify.min.js"></script>
 
 <!-- TOAST UI 에디터 코어 -->
 <link rel="stylesheet"
@@ -29,9 +28,7 @@
 					const $initialValueEl = $node.find(' > script');
 					const initialValue = $initialValueEl.length == 0 ? ''
 							: $initialValueEl.html().trim();
-
-					const $modifyVal = $("textarea").val().trim(); // 수정
-
+					const $modifyVal = $("#body").val().trim(); // 수정
 					const editor = new toastui.Editor({
 						el : node,
 						previewStyle : 'vertical',
@@ -48,7 +45,7 @@
 	function ToastEditorView__init() {
 		const $initialValueEl = $("#body");
 		const initialValue = $initialValueEl.val();
-
+		
 		var viewer = new toastui.Editor.factory({
 			el : document.querySelector("#viewer"),
 			initialValue : initialValue,

@@ -8,12 +8,12 @@
 
 <section class="h-body mx-auto max-w-4xl">
 	<form action="doModify" method="post" onsubmit="submitForm(this); return false;">
-		<input name="id" type="hidden" value="${article.id }" />
-		<textarea name="body" class="hidden">${article.body }</textarea>
+		<input name="id" type="hidden"" value="${article.id }" />
+		<textarea name="body" id="body" class="hidden">${article.body }</textarea>
 		
 		<div class="flex">
 			<div>
-				<span>제목</span> <input name="title" placeholder="제목을 입력해주세요" type="text" value="${article.title }">
+				<span>제목</span> <input name="title" placeholder="제목을 입력해주세요" type="text" class="input input-bordered input-sm" value="${article.title }">
 			</div>
 			<div>
 				<select readonly name="boardId" id="select-board" class="select select-bordered select-sm text-base mx-1">

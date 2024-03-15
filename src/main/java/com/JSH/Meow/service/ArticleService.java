@@ -49,5 +49,10 @@ public class ArticleService {
 	public int getTotalCount(int boardId, int searchType, String searchKeyword) {
 		return articleDao.getTotalCount(boardId, searchType, searchKeyword);
 	}
+
+
+	public Article getArticleWithDetailsById(int id) {
+		return articleDao.getArticleWithDetailsById(id);
+	}
 	
 }
