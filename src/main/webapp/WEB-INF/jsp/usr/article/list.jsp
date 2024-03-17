@@ -73,7 +73,7 @@
 							</c:forEach>
 						</select>
 					    <div>
-					    	<input name="searchKeyword" class="input input-bordered h-10 join-item" placeholder="Search" value="${searchKeyword }" />
+					    	<input name="searchKeyword" class="input input-bordered h-10 join-item" placeholder="검색" value="${searchKeyword }" />
 					    </div>
 					    <select name="searchType" class="select select-bordered select-sm h-10 join-item">
 					        <option value="1" ${searchType == 1 ? 'selected' : ''}>제목</option>
@@ -121,18 +121,16 @@
 					<tr style="animation-delay: ${(status.index + 1) * 20 }ms;">
 						<td>${article.id }</td>
 						<td class="hover:underline text-left px-5">
-							<a href="detail?boardId=${boardId}&id=${article.id }">${article.title }${article.replyCnt }
-								<%-- 아직 dao 수정안함
-								<c:if test="${article.replyCnt != 0 }">
-									<span class="font-bold">(${article.replyCnt })</span>
+							<a href="detail?boardId=${boardId}&id=${article.id }">${article.title }
+								<c:if test="${article.replyCnt > 0 }">
+									<span class="text-blue-600">(${article.replyCnt })</span>
 								</c:if>
-								--%>
 							</a>
 						</td>
 						<td>${article.writerName }</td>
 						<td class="text-center">${article.formattedRegDate }</td>
-						<td>0</td>
-						<td>0</td>
+						<td class="">0</td>
+						<td class="hitCnt">${article.hitCnt }</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -206,4 +204,5 @@
 	</div>
 </section>
 
+<%@ include file="../common/scrollButtons.jsp"%>
 <%@ include file="../common/footer.jsp"%>

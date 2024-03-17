@@ -18,6 +18,10 @@ public class BoardService {
 	public List<Board> getBoards() {
 		return boardDao.getBoards();
 	}
+
+	public Board getBoardById(int boardId) {
+		return boardDao.getBoardById(boardId);
+	}
 	
 	
 }

@@ -12,4 +12,10 @@ public interface BoardDao {
 
 	@Select("SELECT * FROM board")
 	List<Board> getBoards();
+	
+	@Select("""
+			SELECT * FROM board
+			WHERE id = #{boardId}
+			""")
+	Board getBoardById(int boardId);
 }

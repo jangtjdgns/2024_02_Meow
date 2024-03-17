@@ -48,6 +48,12 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/companionCat/doRegister");
 		ir.addPathPatterns("/usr/chat/popUp");
 		ir.addPathPatterns("/usr/send/mail");
+		ir.addPathPatterns("/usr/reply/doWrite");
+		ir.addPathPatterns("/usr/reply/doModify");
+		ir.addPathPatterns("/usr/reply/doDelete");
+		ir.addPathPatterns("/usr/customer/submitRequest");
+		ir.addPathPatterns("/usr/customer/doWriteFeedback");
+		ir.addPathPatterns("/usr/customer/doModifyFeedback");
 		
 		// 로그아웃 필요
 		ir = registry.addInterceptor(needLogoutInterceptor);

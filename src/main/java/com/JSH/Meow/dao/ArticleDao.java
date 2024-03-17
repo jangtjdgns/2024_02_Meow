@@ -16,7 +16,10 @@ public interface ArticleDao {
 	
 	@Select("""
 			<script>
-				SELECT A.*, M.nickname writerName
+				SELECT
+					A.*
+					, M.nickname writerName
+					, (SELECT COUNT(*) FROM reply WHERE relId = A.id) replyCnt
 				FROM article A
 				LEFT JOIN `member` M
 				ON A.memberId = M.id
@@ -142,4 +145,11 @@ public interface ArticleDao {
 				WHERE A.id = #{id}
 			""")
 	public Article getArticleWithDetailsById(int id);
+	
+	@Update("""
+			UPDATE article
+				SET hitCnt = hitCnt + 1
+				WHERE id = #{id}
+			""")
+	public void increaseHitCnt(int id);
 }

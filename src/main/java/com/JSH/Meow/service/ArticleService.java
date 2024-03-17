@@ -54,5 +54,10 @@ public class ArticleService {
 	public Article getArticleWithDetailsById(int id) {
 		return articleDao.getArticleWithDetailsById(id);
 	}
+
+
+	public void increaseHitCnt(int id) {
+		articleDao.increaseHitCnt(id);
+	}
 	
 }

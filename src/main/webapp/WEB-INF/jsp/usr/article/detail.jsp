@@ -19,6 +19,14 @@
 	        		
 					const replies = data.data;
 					
+					if(replies.length == 0) {
+						return $("#replies").append(`
+	        				<div class="flex items-center justify-center border-b text-base text-center" style="min-height: 144px;">
+	        					첫 댓글을 입력해보세요!
+	        				</div>
+		        		`);
+					}
+					
 		        	for(let i = 0; i < replies.length; i++) {
 		        		const operationBtn = `
 							<div class="dropdown dropdown-end">
@@ -51,7 +59,7 @@
 							</div>
 		        		`);
 		        	}
-		        	$("#replyCnt").text(replies.length);
+		        	$(".replyCnt").text(replies.length);
 	        	}
 	        },
 	        error: function(xhr, status, error) {
@@ -193,11 +201,32 @@
 	
 	<div class="mx-auto max-w-4xl w-full bg-white p-14 absolute top-20 left-1/2 z-20 -translate-x-1/2 bg-opacity-95 rounded">
 		<div class="pb-2 flex items-center justify-between">
-			<div><a href="" class="text-blue-600 hover:font-bold">공지사항</a></div>
+			<div class="boardName"><a href="" class="text-blue-600 hover:font-bold">${board.name }</a></div>
 			<div class="text-sm flex justify-between gap-2">
-				<div>
-					<span class="text-xs"><i class="fa-regular fa-clock"></i></span>
-					<span class="text-gray-600">${article.regDate }</span>
+				<div class="flex gap-2">
+					<!-- 게시글 작성일 -->
+					<div class="pr-2">
+						<span class="text-xs"><i class="fa-regular fa-clock"></i></span>
+						<span class="text-gray-600">${article.regDate }</span>
+					</div>
+					
+					<!-- 게시글 댓글수 -->
+					<div>
+						<span class="text-xs"><i class="fa-regular fa-comment-dots"></i></span>
+						<span class="text-gray-600 replyCnt">${article.replyCnt }</span>
+					</div>
+					
+					<!-- 게시글 좋아요수 -->
+					<div>
+						<span class="text-xs"><i class="fa-regular fa-thumbs-up"></i></span>
+						<span class="text-gray-600">0</span>
+					</div>
+					
+					<!-- 게시글 조회수 -->
+					<div>
+						<span class="text-xs"><i class="fa-regular fa-eye"></i></span>
+						<span class="text-gray-600">${article.hitCnt }</span>
+					</div>
 				</div>
 				
 				<div>
@@ -233,57 +262,31 @@
 		<!-- 댓글 -->
 		<div class="w-full pt-4">
 			<div class="border-b-2 pb-4">
-				<div>댓글 (<span id="replyCnt">${article.replyCnt }</span>)</div>
+				<div class="flex items-end justify-between pb-2">
+					<div>댓글 (<span class="replyCnt">${article.replyCnt }</span>)</div>
+					<div>
+						<a href="list" class="btn btn-xs btn-neutral rounded-none">목록</a>
+						<button class="btn btn-xs btn-neutral rounded-none" onclick="history.back();">뒤로가기</button>
+					</div>
+				</div>
 				
 				<!-- 댓글 입력 form -->
 				<form action="../reply/doWrite" onsubmit="replyFormOnSubmit(this); return false;">
 					<input type="hidden" id="relId" name="relId" value="${article.id }"/>
 					<input type="hidden" name="relTypeCode" value="article"/>
 					<input type="hidden" id="boardId" name="boardId" value="${article.boardId }" />
-					<textarea name="body" id="replyInput" class="textarea textarea-bordered textarea-md w-full resize-none" placeholder="댓글을 입력해주세요." ${rq.loginedMemberId == 0 ? "disabled" : "" } ></textarea>
+					<textarea name="body" id="replyInput" class="textarea textarea-bordered w-full h-24 resize-none" placeholder="댓글을 입력해주세요." ${rq.loginedMemberId == 0 ? "disabled" : "" } ></textarea>
 					<div class="flex justify-end pt-2">
 						<button class="btn btn-sm w-20" ${rq.loginedMemberId == 0 ? "disabled" : "" }>작성</button>
 					</div>
 				</form>
 			</div>
 			
-			<div id="replies" class="text-sm px-1.5">
-				<c:forEach var="reply" items="${replies }">
-					<div class="flex justify-between border-b py-4" style="min-height: 144px;">
-						<div class="avatar px-2">
-							<div class="w-10 h-10 rounded-full">
-								<img src=${reply.profileImage != null ? reply.profileImage : 'http://placehold.it/50x50'} />
-							</div>
-						</div>
-						<div class="w-full px-2">
-							<div>
-								<span class="font-bold">${reply.writerName }</span>
-								<span>| ${reply.formatRegDate }</span>
-							</div>
-							<div id="${reply.id }" class="p-1.5">${reply.convertNToBr }</div>			
-						</div>
-						
-						 <c:if test="${rq.loginedMemberId == reply.memberId }">
-							<div class="dropdown dropdown-end">
-								<button class="btn btn-circle btn-ghost btn-sm">
-							    	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
-							    </button>
-						    	<ul tabindex="0" class="z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-24">
-						    		<li><button onclick="replyModifyGetForm(${reply.id});">수정</button></li>
-						    		<li><a href="../reply/doDelete?id=${reply.id }&boardId=${article.boardId}" onclick="if(!confirm('정말 삭제하시겠습니까?')) return false;">삭제</a></li>
-						    	</ul>
-						    </div>
-						</c:if>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
-		
-		<div>
-			<a href="list" class="btn">목록</a>
-			<button class="btn" onclick="history.back();">뒤로가기</button>
+			<!-- 댓글들이 표시되는 곳 -->
+			<div id="replies" class="text-sm px-1.5"></div>
 		</div>
 	</div>
 </section>
 
+<%@ include file="../common/scrollButtons.jsp"%>
 <%@ include file="../common/footer.jsp"%>

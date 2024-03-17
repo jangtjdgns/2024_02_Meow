@@ -12,7 +12,8 @@ CREATE TABLE article(
 	memberId INT UNSIGNED NOT NULL,
 	boardId INT UNSIGNED NOT NULL,
 	title VARCHAR(50) NOT NULL,
-	`body` TEXT NOT NULL
+	`body` TEXT NOT NULL,
+	hitCnt INT UNSIGNED NOT NULL DEFAULT 0
 );
 
 ### member 테이블
