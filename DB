@@ -135,12 +135,14 @@ CREATE TABLE customer_feedback (
 );
 
 
-### recommendPoint 테이블
-CREATE TABLE recommendPoint(
+### reaction 테이블 (사용자의 반응을 관리하는 테이블, 좋아요 & 싫어요)
+CREATE TABLE reaction (
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	memberId INT UNSIGNED NOT NULL,
+	regDate DATETIME NOT NULL COMMENT '등록일',
+	memberId INT UNSIGNED NOT NULL COMMENT '회원 ID',
     relTypeCode VARCHAR(20) NOT NULL COMMENT '관련 데이터 타입 코드',
     relId INT UNSIGNED NOT NULL COMMENT '관련 데이터 번호',
+    reactionType TINYINT(1) NOT NULL COMMENT '반응, 0 = 좋아요, 1 = 싫어요',
     `point` INT UNSIGNED NOT NULL DEFAULT 0
 );
 
@@ -152,7 +154,7 @@ CREATE TABLE reply(
 	memberId INT UNSIGNED NOT NULL,
 	relTypeCode VARCHAR(20) NOT NULL COMMENT '관련 데이터 타입 코드',
 	relId INT UNSIGNED NOT NULL COMMENT '관련 데이터 번호',
-	`body` VARCHAR(300) NOT NULL COMMENT '댓글 수 300글자 제한'
+	`body` VARCHAR(300) NOT NULL COMMENT '댓글 300글자 제한'
 );
 
 

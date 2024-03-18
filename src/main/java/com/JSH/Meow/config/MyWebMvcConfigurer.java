@@ -48,6 +48,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/companionCat/doRegister");
 		ir.addPathPatterns("/usr/chat/popUp");
 		ir.addPathPatterns("/usr/send/mail");
+		ir.addPathPatterns("/usr/reaction/doReaction");
 		ir.addPathPatterns("/usr/reply/doWrite");
 		ir.addPathPatterns("/usr/reply/doModify");
 		ir.addPathPatterns("/usr/reply/doDelete");

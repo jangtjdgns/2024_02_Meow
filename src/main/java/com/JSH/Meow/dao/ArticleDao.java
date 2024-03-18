@@ -20,9 +20,12 @@ public interface ArticleDao {
 					A.*
 					, M.nickname writerName
 					, (SELECT COUNT(*) FROM reply WHERE relId = A.id) replyCnt
+					, IFNULL(SUM(R.point), 0) reactionLikeCnt
 				FROM article A
 				LEFT JOIN `member` M
 				ON A.memberId = M.id
+				LEFT JOIN reaction R
+				ON A.id = R.relId AND R.reactionType = 0
 				LEFT JOIN board B
 				ON A.boardId = B.id
 				WHERE 1 = 1
@@ -45,6 +48,7 @@ public interface ArticleDao {
 						</otherwise>
 					</choose>
 				</if>
+				GROUP BY A.id
 				ORDER BY A.id DESC
 				LIMIT ${limitFrom}, ${itemsInAPage};
 			</script>
@@ -139,9 +143,12 @@ public interface ArticleDao {
 			SELECT A.*
 				, M.nickname AS writerName
 				, (SELECT COUNT(*) FROM reply WHERE relId = A.id) replyCnt
+				, IFNULL(SUM(R.point), 0) reactionLikeCnt
 				FROM article AS A
 				INNER JOIN `member` AS M
 				ON A.memberId = M.id
+				LEFT JOIN reaction R
+				ON A.id = R.relId AND R.reactionType = 0
 				WHERE A.id = #{id}
 			""")
 	public Article getArticleWithDetailsById(int id);

@@ -20,6 +20,11 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/** 
+ * ArticleController
+ * 게시글을 관리하는 컨트롤러
+ * */
+
 @Controller
 public class ArticleController {
 	
@@ -123,7 +128,7 @@ public class ArticleController {
 				articleService.increaseHitCnt(id);							// 해당 게시물의 hitCnt 조회수 증가
 				oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");	// 기존쿠키 + _[id] 형태의 문자열 추가 -> 다른 게시물들을 들어간 경우
 				oldCookie.setPath("/");
-				oldCookie.setMaxAge(60 * 60 * 24);								// 만료시점, 초 / 24시간(60 * 60 * 24)
+				oldCookie.setMaxAge(60 * 60 * 24);							// 만료시점, 초 / 24시간(60 * 60 * 24)
 				res.addCookie(oldCookie);									// 쿠키 추가
 			}
 		} else {															// oldCookie가 null일 때

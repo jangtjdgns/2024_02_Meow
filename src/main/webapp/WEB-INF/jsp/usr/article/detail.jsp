@@ -11,7 +11,7 @@
 	        url: "../reply/getReplies",
 	        method: "GET",
 	        data: {
-	        	"relId": $("#relId").val(),
+	        	"relId": $("#articleId").val(),
 	        },
 	        success: function(data) {
 	        	if(data.success) {
@@ -162,7 +162,6 @@
 		originalForm = null;
 	}
 	
-	
 	// 댓글 삭제
 	const replyDoDelete = function(replyId) {
 		
@@ -189,8 +188,101 @@
 	}
 	
 	
-	$(function(){
+	
+	// 반응 기록 확인
+	const getReaction = function(reactionType){
+		console.log(articleId);
+		$.ajax({
+			url: "../reaction/getReaction",
+			method: "get",
+			data: {
+				"relTypeCode": "article",
+				"relId": articleId,
+				"reactionType": reactionType,
+			},
+			dataType: "json",
+			success: function(data){
+				const reactionBtn = reactionType == 0 ? 'reactionLikeBtn' : 'reactionDislikeBtn';
+				$("#" + reactionBtn + ">.reactionCount").text(data.data);
+				
+				if(data.success) {
+					$('#' + reactionBtn).addClass('btn-active');
+				}
+			},
+			error: function(xhr, status, error){
+				console.error("ERROR : " + status + " - " + error);
+			}
+		})
+	}
+	
+	// 반응 등록 & 반응 취소
+	const doReaction = function(relTypeCode, reactionType) {
+		
+		let reactionStatus;
+		const reactionBtn = reactionType == 0 ? 'reactionLikeBtn' : 'reactionDislikeBtn';
+		reactionStatus = $('#' + reactionBtn).hasClass('btn-active');
+		
+		/* 좋아요와 싫어요는 동시에 누를 수 없기 때문에 검증 */
+		// 이미 반응을 한 상태인지 확인(좋아요 & 싫어요 클릭 했는지 확인)
+		const alreadyReacted = $(".reactionBtn").hasClass("btn-active");
+		const alreadyReactedBtnIdx = $(".reactionBtn.btn-active").index();
+		
+		// 이미 반응한 경우
+		if(alreadyReacted) {
+			// 현재 클릭한 반응 타입과, 버튼 인덱스가 동일하지 않음을 확인 (즉, 좋아요 반응을 한 상태에서 싫어요 반응을 하는 상황)
+			if(alreadyReactedBtnIdx != -1 && reactionType != alreadyReactedBtnIdx) {
+				$.ajax({
+					url : "../reaction/doReaction",
+					method : "get",
+					data : {
+						"relId" : articleId,
+						"relTypeCode" : relTypeCode,
+						"reactionType": alreadyReactedBtnIdx,
+						"reactionStatus": alreadyReacted,
+					},
+					dataType : "json",
+					success : function(data){
+						$('.reactionBtn').eq(reactionType == 0 ? 1 : 0).removeClass('btn-active');
+						$('.reactionCount').eq(alreadyReactedBtnIdx).text(data.data);
+					},
+					error : function(xhr, status, error){
+						console.error("ERROR : " + status + " - " + error);
+					}
+				})
+			}
+		}
+		
+		
+		$.ajax({
+			url : "../reaction/doReaction",
+			method : "get",
+			data : {
+				"relId" : articleId,
+				"relTypeCode" : relTypeCode,
+				"reactionType": reactionType,
+				"reactionStatus": reactionStatus,
+			},
+			dataType : "json",
+			success : function(data){
+				
+				$('#' + reactionBtn).toggleClass('btn-active');
+				alertMsg(data.msg, "success");
+				$(".reactionCount").eq(reactionType).text(data.data);
+			},
+			error : function(xhr, status, error){
+				console.error("ERROR : " + status + " - " + error);
+			}
+		})
+	}
+	
+	
+	// 게시글 번호 (전역)
+	let articleId;
+	$(function() {
+		articleId = $("#articleId").val();
 		getReplies();
+		getReaction(0);
+		getReaction(1);
 	})
 </script>
 
@@ -253,10 +345,22 @@
 			</div>
 		</div>
 		
-		<div class="">
+		<!-- 게시글 제목, 내용 -->
+		<div>
 			<div class="text-3xl font-LINESeed pb-5">${article.title }</div>
 			<textarea id="body" class="hidden">${article.body}</textarea>
 			<div id="viewer" class="[min-height:30vh] mb-5"></div>
+		</div>
+		
+		<!-- 반응 -->
+		<div class="flex justify-center gap-2">
+			<button id="reactionLikeBtn" class="btn [min-width:7rem] reactionBtn" onclick="doReaction('article', 0)" ${rq.loginedMemberId != 0 ? '' : 'disabled'}>
+				<i class="fa-solid fa-thumbs-up"></i> <span class="reactionCount"></span>
+			</button>
+			
+			<button id="reactionDislikeBtn" class="btn [min-width:7rem] reactionBtn" onclick="doReaction('article', 1)" ${rq.loginedMemberId != 0 ? '' : 'disabled'}>
+				<i class="fa-solid fa-thumbs-down"></i> <span class="reactionCount"></span>
+			</button>
 		</div>
 		
 		<!-- 댓글 -->
@@ -272,7 +376,7 @@
 				
 				<!-- 댓글 입력 form -->
 				<form action="../reply/doWrite" onsubmit="replyFormOnSubmit(this); return false;">
-					<input type="hidden" id="relId" name="relId" value="${article.id }"/>
+					<input type="hidden" id="articleId" name="relId" value="${article.id }"/>
 					<input type="hidden" name="relTypeCode" value="article"/>
 					<input type="hidden" id="boardId" name="boardId" value="${article.boardId }" />
 					<textarea name="body" id="replyInput" class="textarea textarea-bordered w-full h-24 resize-none" placeholder="댓글을 입력해주세요." ${rq.loginedMemberId == 0 ? "disabled" : "" } ></textarea>

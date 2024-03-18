@@ -129,7 +129,7 @@
 						</td>
 						<td>${article.writerName }</td>
 						<td class="text-center">${article.formattedRegDate }</td>
-						<td class="">0</td>
+						<td class="reactionLikeCnt">${article.reactionLikeCnt }</td>
 						<td class="hitCnt">${article.hitCnt }</td>
 					</tr>
 				</c:forEach>
@@ -153,18 +153,43 @@
 							<img src=""/>
 							<div>IMG</div>
 						</div>
-						<div class="flex flex-col">
-							<div>
-								<span>${article.id } |</span>
-								<span>0</span>
-								<span>0</span>
+						
+						<div class="flex flex-col justify-center p-1">
+							<div class="flex justify-between">
+								<div>${article.id }.</div>
+								<div>
+									<span class="text-xs"><i class="fa-regular fa-clock"></i></span>
+									<span>${article.formattedRegDate }</span>
+								</div>
 							</div>
-							<div>
+							
+							<div class="pb-1">
 								<span>${article.title }</span>
 							</div>
-							<div>
-								<span>${article.writerName }</span>
-								<span>${article.regDate }</span>
+							
+							<div class="flex justify-between">
+								<div>
+									<span class="text-xs"><i class="fa-regular fa-user"></i></span>		
+									<span>${article.writerName }</span>
+								</div>
+								
+								<div class="flex gap-1">
+									<!-- 게시글 댓글수 -->
+									<div>
+										<span class="text-xs"><i class="fa-regular fa-comment-dots"></i></span>
+										<span class="text-gray-600 replyCnt">${article.replyCnt }</span>
+									</div>
+									<!-- 게시글 좋아요수 -->
+									<div>
+										<span class="text-xs"><i class="fa-regular fa-thumbs-up"></i></span>
+										<span class="text-gray-600">${article.reactionLikeCnt }</span>
+									</div>
+									<!-- 게시글 조회수 -->
+									<div>
+										<span class="text-xs"><i class="fa-regular fa-eye"></i></span>
+										<span class="text-gray-600">${article.hitCnt }</span>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

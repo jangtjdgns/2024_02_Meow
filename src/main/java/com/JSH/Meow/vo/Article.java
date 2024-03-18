@@ -21,6 +21,7 @@ public class Article {
 	
 	private String writerName;
 	private int replyCnt;
+	private int reactionLikeCnt;
 	
 	public String getFormattedRegDate() {
 		return Util.formattedDatetime(this.regDate);
