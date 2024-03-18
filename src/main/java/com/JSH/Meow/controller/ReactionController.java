@@ -52,7 +52,10 @@ public class ReactionController {
 		String relTypeCodeName = null;
 		if(relTypeCode.equals("article")) {
 			relTypeCodeName = "게시글";
+		} else if(relTypeCode.equals("reply")) {
+			relTypeCodeName = "댓글";
 		}
+		
 		String msg = Util.f("%d번 %s에 %s를 %s", relId, relTypeCodeName, reactionCodeName, reactionState);
 		
 		if (!reactionStatus) {		// 반응 등록

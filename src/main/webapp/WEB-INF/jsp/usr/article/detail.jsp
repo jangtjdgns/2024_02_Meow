@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../common/header.jsp"%>
 <%@ include file="../common/toastUi.jsp"%>
+<script src="/js/common/reaction.js"></script>
 
 <script>
 	// 댓글 가져오기
@@ -41,23 +42,36 @@
 					    `;
 					    
 		        		$("#replies").append(`
-	        				<div class="flex justify-between border-b py-4" style="min-height: 144px;">
-								<div class="avatar px-2">
-									<div class="w-10 h-10 rounded-full">
-										<img src=\${replies[i].profileImage != null ? replies[i].profileImage : 'http://placehold.it/50x50'} />
+		        			<div class="border-b">
+	        					<div class="flex justify-between pt-4 [min-height:144px]">
+									<div class="avatar px-2">
+										<div class="w-10 h-10 rounded-full">
+											<img src=\${replies[i].profileImage != null ? replies[i].profileImage : 'http://placehold.it/50x50'} />
+										</div>
 									</div>
-								</div>
-								<div class="w-full px-2">
-									<div>
-										<span class="font-bold">\${replies[i].writerName }</span>
-										<span>| \${replies[i].formatRegDate }</span>
+									<div class="w-full px-2">
+										<div>
+											<span class="font-bold">\${replies[i].writerName }</span>
+											<span>| \${replies[i].formatRegDate }</span>
+										</div>
+										<div id="reply-\${replies[i].id }" class="p-1.5">\${replies[i].convertNToBr }</div>			
 									</div>
-									<div id="reply-\${replies[i].id }" class="p-1.5">\${replies[i].convertNToBr }</div>			
+									
+									\${loginedMemberId == replies[i].memberId ? operationBtn : ''}
 								</div>
-								
-								\${loginedMemberId == replies[i].memberId ? operationBtn : ''}
+								<div class="flex justify-end gap-2 px-14 pb-4">
+									<button id="reactionLikeBtn-reply-\${replies[i].id}" class="btn btn-xs btn-outline btn-info reactionBtn-reply-\${replies[i].id}" onclick="doReaction('reply', 0, \${replies[i].id})" \${loginedMemberId != 0 ? '' : 'disabled'}>
+										<i class="fa-solid fa-thumbs-up"></i> <span class="reactionCount-reply"></span>
+									</button>
+									<button id="reactionDislikeBtn-reply-\${replies[i].id}" class="btn btn-xs btn-outline btn-secondary reactionBtn-reply-\${replies[i].id}" onclick="doReaction('reply', 1, \${replies[i].id})" \${loginedMemberId != 0 ? '' : 'disabled'}>
+										<i class="fa-solid fa-thumbs-down"></i> <span class="reactionCount-reply"></span>
+									</button>
+								</div>
 							</div>
 		        		`);
+		        		
+		        		getReaction("reply", 0, replies[i].id);
+			        	getReaction("reply", 1, replies[i].id);
 		        	}
 		        	$(".replyCnt").text(replies.length);
 	        	}
@@ -187,102 +201,13 @@
 	    });
 	}
 	
-	
-	
-	// 반응 기록 확인
-	const getReaction = function(reactionType){
-		console.log(articleId);
-		$.ajax({
-			url: "../reaction/getReaction",
-			method: "get",
-			data: {
-				"relTypeCode": "article",
-				"relId": articleId,
-				"reactionType": reactionType,
-			},
-			dataType: "json",
-			success: function(data){
-				const reactionBtn = reactionType == 0 ? 'reactionLikeBtn' : 'reactionDislikeBtn';
-				$("#" + reactionBtn + ">.reactionCount").text(data.data);
-				
-				if(data.success) {
-					$('#' + reactionBtn).addClass('btn-active');
-				}
-			},
-			error: function(xhr, status, error){
-				console.error("ERROR : " + status + " - " + error);
-			}
-		})
-	}
-	
-	// 반응 등록 & 반응 취소
-	const doReaction = function(relTypeCode, reactionType) {
-		
-		let reactionStatus;
-		const reactionBtn = reactionType == 0 ? 'reactionLikeBtn' : 'reactionDislikeBtn';
-		reactionStatus = $('#' + reactionBtn).hasClass('btn-active');
-		
-		/* 좋아요와 싫어요는 동시에 누를 수 없기 때문에 검증 */
-		// 이미 반응을 한 상태인지 확인(좋아요 & 싫어요 클릭 했는지 확인)
-		const alreadyReacted = $(".reactionBtn").hasClass("btn-active");
-		const alreadyReactedBtnIdx = $(".reactionBtn.btn-active").index();
-		
-		// 이미 반응한 경우
-		if(alreadyReacted) {
-			// 현재 클릭한 반응 타입과, 버튼 인덱스가 동일하지 않음을 확인 (즉, 좋아요 반응을 한 상태에서 싫어요 반응을 하는 상황)
-			if(alreadyReactedBtnIdx != -1 && reactionType != alreadyReactedBtnIdx) {
-				$.ajax({
-					url : "../reaction/doReaction",
-					method : "get",
-					data : {
-						"relId" : articleId,
-						"relTypeCode" : relTypeCode,
-						"reactionType": alreadyReactedBtnIdx,
-						"reactionStatus": alreadyReacted,
-					},
-					dataType : "json",
-					success : function(data){
-						$('.reactionBtn').eq(reactionType == 0 ? 1 : 0).removeClass('btn-active');
-						$('.reactionCount').eq(alreadyReactedBtnIdx).text(data.data);
-					},
-					error : function(xhr, status, error){
-						console.error("ERROR : " + status + " - " + error);
-					}
-				})
-			}
-		}
-		
-		
-		$.ajax({
-			url : "../reaction/doReaction",
-			method : "get",
-			data : {
-				"relId" : articleId,
-				"relTypeCode" : relTypeCode,
-				"reactionType": reactionType,
-				"reactionStatus": reactionStatus,
-			},
-			dataType : "json",
-			success : function(data){
-				
-				$('#' + reactionBtn).toggleClass('btn-active');
-				alertMsg(data.msg, "success");
-				$(".reactionCount").eq(reactionType).text(data.data);
-			},
-			error : function(xhr, status, error){
-				console.error("ERROR : " + status + " - " + error);
-			}
-		})
-	}
-	
-	
-	// 게시글 번호 (전역)
+	// 전역변수 (게시글ID, 댓글ID)
 	let articleId;
 	$(function() {
 		articleId = $("#articleId").val();
 		getReplies();
-		getReaction(0);
-		getReaction(1);
+		getReaction("article", 0, articleId);
+		getReaction("article", 1, articleId);
 	})
 </script>
 
@@ -293,7 +218,7 @@
 	
 	<div class="mx-auto max-w-4xl w-full bg-white p-14 absolute top-20 left-1/2 z-20 -translate-x-1/2 bg-opacity-95 rounded">
 		<div class="pb-2 flex items-center justify-between">
-			<div class="boardName"><a href="" class="text-blue-600 hover:font-bold">${board.name }</a></div>
+			<div class="boardName"><a href="list?boardId=${boardId }" class="text-blue-600 hover:font-bold">${board.name }</a></div>
 			<div class="text-sm flex justify-between gap-2">
 				<div class="flex gap-2">
 					<!-- 게시글 작성일 -->
@@ -311,7 +236,7 @@
 					<!-- 게시글 좋아요수 -->
 					<div>
 						<span class="text-xs"><i class="fa-regular fa-thumbs-up"></i></span>
-						<span class="text-gray-600">0</span>
+						<span class="text-gray-600 reactionLikeCnt">${article.reactionLikeCnt }</span>
 					</div>
 					
 					<!-- 게시글 조회수 -->
@@ -352,14 +277,14 @@
 			<div id="viewer" class="[min-height:30vh] mb-5"></div>
 		</div>
 		
-		<!-- 반응 -->
+		<!-- 게시글 좋아요 & 싫어요 -->
 		<div class="flex justify-center gap-2">
-			<button id="reactionLikeBtn" class="btn [min-width:7rem] reactionBtn" onclick="doReaction('article', 0)" ${rq.loginedMemberId != 0 ? '' : 'disabled'}>
-				<i class="fa-solid fa-thumbs-up"></i> <span class="reactionCount"></span>
+			<button id="reactionLikeBtn-article-${article.id }" class="btn [min-width:7rem] reactionBtn-article-${article.id }" onclick="doReaction('article', 0, ${article.id})" ${rq.loginedMemberId != 0 ? '' : 'disabled'}>
+				<i class="fa-solid fa-thumbs-up"></i> <span class="reactionCount-article"></span>
 			</button>
 			
-			<button id="reactionDislikeBtn" class="btn [min-width:7rem] reactionBtn" onclick="doReaction('article', 1)" ${rq.loginedMemberId != 0 ? '' : 'disabled'}>
-				<i class="fa-solid fa-thumbs-down"></i> <span class="reactionCount"></span>
+			<button id="reactionDislikeBtn-article-${article.id }" class="btn [min-width:7rem] reactionBtn-article-${article.id }" onclick="doReaction('article', 1, ${article.id})" ${rq.loginedMemberId != 0 ? '' : 'disabled'}>
+				<i class="fa-solid fa-thumbs-down"></i> <span class="reactionCount-article"></span>
 			</button>
 		</div>
 		
