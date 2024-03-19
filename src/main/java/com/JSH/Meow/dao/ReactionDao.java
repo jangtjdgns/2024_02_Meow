@@ -42,7 +42,7 @@ public interface ReactionDao {
 	public void deletePoint(int memberId, String relTypeCode, int relId, int reactionType);
 	
 	@Select("""
-			SELECT IFNULL(SUM(POINT), 0) `point`
+			SELECT IFNULL(SUM(`point`), 0) `point`
 			FROM reaction
 			WHERE relTypeCode = #{relTypeCode}
 				AND relId = #{relId}

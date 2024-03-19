@@ -5,6 +5,8 @@
 var address = ${member.address};
 
 $(function(){
+	unsavedChanges = false;
+	
 	setAddressInfo();
 	
 	$("#detailAddress").change(function(){
@@ -23,6 +25,8 @@ $(function(){
         	return ' ';
       	}
     });
+	
+	form.submit();
 })
 
 // 주소 정보를 필드에 대입
@@ -61,13 +65,6 @@ function getPostInfo() {
         }
     }).open();
 }
-
-function modifyFormOnSubmit(form){
-	unsavedChanges = false;
-	
-	form.submit();
-}
-
 </script>
 
 <div class="bg-white border shadow-2xl rounded-3xl">

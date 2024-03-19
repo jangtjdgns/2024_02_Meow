@@ -3,39 +3,60 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@ include file="../common/header.jsp"%>
-
 <%@ include file="../common/toastUi.jsp"%>
 
-<section class="h-body mx-auto max-w-4xl">
-	<form action="doModify" method="post" onsubmit="submitForm(this); return false;">
-		<input name="id" type="hidden"" value="${article.id }" />
-		<textarea name="body" id="body" class="hidden">${article.body }</textarea>
-		
-		<div class="flex">
-			<div>
-				<span>제목</span> <input name="title" placeholder="제목을 입력해주세요" type="text" class="input input-bordered input-sm" value="${article.title }">
-			</div>
-			<div>
-				<select readonly name="boardId" id="select-board" class="select select-bordered select-sm text-base mx-1">
-					<c:forEach var="board" items="${boards }" begin="${rq.loginedMemberId == 1 ? 1 : 2 }">
-						<option value="${board.id }" ${boardId == board.id ? 'selected' : '' }>${board.name }</option>
-					</c:forEach>
-				</select>
-			</div>
+<section class="b-mh mw border-t">
+	<div class="mx-auto [max-width:1024px]">
+		<div class="text-3xl pt-16 pb-6">
+			<div class="inline-block py-4">게시글 수정</div>
 		</div>
 		
-		<div>
-			<span>내용</span>
-			<div id="editor" class="toast-ui-editor">
-				<script type="text/x-template">
-					
-				</script>
+		<form action="doModify" method="post" onsubmit="submitForm(this); return false;">
+			<input name="id" type="hidden" value="${article.id }" />
+			<textarea name="body" id="body" class="hidden">${article.body }</textarea>
+			
+			<!-- 제목 -->
+			<div class="grid w-full" style="grid-template-columns:1fr 836px">
+				<div class="bg-gray-50 w-full h-full flex items-center justify-center border-b-2 border-white">제목</div>
+				<div class="w-full p-1 border-2 border-l-0 [border-color:#F9FAFB]">
+					<input name="title" class="input w-full focus:outline-none focus:border-0" placeholder="제목을 입력해주세요" type="text" value="${article.title }" minlength="2" maxlength="50">
+				</div>
 			</div>
-		</div>
-		<div>
-			<button>작성</button>
-		</div>
-	</form>
+			
+			<!-- 게시판 -->
+			<div class="grid w-full" style="grid-template-columns:1fr 836px">
+				<div class="bg-gray-50 w-full h-full flex items-center justify-center border-b-2 border-white">게시판</div>
+				<div class="w-full p-1 border-r-2 [border-color:#F9FAFB] flex justify-between">
+					<select name="boardId" id="select-board" class="select select-bordered text-base w-28" readonly>
+						<c:forEach var="board" items="${boards }" begin="${rq.loginedMemberId == 1 ? 1 : 2 }">
+							<option value="${board.id }" ${board.id == 2 ? 'selected' : '' }>${board.name }</option>
+						</c:forEach>
+					</select>
+					<span class="text-xs text-red-600">* 게시글 작성후 게시판 수정은 불가능 합니다.</span>
+				</div>
+			</div>
+			
+			<!-- 내용 -->
+			<div class="grid w-full" style="grid-template-columns:1fr 836px">
+				<div class="bg-gray-50 w-full h-full flex flex-col items-center justify-center">
+					<div>내용</div>
+					<div class="text-xs text-blue-600">(사이즈: 784 * n)</div>
+				</div>
+				<div id="editor" class="toast-ui-editor [width:836px]">
+					<script type="text/x-template"></script>
+				</div>
+			</div>
+			
+			<!-- 버튼 -->
+			<div class="grid gap-2 py-2 justify-right" style="grid-template-columns:1fr 836px">
+				<div></div>
+				<div class="text-right">
+					<button class="btn w-20">수정</button>
+					<button type="button" class="btn w-20" onclick="history.back();">취소</button>
+				</div>
+			</div>
+		</form>
+	</div>
 </section>
 
 

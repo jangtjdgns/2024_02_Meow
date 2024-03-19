@@ -14,6 +14,7 @@ import com.JSH.Meow.service.ReplyService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Article;
 import com.JSH.Meow.vo.Board;
+import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
 import jakarta.servlet.http.Cookie;
@@ -95,6 +96,20 @@ public class ArticleController {
 		model.addAttribute("searchKeyword", searchKeyword);
 		
 		return "usr/article/list";
+	}
+	
+	// 핫 게시글 가져오기, ajax
+	@RequestMapping("/usr/article/getHotArticles")
+	@ResponseBody
+	public ResultData<List<Article>> getHotArticles() {
+		
+		List<Article> hotArticles = articleService.getHotArticles();
+		
+		if(hotArticles.size() == 0) {
+			return ResultData.from("F-1", "핫 게시글이 없음");
+		}
+		
+		return ResultData.from("S-1", "핫 게시글이 존재합니다.", hotArticles);
 	}
 	
 

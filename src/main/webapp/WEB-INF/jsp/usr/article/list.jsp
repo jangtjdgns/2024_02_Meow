@@ -59,9 +59,7 @@
 	<!-- 게시글 검색, 게시글 스타일 변경 -->
 	<div class="flex items-end justify-between pb-2">
 		<div class="text-sm">게시물(${articlesCnt })</div>
-		
 		<div class="flex items-center">
-		
 			<div class="flex">
 				<form action="list" method="get">
 					<input type="hidden" name="boardId" value="${boardId }" />
@@ -102,7 +100,7 @@
 			<thead class="bg-gray-100">
 				<tr>
 					<th>번호</th>
-					<th width=50%>제목</th>
+					<th width=512>제목</th>
 					<th width=175>작성자</th>
 					<th>작성일</th>
 					<th>추천</th>
@@ -117,15 +115,16 @@
 					</tr>
 				</c:if>
 				
+				<%@ include file="../article/hotArticles.jsp"%>
+				
 				<c:forEach var="article" items="${articles }" varStatus="status">
-					<tr style="animation-delay: ${(status.index + 1) * 20 }ms;">
+					<tr id="${status.first ? 'firstArticle' : ''}" style="animation-delay: ${(status.index + 1) * 20 }ms;">
 						<td>${article.id }</td>
-						<td class="hover:underline text-left px-5">
-							<a href="detail?boardId=${boardId}&id=${article.id }">${article.title }
-								<c:if test="${article.replyCnt > 0 }">
-									<span class="text-blue-600">(${article.replyCnt })</span>
-								</c:if>
-							</a>
+						<td class="hover:underline text-left px-5 flex" style="max-width: 512px">
+							<div class="truncate"><a href="detail?boardId=${boardId}&id=${article.id }">${article.title }</a></div>
+							<c:if test="${article.replyCnt > 0 }">
+								<span class="text-blue-600">&nbsp;(${article.replyCnt })</span>
+							</c:if>
 						</td>
 						<td>${article.writerName }</td>
 						<td class="text-center">${article.formattedRegDate }</td>

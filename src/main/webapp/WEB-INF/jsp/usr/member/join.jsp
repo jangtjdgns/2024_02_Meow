@@ -8,7 +8,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/js/member/join.js"></script>
 
-<section class="h-body py-5 border-t bg-gray-50">
+<section class="b-mh py-5 border-t bg-gray-50">
 	<div class="max-w-xl mx-auto card shrink-0 w-full bg-white shadow-xl border">
 		<form action="doJoin" method="post" class="card-body" onsubmit="joinFormOnSubmit(this); return false;" enctype="multipart/form-data">
 			

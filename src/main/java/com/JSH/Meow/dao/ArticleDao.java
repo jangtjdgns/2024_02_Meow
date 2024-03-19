@@ -159,4 +159,23 @@ public interface ArticleDao {
 				WHERE id = #{id}
 			""")
 	public void increaseHitCnt(int id);
+	
+	@Select("""
+			SELECT A.*
+			    , M.nickname writerName
+			    , (SELECT COUNT(*) FROM reply WHERE relId = A.id) replyCnt
+			    , IFNULL(SUM(R.point), 0) reactionLikeCnt
+			FROM article A
+			LEFT JOIN `member` M
+			    ON A.memberId = M.id
+			LEFT JOIN reaction R
+			    ON A.id = R.relId
+			    AND R.reactionType = 0
+			WHERE R.relTypeCode = 'article'
+			    AND A.regDate >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+			GROUP BY A.id
+			ORDER BY reactionLikeCnt DESC, A.id DESC
+			LIMIT 6;
+			""")
+	public List<Article> getHotArticles();
 }
