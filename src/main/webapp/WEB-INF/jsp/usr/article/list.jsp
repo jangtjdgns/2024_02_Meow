@@ -58,7 +58,22 @@
 	
 	<!-- 게시글 검색, 게시글 스타일 변경 -->
 	<div class="flex items-end justify-between pb-2">
-		<div class="text-sm">게시물(${articlesCnt })</div>
+		<div class="text-sm flex items-end">
+			<div>게시물(${articlesCnt })</div>
+			<div class="dropdown dropdown-start">
+				<div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
+					<svg tabindex="0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+					</svg>
+				</div>
+				<div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
+					<div tabindex="0" class="card-body">
+						<p class="break-all">핫 게시글은 <span class="font-bold">금일 기준</span>으로 일주일 내<br /> 좋아요가 가장 많은 6개의 게시글을 보여줍니다.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<div class="flex items-center">
 			<div class="flex">
 				<form action="list" method="get">
@@ -118,7 +133,7 @@
 				<%@ include file="../article/hotArticles.jsp"%>
 				
 				<c:forEach var="article" items="${articles }" varStatus="status">
-					<tr id="${status.first ? 'firstArticle' : ''}" style="animation-delay: ${(status.index + 1) * 20 }ms;">
+					<tr id="${status.first ? 'firstArticle-1' : ''}" style="animation-delay: ${(status.index + 1) * 20 }ms;">
 						<td>${article.id }</td>
 						<td class="hover:underline text-left px-5 flex" style="max-width: 512px">
 							<div class="truncate"><a href="detail?boardId=${boardId}&id=${article.id }">${article.title }</a></div>
@@ -146,53 +161,55 @@
 				</div>
 			</c:if>
 			<c:forEach var="article" items="${articles }" varStatus="status">
-				<a href="detail?id=${article.id }&boardId=${boardId }">
-					<div class="h-72 overflow-hidden border rounded-lg grid list-style-2 scale" style="grid-template-rows: 3fr 1fr; animation-delay: ${(status.index + 1) * 100 }ms;">
-						<div class="bg-gray-200">
-							<img src=""/>
-							<div>IMG</div>
-						</div>
-						
-						<div class="flex flex-col justify-center p-1">
-							<div class="flex justify-between">
-								<div>${article.id }.</div>
-								<div>
-									<span class="text-xs"><i class="fa-regular fa-clock"></i></span>
-									<span>${article.formattedRegDate }</span>
-								</div>
+				<div id="${status.first ? 'firstArticle-2' : ''}" >
+					<a href="detail?id=${article.id }&boardId=${boardId }">
+						<div class="h-72 overflow-hidden border rounded-lg grid list-style-2 scale" style="grid-template-rows: 3fr 1fr; animation-delay: ${(status.index + 1) * 100 }ms;">
+							<div class="bg-gray-200">
+								<img src=""/>
+								<div>IMG</div>
 							</div>
 							
-							<div class="pb-1">
-								<span>${article.title }</span>
-							</div>
-							
-							<div class="flex justify-between">
-								<div>
-									<span class="text-xs"><i class="fa-regular fa-user"></i></span>		
-									<span>${article.writerName }</span>
+							<div class="flex flex-col justify-center p-1">
+								<div class="flex justify-between">
+									<div>${article.id }.</div>
+									<div>
+										<span class="text-xs"><i class="fa-regular fa-clock"></i></span>
+										<span>${article.formattedRegDate }</span>
+									</div>
 								</div>
 								
-								<div class="flex gap-1">
-									<!-- 게시글 댓글수 -->
+								<div class="pb-1">
+									<span>${article.title }</span>
+								</div>
+								
+								<div class="flex justify-between">
 									<div>
-										<span class="text-xs"><i class="fa-regular fa-comment-dots"></i></span>
-										<span class="text-gray-600 replyCnt">${article.replyCnt }</span>
+										<span class="text-xs"><i class="fa-regular fa-user"></i></span>		
+										<span>${article.writerName }</span>
 									</div>
-									<!-- 게시글 좋아요수 -->
-									<div>
-										<span class="text-xs"><i class="fa-regular fa-thumbs-up"></i></span>
-										<span class="text-gray-600">${article.reactionLikeCnt }</span>
-									</div>
-									<!-- 게시글 조회수 -->
-									<div>
-										<span class="text-xs"><i class="fa-regular fa-eye"></i></span>
-										<span class="text-gray-600">${article.hitCnt }</span>
+									
+									<div class="flex gap-1">
+										<!-- 게시글 댓글수 -->
+										<div>
+											<span class="text-xs"><i class="fa-regular fa-comment-dots"></i></span>
+											<span class="text-gray-600 replyCnt">${article.replyCnt }</span>
+										</div>
+										<!-- 게시글 좋아요수 -->
+										<div>
+											<span class="text-xs"><i class="fa-regular fa-thumbs-up"></i></span>
+											<span class="text-gray-600">${article.reactionLikeCnt }</span>
+										</div>
+										<!-- 게시글 조회수 -->
+										<div>
+											<span class="text-xs"><i class="fa-regular fa-eye"></i></span>
+											<span class="text-gray-600">${article.hitCnt }</span>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</a>
+					</a>
+				</div>
 			</c:forEach>
 		</div>
 	</div>

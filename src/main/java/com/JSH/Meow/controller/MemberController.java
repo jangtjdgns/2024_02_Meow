@@ -104,6 +104,9 @@ public class MemberController {
 		if (Util.isEmpty(aboutMe)) {
 			aboutMe = null;
 		}
+		if (aboutMe.length() > 100) {
+			return Util.jsHistoryBack("최대 100글자 입력이 가능합니다.");
+		}
 		
 		Member member = memberService.getMemberByLoginId(loginId);
 

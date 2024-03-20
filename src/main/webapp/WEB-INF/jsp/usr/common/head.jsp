@@ -17,12 +17,11 @@
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/font.css" />
 
-<!-- common 관련 js를 합칠까 고민중 -->
-<!-- common, 알림 확인 -->
+<!-- 한글 받침 확인 -->
+<script src="/js/common/finalConsonantCheck.js"></script>
+<!-- 알림 확인 -->
 <script src="/js/common/reqRes.js"></script>
-
-<!-- common, alert 메시지 띄우기 -->
+<!-- alert 메시지 띄우기 -->
 <script src="/js/common/alert.js"></script>
-
-<!-- common, input 유틸리티 -->
+<!-- input 유틸리티 -->
 <script src="/js/common/inputUtils.js"></script>

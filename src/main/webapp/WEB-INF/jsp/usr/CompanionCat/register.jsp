@@ -8,26 +8,41 @@
 		const today = new Date().toISOString().substring(0,10);
 		$('#birthDate').val(today);
 		$('#birthDate').attr("max", today);
+		
+		// 이름 변경시
+		$("#name").change(function(){
+			const name = $(this).val().trim();
+			
+			if(validataRegex($(this), 2) && name.length > 0) {
+				const fc = msgByFinalConsonant($(this).val().trim(), 1);
+				$("#aboutCat").attr("placeholder", `\${name}\${fc} 소개해보세요!`);
+			}
+		});
+		
+		// 소개말 변경 시, 글자수 표시
+		$("#aboutCat").on("input", function(){
+			$("#aboutCatLength").text($(this).val().trim().length)
+		});
 	})
 
 	const registerFormOnSubmit = function(form){
-		form.name.value = form.name.value.trim();
-		form.gender.value = form.gender.value.trim();
 		
-		if (form.name.value.length == 0) {
-			alert('이름을 입력해주세요');
-			form.name.focus();
-			return;
+		if(!validataNotBlank($(form.name))) {
+			return form.name.focus();
 		}
 		
-		if (form.gender.value.length == 0) {
-			alert('성별을 선택해주세요');
-			form.gender.focus();
-			return;
+		if(!validataRegex($(form.name), 2)) {
+			return form.name.focus();
+		}
+		
+		if(form.aboutCat.value.trim().length > 100) {
+			alertMsg("최대 100글자 까지 입력가능합니다.");
+			return form.aboutCat.focus();
 		}
 		
 		form.submit();
 	}
+	
 </script>
 
 <section id="profile-bg" class="py-12 p-mw min-h border-t" style="background: linear-gradient(#EBE8E6, #E5D7D1);">
@@ -50,58 +65,72 @@
 		
 		<div>
 			<div class="bg-white border shadow-2xl rounded-3xl">
-				<div class="p-10 text-3xl">반려묘 등록</div>
+				<div class="p-10 text-3xl">
+					<i class="fa-solid fa-cat pr-1"></i>
+					<span>반려묘 등록</span>
+				</div>
 				<div class="p-6">
 					<div class="profile-content">
 						<div class="pt-2 pb-12 px-6">
 							<form action="doRegister" method="post" onsubmit="registerFormOnSubmit(this); return false;">
 								<input name="memberId" type="hidden" value="${rq.loginedMemberId }" />
 								<div class="grid grid-cols-3 gap-10">
+								
+									<!-- 이름  -->
 									<div class="form-control">
 										<label class="label" for="name">
 						                	<span class="label-text"><span class="text-red-600 font-bold pr-1">*</span>이름</span>
 						            	</label>
-						            	<input id="name" name="name" type="text" placeholder="Name" class="input input-bordered" required/>
+						            	<input id="name" name="name" type="text" placeholder="이름 입력" data-korName="이름" class="input input-bordered" />
 									</div>
 									
+									<!-- 성별 -->
 									<div class="form-control">
 										<label class="label" for="gender">
 						                	<span class="label-text"><span class="text-red-600 font-bold pr-1">*</span>성별</span>
 						                </label>
 						                <div class="flex justify-around gap-2 input input-bordered">
-						                	<label class="label gap-2">
+						                	<label class="label gap-2 cursor-pointer">
 						                		<span><i class="fa-solid fa-venus text-xs text-red-600"></i> 암컷</span>
-						                		<input id="gender" name="gender" type="radio" value="F" class="radio radio-sm" checked />
+						                		<input id="gender" name="gender" type="radio" value="F" data-korName="성별" class="radio radio-sm" checked />
 						                	</label>
-						                	<label class="label gap-2">
+						                	<label class="label gap-2 cursor-pointer">
 						                		<span><i class="fa-solid fa-mars text-xs text-blue-600"></i> 수컷</span>
-						                		<input name="gender" type="radio" value="M" class="radio radio-sm" />
+						                		<input name="gender" type="radio" value="M" data-korName="성별" class="radio radio-sm" />
 						                	</label>
 										</div>
 									</div>
 									
+									<!-- 생일  -->
 						            <div class="form-control">
 						            	<label class="label" for="birthDate">
-						                	<span class="label-text">생일</span>
+						                	<span class="label-text"><span class="text-red-600 font-bold pr-1">*</span>생일</span>
 						            	</label>
-						            	<input id="birthDate" name="birthDate" type="date" min="1990-01-01" class="input input-bordered"/>
+						            	<input id="birthDate" name="birthDate" type="date" min="1990-01-01" data-korName="생일" class="input input-bordered"/>
 						            </div>
 						        </div>
 						        
+						        <!-- 프로필 이미지  -->
 						        <div class="form-control">
 						            <label class="label" for="profileImage">
-						                <span class="label-text">사진</span>
+						                <span class="label-text">프로필 이미지</span>
 						            </label>
-						            <input id="profileImage" name="profileImage" type="file" class="file-input file-input-bordered w-full" accept="image/gif, image/jpeg, image/png" />
+						            <input id="profileImage" name="profileImage" type="file" data-korName="프로필이미지" class="file-input file-input-bordered w-full" accept="image/gif, image/jpeg, image/png" />
 						         </div>
 						         
+						         <!-- 소개말  -->
 						         <div class="form-control">
 						            <label class="label" for="aboutCat">
 						                <span class="label-text">소개말</span>
 						            </label>
-						            <textarea id="aboutCat" name="aboutCat" placeholder="Introduce cat" rows="5" class="textarea textarea-bordered resize-none"></textarea>
+						            <!-- 이 부분 join.jsp에도 적용 해야함  -->
+						            <div class="textarea textarea-bordered p-0 relative">
+						            	<textarea id="aboutCat" name="aboutCat" placeholder="소개해보세요!" rows="5" class="w-full h-full textarea resize-none" data-korName="소개말" maxLength="300"></textarea>
+						            	<div class="absolute bottom-0 right-0 border-l border-t rounded-tl-lg p-1 w-16 text-center"><span id="aboutCatLength">0</span>/300</div>
+						            </div>
 						       	</div>
 						       	
+						       	<!-- 버튼  -->
 					       		<div class="grid grid-cols-2 gap-12 mt-6">
 						            <button class="btn btn-primary">등록</button>
 						            <button type="button" class="btn" onclick="history.back()">취소</button>

@@ -18,13 +18,14 @@ public class CompanionCatController {
 		this.rq = rq;
 	}
 	
-	
+	// 반려묘 등록 페이지
 	@RequestMapping("/usr/companionCat/register")
 	public String register() {
 		
 		return "usr/companionCat/register";
 	}
 	
+	// 반려묘 등록
 	@RequestMapping("/usr/companionCat/doRegister")
 	@ResponseBody
 	public String doRegister(int memberId, String name, String gender, String birthDate, String profileImage, String aboutCat) {
@@ -42,7 +43,7 @@ public class CompanionCatController {
 		}
 		
 		if (Util.isEmpty(birthDate)) {
-			birthDate = null;
+			return Util.jsHistoryBack("생일을 선택해주세요.");
 		}
 		
 		if (Util.isEmpty(profileImage)) {

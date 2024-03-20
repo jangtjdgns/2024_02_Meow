@@ -101,8 +101,12 @@
 	                    <button class="btn btn-primary">로그인</button>
 	                </div>
 	                
-	                <div class="btn naver-login-btn mt-2">
-				        <a href="login/naver" class="naver-login-btn-font">N</a>
+	                <div class="mt-2 flex justify-between">
+		                <div><a href="login/naver" class="btn naver-login-btn">N</a></div>
+		                <div><a href="login/naver" class="btn naver-login-btn">A</a></div>
+		                <div><a href="login/naver" class="btn naver-login-btn">V</a></div>
+		                <div><a href="login/naver" class="btn naver-login-btn">E</a></div>
+		                <div><a href="login/naver" class="btn naver-login-btn">R</a></div>
 				    </div>
 	            </form>
 	        </div>

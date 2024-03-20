@@ -16,16 +16,12 @@ body {
     height: 60px;
     background-color: rgb(3, 199, 90);
     color: white;
-}
-
-.naver-login-btn-font{
     font-family: 'SBAggroB';
     font-size: 32px;
     padding-top: 5px;
 }
 
-.naver-login-btn:hover,
-.naver-login-btn-font:hover {
+.naver-login-btn:hover {
     background-color: rgb(3, 186, 85);
 }
 
