@@ -59,7 +59,7 @@
 	<!-- 게시글 검색, 게시글 스타일 변경 -->
 	<div class="flex items-end justify-between pb-2">
 		<div class="text-sm flex items-end">
-			<div>게시물(${articlesCnt })</div>
+			<div>게시글(${articlesCnt })</div>
 			<div class="dropdown dropdown-start">
 				<div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
 					<svg tabindex="0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current">

@@ -22,5 +22,13 @@ public class CompanionCatService {
 	public void doRegister(int memberId, String name, String gender, String birthDate, String profileImage, String aboutCat) {
 		companionCatDao.doRegister(memberId, name, gender, birthDate, profileImage, aboutCat);
 	}
+
+	public CompanionCat getCompanionCatById(int catId) {
+		return companionCatDao.getCompanionCatById(catId);
+	}
+
+	public void doDelete(int catId) {
+		companionCatDao.doDelete(catId);
+	}
 		
 }

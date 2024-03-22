@@ -17,6 +17,8 @@
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/font.css" />
 
+<!-- 시간관련 js -->
+<script src="/js/common/dateTime.js"></script>
 <!-- 한글 받침 확인 -->
 <script src="/js/common/finalConsonantCheck.js"></script>
 <!-- 알림 확인 -->

@@ -435,6 +435,10 @@ select[readonly] {
 	justify-content: start;
 }
 
+
+
+
+
 /* 반려묘 정보란 */
 .catInfo-wrap {
 	display: grid;
@@ -448,6 +452,99 @@ select[readonly] {
 	display: grid;
 	grid-template-columns: 90px minmax(128px, 360px);
 	/*grid-column-gap: 0.25rem;*/
+}
+
+
+/* 반려묘 보기 페이지, 옵션 버튼 클릭 애니메이션 */
+.pulsate-fwd-bf {
+	transition: transform 1s;
+}
+
+.pulsate-fwd-bf:hover {
+	transform: scale(0.8);
+}
+
+.pulsate-fwd {
+	-webkit-animation: pulsate-fwd 1s ease-in-out infinite both;
+	        animation: pulsate-fwd 1s ease-in-out infinite both;
+}
+
+.pulsate-fwd:hover {
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+	animation-play-state: paused;
+}
+
+@-webkit-keyframes pulsate-fwd {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.02);
+            transform: scale(1.02);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes pulsate-fwd {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.02);
+            transform: scale(1.02);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+
+/* 내 반려묘 페이지 hopver 시 border 효과 */
+.card-wrap > .card-border,
+.card-wrap > .card-optionBtn {
+	transition: top .8s, bottom .8s, left .8s, right .8s;
+}
+
+.card-wrap:hover > .card-border-1 {
+	left: 0;
+}
+
+.card-wrap:hover > .card-border-2 {
+	top: 0;
+}
+
+.card-wrap:hover > .card-border-3 {
+	bottom: 0;
+}
+
+.card-wrap:hover > .card-border-4 {
+	right: 0;
+}
+
+.card-wrap:hover > .card-optionBtn {
+	transition: top .4s .4s;
+	top: 1rem;
+}
+
+/* 반려묘 추가 버튼 */
+.companion-cat-reg {
+	border-radius: 0.75rem;
+	transition: border .2s;
+}
+
+.companion-cat-reg > i {
+	font-size: 3.75rem;
+	line-height: 1;
+	transition: all .2s;
+}
+
+.companion-cat-reg:hover > i {
+	font-size: 4.85rem;
 }
 
 

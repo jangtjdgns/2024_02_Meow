@@ -14,6 +14,7 @@ public class CompanionCat {
 	private String updateDate;
 	private int memberId;
 	private String name;
+	private String gender;
 	private String birthDate;
 	private String profileImage;
 	private String aboutCat;

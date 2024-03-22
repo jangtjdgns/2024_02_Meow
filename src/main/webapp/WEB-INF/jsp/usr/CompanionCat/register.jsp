@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@ include file="../common/header.jsp"%>
 <script>
@@ -45,7 +44,7 @@
 	
 </script>
 
-<section id="profile-bg" class="py-12 p-mw min-h border-t" style="background: linear-gradient(#EBE8E6, #E5D7D1);">
+<section class="py-12 p-mw min-h border-t bg-gray-50">
 	<div class="mx-auto max-w-6xl profile-layout">
 		<div>
 			<div id="profile-side" class="bg-white w-72 rounded-3xl px-6 pt-8 pb-4 shadow-2xl">
@@ -54,17 +53,15 @@
 					<span>반려묘 등록</span>
 				</div>
 				<div class="side-btn-wrap flex flex-col py-2">
-					<div class="side-btn btn btn-ghost btn-sm mx-1">등록</div>
-				</div>
-				<div class="btn btn-sm mx-1">
-					<a href="../member/profile?memberId=${rq.loginedMemberId }">프로필</a>
+					<div class="side-btn btn btn-ghost btn-sm mx-1">내 반려묘</div>
+					<div class="side-btn btn btn-ghost btn-sm mx-1 btn-active">등록</div>
 				</div>
 			</div>
 		</div>
 		
 		
 		<div>
-			<div class="bg-white border shadow-2xl rounded-3xl">
+			<div class="bg-white border shadow-xl rounded-3xl">
 				<div class="p-10 text-3xl">
 					<i class="fa-solid fa-cat pr-1"></i>
 					<span>반려묘 등록</span>

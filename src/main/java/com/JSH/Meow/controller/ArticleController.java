@@ -143,15 +143,19 @@ public class ArticleController {
 				articleService.increaseHitCnt(id);							// 해당 게시물의 hitCnt 조회수 증가
 				oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");	// 기존쿠키 + _[id] 형태의 문자열 추가 -> 다른 게시물들을 들어간 경우
 				oldCookie.setPath("/");
-				oldCookie.setMaxAge(60 * 60 * 24);							// 만료시점, 초 / 24시간(60 * 60 * 24)
+				oldCookie.setMaxAge(60 * 60 * 24);							// 만료시점, 최대 24시간(60 * 60 * 24) 자정에 초기화
 				res.addCookie(oldCookie);									// 쿠키 추가
 			}
 		} else {															// oldCookie가 null일 때
 			articleService.increaseHitCnt(id);								// 해당 게시물의 hitCnt 조회수 증가
 			Cookie newCookie = new Cookie("hitCnt", "[" + id + "]");		// 새로운 쿠키 생성, ("hitCnt", [id])
 			newCookie.setPath("/");
-			newCookie.setMaxAge(60 * 60 * 24);									// 만료시점, 초
+			newCookie.setMaxAge(60 * 60 * 24);								// 만료시점, 최대 24시간(60 * 60 * 24) 자정에 초기화
 			res.addCookie(newCookie);										// 쿠키 추가
+			/*
+			 * fierfox에서 samesite 때문에 설정하는건데 https 프로토콜에서만 사용가능하다고 한다.
+			 * res.setHeader("Set-Cookie", "hitCnt=[" + id + "]; Secure; SameSite=None; Path=/; Max-Age=86400");
+			 */
 		}
 		
 		Board board = boardService.getBoardById(article.getBoardId());

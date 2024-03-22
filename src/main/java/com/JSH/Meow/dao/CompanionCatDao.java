@@ -2,6 +2,7 @@ package com.JSH.Meow.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -15,7 +16,7 @@ public interface CompanionCatDao {
 			SELECT * FROM companion_cat
 			WHERE memberId = #{memberId};
 			""")
-	List<CompanionCat> getCompanionCats(int memberId);
+	public List<CompanionCat> getCompanionCats(int memberId);
 	
 	@Insert("""
 			<script>
@@ -36,6 +37,18 @@ public interface CompanionCatDao {
 				    </if>
 			</script>
 			""")
-	void doRegister(int memberId, String name, String gender, String birthDate, String profileImage, String aboutCat);
+	public void doRegister(int memberId, String name, String gender, String birthDate, String profileImage, String aboutCat);
+	
+	@Select("""
+			SELECT * FROM companion_cat
+			WHERE id = #{catId}
+			""")
+	public CompanionCat getCompanionCatById(int catId);
+	
+	@Delete("""
+			DELETE FROM companion_cat
+			WHERE id = #{catId}
+			""")
+	public void doDelete(int catId);
 	
 }
