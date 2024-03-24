@@ -125,8 +125,8 @@ public class MemberController {
 			
 			if(isImageTypeSupported) {
 				// 이미지 업로드
-				memberService.uploadFile(image);
-				imagePath = memberService.getProfileImagePath();
+				memberService.uploadFile(image, "member");
+				imagePath = memberService.getProfileImagePath("member");
 				break;
 			}
 		}
@@ -320,6 +320,11 @@ public class MemberController {
 		// 권한 체크
 		if(memberId != rq.getLoginedMemberId()) {
 			return rq.jsReturnOnView("본인 계정이 아닙니다.");
+		}
+		
+		// 업로드된 회원 프로필이미지는 삭제 진행
+		if(!Util.isEmpty(member.getProfileImage())) {			
+			memberService.deleteProfileImage(member.getProfileImage());
 		}
 		
 		// 실제로 데이터 삭제 X, status 칼럼을 3(탈퇴)로 변경

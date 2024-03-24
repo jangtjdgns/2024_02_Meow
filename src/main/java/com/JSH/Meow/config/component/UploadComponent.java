@@ -1,5 +1,6 @@
 package com.JSH.Meow.config.component;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,16 +23,23 @@ public class UploadComponent {
 	@Getter
 	private String fileName;
 	
+	// 회원 프로필 이미지 업로드 경로
 	@Value("/images/upload/profile/member/")
 	private String profileMemberImagePath;
 	
-	public void uploadFile(MultipartFile file) throws IOException {
+	// 반려묘 프로필 이미지 업로드 경로
+	@Value("/images/upload/profile/companionCat/")
+	private String profileCompanionCatImagePath;
+	
+	// 파일 업로드 (현재 프로필 이미지만 업로드 하게끔 로직 구현)
+	public void uploadFile(MultipartFile file, String type) throws IOException {
 		String directory = null;
 		String originalFileName = file.getOriginalFilename();
 		
-		// 프로필 이미지 파일인지 확인, 이후에 게시글 이미지, 프로필 이미지 분리필요할듯
+		// 프로필 이미지 타입 확인 후 경로 지정
 		if(isImageTypeValid(file)) {
-			directory = uploadDirectory + profileMemberImagePath;				// 프로필 이미지 경우
+			// 타입에 따라서 경로 설정(member, companionCat)
+			directory = uploadDirectory + (type.equals("member") ? profileMemberImagePath : profileCompanionCatImagePath);
 			UUID randomUUID = UUID.randomUUID();
 			fileName = randomUUID.toString() + "_" + originalFileName;
 		}
@@ -41,6 +49,23 @@ public class UploadComponent {
         byte[] fileBytes = file.getBytes();
         Files.write(targetPath, fileBytes);
     }
+	
+	
+	// 파일 삭제
+	public void deleteProfileImage(String profileImage) {
+		
+		// 상대경로
+		String relativePath = profileImage.replace("\\", "/");
+		// 절대경로
+		String absolutePath = System.getProperty("user.dir") + "/src/main/resources/static/" + relativePath;
+		
+		// 절대 경로를 통한 삭제 진행
+		File file = new File(absolutePath);
+        if (file.exists()) {
+           file.delete();
+        }
+	}
+	
 	
 	// 확장자 검사
 	public boolean isImageTypeValid(MultipartFile image) {
@@ -57,9 +82,10 @@ public class UploadComponent {
 		return false;
 	}
 	
+	
 	// 프로필 이미지 경로 가져오기
-	public String getProfileImagePath() {
-		Path path = Path.of(profileMemberImagePath, fileName);
+	public String getProfileImagePath(String type) {
+		Path path = Path.of(type.equals("member") ? profileMemberImagePath : profileCompanionCatImagePath, fileName);
 		return path.toString();
 	}
 }

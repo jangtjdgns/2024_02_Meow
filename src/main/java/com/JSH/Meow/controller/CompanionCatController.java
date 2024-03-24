@@ -1,11 +1,14 @@
 package com.JSH.Meow.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.JSH.Meow.service.CompanionCatService;
 import com.JSH.Meow.util.Util;
@@ -50,7 +53,12 @@ public class CompanionCatController {
 	// 반려묘 등록
 	@RequestMapping("/usr/companionCat/doRegister")
 	@ResponseBody
-	public String doRegister(int memberId, String name, String gender, String birthDate, String profileImage, String aboutCat) {
+	public String doRegister(int memberId
+				, String name
+				, String gender
+				, String birthDate
+				, @RequestParam MultipartFile[] profileImage
+				, String aboutCat) throws IOException {
 		
 		if(memberId != rq.getLoginedMemberId()) {
 			return Util.jsHistoryBack("본인 계정이 아닙니다.");
@@ -68,15 +76,25 @@ public class CompanionCatController {
 			return Util.jsHistoryBack("생일을 선택해주세요.");
 		}
 		
-		if (Util.isEmpty(profileImage)) {
-			profileImage = null;
-		}
-		
 		if (Util.isEmpty(aboutCat)) {
 			aboutCat = null;
 		}
 		
-		companionCatService.doRegister(memberId, name, gender, birthDate, profileImage, aboutCat);
+		// 이미지
+		String imagePath = null;
+		for(MultipartFile image: profileImage) {
+			// 이미지 타입 확인, jpg, jpeg, png, gif 가능
+			boolean isImageTypeSupported = companionCatService.isImageTypeValid(image);
+			
+			if(isImageTypeSupported) {
+				// 이미지 업로드
+				companionCatService.uploadFile(image, "companionCat");
+				imagePath = companionCatService.getProfileImagePath("companionCat");
+				break;
+			}
+		}
+		
+		companionCatService.doRegister(memberId, name, gender, birthDate, imagePath, aboutCat);
 		
 		return Util.jsReplace(Util.f("%s 등록 완료!", name), Util.f("/usr/companionCat/view?memberId=%d", memberId));
 	}
@@ -97,6 +115,10 @@ public class CompanionCatController {
 			return ResultData.from("F-2", "해당 반려묘에 대한 정보가 없습니다.");
 		}
 		
+		// 업로드된 이미지 삭제
+		if(!Util.isEmpty(companionCat.getProfileImage())) {			
+			companionCatService.deleteProfileImage(companionCat.getProfileImage());
+		}
 		companionCatService.doDelete(catId);
 		
 		return ResultData.from("S-1", "해당 반려묘에 대한 정보가 삭제 되었습니다.");

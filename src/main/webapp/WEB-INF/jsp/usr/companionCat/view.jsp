@@ -20,6 +20,9 @@
 	
 	// doDeleteCat
 	function doDeleteCat(memberId, catId) {
+		if($(".card-scale").length == 0) {
+			$(".swap").remove();
+		}
 		
 		if($(".card-scale").length < 8) {
 			$("#companionCatRegBtn").empty();
@@ -31,7 +34,7 @@
 				</div>
 			`);
 		}
-		console.log("1")
+		
 		$.ajax({
 			url: '../companionCat/doDelete',
 		    method: 'GET',
@@ -41,7 +44,6 @@
 		    },
 		    dataType: 'json',
 		    success: function(data) {
-		    	console.log("2")
 		    	alertMsg(data.msg, data.success ? "success" : "error");
 			},
 		      	error: function(xhr, status, error) {
@@ -122,7 +124,15 @@
 					<div class="card-scale [transform:scale(0.75)] flex justify-center">
 						<input class="companion-cat-id" type="hidden" value="${cat.id }" />
 						<div class="card card-compact card-wrap w-96 bg-base-100 shadow-xl p-2 overflow-hidden bg-indigo-50">
-					  		<figure><img src="https://cdn.pixabay.com/photo/2016/01/20/13/05/cat-1151519_1280.jpg" alt="cat" class="h-64 z-20 rounded-tl-xl rounded-tr-xl" /></figure>
+					  		<figure>
+					  			<c:if test="${cat.profileImage == null }">
+					  				<div class="w-full h-64 object-cover z-20 rounded-tl-xl rounded-tr-xl flex items-center justify-center bg-white">현재 등록된 이미지가 없습니다.</div>
+					  			</c:if>
+					  			
+					  			<c:if test="${cat.profileImage != null }">
+						  			<img src="${cat.profileImage }" alt="이미지가 보이지 않는다면 새로고침을 해주세요!" class="w-full h-64 object-cover z-20 rounded-tl-xl rounded-tr-xl bg-white flex items-center justify-center" />	  				
+					  			</c:if>
+					  		</figure>
 						  	<div class="card-body rounded-bl-xl rounded-br-xl z-20 bg-white">
 						    	<h2 class="card-title text-2xl">${cat.name }</h2>
 						    	<div class="text-lg">

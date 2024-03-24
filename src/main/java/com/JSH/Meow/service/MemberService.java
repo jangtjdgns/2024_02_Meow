@@ -79,13 +79,18 @@ public class MemberService {
 	}
 	
 	// 파일 업로드
-	public void uploadFile(MultipartFile image) throws IOException {
-		uploadComponent.uploadFile(image);
+	public void uploadFile(MultipartFile image, String type) throws IOException {
+		uploadComponent.uploadFile(image, type);
 	}
 	
-	// 프로필 이미지 가져오기
-	public String getProfileImagePath() {
-		return uploadComponent.getProfileImagePath();
+	// 프로필 이미지 경로 가져오기
+	public String getProfileImagePath(String type) {
+		return uploadComponent.getProfileImagePath(type);
+	}
+	
+	// 파일 삭제
+	public void deleteProfileImage(String profileImage) {
+		uploadComponent.deleteProfileImage(profileImage);
 	}
 	
 	// 자격 인증 [인증이 필요한 매개변수: 이름, 아이디, 이메일] (아이디 찾기, 비밀번호 재설정에서 사용)

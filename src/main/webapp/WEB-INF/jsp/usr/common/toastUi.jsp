@@ -88,12 +88,10 @@
 		
 		// viewer 페이지 경우 (detail)
 		if(filename == "detail") {
-			console.log("1")
 			ToastEditorView__init();	
 		}
 		// editor 페이지 경우 (write, modify)
 		else {
-			console.log("2")
 			ToastEditor__init();
 			
 			// toastUi 에디터 border 변경

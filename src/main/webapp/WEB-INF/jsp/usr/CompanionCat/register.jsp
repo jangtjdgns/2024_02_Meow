@@ -3,6 +3,31 @@
 
 <%@ include file="../common/header.jsp"%>
 <script>
+	const registerFormOnSubmit = function(form){
+		
+		if(!validataNotBlank($(form.name))) {
+			return form.name.focus();
+		}
+		
+		if(!validataRegex($(form.name), 2)) {
+			return form.name.focus();
+		}
+		
+		if(form.aboutCat.value.trim().length > 100) {
+			alertMsg("최대 100글자 까지 입력가능합니다.");
+			return form.aboutCat.focus();
+		}
+		
+		form.submit();
+	}
+	
+	// 이미지 초기화
+	function resetImage(){
+		$("#profileImage").val("");
+		$("#imagePreview").attr("src", "");
+	}
+	
+	
 	$(function(){
 		const today = new Date().toISOString().substring(0,10);
 		$('#birthDate').val(today);
@@ -22,26 +47,17 @@
 		$("#aboutCat").on("input", function(){
 			$("#aboutCatLength").text($(this).val().trim().length)
 		});
+		
+		
+		// 이미지 미리보기
+		$("#profileImage").change(function(){
+			let imageFiles = $(this)[0].files;
+			if (imageFiles.length > 0) {
+		        const imageURL = URL.createObjectURL(imageFiles[0]);
+		        $("#imagePreview").attr("src", imageURL);
+		    }
+		})
 	})
-
-	const registerFormOnSubmit = function(form){
-		
-		if(!validataNotBlank($(form.name))) {
-			return form.name.focus();
-		}
-		
-		if(!validataRegex($(form.name), 2)) {
-			return form.name.focus();
-		}
-		
-		if(form.aboutCat.value.trim().length > 100) {
-			alertMsg("최대 100글자 까지 입력가능합니다.");
-			return form.aboutCat.focus();
-		}
-		
-		form.submit();
-	}
-	
 </script>
 
 <section class="py-12 p-mw min-h border-t bg-gray-50">
@@ -69,7 +85,7 @@
 				<div class="p-6">
 					<div class="profile-content">
 						<div class="pt-2 pb-12 px-6">
-							<form action="doRegister" method="post" onsubmit="registerFormOnSubmit(this); return false;">
+							<form action="doRegister" method="post" onsubmit="registerFormOnSubmit(this); return false;" enctype="multipart/form-data">
 								<input name="memberId" type="hidden" value="${rq.loginedMemberId }" />
 								<div class="grid grid-cols-3 gap-10">
 								
@@ -112,7 +128,16 @@
 						            <label class="label" for="profileImage">
 						                <span class="label-text">프로필 이미지</span>
 						            </label>
-						            <input id="profileImage" name="profileImage" type="file" data-korName="프로필이미지" class="file-input file-input-bordered w-full" accept="image/gif, image/jpeg, image/png" />
+						            <div class="flex items-center gap-2">
+							            <input id="profileImage" name="profileImage" type="file" data-korName="프로필이미지" class="file-input file-input-bordered w-full" accept="image/gif, image/jpeg, image/png" />
+							            <div class="dropdown dropdown-hover dropdown-top dropdown-end">
+									  		<div tabindex="0" role="button" class="btn btn-sm btn-circle bg-white mt-1"><i class="fa-solid fa-image"></i></div>
+										  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-96">
+											    <li><img id="imagePreview" src="" alt="선택된 이미지가 없음"/></li>
+										  	</ul>
+										</div>
+										<button type="button" class="btn btn-circle btn-sm bg-white" onclick="resetImage()"><i class="fa-solid fa-rotate-right"></i></button>
+									</div>
 						         </div>
 						         
 						         <!-- 소개말  -->
