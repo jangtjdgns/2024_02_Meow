@@ -32,6 +32,10 @@ public class CompanionCatService {
 		return companionCatDao.getCompanionCatById(catId);
 	}
 
+	public void doModify(int catId, String name, String gender, String birthDate, String imagePath, String aboutCat) {
+		companionCatDao.doModify(catId, name, gender, birthDate, imagePath, aboutCat);
+	}
+	
 	public void doDelete(int catId) {
 		companionCatDao.doDelete(catId);
 	}

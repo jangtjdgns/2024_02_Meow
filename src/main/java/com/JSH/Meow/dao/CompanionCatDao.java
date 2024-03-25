@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.JSH.Meow.vo.CompanionCat;
 
@@ -44,6 +45,30 @@ public interface CompanionCatDao {
 			WHERE id = #{catId}
 			""")
 	public CompanionCat getCompanionCatById(int catId);
+	
+	@Update("""
+			<script>
+				UPDATE companion_cat
+				SET updateDate = NOW()
+					<if test="name != null and name != ''">
+						, name = #{name}
+					</if>
+					<if test="gender != null and gender != ''">
+						, gender = #{gender}
+					</if>
+					<if test="birthDate != null and birthDate != ''">
+						, birthDate = #{birthDate}
+					</if>
+					<if test="imagePath != null and imagePath != ''">
+						, profileImage = #{imagePath}
+					</if>
+					<if test="aboutCat != null and aboutCat != ''">
+						, aboutCat = #{aboutCat}
+					</if>
+					WHERE id = #{catId}
+			</script>
+			""")
+	public void doModify(int catId, String name, String gender, String birthDate, String imagePath, String aboutCat);
 	
 	@Delete("""
 			DELETE FROM companion_cat
