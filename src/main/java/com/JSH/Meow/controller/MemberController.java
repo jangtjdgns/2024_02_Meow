@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.JSH.Meow.config.component.UploadComponent;
 import com.JSH.Meow.service.CompanionCatService;
 import com.JSH.Meow.service.EmailService;
 import com.JSH.Meow.service.MemberDeletionService;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.service.SnsInfoService;
+import com.JSH.Meow.service.UploadService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.CompanionCat;
 import com.JSH.Meow.vo.Member;
@@ -33,17 +33,17 @@ public class MemberController {
 	private CompanionCatService companionCatService;
 	private SnsInfoService snsInfoService;
 	private EmailService emailService;
+	private UploadService uploadService;
 	private Rq rq;
-	private UploadComponent uploadComponent;
 	
-	public MemberController(MemberService memberService, MemberDeletionService memberDeletionService, CompanionCatService companionCatService, SnsInfoService snsInfoService, EmailService emailService, Rq rq, UploadComponent uploadComponent) {
+	public MemberController(MemberService memberService, MemberDeletionService memberDeletionService, CompanionCatService companionCatService, SnsInfoService snsInfoService, EmailService emailService, UploadService uploadService, Rq rq) {
 		this.memberService = memberService;
 		this.memberDeletionService = memberDeletionService;
 		this.companionCatService = companionCatService;
 		this.snsInfoService = snsInfoService;
 		this.emailService = emailService;
+		this.uploadService = uploadService;
 		this.rq = rq;
-		this.uploadComponent = uploadComponent;
 	}
 	
 	
@@ -120,13 +120,13 @@ public class MemberController {
 		// 이미지
 		String imagePath = null;
 		for(MultipartFile image: profileImage) {
-			// 이미지 타입 확인, jpg, jpeg, png, gif 가능
-			boolean isImageTypeSupported = memberService.isImageTypeValid(image);
+			// 이미지 확장자 확인, jpg, jpeg, png, gif 가능
+			boolean isImageTypeSupported = uploadService.isImageTypeValid(image);
 			
 			if(isImageTypeSupported) {
 				// 이미지 업로드
-				memberService.uploadFile(image, "member");
-				imagePath = memberService.getProfileImagePath("member");
+				uploadService.uploadFile(image, "member");
+				imagePath = uploadService.getProfileImagePath("member");
 				break;
 			}
 		}
@@ -324,7 +324,7 @@ public class MemberController {
 		
 		// 업로드된 회원 프로필이미지는 삭제 진행
 		if(!Util.isEmpty(member.getProfileImage())) {			
-			memberService.deleteProfileImage(member.getProfileImage());
+			uploadService.deleteProfileImage(member.getProfileImage());
 		}
 		
 		// 실제로 데이터 삭제 X, status 칼럼을 3(탈퇴)로 변경

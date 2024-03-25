@@ -73,26 +73,6 @@ public class MemberService {
 		return new SHA256().getPasswordEquality(loginPw, chkLoginPw);
 	}
 	
-	// 이미지 타입 확인
-	public boolean isImageTypeValid(MultipartFile image) {
-		return uploadComponent.isImageTypeValid(image);
-	}
-	
-	// 파일 업로드
-	public void uploadFile(MultipartFile image, String type) throws IOException {
-		uploadComponent.uploadFile(image, type);
-	}
-	
-	// 프로필 이미지 경로 가져오기
-	public String getProfileImagePath(String type) {
-		return uploadComponent.getProfileImagePath(type);
-	}
-	
-	// 파일 삭제
-	public void deleteProfileImage(String profileImage) {
-		uploadComponent.deleteProfileImage(profileImage);
-	}
-	
 	// 자격 인증 [인증이 필요한 매개변수: 이름, 아이디, 이메일] (아이디 찾기, 비밀번호 재설정에서 사용)
 	public Member getMemberByCredentials(String name, String loginId, String email) {
 		return memberDao.getMemberByCredentials(name, loginId, email);

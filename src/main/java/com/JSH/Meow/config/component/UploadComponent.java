@@ -23,6 +23,10 @@ public class UploadComponent {
 	@Getter
 	private String fileName;
 	
+	// 게시글 이미지 업로드
+	@Value("/images/upload/article")
+	private String articleImagePath;
+	
 	// 회원 프로필 이미지 업로드 경로
 	@Value("/images/upload/profile/member/")
 	private String profileMemberImagePath;
@@ -31,7 +35,8 @@ public class UploadComponent {
 	@Value("/images/upload/profile/companionCat/")
 	private String profileCompanionCatImagePath;
 	
-	// 파일 업로드 (현재 프로필 이미지만 업로드 하게끔 로직 구현)
+	
+	// 파일 업로드
 	public void uploadFile(MultipartFile file, String type) throws IOException {
 		String directory = null;
 		String originalFileName = file.getOriginalFilename();
@@ -39,16 +44,36 @@ public class UploadComponent {
 		// 프로필 이미지 타입 확인 후 경로 지정
 		if(isImageTypeValid(file)) {
 			// 타입에 따라서 경로 설정(member, companionCat)
-			directory = uploadDirectory + (type.equals("member") ? profileMemberImagePath : profileCompanionCatImagePath);
+			directory = uploadDirectory + filePath(type);
 			UUID randomUUID = UUID.randomUUID();
 			fileName = randomUUID.toString() + "_" + originalFileName;
 		}
 		
 		// 업로드
-        Path targetPath = Path.of(directory, fileName);
-        byte[] fileBytes = file.getBytes();
-        Files.write(targetPath, fileBytes);
+		try {
+	        Path targetPath = Path.of(directory, fileName);
+	        byte[] fileBytes = file.getBytes();
+	        Files.write(targetPath, fileBytes);
+	    } catch (IOException e) {
+	        throw new IOException("파일 업로드 실패: " + e.getMessage());
+	    }
     }
+	
+	
+	// 파일 경로
+	private String filePath(String type) {
+		switch(type) {
+		case "article":
+			return articleImagePath;
+		case "member":
+			return profileMemberImagePath;
+		case "companionCat":
+			return profileCompanionCatImagePath;
+		}
+		
+		return "";
+	}
+	
 	
 	
 	// 파일 삭제
@@ -85,7 +110,8 @@ public class UploadComponent {
 	
 	// 프로필 이미지 경로 가져오기
 	public String getProfileImagePath(String type) {
-		Path path = Path.of(type.equals("member") ? profileMemberImagePath : profileCompanionCatImagePath, fileName);
-		return path.toString();
+		Path path = Path.of(filePath(type), fileName);
+		
+		return path.toString().replace("\\", "/");
 	}
 }

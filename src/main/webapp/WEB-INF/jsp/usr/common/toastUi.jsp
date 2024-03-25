@@ -25,8 +25,39 @@
 			const editor = new toastui.Editor({
 				el : node,
 				previewStyle : 'vertical',
-				initialValue : $modifyVal.length != 0 ? $modifyVal : initialValue, // write or modify 체크
 				height : '500px',
+				initialValue : $modifyVal.length != 0 ? $modifyVal : initialValue, // write or modify 체크
+				hooks: {	// Base64 단점 보완을 위해 hooks의 addImageBlobHook 속성 사용
+			    	addImageBlobHook: (blob, callback) => {
+			    		// blob : Java Script 파일 객체
+			    		const formData = new FormData();
+			        	formData.append('articleImage', blob);
+			        	
+			   			$.ajax({
+			           		type: 'POST',
+			           		enctype: 'multipart/form-data',
+			           		url: '../article/uploadImage',
+			           		data: formData,
+			           		dataType: 'json',
+			           		processData: false,
+			           		contentType: false,
+			           		cache: false,
+			           		success: function(data) {
+			           			alertMsg("", "loading");
+			           			setTimeout(function() {		// 타임아웃 속성이 동작을 안해서 따로 사용
+			           	            if(data.success) {
+			           	                const url = data.data;
+			           	                callback(url, '사진 대체 텍스트 입력');
+			           	            }
+			           	        }, 3000);	// 3초
+			           		},
+			           		error: function(e) {
+			           			//console.log(e.abort([statusText]));
+			           			callback('image_load_fail', '사진 대체 텍스트 입력');
+			           		} 
+			           	})
+			    	}
+				},
 				toolbarItems: [
 				    ['heading', 'bold', 'italic', 'strike'],
 				    ['hr', 'quote'],

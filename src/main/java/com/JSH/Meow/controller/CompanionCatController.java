@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.JSH.Meow.service.CompanionCatService;
+import com.JSH.Meow.service.UploadService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.CompanionCat;
 import com.JSH.Meow.vo.ResultData;
@@ -19,10 +20,12 @@ import com.JSH.Meow.vo.Rq;
 @Controller
 public class CompanionCatController {
 	private CompanionCatService companionCatService;
+	private UploadService uploadService;
 	private Rq rq;
 	
-	public CompanionCatController(CompanionCatService companionCatService, Rq rq) {
+	public CompanionCatController(CompanionCatService companionCatService, UploadService uploadService, Rq rq) {
 		this.companionCatService = companionCatService;
+		this.uploadService = uploadService;
 		this.rq = rq;
 	}
 	
@@ -85,12 +88,12 @@ public class CompanionCatController {
 		String imagePath = null;
 		for(MultipartFile image: profileImage) {
 			// 이미지 타입 확인, jpg, jpeg, png, gif 가능
-			boolean isImageTypeSupported = companionCatService.isImageTypeValid(image);
+			boolean isImageTypeSupported = uploadService.isImageTypeValid(image);
 			
 			if(isImageTypeSupported) {
 				// 이미지 업로드
-				companionCatService.uploadFile(image, "companionCat");
-				imagePath = companionCatService.getProfileImagePath("companionCat");
+				uploadService.uploadFile(image, "companionCat");
+				imagePath = uploadService.getProfileImagePath("companionCat");
 				break;
 			}
 		}
@@ -154,7 +157,7 @@ public class CompanionCatController {
 		String imagePath = null;
 		for(MultipartFile image: profileImage) {
 			// 이미지 타입 확인, jpg, jpeg, png, gif 가능
-			boolean isImageTypeSupported = companionCatService.isImageTypeValid(image);
+			boolean isImageTypeSupported = uploadService.isImageTypeValid(image);
 			
 			// 수정시 이미지를 등록 안했을 경우 break;
 			if(!isImageTypeSupported) {
@@ -166,12 +169,12 @@ public class CompanionCatController {
 			if(isImageTypeSupported) {
 				// 업로드된 기존 이미지를 삭제
 				if(!Util.isEmpty(companionCat.getProfileImage())) {			
-					companionCatService.deleteProfileImage(companionCat.getProfileImage());
+					uploadService.deleteProfileImage(companionCat.getProfileImage());
 				}
 				
 				// 새로운 이미지 업로드
-				companionCatService.uploadFile(image, "companionCat");
-				imagePath = companionCatService.getProfileImagePath("companionCat");
+				uploadService.uploadFile(image, "companionCat");
+				imagePath = uploadService.getProfileImagePath("companionCat");
 				break;
 			}
 		}
@@ -206,7 +209,7 @@ public class CompanionCatController {
 		
 		// 업로드된 이미지 삭제
 		if(!Util.isEmpty(companionCat.getProfileImage())) {			
-			companionCatService.deleteProfileImage(companionCat.getProfileImage());
+			uploadService.deleteProfileImage(companionCat.getProfileImage());
 		}
 		companionCatService.doDelete(catId);
 		

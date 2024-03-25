@@ -39,21 +39,4 @@ public class CompanionCatService {
 	public void doDelete(int catId) {
 		companionCatDao.doDelete(catId);
 	}
-
-	public boolean isImageTypeValid(MultipartFile image) {
-		return uploadComponent.isImageTypeValid(image);
-	}
-
-	public void uploadFile(MultipartFile image, String type) throws IOException {
-		uploadComponent.uploadFile(image, type);
-	}
-	
-	public String getProfileImagePath(String type) {
-		return uploadComponent.getProfileImagePath(type);
-	}
-
-	public void deleteProfileImage(String profileImage) {
-		uploadComponent.deleteProfileImage(profileImage);
-	}
-		
 }

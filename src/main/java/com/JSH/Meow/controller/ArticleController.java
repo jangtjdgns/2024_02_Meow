@@ -1,5 +1,6 @@
 package com.JSH.Meow.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -7,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.JSH.Meow.service.ArticleService;
 import com.JSH.Meow.service.BoardService;
 import com.JSH.Meow.service.ReplyService;
+import com.JSH.Meow.service.UploadService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Article;
 import com.JSH.Meow.vo.Board;
@@ -32,12 +35,14 @@ public class ArticleController {
 	private ArticleService articleService;
 	private BoardService boardService;
 	private ReplyService replyService;
+	private UploadService uploadService;
 	private Rq rq;
 	
-	public ArticleController(ArticleService articleService, BoardService boardService, ReplyService replyService, Rq rq) {
+	public ArticleController(ArticleService articleService, BoardService boardService, ReplyService replyService, UploadService uploadService, Rq rq) {
 		this.articleService = articleService;
 		this.boardService = boardService;
 		this.replyService = replyService;
+		this.uploadService = uploadService;
 		this.rq = rq;
 	}
 	
@@ -196,6 +201,21 @@ public class ArticleController {
 		
 		return Util.jsReplace(Util.f("%d번 게시물이 작성되었습니다.", id), Util.f("detail?id=%d&boardId=%d", id, boardId));
 	}
+	
+	
+	// 토스트UI의 base64 를 통해 이미지를 업로드 하면 해상도에 따라 데이터의 값이 너무 커져버림
+	// 이를 방지하기 위해 업로드 후 해당 이미지를 가져오도록 변경, ajax
+	@RequestMapping("/usr/article/uploadImage")
+	@ResponseBody
+	public ResultData uploadImage(@RequestParam MultipartFile articleImage) throws IOException {
+		
+		uploadService.uploadFile(articleImage, "article");
+		
+		String imagePath = uploadService.getProfileImagePath("article");
+		
+		return ResultData.from("S-1", "이미지 업로드 성공", imagePath);
+	}
+	
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
