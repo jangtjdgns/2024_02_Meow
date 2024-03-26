@@ -178,4 +178,17 @@ public interface ArticleDao {
 			LIMIT 6;
 			""")
 	public List<Article> getHotArticles();
+	
+	@Select("""
+			SELECT A.*
+			    , M.nickname writerName
+			    , (SELECT COUNT(*) FROM reply WHERE relId = A.id) replyCnt
+			FROM article A
+			LEFT JOIN `member` M
+			    ON A.memberId = M.id
+			WHERE boardId = 2
+			ORDER BY id DESC
+			LIMIT 5;
+			""")
+	public List<Article> getNoticeArticles();
 }

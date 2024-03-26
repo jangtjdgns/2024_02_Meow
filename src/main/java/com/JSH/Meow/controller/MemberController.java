@@ -209,6 +209,10 @@ public class MemberController {
 		
 		Member member = memberService.getMemberById(memberId);
 		
+		if(memberId != rq.getLoginedMemberId()) {
+			return rq.jsReturnOnView("해당 프로필에 대한 접근 권한이 없습니다.");
+		}
+		
 		if(member == null) {
 			return rq.jsReturnOnView(Util.f("%d번 회원은 존재하지 않습니다.", memberId));
 		}

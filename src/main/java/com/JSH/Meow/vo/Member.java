@@ -22,7 +22,6 @@ public class Member {
 	private String email;
 	private int status;
 	private String lastLoginDate;
-	private int lastLoginDays;
 	private String profileImage;
 	private String aboutMe;
 	

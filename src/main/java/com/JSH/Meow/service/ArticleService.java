@@ -59,4 +59,8 @@ public class ArticleService {
 	public List<Article> getHotArticles() {
 		return articleDao.getHotArticles();
 	}
+	
+	public List<Article> getNoticeArticles() {
+		return articleDao.getNoticeArticles();
+	}
 }

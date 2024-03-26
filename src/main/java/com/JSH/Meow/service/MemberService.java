@@ -1,16 +1,15 @@
 package com.JSH.Meow.service;
 
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.JSH.Meow.config.component.UploadComponent;
 import com.JSH.Meow.dao.MemberDao;
 import com.JSH.Meow.util.SHA256;
 import com.JSH.Meow.vo.Member;
+import com.JSH.Meow.vo.Status;
 
 @Service
 public class MemberService {
@@ -81,5 +80,11 @@ public class MemberService {
 	// 비밀번호 변경
 	public void doResetLoginPw(int memberId, String resetLoginPw) {
 		memberDao.doResetLoginPw(memberId, resetLoginPw);
+	}
+	
+	
+	// 회원 상태 가져오기
+	public List<Status> getStatus() {
+		return memberDao.getStatus();
 	}
 }

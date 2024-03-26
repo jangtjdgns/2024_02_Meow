@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.JSH.Meow.vo.Member;
+import com.JSH.Meow.vo.Status;
 
 @Mapper
 public interface MemberDao {
@@ -111,4 +112,15 @@ public interface MemberDao {
 			WHERE id = #{memberId}
 			""")
 	public void doResetLoginPw(int memberId, String resetLoginPw);
+	
+	@Select("""
+			SELECT `status`,
+			    COUNT(*) AS `count`,
+			    ROUND(
+			        (COUNT(*) / (SELECT COUNT(*) FROM `member`)
+			    ) * 100, 2) AS percent
+			FROM `member`
+			GROUP BY `status`;
+			""")
+	public List<Status> getStatus();
 }

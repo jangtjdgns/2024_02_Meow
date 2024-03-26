@@ -65,7 +65,9 @@
 	<div class="hero b-mh flex items-start justify-center pt-20 border-t moveBg" style="background-image: url(https://cdn.pixabay.com/photo/2020/08/15/18/02/paws-5491105_1280.png); background-size: 105% cover;">
 	    <div class="hero-content">
 	        <div class="text-center lg:text-right pr-10">
-	            <h1 class="text-5xl [color:#a6c1ee] font-bold font-meetme">안녕하세요! <span style="background: linear-gradient(to right top, #fbc2eb, #a6c1ee); color: transparent; -webkit-background-clip: text;">Meow</span> 입니다!</h1>
+	            <h1 class="text-5xl [color:#a6c1ee] font-bold font-meetme">안녕하세요!
+	            	<span style="background: linear-gradient(to right top, #fbc2eb, #a6c1ee); color: transparent; -webkit-background-clip: text;">Meow</span> 입니다!
+	            </h1>
 	            <div class="py-6 [width:600px] text-lg [color:#35374B] font-Cutelively">
 	            	<p id="login-text1" class="hover:[font-size:1.15rem]"></p>
 	            	<p id="login-text2" class="hover:[font-size:1.15rem]"></p>

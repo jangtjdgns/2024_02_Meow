@@ -23,6 +23,8 @@ public class Rq {
 	private String loginedMemberNickname;
 	@Getter
 	private String loginedMemberProfileImage;
+	@Getter
+	private Integer authLevel;
 	
 	private HttpServletRequest req;
 	private HttpServletResponse res;
@@ -40,6 +42,7 @@ public class Rq {
 			loginedMemberId = (int) this.session.getAttribute("loginedMemberId");
 			loginedMemberNickname = (String) this.session.getAttribute("loginedMemberNickname");
 			loginedMemberProfileImage = (String) this.session.getAttribute("loginedMemberProfileImage");
+			authLevel = (Integer) this.session.getAttribute("authLevel");
 		}
 		
 		this.loginedMemberId = loginedMemberId;
@@ -55,6 +58,7 @@ public class Rq {
 		this.session.setAttribute("loginedMemberId", member.getId());
 		this.session.setAttribute("loginedMemberNickname", member.getNickname());
 		this.session.setAttribute("loginedMemberProfileImage", member.getProfileImage());
+		this.session.setAttribute("authLevel", member.getAuthLevel());
 	}
 		
 	// session logout
@@ -62,6 +66,16 @@ public class Rq {
 		this.session.removeAttribute("loginedMemberId");
 		this.session.removeAttribute("loginedMemberNickname");
 		this.session.removeAttribute("loginedMemberProfileImage");
+		this.session.removeAttribute("authLevel");
+	}
+	
+	// session getAuthLevel
+	public Integer getAuthLevel() {
+		if(this.session.getAttribute("authLevel") == null) {
+			return null;
+		}
+		
+		return (Integer) this.session.getAttribute("authLevel");
 	}
 	
 	// session createChatRoom
@@ -71,7 +85,7 @@ public class Rq {
 	
 	// session getChatRoomId
 	public int getChatRoomId() {
-		return (int) this.session.getAttribute("chatRoomId");
+		return (Integer) this.session.getAttribute("chatRoomId");
 	}
 	
 	// session deleteChatRoom

@@ -64,7 +64,7 @@
 				    ['ul', 'ol', 'task', 'indent', 'outdent'],
 				    ['table', 'image', 'link'],
 				  ],
-				plugins : [ toastui.Editor.plugin.colorSyntax],
+				plugins : [toastui.Editor.plugin.colorSyntax],
 			});
 			
 			$node.data('data-toast-editor', editor);
@@ -80,7 +80,7 @@
 			el : document.querySelector("#viewer"),
 			initialValue : initialValue,
 			viewer : true,
-			plugins : [ toastui.Editor.plugin.colorSyntax]
+			plugins : [toastui.Editor.plugin.colorSyntax]
 		});
 
 		$("#viewer").data('viewer', viewer);

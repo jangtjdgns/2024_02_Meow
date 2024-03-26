@@ -11,7 +11,7 @@ function getDateTime(type){
 			break;
 		case 'month':
 			returnDate = date.getMonth() + 1;
-			breka;
+			break;
 		case 'day':
 			returnDate = date.getDate();
 			break;

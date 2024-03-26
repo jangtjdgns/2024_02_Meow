@@ -5,6 +5,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.JSH.Meow.interceptor.AdminInterceptor;
 import com.JSH.Meow.interceptor.BeforeActionInterceptor;
 import com.JSH.Meow.interceptor.NeedLoginInterceptor;
 import com.JSH.Meow.interceptor.NeedLogoutInterceptor;
@@ -15,13 +16,16 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 	private BeforeActionInterceptor beforeActionInterceptor;
 	private NeedLoginInterceptor needLoginInterceptor;
 	private NeedLogoutInterceptor needLogoutInterceptor;
+	private AdminInterceptor adminInterceptor;
 
-	public MyWebMvcConfigurer(BeforeActionInterceptor beforeActionInterceptor,
-			NeedLoginInterceptor needLoginInterceptor,
-			NeedLogoutInterceptor needLogoutInterceptor) {
+	public MyWebMvcConfigurer(BeforeActionInterceptor beforeActionInterceptor
+			, NeedLoginInterceptor needLoginInterceptor
+			, NeedLogoutInterceptor needLogoutInterceptor
+			, AdminInterceptor adminInterceptor) {
 		this.beforeActionInterceptor = beforeActionInterceptor;
 		this.needLoginInterceptor = needLoginInterceptor;
 		this.needLogoutInterceptor = needLogoutInterceptor;
+		this.adminInterceptor = adminInterceptor;
 	}
 
 	@Override
@@ -57,7 +61,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/customer/submitRequest");
 		ir.addPathPatterns("/usr/customer/doWriteFeedback");
 		ir.addPathPatterns("/usr/customer/doModifyFeedback");
-		
+
 		// 로그아웃 필요
 		ir = registry.addInterceptor(needLogoutInterceptor);
 		ir.addPathPatterns("/usr/member/login");
@@ -68,6 +72,13 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/member/doJoin");
 		ir.addPathPatterns("/usr/find/loginId");
 		ir.addPathPatterns("/usr/doFind/loginId");
+		
+		ir.addPathPatterns("/adm/member/login");
+		ir.addPathPatterns("/adm/member/doLogin");
+		
+		// 관리자 권한 필요
+		ir = registry.addInterceptor(adminInterceptor);
+		ir.addPathPatterns("/adm/home/main");
 	}
 
 }

@@ -32,7 +32,6 @@ CREATE TABLE `member` (
   	email VARCHAR(254) NOT NULL UNIQUE COMMENT '이메일',
  	`status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',
   	lastLoginDate DATETIME NULL COMMENT '마지막 로그인 일시',
- 	lastLoginDays INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '미접속일',
   	profileImage VARCHAR(255) NOT NULL COMMENT '프로필사진 파일명',
  	aboutMe VARCHAR(300) NULL COMMENT '자기소개, 300글자 제한'
 );
@@ -189,8 +188,8 @@ title = CONCAT('테스트 제목_', FLOOR(RAND() * 10000 + 1)),
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
-loginId = 'admin',
-loginPw = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',		# admin
+loginId = 'admin1234',
+loginPw = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',		# Admin1234@@
 authLevel = 0,
 `name` = '관리자',
 nickname = '관리자',
