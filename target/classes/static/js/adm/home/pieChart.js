@@ -2,51 +2,50 @@
  * 토스트 UI 파이 차트 js
  */
 
-// 파이 차트 데이터
-let pieChartData = {
-	categories: ['회원 상태'],
-	series: [
-    	{
-    		id: 0,
-      		name: '활동',
-      		data: 0,
-    	},
-    	{
-    		id: 1,
-      		name: '정지',
-      		data: 0,
-    	},
-    	{
-    		id: 2,
-      		name: '휴면',
-      		data: 0,
-    	},
-    	{
-    		id: 3,
-      		name: '탈퇴',
-      		data: 0,
-    	},
-    	{
-    		id: 4,
-    		name: '강제 탈퇴',
-    		data: 0,
-		},
-	]
-};
-
-const today = `\${getDateTime('year')}.\${getDateTime('month')}.\${getDateTime('day')}.`
-let options = {
-	chart: {title: '회원 상태 현황'},
-	series: {
-	    dataLabels: {
-	      	visible: true,
-	      	anchor: 'outer'
-	    }
-	}
-};
-
 // 회원 상태 현황 가져와서 차트 데이터에 저장
-const getStatus = function(){
+function getStatus(){
+	// 파이 차트 데이터
+	const pieChartData = {
+		categories: ['회원 상태'],
+		series: [
+	    	{
+	    		id: 0,
+	      		name: '활동',
+	      		data: 0,
+	    	},
+	    	{
+	    		id: 1,
+	      		name: '정지',
+	      		data: 0,
+	    	},
+	    	{
+	    		id: 2,
+	      		name: '휴면',
+	      		data: 0,
+	    	},
+	    	{
+	    		id: 3,
+	      		name: '탈퇴',
+	      		data: 0,
+	    	},
+	    	{
+	    		id: 4,
+	    		name: '강제 탈퇴',
+	    		data: 0,
+			},
+		]
+	};
+	
+	const options = {
+		chart: {title: '회원 상태 현황'},
+		series: {
+		    dataLabels: {
+		      	visible: true,
+		      	anchor: 'outer'
+		    }
+		}
+	};
+	
 	$.ajax({
 		url: '/adm/member/getStatus',
 	    method: 'GET',
@@ -81,7 +80,6 @@ const getStatus = function(){
         timeout: 10 * 60 * 1000
 	});
 }
-
 
 $(function(){
 	getStatus();

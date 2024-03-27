@@ -42,6 +42,17 @@ function getAgeByDate(date) {
 	return yearsDiff;
 }
 
+// 현재 날짜와 등록한 날짜의 일 수 구하기(아직 사용은 안함)
+function getCalcDateDiffInDays(date){
+	let getDate = new Date(date);
+	let curDate = new Date();
+	
+	let timeDiff = Math.abs(curDate.getTime() - getDate.getTime());
+	let daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+	
+	return daysDiff;
+}
+
 
 /**
  * [자정 기준, 조회수 쿠키 제거 함수]

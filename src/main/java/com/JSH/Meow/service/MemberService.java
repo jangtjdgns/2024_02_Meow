@@ -42,6 +42,15 @@ public class MemberService {
 		return memberDao.getMembers();
 	}
 	
+
+	public Member admGetMemberById(int memberId) {
+		return memberDao.admGetMemberById(memberId);
+	}
+	
+	public List<Member> admGetMembers(int limitFrom, int memberCnt, String searchType, String searchKeyword, String memberType, boolean order) {
+		return memberDao.admGetMembers(limitFrom, memberCnt, searchType, searchKeyword, memberType, order);
+	}
+	
 	public void joinMember(String loginId, String loginPw, String name, String nickname, int age, String address, String cellphoneNum, String email, String profileImage, String aboutMe) {
 		memberDao.joinMember(loginId, loginPw, name, nickname, age, address, cellphoneNum, email, profileImage, aboutMe);
 	}

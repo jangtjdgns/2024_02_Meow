@@ -31,7 +31,7 @@ public class AdmArticleController {
 	}
 	
 	// 공지사항 가져오기
-	@RequestMapping("/adm/getArticle/notice")
+	@RequestMapping("/adm/article/notice")
 	@ResponseBody
 	public ResultData<List<Article>> getNoticeArticle() {
 		

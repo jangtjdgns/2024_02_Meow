@@ -24,7 +24,8 @@ public class Member {
 	private String lastLoginDate;
 	private String profileImage;
 	private String aboutMe;
-	
+
 	private String snsType;
 	private String authCode;
+	private int lastLoginDaysDiff;
 }

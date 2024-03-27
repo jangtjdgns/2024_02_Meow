@@ -3,9 +3,9 @@
     
 <script src="/js/adm/home/pieChart.js"></script>
 <script>
-const getNoticeArticle = function(){
+function getNoticeArticle() {
 	$.ajax({
-		url: '/adm/getArticle/notice',
+		url: '/adm/article/notice',
 	    method: 'GET',
 	    dataType: 'json',
 	    success: function(data) {

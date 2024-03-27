@@ -23,14 +23,17 @@ public class AdmHomeController {
 	}
 	
 	// 관리자 getContentJsp
-	@RequestMapping("/adm/get/content")
+	@RequestMapping("/adm/content/getJsp")
 	public String getContentJsp(String type) {
 		
-		if(type.equals("main")) {
-			return "adm/home/mainContent";
+		String jsp = "adm/"; 
+				
+		switch(type) {
+			case "main": return jsp += "home/mainContent";
+			case "memberList": return jsp += "memberManagement/list";
 		}
 		
-		return "adm/home/mainContent";
+		return jsp;
 	}
 	
 	

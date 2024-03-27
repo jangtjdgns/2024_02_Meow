@@ -5,15 +5,16 @@
 <script>
 function getAdmContentJsp(type){
 	$.ajax({
-		url: '/adm/get/content',
+		url: '/adm/content/getJsp',
 	    method: 'GET',
 	    data: {
 	    	type: type
 	    },
 	    dataType: 'html',
-	    success: function(response) {
+	    success: function(jspContent) {
+	    	
 	    	// 서버에서 받은 응답을 화면에 표시
-	    	$("#admContentJspWrap").html(response);
+	    	$("#admContentJspWrap").html(jspContent);
 		},
 	      	error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);
@@ -42,9 +43,9 @@ $(function(){
 
 </script>
 
-<section class="min-h-screen">
+<section class="min-h-screen overflow-y-scroll">
 	<div class="flex">
-		<div>
+		<div class="h-full">
 			<aside class="drawer lg:drawer-open">
 			  	<input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
 			  	
@@ -61,9 +62,10 @@ $(function(){
 							<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-users"></i> 회원 관리</summary>
 			      				<ul data-idx="0">
-					              	<li><button class="sub-title">회원 목록</button></li>
+					              	<li><button class="sub-title" onclick="getAdmContentJsp('memberList')">회원 목록</button></li>
 					              	<li><button class="sub-title">회원 신고 조치</button></li>
 					              	<li><button class="sub-title">회원 상태</button></li>
+					              	<li><button class="sub-title">회원 통계</button></li>
 					            </ul>
 				          	</details>
 						</li>
@@ -91,8 +93,18 @@ $(function(){
 			      		
 			      		<li>
 			      			<details open>
-			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-chart-simple"></i> 기타</summary>
+			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-map-location-dot"></i> 지도</summary>
 			      				<ul data-idx="3">
+					              	<li><button class="sub-title">지역별 회원 목록</button></li>
+					              	<li><button class="sub-title">거래 목록</button></li>
+					            </ul>
+				          	</details>
+			      		</li>
+			      		
+			      		<li>
+			      			<details open>
+			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-chart-simple"></i> 기타</summary>
+			      				<ul data-idx="4">
 					              	<li><button class="sub-title">일정</button></li>
 					              	<li><button class="sub-title">전체 요청 기록 확인</button></li>
 					              	<li><button class="sub-title">채팅 기록 확인</button></li>
@@ -100,7 +112,7 @@ $(function(){
 				          	</details>
 			      		</li>
 			      		
-			      		<li class="absolute bottom-4 left-1/2 -translate-x-1/2 w-72">
+			      		<li class="pt-4">
 			      			<a href="/" class="btn content-center btn-neutral hover:bg-gray-800">
 			      				<span class="font-bold" style="background: linear-gradient(to right top, #fbc2eb, #a6c1ee); color: transparent; -webkit-background-clip: text;">Meow</span>
 			      			바로가기</a>
@@ -122,8 +134,9 @@ $(function(){
 					<div>asd</div>
 				</div>
 			</div>
-			<div id="admContentJspWrap" class="m-8 border bg-white shadow-2xl rounded-lg [max-height:721px]">
-				<%@ include file="../home/mainContent.jsp"%>
+			<div id="admContentJspWrap" class="m-8 border bg-white shadow-2xl rounded-lg [height:721px] [max-height:721px]">
+				<%-- <%@ include file="../home/mainContent.jsp"%> --%>
+				<%@ include file="../memberManagement/list.jsp"%>
 			</div>
 		</div>
 	</div>

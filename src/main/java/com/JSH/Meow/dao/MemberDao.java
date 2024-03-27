@@ -71,6 +71,68 @@ public interface MemberDao {
 			""")
 	public List<Member> getMembers();
 	
+	@Select("""
+			SELECT M.*, S.snsType, DATEDIFF(NOW(), M.lastLoginDate) AS lastLoginDaysDiff
+			FROM `member` M
+			LEFT JOIN sns_info S
+			ON M.id = S.memberId
+			WHERE M.authLevel = 1
+			AND M.id = #{memberId}
+			""")
+	public Member admGetMemberById(int memberId);
+	
+	@Select("""
+			<script>
+				SELECT M.*, S.snsType, DATEDIFF(NOW(), M.lastLoginDate) AS lastLoginDaysDiff
+				FROM `member` M
+				LEFT JOIN sns_info S
+				ON M.id = S.memberId
+				WHERE M.authLevel = 1
+				<choose>
+					<when test="searchType == 'all' and searchKeyword != ''">
+						AND (
+				            M.name LIKE CONCAT('%', #{searchKeyword}, '%')
+				            OR M.loginId LIKE CONCAT('%', #{searchKeyword}, '%')
+				            OR M.nickname LIKE CONCAT('%', #{searchKeyword}, '%')
+				            OR M.email LIKE CONCAT('%', #{searchKeyword}, '%')
+				            OR M.cellphoneNum LIKE CONCAT('%', #{searchKeyword}, '%')
+				        )
+					</when>
+					<when test="searchType == 'name'">
+						AND M.name LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<when test="searchType == 'loginId'">
+						AND M.loginId LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<when test="searchType == 'nickname'">
+						AND M.nickname LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<when test="searchType == 'email'">
+						AND M.email LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<otherwise>
+						AND M.cellphoneNum LIKE CONCAT('%', #{searchKeyword}, '%')
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="memberType == 'native'">
+						AND S.snsType IS NULL
+					</when>
+					<when test="memberType == 'sns'">
+						AND S.snsType IS NOT NULL
+					</when>
+				</choose>
+				<if test="order == false">
+					ORDER BY M.id ASC
+				</if>
+				<if test="order == true">
+					ORDER BY M.id DESC
+				</if>
+				limit #{limitFrom}, #{memberCnt};
+			</script>
+			""")
+	public List<Member> admGetMembers(int limitFrom, int memberCnt, String searchType, String searchKeyword, String memberType, boolean order);
+	
 	@Update("""
 			UPDATE `member`
 			SET updateDate = NOW()

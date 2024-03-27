@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.service.CompanionCatService;
@@ -77,6 +78,41 @@ public class AdmMemberController {
 		rq.login(member);
 		
 		return Util.jsReplace(Util.f("%s님 환영합니다.", member.getNickname()), "/adm");
+	}
+	
+	
+	// 회원 목록 가져오기, ajax
+	@RequestMapping("/adm/member/list")
+	@ResponseBody
+	public ResultData<List<Member>> getMembers(
+			@RequestParam(defaultValue = "1") int page
+			, @RequestParam(defaultValue = "10") int memberCnt
+			, @RequestParam(defaultValue = "all") String searchType
+			, @RequestParam(defaultValue = "") String searchKeyword
+			, @RequestParam(defaultValue = "all") String memberType
+			, @RequestParam(defaultValue = "false") boolean order) {
+		
+		// 표시 회원수를 기준으로 limit 시작 설정
+		int limitFrom = (page - 1) * memberCnt;
+		
+		List<Member> members = memberService.admGetMembers(limitFrom, memberCnt, searchType, searchKeyword, memberType, order);
+		
+		if(members.size() == 0) {
+			return ResultData.from("F-1", "검색에 일치하는 회원이 없습니다.", members);
+		}
+		
+		return ResultData.from("S-1", "회원 조회 성공", members);
+	}
+	
+	
+	// 회원 상세 정보 가져오기, ajax
+	@RequestMapping("/adm/member/detail")
+	@ResponseBody
+	public ResultData<Member> getMember(int memberId) {
+		
+		Member member = memberService.admGetMemberById(memberId);
+		
+		return ResultData.from("S-1", "회원 조회 성공", member);
 	}
 	
 	
