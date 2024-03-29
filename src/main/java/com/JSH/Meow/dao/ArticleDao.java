@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.JSH.Meow.vo.Article;
+import com.JSH.Meow.vo.Interval;
 
 @Mapper
 public interface ArticleDao {
@@ -126,19 +127,6 @@ public interface ArticleDao {
 			""")
 	public int getTotalCount(int boardId, int searchType, String searchKeyword);
 	
-	/*
-	 	SELECT A.*
-				, M.nickname AS writerName
-				, IFNULL(SUM(R.point), 0) `point`
-				, (SELECT COUNT(*) FROM reply WHERE relId = A.id) replyCnt
-				FROM article AS A
-				INNER JOIN `member` AS M
-				ON A.memberId = M.id
-				LEFT JOIN recommendPoint R
-				ON A.id = R.relId
-				WHERE A.id = #{id}
-				GROUP BY A.id
-	 */
 	@Select("""
 			SELECT A.*
 				, M.nickname AS writerName
@@ -191,4 +179,27 @@ public interface ArticleDao {
 			LIMIT 5;
 			""")
 	public List<Article> getNoticeArticles();
+	
+	@Select("""
+			<script>
+				SELECT DATE_FORMAT(regDate, '%Y-%m-%d') `date`, COUNT(*) articleCnt
+					FROM article
+					WHERE memberId = #{memberId}
+					<choose>
+						<when test="interval == 'year'">
+							AND regDate >= DATE_SUB(NOW(), INTERVAL #{intervalFreq} YEAR)
+						</when>
+						<when test="interval == 'month'">
+							AND regDate >= DATE_SUB(NOW(), INTERVAL #{intervalFreq} MONTH)
+						</when>
+						<otherwise>
+							AND regDate >= DATE_SUB(NOW(), INTERVAL #{intervalFreq} WEEK)
+						</otherwise>
+					</choose>
+					GROUP BY DATE_FORMAT(regDate, '%Y-%m-%d')
+					ORDER BY regDate DESC
+					LIMIT #{barCnt}
+				</script>
+			""")
+	public List<Interval> getArticleFreq(int memberId, String interval, int intervalFreq, int barCnt);
 }

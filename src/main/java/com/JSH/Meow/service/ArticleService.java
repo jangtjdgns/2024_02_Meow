@@ -1,14 +1,12 @@
 package com.JSH.Meow.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.JSH.Meow.config.component.UploadComponent;
 import com.JSH.Meow.dao.ArticleDao;
 import com.JSH.Meow.vo.Article;
+import com.JSH.Meow.vo.Interval;
 
 @Service
 public class ArticleService {
@@ -62,5 +60,9 @@ public class ArticleService {
 	
 	public List<Article> getNoticeArticles() {
 		return articleDao.getNoticeArticles();
+	}
+	
+	public List<Interval> getArticleFreq(int memberId, String interval, int intervalFreq, int barCnt) {
+		return articleDao.getArticleFreq(memberId, interval, intervalFreq, barCnt);
 	}
 }

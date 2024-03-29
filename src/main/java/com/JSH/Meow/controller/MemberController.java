@@ -176,7 +176,7 @@ public class MemberController {
 		}
 		
 		// 탈퇴 회원인 경우 로그인 제한
-		if(member.getStatus() == 3) {
+		if(member.getStatus() == "탈퇴" || member.getStatus() == "강제탈퇴") {
 			return Util.jsHistoryBack("탈퇴 처리된 계정입니다");
 		}
 		
@@ -433,7 +433,7 @@ public class MemberController {
 		}
 		
 		// 탈퇴 회원인 경우
-		if(member.getStatus() == 3) {
+		if(member.getStatus() == "탈퇴" || member.getStatus() == "강제탈퇴") {
 			return ResultData.from("F-2", "탈퇴 처리된 계정입니다");
 		}
 		
@@ -466,7 +466,7 @@ public class MemberController {
 		}
 		
 		// 탈퇴 회원인 경우
-		if(member.getStatus() == 3) {
+		if(member.getStatus() == "탈퇴" || member.getStatus() == "강제탈퇴") {
 			return ResultData.from("F-2", "탈퇴 처리된 계정입니다");
 		}
 		

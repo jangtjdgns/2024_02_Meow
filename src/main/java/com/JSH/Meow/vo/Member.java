@@ -28,4 +28,15 @@ public class Member {
 	private String snsType;
 	private String authCode;
 	private int lastLoginDaysDiff;
+	
+	public String getStatus() {
+		switch(this.status) {
+			case 0: return "활동";
+			case 1: return "정지";
+			case 2: return "휴면";
+			case 3: return "탈퇴";
+			case 4: return "강제탈퇴";
+		}
+		return null;
+	}
 }

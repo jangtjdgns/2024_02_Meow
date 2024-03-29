@@ -64,7 +64,6 @@ $(function(){
 			      				<ul data-idx="0">
 					              	<li><button class="sub-title" onclick="getAdmContentJsp('memberList')">회원 목록</button></li>
 					              	<li><button class="sub-title">회원 신고 조치</button></li>
-					              	<li><button class="sub-title">회원 상태</button></li>
 					              	<li><button class="sub-title">회원 통계</button></li>
 					            </ul>
 				          	</details>
@@ -108,6 +107,7 @@ $(function(){
 					              	<li><button class="sub-title">일정</button></li>
 					              	<li><button class="sub-title">전체 요청 기록 확인</button></li>
 					              	<li><button class="sub-title">채팅 기록 확인</button></li>
+					              	<li><button class="sub-title">친구 상태 확인</button></li>
 					            </ul>
 				          	</details>
 			      		</li>
@@ -122,7 +122,7 @@ $(function(){
 			</aside>
 		</div>
 		
-		<div class="grid bg-gray-50 w-full" style="grid-template-rows: 120px 1fr">
+		<div class="grid bg-gray-50 w-full [min-width:1024px]" style="grid-template-rows: 120px 1fr">
 			<div class="flex flex-col justify-center border-b-2 bg-white px-10">
 				<div class="flex items-center justify-between">
 					<div class="title-name"></div>
