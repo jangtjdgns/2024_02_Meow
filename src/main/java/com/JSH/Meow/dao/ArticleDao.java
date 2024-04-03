@@ -24,11 +24,13 @@ public interface ArticleDao {
 					, IFNULL(SUM(R.point), 0) reactionLikeCnt
 				FROM article A
 				LEFT JOIN `member` M
-				ON A.memberId = M.id
+					ON A.memberId = M.id
 				LEFT JOIN reaction R
-				ON A.id = R.relId AND R.reactionType = 0
+					ON A.id = R.relId
+					AND R.reactionType = 0
+					AND R.relTypeCode = 'article'
 				LEFT JOIN board B
-				ON A.boardId = B.id
+					ON A.boardId = B.id
 				WHERE 1 = 1
 				<if test="boardId != null and boardId != 1">
 					AND A.boardId = #{boardId}
@@ -61,7 +63,95 @@ public interface ArticleDao {
 			WHERE id = #{id}
 			""")
 	public Article getArticleById(int id);
-
+	
+	
+	@Select("""
+			<script>
+				SELECT
+				    A.*
+				    , M.nickname writerName
+				    , B.name boardName
+				    , COUNT(DISTINCT Rp.id) replyCnt
+				    , COALESCE(Likes.reactionLikeCnt, 0) AS reactionLikeCnt
+			 		, COALESCE(Dislikes.reactionDislikeCnt, 0) AS reactionDislikeCnt
+				FROM article A
+				LEFT JOIN `member` M
+				    ON A.memberId = M.id
+				LEFT JOIN board B
+					ON A.boardId = B.id
+				LEFT JOIN (SELECT relId, COUNT(*) AS reactionLikeCnt FROM reaction WHERE reactionType = 0 AND relTypeCode = 'article' GROUP BY relId) Likes
+				    ON A.id = Likes.relId
+				LEFT JOIN (SELECT relId, COUNT(*) AS reactionDislikeCnt FROM reaction WHERE reactionType = 1 AND relTypeCode = 'article' GROUP BY relId) Dislikes
+				    ON A.id = Dislikes.relId
+				LEFT JOIN reply Rp
+				    ON A.id = Rp.relId
+				WHERE 1 = 1
+				<choose>
+					<when test="searchType == 1">
+						AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<when test="searchType == 2">
+						AND A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<otherwise>
+						AND (
+							A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+							OR A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="boardType == 2">
+						AND B.id = 2
+					</when>
+					<when test="boardType == 3">
+						AND B.id = 3
+					</when>
+					<when test="boardType == 4">
+						AND B.id = 4
+					</when>
+					<when test="boardType == 5">
+						AND B.id = 5
+					</when>
+					<when test="boardType == 6">
+						AND B.id = 6
+					</when>
+				</choose>
+				GROUP BY A.id
+				<if test="order == false">
+					ORDER BY A.id DESC
+				</if>
+				<if test="order == true">
+					ORDER BY A.id ASC
+				</if>
+				LIMIT #{limitFrom}, #{articleCnt};
+			</script>
+			""")
+	public List<Article> admGetArticles(int limitFrom, int articleCnt, int searchType, String searchKeyword, int boardType, boolean order);
+	
+	@Select("""
+			SELECT
+			    A.*,
+			    M.nickname AS writerName,
+			    B.name AS boardName,
+			    COUNT(DISTINCT Rp.id) AS replyCnt,
+			    COALESCE(Likes.reactionLikeCnt, 0) AS reactionLikeCnt,
+			    COALESCE(Dislikes.reactionDislikeCnt, 0) AS reactionDislikeCnt
+			FROM article A
+			LEFT JOIN `member` M
+			    ON A.memberId = M.id
+			LEFT JOIN  board B
+			    ON A.boardId = B.id
+			LEFT JOIN (SELECT relId, COUNT(*) AS reactionLikeCnt FROM reaction WHERE reactionType = 0 AND relTypeCode = 'article' GROUP BY relId) Likes
+			    ON A.id = Likes.relId
+			LEFT JOIN (SELECT relId, COUNT(*) AS reactionDislikeCnt FROM reaction WHERE reactionType = 1 AND relTypeCode = 'article' GROUP BY relId) Dislikes
+			    ON A.id = Dislikes.relId
+			LEFT JOIN reply Rp ON A.id = Rp.relId
+			WHERE A.id =  #{id}
+			""")
+	public Article admGetArticleById(int id);
+	
+	
 	@Insert("""
 			INSERT INTO article
 				SET regDate = NOW()
@@ -202,4 +292,5 @@ public interface ArticleDao {
 				</script>
 			""")
 	public List<Interval> getArticleFreq(int memberId, String interval, int intervalFreq, int barCnt);
+
 }

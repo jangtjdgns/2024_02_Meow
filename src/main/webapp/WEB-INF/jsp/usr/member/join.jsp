@@ -139,7 +139,7 @@
 	        <!-- 가입, 취소 버튼 -->
 	        <div class="grid grid-cols-2 gap-4 mt-6">
 	            <button class="btn btn-primary">가입</button>
-	            <button type=button class="btn">취소</button>
+	            <button type=button class="btn" onclick="history.back()">취소</button>
 	        </div>
 	    </form>
 	</div>

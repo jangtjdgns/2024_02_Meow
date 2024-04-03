@@ -13,6 +13,7 @@ import com.JSH.Meow.service.ReplyService;
 import com.JSH.Meow.service.UploadService;
 import com.JSH.Meow.vo.Article;
 import com.JSH.Meow.vo.Interval;
+import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
@@ -30,6 +31,40 @@ public class AdmArticleController {
 		this.replyService = replyService;
 		this.uploadService = uploadService;
 		this.rq = rq;
+	}
+	
+	
+	// 게시글 목록 가져오기, ajax
+	@RequestMapping("/adm/article/list")
+	@ResponseBody
+	public ResultData<List<Article>> getMembers(
+			@RequestParam(defaultValue = "1") int page
+			, @RequestParam(defaultValue = "10") int articleCnt
+			, @RequestParam(defaultValue = "0") int searchType
+			, @RequestParam(defaultValue = "") String searchKeyword
+			, @RequestParam(defaultValue = "1") int boardType
+			, @RequestParam(defaultValue = "false") boolean order) {
+		
+		// 표시 회원수를 기준으로 limit 시작 설정
+		int limitFrom = (page - 1) * articleCnt;
+		
+		List<Article> articles = articleService.admGetArticles(limitFrom, articleCnt, searchType, searchKeyword, boardType, order);
+		
+		if(articles.size() == 0) {
+			return ResultData.from("F-1", "검색에 일치하는 게시글이 없습니다.", articles);
+		}
+		
+		return ResultData.from("S-1", "게시글 조회 성공", articles);
+	}
+	
+	// 게시글 정보 가져오기, ajax
+	@RequestMapping("/adm/article/detail")
+	@ResponseBody
+	public ResultData<Article> getArticle(int articleId) {
+		
+		Article article = articleService.admGetArticleById(articleId);
+		
+		return ResultData.from("S-1", "게시글 조회 성공", article);
 	}
 	
 	// 공지사항 가져오기, ajax

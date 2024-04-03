@@ -31,9 +31,10 @@ public class AdmHomeController {
 		switch(type) {
 			case "main": return jsp += "home/mainContent";
 			case "memberList": return jsp += "memberManagement/list";
+			case "articleList": return jsp += "articleManagement/list";
 		}
 		
-		return jsp;
+		return getRootUrl();
 	}
 	
 	

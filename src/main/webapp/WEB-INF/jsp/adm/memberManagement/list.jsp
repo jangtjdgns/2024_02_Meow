@@ -40,7 +40,7 @@
 					        	<td>\${members[i].cellphoneNum}</td>
 					        	<td>\${members[i].email}</td>
 					        	<td>\${members[i].regDate}</td>
-					        	<td class="text-left truncate [width:150px] [max-width:150px]"">\${members[i].aboutMe == null ? '' : members[i].aboutMe}</td>
+					        	<td class="text-left truncate [width:150px] [max-width:150px]">\${members[i].aboutMe == null ? '' : members[i].aboutMe}</td>
 					        	<td>\${members[i].lastLoginDaysDiff}일 전</td>
 					        	<td>\${members[i].snsType == null ? '자체회원' : 'SNS회원'}</td>
 					        	<td>\${members[i].status}</td>
@@ -83,67 +83,6 @@
 		    		setMember(memberInfo);
 		    		getArticleFreq(memberId);
 		    	}
-			},
-		      	error: function(xhr, status, error) {
-		      	console.error('Ajax error:', status, error);
-			},
-		});
-	}
-	
-	// 게시글 작성 빈도 차트
-	function getArticleFreq(memberId) {
-		
-		// 회원 선택 했는지 확인
-		if($(".chart-default-msg").has(".hidden").length == 0) {
-			$(".chart-default-msg").addClass("hidden");
-			$(".chart-option").removeClass("hidden");
-		}
-		
-		const interval = $('.interval[name="interval"]:checked').val();
-		const intervalFreq = $('.intervalFreq').val();
-		const barCnt = $('.barCnt').val();
-		
-		// 차트 데이터
-		const columnChartData = {
-		    categories: [],
-		    series: [
-		       	{
-		            name: '작성한 게시글 수',
-		            data: []
-		        },
-		    ]
-		}
-		
-		// 차트 옵션
-		const options = {
-			chart: {title: '게시글 등록 현황'},
-		};
-		
-		$.ajax({
-			url: '/adm/article/frequency',
-		    method: 'GET',
-		    data: {
-		    	memberId: memberId,
-		    	interval: interval,
-		    	intervalFreq: intervalFreq,
-		    	barCnt: barCnt,
-		    },
-		    dataType: 'json',
-		    success: function(data) {
-		    	
-		    	if(data.success) {
-		    		const intervalFreq = data.data;
-		    		
-		    		for(let i = 0; i < intervalFreq.length; i++) {
-		    			columnChartData.categories.push(intervalFreq[i].date);				// 차트 데이터 카테고리 속성에 date 추가
-		    			columnChartData.series[0].data.push(intervalFreq[i].articleCnt);	// 차트 데이터 시리즈 속성의 데이터 속성에 게시글 수 추가
-		    		}
-		    	}
-		    	
-		    	// 차트 추가
-		    	$("#columnChart").empty();
-				const columnChart = document.getElementById('columnChart');
-				new toastui.Chart.columnChart({ el: columnChart, data: columnChartData, options: options });
 			},
 		      	error: function(xhr, status, error) {
 		      	console.error('Ajax error:', status, error);
@@ -264,6 +203,68 @@
 		`;
 		
 		$(".member").append(member);
+	}
+	
+	
+	// 게시글 작성 빈도 차트
+	function getArticleFreq(memberId) {
+		
+		// 회원 선택 했는지 확인
+		if($(".chart-default-msg").has(".hidden").length == 0) {
+			$(".chart-default-msg").addClass("hidden");
+			$(".chart-option").removeClass("hidden");
+		}
+		
+		const interval = $('.interval[name="interval"]:checked').val();
+		const intervalFreq = $('.intervalFreq').val();
+		const barCnt = $('.barCnt').val();
+		
+		// 차트 데이터
+		const columnChartData = {
+		    categories: [],
+		    series: [
+		       	{
+		            name: '작성한 게시글 수',
+		            data: []
+		        },
+		    ]
+		}
+		
+		// 차트 옵션
+		const options = {
+			chart: {title: '게시글 등록 현황'},
+		};
+		
+		$.ajax({
+			url: '/adm/article/frequency',
+		    method: 'GET',
+		    data: {
+		    	memberId: memberId,
+		    	interval: interval,
+		    	intervalFreq: intervalFreq,
+		    	barCnt: barCnt,
+		    },
+		    dataType: 'json',
+		    success: function(data) {
+		    	
+		    	if(data.success) {
+		    		const intervalFreq = data.data;
+		    		
+		    		for(let i = 0; i < intervalFreq.length; i++) {
+		    			columnChartData.categories.push(intervalFreq[i].date);				// 차트 데이터 카테고리 속성에 date 추가
+		    			columnChartData.series[0].data.push(intervalFreq[i].articleCnt);	// 차트 데이터 시리즈 속성의 데이터 속성에 게시글 수 추가
+		    		}
+		    	}
+		    	
+		    	// 차트 추가
+		    	$("#columnChart").empty();
+				const columnChart = document.getElementById('columnChart');
+				new toastui.Chart.columnChart({ el: columnChart, data: columnChartData, options: options });
+			},
+		      	error: function(xhr, status, error) {
+		      	console.error('Ajax error:', status, error);
+			},
+		});
 	}
 	
 	

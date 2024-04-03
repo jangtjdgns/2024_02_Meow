@@ -53,7 +53,7 @@ $(function(){
 			    	<label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label> 
 			    	<ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
 			      		<li class="text-2xl text-center pt-3 pb-6 font-bold">Meow 관리자 페이지</li>
-			      		
+			      			
 			      		<li>
 			      			<button class="font-bold text-lg sub-title" onclick="getAdmContentJsp('main')"><i class="fa-solid fa-house"></i> 메인</button>
 			      		</li>
@@ -73,9 +73,10 @@ $(function(){
 			      			<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-regular fa-clipboard"></i> 게시판 관리</summary>
 			      				<ul data-idx="1">
-					              	<li><button class="sub-title">게시글 목록</button></li>
+					              	<li><button class="sub-title" onclick="getAdmContentJsp('articleList')">게시글 목록</button></li>
 					              	<li><button class="sub-title">게시글 신고 조치</button></li>
 					              	<li><button class="sub-title">공지사항 등록</button></li>
+					              	<li><button class="sub-title">댓글 관리</button></li>
 					            </ul>
 				          	</details>
 			      		</li>
@@ -126,7 +127,7 @@ $(function(){
 			<div class="flex flex-col justify-center border-b-2 bg-white px-10">
 				<div class="flex items-center justify-between">
 					<div class="title-name"></div>
-					<button class="btn btn-sm">로그아웃</button>
+					<a href="../member/doLogout" onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;" class="btn btn-sm">로그아웃</a>
 				</div>
 				
 				<div class="flex items-center justify-between">
@@ -136,7 +137,7 @@ $(function(){
 			</div>
 			<div id="admContentJspWrap" class="m-8 border bg-white shadow-2xl rounded-lg [height:721px] [max-height:721px]">
 				<%-- <%@ include file="../home/mainContent.jsp"%> --%>
-				<%@ include file="../memberManagement/list.jsp"%>
+				<%@ include file="../articleManagement/list.jsp"%>
 			</div>
 		</div>
 	</div>

@@ -25,6 +25,14 @@ public class ArticleService {
 	public Article getArticleById(int id) {
 		return articleDao.getArticleById(id);
 	}
+	
+	public List<Article> admGetArticles(int limitFrom, int articleCnt, int searchType, String searchKeyword, int boardType, boolean order) {
+		return articleDao.admGetArticles(limitFrom, articleCnt, searchType, searchKeyword, boardType, order);
+	}
+	
+	public Article admGetArticleById(int id) {
+		return articleDao.admGetArticleById(id);
+	}
 
 	public void doWrite(int loginedMemberId, int boardId, String title, String body) {
 		articleDao.doWrite(loginedMemberId, boardId, title, body);

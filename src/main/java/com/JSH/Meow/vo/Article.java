@@ -20,8 +20,10 @@ public class Article {
 	private String hitCnt;
 	
 	private String writerName;
+	private String boardName;
 	private int replyCnt;
 	private int reactionLikeCnt;
+	private int reactionDislikeCnt;
 	
 	public String getFormattedRegDate() {
 		return Util.formattedDatetime(this.regDate);

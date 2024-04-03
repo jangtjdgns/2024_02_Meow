@@ -80,6 +80,15 @@ public class AdmMemberController {
 		return Util.jsReplace(Util.f("%s님 환영합니다.", member.getNickname()), "/adm");
 	}
 	
+	// 로그아웃
+	@RequestMapping("/adm/member/doLogout")
+	@ResponseBody
+	public String doLogout() {
+		rq.logout();
+		
+		return Util.jsReplace("로그아웃 되었습니다.", "/adm");
+	}
+	
 	
 	// 회원 목록 가져오기, ajax
 	@RequestMapping("/adm/member/list")
