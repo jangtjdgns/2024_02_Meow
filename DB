@@ -111,8 +111,8 @@ CREATE TABLE req_res (
 );
 
 
-### customer_center 테이블
-CREATE TABLE customer_center (
+### inquiry 테이블
+CREATE TABLE inquiry (
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '접수 번호, receiptId',
     regDate DATETIME NOT NULL COMMENT '접수일',
     updateDate DATETIME NULL COMMENT '처리일',

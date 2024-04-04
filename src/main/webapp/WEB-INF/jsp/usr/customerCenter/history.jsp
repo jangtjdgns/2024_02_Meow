@@ -115,7 +115,7 @@
 							<span><i class="fa-solid fa-circle" style="color:${inquiry.status == '처리중' ? '#ffcc00' : '#00cc00'}; font-size: 8px;"></i></span>
 							<span>${inquiry.status }</span>
 						</td>
-						<td class="text-center"><button class="btn btn-xs btn-ghost" onclick="showDetail(${inquiry.id }, ${status.count }, ${inquiry.nickname })">상세보기</button></td>
+						<td class="text-center"><button class="btn btn-xs btn-ghost" onclick="showDetail(${inquiry.id }, ${status.count }, '${inquiry.nickname }')">상세보기</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>

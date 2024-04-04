@@ -371,9 +371,9 @@
 					  	</div>
 					</label>
 					<div class="join grid grid-cols-3">
-					  	<input class="memberType join-item btn btn-sm" type="radio" name="memberType" value="all" aria-label="전체" checked/>
-					  	<input class="memberType join-item btn btn-sm" type="radio" name="memberType" value="native" aria-label="자체 회원" />
-					  	<input class="memberType join-item btn btn-sm" type="radio" name="memberType" value="sns" aria-label="SNS회원" />
+					  	<input class="memberType join-item btn btn-sm" type="radio" name="memberType" value="all" aria-label="전체" checked autocomplete="off" />
+					  	<input class="memberType join-item btn btn-sm" type="radio" name="memberType" value="native" aria-label="자체 회원" autocomplete="off" />
+					  	<input class="memberType join-item btn btn-sm" type="radio" name="memberType" value="sns" aria-label="SNS회원" autocomplete="off" />
 					</div>
 					
 					<label class="form-control w-full flex-row items-center justify-between">

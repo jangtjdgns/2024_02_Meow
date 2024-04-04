@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.service.CustomerCenterService;
 import com.JSH.Meow.util.Util;
-import com.JSH.Meow.vo.CustomerCenter;
 import com.JSH.Meow.vo.CustomerFeedback;
+import com.JSH.Meow.vo.Inquiry;
 import com.JSH.Meow.vo.ResultData;
 
 @Controller
@@ -42,7 +42,7 @@ public class CustomerCenterController {
 			getJsp = "write";
 		} else if(contentId == 1) {
 			getJsp = "history";
-			List<CustomerCenter> inquiries = customerCenterService.getInquiryHistory(memberId);
+			List<Inquiry> inquiries = customerCenterService.getInquiryHistory(memberId);
 			model.addAttribute("inquiries", inquiries);
 		} else if(contentId == 2) {
 			getJsp = "faq";
@@ -76,9 +76,9 @@ public class CustomerCenterController {
 	// 문의 내역 가져오기, ajax
 	@RequestMapping("/usr/customer/showDetail")
 	@ResponseBody
-	public ResultData<CustomerCenter> showDetail(int receiptId) {
+	public ResultData<Inquiry> showDetail(int receiptId) {
 		
-		CustomerCenter customerCenter = customerCenterService.getInquiryByReceiptId(receiptId);
+		Inquiry customerCenter = customerCenterService.getInquiryByReceiptId(receiptId);
 		
 		return ResultData.from("S-1", Util.f("접수번호 %d번 상세보기", receiptId), customerCenter);
 	}

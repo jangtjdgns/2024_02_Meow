@@ -128,7 +128,7 @@ public interface MemberDao {
 				<if test="order == true">
 					ORDER BY M.id DESC
 				</if>
-				limit #{limitFrom}, #{memberCnt};
+				LIMIT #{limitFrom}, #{memberCnt};
 			</script>
 			""")
 	public List<Member> admGetMembers(int limitFrom, int memberCnt, String searchType, String searchKeyword, String memberType, boolean order);

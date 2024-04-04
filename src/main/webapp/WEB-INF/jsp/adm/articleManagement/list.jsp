@@ -97,9 +97,14 @@
 			    				<div class="boardName"><a href="../../usr/article/list?boardId=\${article.boardId}" target="_blank" class="text-blue-600 hover:font-bold">\${article.boardName}</a></div>
 			    				<div class="text-sm flex justify-between gap-2">
 			    					<div class="flex gap-2">
-		
+				    					<!-- 게시글 작성자 -->
+				    					<div >
+				    						<span class="text-xs"><i class="fa-regular fa-user"></i></span>
+				    						<span class="text-gray-600 font-bold cursor-pointer">\${article.writerName }</span>
+				    					</div>
+			    						
 			    						<!-- 게시글 작성일 -->
-			    						<div class="pr-2">
+			    						<div class="px-2">
 			    							<span class="text-xs"><i class="fa-regular fa-clock"></i></span>
 			    							<span class="text-gray-600">\${article.formattedRegDate}</span>
 			    						</div>
@@ -159,8 +164,7 @@
 			    			</div>
 			    			
 			    			<div class="text-center mt-4">댓글은 해당
-			    				<a href="../../usr/article/detail?boardId=\${article.boardId}&id=\${article.id}" target="_blank" class="underline text-red-600">게시글</a>
-			    				을 통해 볼 수 있습니다.
+			    				<a href="../../usr/article/detail?boardId=\${article.boardId}&id=\${article.id}" target="_blank" class="underline text-red-600">게시글</a>을 통해 볼 수 있습니다.
 			    			</div>
 			    	</section>
 		    	`;
@@ -176,7 +180,7 @@
 	
 	
 	// 게시글 크기 조절
-	let articleSize = 1;	// scale
+	var articleSize = 1;	// scale
 	function setArticleSize(size) {
 		
 		// 숫자 변환 시 NaN 처리
@@ -298,18 +302,18 @@
 					  	</div>
 					</label>
 					<div class="join grid grid-cols-6">
-					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="1" aria-label="전체" checked/>
-					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="2" aria-label="공지" />
-					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="3" aria-label="자유" />
-					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="4" aria-label="반려" />
-					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="5" aria-label="거래" />
-					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="6" aria-label="모임" />
+					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="1" aria-label="전체" checked autocomplete="off"/>
+					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="2" aria-label="공지" autocomplete="off" />
+					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="3" aria-label="자유" autocomplete="off" />
+					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="4" aria-label="반려" autocomplete="off" />
+					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="5" aria-label="거래" autocomplete="off" />
+					  	<input class="boardType join-item btn btn-sm text-xs" type="radio" name="boardType" value="6" aria-label="모임" autocomplete="off" />
 					</div>
 					
 					<label class="form-control w-full flex-row items-center justify-between">
 						<div class="label">
 						    <span class="label-text text-xs pr-1.5">정렬순서</span>
-						  	<input id="order" type="checkbox" class="checkbox checkbox-sm" />
+						  	<input id="order" type="checkbox" class="checkbox checkbox-sm" autocomplete="off" />
 					  	</div>
 					  	<div class="">
 					  		<span class="label-text text-xs"><span class="text-red-700">*</span> 기본: 내림차순, 선택: 오름차순</span>
@@ -325,7 +329,7 @@
 			
 			<div class="w-full h-full overflow-x-auto">
 				<div class="h-full">
-				  	<table class="table table-xs adm-member-table text-center">
+				  	<table class="table table-xs text-center">
 					    <thead>
 					      	<tr>
 					        	<th>번호</th>

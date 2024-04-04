@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/header.jsp"%>
 
+<script src="/js/common/carousel.js"></script>
 <script>
 function getAdmContentJsp(type){
 	$.ajax({
@@ -39,6 +40,9 @@ $(function(){
 		$(".sub-title-name").text($(this).text());
 		$(".title-name").text($(".title").eq(titleIdx).text().trim());
 	});
+	
+	// 캐러셀 자동 움직임 함수(carousel.js)
+	carouselMoveAuto($(".carousel-item").length, false, 24, 10000);
 })
 
 </script>
@@ -85,8 +89,7 @@ $(function(){
 			      			<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-envelope-open-text"></i> 건의 사항 및 문의 관리</summary>
 			      				<ul data-idx="2">
-					              	<li><button class="sub-title">접수 목록</button></li>
-					              	<li><button class="sub-title">처리 목록</button></li>
+					              	<li><button class="sub-title" onclick="getAdmContentJsp('customerList')">접수 목록</button></li>
 					            </ul>
 				          	</details>
 			      		</li>
@@ -127,17 +130,30 @@ $(function(){
 			<div class="flex flex-col justify-center border-b-2 bg-white px-10">
 				<div class="flex items-center justify-between">
 					<div class="title-name"></div>
-					<a href="../member/doLogout" onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;" class="btn btn-sm">로그아웃</a>
+					<div class="flex items-center gap-4">
+						<div><span class="font-bold">${rq.loginedMemberNickname }</span> 님</div>
+						<div>
+							<a href="../member/doLogout" onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;" class="btn btn-sm">로그아웃</a>
+						</div>
+					</div>
 				</div>
 				
 				<div class="flex items-center justify-between">
 					<div class="sub-title-name text-2xl font-bold">메인</div>
-					<div>asd</div>
+					<!-- 이부분은 공지를 등록했을때 자동으로 생성되면 좋을듯함 -->
+					<div class="self-end border-b">
+						<i class="fa-solid fa-bullhorn" style="color: #B197FC;"></i>
+						<ul class="w-72 h-6 carousel carousel-vertical">
+							<li class="carousel-item w-full"><a class="hover:underline">안녕하세요. 1번 공지입니다.</a></li>
+							<li class="carousel-item w-full"><a class="hover:underline">반갑습니다.</a></li>
+							<li class="carousel-item w-full"><a class="hover:underline">환영합니다.</a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 			<div id="admContentJspWrap" class="m-8 border bg-white shadow-2xl rounded-lg [height:721px] [max-height:721px]">
 				<%-- <%@ include file="../home/mainContent.jsp"%> --%>
-				<%@ include file="../articleManagement/list.jsp"%>
+				<%@ include file="../inquiryManagement/list.jsp"%>
 			</div>
 		</div>
 	</div>

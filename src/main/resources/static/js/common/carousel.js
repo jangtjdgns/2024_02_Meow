@@ -39,3 +39,15 @@ function carouselMove(idx, move) {
 	
 	$(".carouselRadio").eq(idx).prop("checked", true);
 }
+
+
+// 캐러셀 자동 움직임 함수 (캐러셀 아이템 개수, 수평 여부(true 수평, flase 수직), 캐러셀 길이 or 높이, 반복 시간)
+function carouselMoveAuto(size, isHorizontal, len, time) {
+	setInterval(function() {
+		let move = isHorizontal ? $(".carousel").scrollLeft() + len : $(".carousel").scrollTop() + len;
+		move = move >= size * len ? 0 : move;
+		
+		let animate = isHorizontal ? {scrollLeft: move} : {scrollTop: move};
+		$(".carousel").animate(animate, 10);
+	}, time)
+}

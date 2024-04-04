@@ -32,6 +32,7 @@ public class AdmHomeController {
 			case "main": return jsp += "home/mainContent";
 			case "memberList": return jsp += "memberManagement/list";
 			case "articleList": return jsp += "articleManagement/list";
+			case "customerList": return jsp += "inquiryManagement/list";
 		}
 		
 		return getRootUrl();
@@ -45,7 +46,7 @@ public class AdmHomeController {
 		return getRootUrl();
 	}
 	
-	
+	@RequestMapping("/adm/")
 	public String root2() {
 		return getRootUrl();
 	}

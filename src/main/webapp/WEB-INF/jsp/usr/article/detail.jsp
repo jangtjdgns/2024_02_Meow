@@ -221,8 +221,24 @@
 			<div class="boardName"><a href="list?boardId=${boardId }" class="text-blue-600 hover:font-bold">${board.name }</a></div>
 			<div class="text-sm flex justify-between gap-2">
 				<div class="flex gap-2">
+					<!-- 게시글 작성자 -->
+					<div>
+						<span class="text-xs"><i class="fa-regular fa-user"></i></span>
+						<div class="dropdown dropdown-right">
+						  	<div tabindex="0" role="button"><span class="text-gray-600 font-bold">${article.writerName }</span></div>
+						  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 border shadow-lg bg-base-100 rounded-box w-32">
+								<li><a href="../member/profile?memberId=${article.memberId }">프로필 보기</a></li>
+								<c:if test="${rq.loginedMemberId != article.memberId }">
+									<li><button onclick="sendRequest(${article.memberId }, 'friend')">친구추가</button></li>
+									<li><button onclick="openPop(${rq.loginedMemberId }, ${article.memberId });">채팅</button></li>
+									<li><a>신고</a></li>
+								</c:if>
+							</ul>
+						</div>
+					</div>
+					
 					<!-- 게시글 작성일 -->
-					<div class="pr-2">
+					<div class="px-2">
 						<span class="text-xs"><i class="fa-regular fa-clock"></i></span>
 						<span class="text-gray-600">${article.regDate }</span>
 					</div>

@@ -100,23 +100,9 @@ public interface ArticleDao {
 						)
 					</otherwise>
 				</choose>
-				<choose>
-					<when test="boardType == 2">
-						AND B.id = 2
-					</when>
-					<when test="boardType == 3">
-						AND B.id = 3
-					</when>
-					<when test="boardType == 4">
-						AND B.id = 4
-					</when>
-					<when test="boardType == 5">
-						AND B.id = 5
-					</when>
-					<when test="boardType == 6">
-						AND B.id = 6
-					</when>
-				</choose>
+				<if test="boardType > 1">
+					AND B.id = #{boardType}
+				</if>
 				GROUP BY A.id
 				<if test="order == false">
 					ORDER BY A.id DESC

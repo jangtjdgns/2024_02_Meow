@@ -110,14 +110,14 @@
 	    		<label class="label" for="customer-title">
 	    			<span class="label-text"><span class="text-red-700">*</span>제목</span>
 	    		</label>
-		    	<input id="customer-title" class="customer-title input input-sm input-bordered" type="text" />
+		    	<input id="customer-title" class="customer-title input input-sm input-bordered w-full" type="text" placeholder="2 ~ 50 글자 입력이 가능합니다." type="text" minlength="2" maxlength="50" />
 	    	</div>
 	    	
 	    	<div class="py-2">
 		    	<label class="label" for="customer-body">
 		    		<span class="label-text"><span class="text-red-700">*</span>내용</span>
 		    	</label>
-		    	<textarea id="customer-body" class="customer-body textarea textarea-bordered resize-none w-full"></textarea>
+		    	<textarea id="customer-body" class="customer-body textarea textarea-bordered resize-none w-full" placeholder="문의하실 내용을 입력해주세요."></textarea>
 		    </div>
 		    
 		    <div class="py-2 text-right">
@@ -162,10 +162,17 @@
 							</div>
 						</div>
 						<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-30 p-2 shadow bg-base-100 rounded-box w-24">
-							<li class="font-bold break-all"><a>${rq.loginedMemberNickname } 님</a></li>
-							<li><a href="../member/profile?memberId=${rq.loginedMemberId }">프로필</a></li>
-							<li><a>계정관리</a></li>
-							<li><button onclick="my_modal_3.showModal()">문의</button></li>
+							<li class="font-bold"><a>${rq.loginedMemberNickname }</a></li>
+							<c:if test="${rq.authLevel == 1}">
+								<!-- 유저 -->
+								<li><a href="../member/profile?memberId=${rq.loginedMemberId }">프로필</a></li>
+								<li><a>계정관리</a></li>
+								<li><button onclick="my_modal_3.showModal()">문의</button></li>
+							</c:if>
+							<c:if test="${rq.authLevel == 0}">
+								<!-- 관리자 -->
+								<li><a href="/adm">관리자 페이지</a></li>
+							</c:if>
 							<li><a href="../member/doLogout" onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;">로그아웃</a></li>
 						</ul>
 					</div>

@@ -7,14 +7,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.JSH.Meow.vo.CustomerCenter;
 import com.JSH.Meow.vo.CustomerFeedback;
+import com.JSH.Meow.vo.Inquiry;
 
 @Mapper
 public interface CustomerCenterDao {
 	
 	@Insert("""
-			INSERT INTO customer_center
+			INSERT INTO inquiry
 			SET regDate = NOW()
 			    , memberId = #{memberId}
 			    , `type` = #{type}
@@ -32,18 +32,18 @@ public interface CustomerCenterDao {
 	
 	@Select("""
 			SELECT C.*, M.nickname
-			FROM customer_center C
+			FROM inquiry C
 			INNER JOIN `member` M
 			ON C.memberId = M.id
 			WHERE C.memberId = #{memberId}
 			""")
-	List<CustomerCenter> getInquiryHistory(int memberId);
+	List<Inquiry> getInquiryHistory(int memberId);
 	
 	@Select("""
-			SELECT * FROM customer_center
+			SELECT * FROM inquiry
 			WHERE id = #{receiptId}
 			""")
-	CustomerCenter getInquiryByReceiptId(int receiptId);
+	Inquiry getInquiryByReceiptId(int receiptId);
 	
 	@Select("""
 			SELECT C.*, M.nickname
@@ -79,4 +79,52 @@ public interface CustomerCenterDao {
 			WHERE id = #{feedbackId}
 			""")
 	void doModifyFeedback(int feedbackId, String content);
+	
+	@Select("""
+			SELECT COUNT(*) FROM inquiry
+			WHERE `status` = 'progress';
+			""")
+	int getProgressCount();
+	
+	@Select("""
+			<script>
+				SELECT I.*, M.nickname
+				FROM inquiry I
+				INNER JOIN `member` M
+				ON I.memberId = M.id
+				WHERE I.status = #{status}
+				<choose>
+					<when test="inquiryType == 2">
+						AND I.type = 'inquiry'
+					</when>
+					<when test="inquiryType == 3">
+						AND I.type = 'report'
+					</when>
+					<when test="inquiryType == 4">
+						AND I.type = 'bug'
+					</when>
+					<when test="inquiryType == 5">
+						AND I.type = 'suggestion'
+					</when>
+				</choose>
+				<if test="order == false">
+					ORDER BY I.id DESC
+				</if>
+				<if test="order == true">
+					ORDER BY I.id ASC
+				</if>
+				LIMIT #{limitFrom}, #{inquiryCnt}
+			</script>
+			""")
+	List<Inquiry> getInquiries(int limitFrom, int inquiryCnt, String status, int inquiryType, boolean order);
+	
+	@Select("""
+			SELECT I.*, M.nickname
+			FROM inquiry I
+			INNER JOIN `member` M
+			ON I.memberId = M.id
+			WHERE I.id = #{id}
+			""")
+	Inquiry admGetInquiryById(int id);
+	
 }
