@@ -1,7 +1,5 @@
 package com.JSH.Meow.vo;
 
-import com.JSH.Meow.util.Util;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +15,7 @@ public class Inquiry {
 	private String type;
 	private String title;
 	private String body;
+	private String answerBody;
 	private String imagePath;
 	private String status;
 	

@@ -67,4 +67,8 @@ public class CustomerCenterService {
 	public Inquiry admGetInquiryById(int id) {
 		return customerCenterDao.admGetInquiryById(id);
 	}
+
+	public void answerInquiry(int inquiryId, String answerBody) {
+		customerCenterDao.answerInquiry(inquiryId, answerBody);
+	}
 }

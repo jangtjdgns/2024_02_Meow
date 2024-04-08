@@ -119,10 +119,12 @@ CREATE TABLE inquiry (
     memberId INT UNSIGNED NOT NULL COMMENT '접수한 회원 ID',
     `type` VARCHAR(20) NOT NULL COMMENT '접수 유형, 문의 = inquiry, 신고 = report, 버그제보 = bug, 기타건의사항 = suggestion',
     title VARCHAR(50) NOT NULL COMMENT '제목',
-    `body` TEXT NOT NULL COMMENT '내용',
-    imagePath VARCHAR(255) NOT NULL COMMENT '이미지 참고 시 경로 여부',
+    `body` TEXT NOT NULL COMMENT '사용자 문의 내용',
+    answerBody TEXT NULL COMMENT '관리자 답변 내용'
+    imagePath VARCHAR(255) NOT NULL COMMENT '사용자 이미지 참고 시 경로 여부',
     `status` VARCHAR(20) NOT NULL COMMENT '상태, 처리중 = progress, 처리완료 = complete'
 );
+
 
 ### customer_feedback 테이블
 CREATE TABLE customer_feedback (

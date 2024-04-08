@@ -28,9 +28,10 @@
 		    		const inquiries = data.data;
 		    		
 		    		for(let i = 0; i < inquiries.length; i++) {
-		    			// 접수일, 처리일 구분 용도
-		    			const setDate = inquiries[i].status == '처리중' ? inquiries[i].regDate : inquiries[i].updateDate;
-		    			$(".date").text(inquiries[i].status == '처리중' ? '접수일' : '처리일')
+		    			
+		    			// 접수일, 처리일 구분
+		    			const formattedDate = getFormattedDateStatus(inquiries[i]);
+		    			$(".date").text(formattedDate.status);
 		    			
 		    			const inquiry = `
 		    				<tr class="hover:bg-gray-50 cursor-pointer" onclick="getInquiry(\${inquiries[i].id})">
@@ -38,7 +39,7 @@
 		    					<td class="text-left truncate [width:120px] [max-width:120px]">\${inquiries[i].title}</td>
 		    					<td>\${inquiries[i].nickname}</td>
 		    					<td>\${inquiries[i].type}</td>
-		    					<td>\${setDate.substring(0, 11)}</td>
+		    					<td>\${formattedDate.setDate.substring(0, 11)}</td>
 		    					<td>\${inquiries[i].status}</td>
 					      	</tr>
 		    			`;
@@ -70,13 +71,23 @@
 		    },
 		    dataType: 'json',
 		    success: function(data) {
-		    	console.log(data.data);
+		    	
 		    	if(data.success) {
 		    		const inquiryInfo = data.data;
 		    		
+		    		const formattedDate = getFormattedDateStatus(inquiryInfo);
+		    		
+		    		let answerBody = null;
+		    		// 문의에 대한 처리를 진행했는지 확인
+		    		if(inquiryInfo.answerBody !== null) {
+		    			answerBody = `
+		    				<div class="absolute top-0 left-0 w-full h-full z-20 bg-gray-100 opacity-80"></div>
+		    			`;
+		    		}
+		    		
 		    		const inquiry = `
 		    			<div class="grid grid-rows-4 h-full">
-		    				<div class="row-start-1 row-end-4 overflow-auto">
+		    				<div class="row-start-1 row-end-4 overflow-auto border-b-2">
 			    				<table class="table h-full">
 				        			<tbody>
 					        			<tr>
@@ -88,8 +99,8 @@
 					        				<td id="nickname" class="w-1/5">\${inquiryInfo.nickname}</td>
 					        			</tr>
 					        			<tr>
-					        				<th class="w-1/5 bg-gray-50">접수일</th>
-					        				<td id="regDate">\${inquiryInfo.regDate}</td>
+					        				<th class="w-1/5 bg-gray-50">\${formattedDate.status}</th>
+					        				<td>\${formattedDate.setDate}</td>
 					        			</tr>
 					        			<tr>
 					        				<th class="w-1/5 bg-gray-50">제목</th>
@@ -113,13 +124,43 @@
 				    	    	</table>
 		    				</div>
 		    				
-		    				<div class="row-start-4 row-end-5">
-	    						<textarea name="" class="textarea resize-none w-full h-full"></textarea>
-		    				</div>
+		    				<div class="textarea p-0 relative row-start-4 row-end-5">
+		    					\${answerBody}
+		    					
+		    					<div class="absolute top-0 z-10 border-b px-2 w-full bg-white h-8">
+		    						<div class="font-bold">답변하기</div>
+		    					</div>
+		    					
+				            	<textarea class="answerBody absolute top-0 left-0 w-full h-full textarea resize-none py-8 focus:outline-none focus:border-0">\${inquiryInfo.answerBody == null ? '' : inquiryInfo.answerBody}</textarea>
+				            	
+				            	<div class="absolute bottom-0 z-10 border-t w-full bg-white flex justify-between h-8">
+				            		<div class="flex h-full items-center px-2">
+					            		<div class="dropdown dropdown-hover dropdown-top">
+											<div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
+												<i class="fa-solid fa-flag" style="color: #ff0000;"></i>
+											</div>
+											<div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-40">
+												<div tabindex="0" class="card-body">
+													<p class="text-sm text-center">부적절한 문의 처리</p>
+												</div>
+											</div>
+										</div>
+					            		<select class="reportProcessing select select-xs focus:outline-none focus:border-0">
+					            			<option value="0" selected>선택</option>
+					            			<option value="1">경고</option>
+					            			<option value="2">정지</option>
+					            			<option value="3">강제탈퇴</option>
+					            		</select>
+				            		</div>
+				            		<div>
+						            	<button class="btn btn-sm btn-outline rounded-none border-0" onclick="answerInquiry()">답변하기</button>
+					            	</div>
+				            	</div>
+				            </div>
 		    			</div>
 		    		`;
 		    		
-		    		$(".inquiry").html(inquiry)
+		    		$(".inquiry").html(inquiry);
 		    	}
 			},
 		      	error: function(xhr, status, error) {
@@ -129,9 +170,53 @@
 	}
 	
 	
+	// 답변하기
+	function answerInquiry() {
+		
+		if(!confirm("답변하시겠습니까?")) return false;
+		
+		const id = $("#receiptId").text();
+		const answerBody = $(".answerBody").val();
+		const reportProcessing = $(".reportProcessing").val();
+		
+		if(answerBody.trim().length < 2) {
+			return alertMsg("답변하실 내용을 입력해주세요.<br />(두 글자 이상)", "warning");
+		}
+		
+		
+		$.ajax({
+			url: '/adm/inquiry/answer',
+		    method: 'GET',
+		    data: {
+		    	inquiryId: id,
+		    	answerBody: answerBody,
+		    	reportProcessing: reportProcessing,
+		    },
+		    dataType: 'json',
+		    success: function(data) {
+		    	alertMsg("답변이 완료 되었습니다.", "success");
+		    	
+		    	admGetInquiries();
+				getInquiry(id);
+			},
+		      	error: function(xhr, status, error) {
+		      	console.error('Ajax error:', status, error);
+			}
+		});
+	}
+	
+	
+	// 입력된 문의 상태에 따라 접수일 or 처리일 반환 (날짜, 글자)
+	function getFormattedDateStatus(inquiry) {
+	    const setDate = inquiry.status === '처리중' ? inquiry.regDate : inquiry.updateDate;
+	    const status = inquiry.status === '처리중' ? '접수일' : '처리일';
+	    return { setDate, status };
+	}
+	
 	
 	$(function(){
 		admGetInquiries();
+		//getInquiry(43);	// 테스트 때문에 추가 지워야됨
 		
 		// 문의 상태 라디오 버튼 변경 시
 		$('.status').change(function(){

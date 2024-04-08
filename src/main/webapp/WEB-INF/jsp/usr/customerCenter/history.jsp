@@ -23,6 +23,15 @@
 		    		$("#body").text(result.body);
 		    		$("#status").text(result.status);
 		    		
+		    		if(result.status == '처리완료') {
+		    			$(".updateDate-wrap").removeClass("hidden");
+		    			$("#updateDate").text(result.updateDate);
+		    			$("#answerBody").text(result.answerBody);
+		    		} else {
+		    			$(".updateDate-wrap").addClass("hidden");
+		    			$("#answerBody").text("-");
+		    		}
+		    		
 		    		const image = result.imagePath;
 		    		$("#image").html(image.length == 0 ? '등록된 이미지가 없습니다.' : `<img src="\${image}" />`);
 		    		
@@ -57,6 +66,10 @@
     				<th class="w-1/5 bg-gray-50">접수일</th>
     				<td id="regDate" class="w-4/5"></td>
     			</tr>
+    			<tr class="updateDate-wrap hidden">
+    				<th class="w-1/5 bg-gray-200">처리일</th>
+    				<td id="updateDate" class="w-4/5"></td>
+    			</tr>
     			<tr>
     				<th class="w-1/5 bg-gray-50">제목</th>
     				<td id="title" class="w-4/5 break-all [max-width:371.2px]"></td>
@@ -70,6 +83,10 @@
     			<tr>
     				<th class="w-1/5 bg-gray-50">처리내역</th>
     				<td id="status" class="w-4/5"></td>
+    			</tr>
+    			<tr>
+    				<th class="w-1/5 bg-gray-200">답변내용</th>
+    				<td id=answerBody class="w-4/5">-</td>
     			</tr>
     			<tr>
     				<th class="w-1/5 bg-gray-50">이미지</th>
@@ -91,7 +108,6 @@
 					<th>닉네임</th>
 					<th>유형</th>
 					<th>제목</th>
-					<th>내용</th>
 					<th>접수일</th>
 					<th class="w-24">처리내역</th>
 					<th class="text-center"></th>
@@ -109,7 +125,6 @@
 						<td>${inquiry.nickname }</td>
 						<td>${inquiry.type }</td>
 						<td class="truncate" style="max-width: 150px;">${inquiry.title }</td>
-						<td class="truncate" style="max-width: 150px;">${inquiry.body }</td>
 						<td>${inquiry.regDate.substring(2, 10) }</td>
 						<td>
 							<span><i class="fa-solid fa-circle" style="color:${inquiry.status == '처리중' ? '#ffcc00' : '#00cc00'}; font-size: 8px;"></i></span>

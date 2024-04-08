@@ -44,6 +44,7 @@ public class AdmCustomerCenterController {
 		return ResultData.from("S-1", "문의 접수 목록 조회 성공", inquiries);
 	}
 	
+	
 	// 문의 정보 가져오기, ajax
 	@RequestMapping("/adm/inquiry/detail")
 	@ResponseBody
@@ -52,5 +53,22 @@ public class AdmCustomerCenterController {
 		Inquiry inquiry = customerCenterService.admGetInquiryById(inquiryId);
 		
 		return ResultData.from("S-1", "문의 내역 조회 성공", inquiry);
+	}
+	
+	
+	// 문의 답변하기, ajax
+	@RequestMapping("/adm/inquiry/answer")
+	@ResponseBody
+	public ResultData<Inquiry> answerInquiry(int inquiryId, String answerBody, @RequestParam(defaultValue = "0") int repostProcessing) {
+		
+		// 부적절한 문의인 경우 신고 처리에 대한 번호 (없음 = 0, 경고 = 1, 정지 = 2, 강제탈퇴 = 3), 신고 테이블 생성 예정
+		if(repostProcessing != 0) {
+			System.out.println("report service 생성 예정");
+		}
+		
+		// 문의 답변
+		customerCenterService.answerInquiry(inquiryId, answerBody);
+		
+		return ResultData.from("S-1", "문의 답변 성공");
 	}
 }

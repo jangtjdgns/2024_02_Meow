@@ -127,4 +127,13 @@ public interface CustomerCenterDao {
 			""")
 	Inquiry admGetInquiryById(int id);
 	
+	@Update("""
+			UPDATE inquiry
+			SET updateDate = NOW()
+			    , answerBody = #{answerBody}
+			    , `status` = 'complete'
+			WHERE id = #{inquiryId}
+			""")
+	void answerInquiry(int inquiryId, String answerBody);
+	
 }
