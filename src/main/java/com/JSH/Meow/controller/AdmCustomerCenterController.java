@@ -8,16 +8,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.service.CustomerCenterService;
+import com.JSH.Meow.service.ReqResService;
 import com.JSH.Meow.vo.Inquiry;
 import com.JSH.Meow.vo.ResultData;
+import com.JSH.Meow.vo.Rq;
 
 @Controller
 public class AdmCustomerCenterController {
 	
 	private CustomerCenterService customerCenterService;
+	private ReqResService reqResService;
+	private Rq rq;
 	
-	public AdmCustomerCenterController(CustomerCenterService customerCenterService) {
+	public AdmCustomerCenterController(CustomerCenterService customerCenterService, ReqResService reqResService, Rq rq) {
 		this.customerCenterService = customerCenterService;
+		this.reqResService = reqResService;
+		this.rq = rq;
 	}
 	
 	// 문의 접수 목록 가져오기, ajax
@@ -59,7 +65,7 @@ public class AdmCustomerCenterController {
 	// 문의 답변하기, ajax
 	@RequestMapping("/adm/inquiry/answer")
 	@ResponseBody
-	public ResultData<Inquiry> answerInquiry(int inquiryId, String answerBody, @RequestParam(defaultValue = "0") int repostProcessing) {
+	public ResultData<Inquiry> answerInquiry(int inquiryId, int recipientId, String answerBody, @RequestParam(defaultValue = "0") int repostProcessing) {
 		
 		// 부적절한 문의인 경우 신고 처리에 대한 번호 (없음 = 0, 경고 = 1, 정지 = 2, 강제탈퇴 = 3), 신고 테이블 생성 예정
 		if(repostProcessing != 0) {
@@ -68,6 +74,9 @@ public class AdmCustomerCenterController {
 		
 		// 문의 답변
 		customerCenterService.answerInquiry(inquiryId, answerBody);
+		
+		// 알림 요청
+		reqResService.sendRequest(rq.getLoginedMemberId(), recipientId, "inquiry");
 		
 		return ResultData.from("S-1", "문의 답변 성공");
 	}

@@ -102,12 +102,11 @@ CREATE TABLE chat (
 CREATE TABLE req_res (
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '요청 번호',
     requestDate DATETIME NOT NULL COMMENT '요청일',
-    acceptDate DATETIME NULL COMMENT '수락일',
-    refuseDate DATETIME NULL COMMENT '거절일',
+    responseDate DATETIME NULL COMMENT '응답일',
     requesterId INT NOT NULL COMMENT '요청 보낸 회원 ID',
     recipientId INT NOT NULL COMMENT '응답 받는 회원 ID',
-    `status` VARCHAR(10) NULL DEFAULT 'pending' COMMENT '친구 요청 상태, 보류 = pending, 수락 = accepted, 거절 = refuse',
-    `code` VARCHAR(20) NOT NULL COMMENT '요청 코드(friend, chat)'
+    `status` VARCHAR(10) NULL DEFAULT 'pending' COMMENT '요청 상태, 보류 = pending, 수락 = accepted, 거절 = refuse, 확인 = checked',
+    `code` VARCHAR(20) NOT NULL COMMENT '요청 코드 (friend, chat, inquiry)'
 );
 
 

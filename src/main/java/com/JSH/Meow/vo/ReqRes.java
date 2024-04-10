@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 public class ReqRes {
 	private int id;
 	private String requestDate;
-	private String acceptDate;
-	private String refuseDate;
+	private String responseDate;
 	private int requesterId;
 	private int recipientId;
 	private String status;
@@ -19,4 +18,16 @@ public class ReqRes {
 	
 	private String writerName;
 	private int timeDiffSec;
+	
+	public String getCodeName() {
+		String code = null;
+		
+		switch(this.code) {
+			case "friend": code = "친구"; break;
+			case "chat": code = "채팅"; break;
+			case "inquiry": code = "문의"; break;
+		}
+		
+		return code;
+	}
 }

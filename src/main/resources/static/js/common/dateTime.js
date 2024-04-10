@@ -29,6 +29,26 @@ function getDateTime(type){
 	return returnDate < 10 ? '0' + returnDate : returnDate;
 }
 
+// 시간차 계산 (요청 시간)
+function getTimeDiff(time) {
+    let timeDiffSec;
+    const minute = 60;				// 분
+    const hour = 60 * minute;		// 시간
+    const day = 24 * hour;			// 일
+
+	timeDiffSec = parseInt(time / minute)+ "분 전";
+	
+	if (time >= hour) {
+        timeDiffSec = parseInt(time / hour) + "시간 전";
+    }
+    
+    if (time >= day) {
+        timeDiffSec = parseInt(time / day) + "일 전";
+    }
+
+    return timeDiffSec;
+}
+
 
 // 날짜 기준으로 나이 구하기
 function getAgeByDate(date) {

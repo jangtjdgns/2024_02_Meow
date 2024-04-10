@@ -77,6 +77,7 @@ public class ReqResController {
 	
 	
 	// 응답 보내기
+	/*
 	@RequestMapping("/usr/reqRes/sendResponse")
 	@ResponseBody
 	public ResultData sendResponse(int id, int requesterId, int recipientId, String status, String code) {
@@ -88,6 +89,27 @@ public class ReqResController {
 		}
 		
 		String msg = status.equals("accepted") ? "요청을 수락하셨습니다." : "요청을 거절하셨습니다.";
+		
+		return ResultData.from("S-1", msg);
+	}
+	*/
+	
+	@RequestMapping("/usr/reqRes/sendResponse")
+	@ResponseBody
+	public ResultData sendResponse(int id, int requesterId, int recipientId, String status, String code) {
+		
+		reqResService.sendResponse(id, status);
+		
+		if(code.equals("friend") && status.equals("accepted")) {			
+			friendService.sendResponse(requesterId, recipientId);
+		}
+		
+		String msg = null;
+		switch(status) {
+			case "accepted": msg = "요청을 수락하셨습니다."; break;
+			case "refuse": msg = "요청을 거절하셨습니다."; break;
+			case "checked": msg = "문의 답변 알림을 확인했습니다."; break;
+		}
 		
 		return ResultData.from("S-1", msg);
 	}

@@ -1,4 +1,4 @@
-// 초대 알림 확인
+// 알림 확인
 function checkRequests(loginedMemberId) {
 	
 	$.ajax({
@@ -17,19 +17,37 @@ function checkRequests(loginedMemberId) {
 				for(let i = 0; i < result.length; i++) {
 					const timeDiffSec = result[i].timeDiffSec;
 					
-					$("#notification").append(`
-						<div class="grid items-center gap-1 my-0.5 p-0.5 text-sm text-center rounded-lg hover:bg-gray-100" style="grid-template-columns: 30px 1fr">
-							<div>${i + 1}</div>
-							<div class="text-left">${result[i].writerName}님의 ${result[i].code == 'friend' ? '친구' : '채팅방 초대'} 요청</div>
-							<div class=" col-start-2 col-end-3 flex items-center justify-between">
-								<div class="text-xs">${getTimeDiff(timeDiffSec)}</div>
-								<div class="flex">
-									<button class="btn btn-xs btn-ghost w-6" onclick='sendResponse(${result[i].id}, ${result[i].requesterId}, "accepted", "${result[i].code}")'><i class="fa-solid fa-check"></i></button>
-									<button class="btn btn-xs btn-ghost w-6" onclick='sendResponse(${result[i].id}, ${result[i].requesterId}, "refuse", "${result[i].code}")'><i class="fa-solid fa-x"></i></button>
+					let notification = null;
+					
+					if(result[i].code == 'friend' || result[i].code == 'chat') {
+						const code = result[i].codeName;
+						notification = `
+							<div class="grid items-center gap-1 my-0.5 p-0.5 text-sm text-center rounded-lg hover:bg-gray-100" style="grid-template-columns: 30px 1fr">
+								<div>${i + 1}</div>
+								<div class="text-left">${result[i].writerName}님의 ${code} 요청</div>
+								<div class=" col-start-2 col-end-3 flex items-center justify-between">
+									<div class="text-xs">${getTimeDiff(timeDiffSec)}</div>
+									<div class="flex">
+										<button class="btn btn-xs btn-ghost w-6" onclick='sendResponse(${result[i].id}, ${result[i].requesterId}, "accepted", "${result[i].code}")'><i class="fa-solid fa-check"></i></button>
+										<button class="btn btn-xs btn-ghost w-6" onclick='sendResponse(${result[i].id}, ${result[i].requesterId}, "refuse", "${result[i].code}")'><i class="fa-solid fa-x"></i></button>
+									</div>
 								</div>
 							</div>
-						</div>
-					`);
+						`;
+					} else if(result[i].code == 'inquiry') {
+						notification = `
+							<div class="grid items-center gap-1 my-0.5 p-0.5 text-sm text-center rounded-lg hover:bg-gray-100" style="grid-template-columns: 30px 1fr">
+								<div>${i + 1}</div>
+								<div class="text-left">문의 답변이 도착했습니다.</div>
+								<div class=" col-start-2 col-end-3 flex items-center justify-between">
+									<div class="text-xs">${getTimeDiff(timeDiffSec)}</div>
+									<button class="btn btn-xs btn-ghost" onclick='sendResponse(${result[i].id}, ${result[i].requesterId}, "checked", "${result[i].code}")'>확인</button>
+								</div>
+							</div>
+						`;
+					}
+					
+					$("#notification").append(notification);
 				}
 				
 				$("#notification-count").removeClass("hidden");
@@ -103,27 +121,6 @@ function sendResponse(id, requesterId, status, code) {
 	      	console.error('Ajax error:', status, error);
 		}
 	});
-}
-
-
-// 시간차 계산 (요청 시간)
-function getTimeDiff(time) {
-    let timeDiffSec;
-    const minute = 60;				// 분
-    const hour = 60 * minute;		// 시간
-    const day = 24 * hour;			// 일
-
-	timeDiffSec = parseInt(time / minute)+ "분 전";
-	
-	if (time >= hour) {
-        timeDiffSec = parseInt(time / hour) + "시간 전";
-    }
-    
-    if (time >= day) {
-        timeDiffSec = parseInt(time / day) + "일 전";
-    }
-
-    return timeDiffSec;
 }
 
 

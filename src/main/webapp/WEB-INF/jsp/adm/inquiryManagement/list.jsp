@@ -74,7 +74,7 @@
 		    	
 		    	if(data.success) {
 		    		const inquiryInfo = data.data;
-		    		
+		    		console.log(inquiryInfo)
 		    		const formattedDate = getFormattedDateStatus(inquiryInfo);
 		    		
 		    		let answerBody = null;
@@ -86,6 +86,7 @@
 		    		}
 		    		
 		    		const inquiry = `
+		    			<input id="memberId" type="hidden" value="\${inquiryInfo.memberId}" />
 		    			<div class="grid grid-rows-4 h-full">
 		    				<div class="row-start-1 row-end-4 overflow-auto border-b-2">
 			    				<table class="table h-full">
@@ -178,6 +179,7 @@
 		const id = $("#receiptId").text();
 		const answerBody = $(".answerBody").val();
 		const reportProcessing = $(".reportProcessing").val();
+		const memberId = $("#memberId").val();
 		
 		if(answerBody.trim().length < 2) {
 			return alertMsg("답변하실 내용을 입력해주세요.<br />(두 글자 이상)", "warning");
@@ -189,13 +191,14 @@
 		    method: 'GET',
 		    data: {
 		    	inquiryId: id,
+		    	recipientId: memberId,
 		    	answerBody: answerBody,
 		    	reportProcessing: reportProcessing,
+		    	
 		    },
 		    dataType: 'json',
 		    success: function(data) {
 		    	alertMsg("답변이 완료 되었습니다.", "success");
-		    	
 		    	admGetInquiries();
 				getInquiry(id);
 			},

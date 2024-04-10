@@ -31,18 +31,24 @@ public interface ReqResDao {
 			""")
 	public List<ReqRes> checkRequests(int memberId);
 	
-	@Update("""
-			<script>
+	/*
+	 * <script>
 				UPDATE req_res
-				SET `status` = #{status}
-				<if test="status == 'accepted'">
-					, acceptDate = NOW()
-				</if>
-				<if test="status == 'refuse'">
-					, refuseDate = NOW()
-				</if>
-				WHERE id = #{id}
-			</script>
+			SET `status` = #{status}
+			<if test="status == 'accepted'">
+				, acceptDate = NOW()
+			</if>
+			<if test="status == 'refuse'">
+				, refuseDate = NOW()
+			</if>
+			WHERE id = #{id}
+		</script>
+	 */
+	@Update("""
+			UPDATE req_res
+			SET responseDate = NOW()
+				, `status` = #{status}
+			WHERE id = #{id}
 			""")
 	public void sendResponse(int id, String status);
 
@@ -59,9 +65,17 @@ public interface ReqResDao {
 			""")
 	public ReqRes getReqStatus(int requesterId, int recipientId, String code);
 	
+	/*
+	 * UPDATE req_res
+		SET refuseDate = NOW()
+		    , `status` = 'refuse'
+		WHERE requesterId = #{senderId}
+		AND `status` = 'pending'
+		AND `code` = 'chat';
+	 */
 	@Update("""
 			UPDATE req_res
-			SET refuseDate = NOW()
+			SET responseDate = NOW()
 			    , `status` = 'refuse'
 			WHERE requesterId = #{senderId}
 			AND `status` = 'pending'
