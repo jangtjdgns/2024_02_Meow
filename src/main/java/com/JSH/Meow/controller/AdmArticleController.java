@@ -8,28 +8,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.service.ArticleService;
-import com.JSH.Meow.service.BoardService;
-import com.JSH.Meow.service.ReplyService;
-import com.JSH.Meow.service.UploadService;
 import com.JSH.Meow.vo.Article;
 import com.JSH.Meow.vo.Interval;
-import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
 public class AdmArticleController {
 	private ArticleService articleService;
-	private BoardService boardService;
-	private ReplyService replyService;
-	private UploadService uploadService;
 	private Rq rq;
 	
-	public AdmArticleController(ArticleService articleService, BoardService boardService, ReplyService replyService, UploadService uploadService, Rq rq) {
+	public AdmArticleController(ArticleService articleService, Rq rq) {
 		this.articleService = articleService;
-		this.boardService = boardService;
-		this.replyService = replyService;
-		this.uploadService = uploadService;
 		this.rq = rq;
 	}
 	

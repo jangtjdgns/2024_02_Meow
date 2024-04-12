@@ -29,6 +29,8 @@
 					}
 					
 		        	for(let i = 0; i < replies.length; i++) {
+		        		
+		        		// 옵션 버튼(수정, 삭제)
 		        		const operationBtn = `
 							<div class="dropdown dropdown-end">
 								<button class="btn btn-circle btn-ghost btn-sm">
@@ -39,6 +41,13 @@
 						    		<li><button onclick="replyDoDelete(\${replies[i].id})">삭제</button></li>
 						    	</ul>
 						    </div>
+					    `;
+					    
+					    // 신고 버튼
+					    const reportBtn = `
+					    	<button class="btn btn-xs btn-ghost btn-circle" onclick="showReportModal('reply', \${replies[i].id}, 0)">
+								<i class="fa-solid fa-circle-exclamation" style="color: #FFD43B"></i>
+							</button>
 					    `;
 					    
 		        		$("#replies").append(`
@@ -58,6 +67,8 @@
 									</div>
 									
 									\${loginedMemberId == replies[i].memberId ? operationBtn : ''}
+									\${loginedMemberId != replies[i].memberId ? reportBtn : ''}
+									
 								</div>
 								<div class="flex justify-end gap-2 px-14 pb-4">
 									<button id="reactionLikeBtn-reply-\${replies[i].id}" class="btn btn-xs btn-outline btn-info reactionBtn-reply-\${replies[i].id}" onclick="doReaction('reply', 0, \${replies[i].id})" \${loginedMemberId != 0 ? '' : 'disabled'}>
@@ -218,7 +229,7 @@
 	
 	<div class="mx-auto max-w-4xl w-full bg-white p-14 absolute top-20 left-1/2 z-20 -translate-x-1/2 bg-opacity-95 rounded">
 		<div class="pb-2 flex items-center justify-between">
-			<div class="boardName"><a href="list?boardId=${boardId }" class="text-blue-600 hover:font-bold">${board.name }</a></div>
+			<div class="boardName"><a href="list?boardId=${article.boardId }" class="text-blue-600 hover:font-bold">${board.name }</a></div>
 			<div class="text-sm flex justify-between gap-2">
 				<div class="flex gap-2">
 					<!-- 게시글 작성자 -->
@@ -231,7 +242,7 @@
 								<c:if test="${rq.loginedMemberId != article.memberId }">
 									<li><button onclick="sendRequest(${article.memberId }, 'friend')">친구추가</button></li>
 									<li><button onclick="openPop(${rq.loginedMemberId }, ${article.memberId });">채팅</button></li>
-									<li><a>신고</a></li>
+									<li><button onclick="showReportModal('member', ${article.memberId }, 0)">신고</button></li>
 								</c:if>
 							</ul>
 						</div>
@@ -270,7 +281,7 @@
 							</div>
 							<ul tabindex="0" class="menu dropdown-content z-[1] p-2 [flex-direction:row] flex-nowrap items-center gap-1 mt-1 p-1 shadow rounded-xl bg-white">
 								<li>
-									<a href="modify?id=${article.id }&boardId=${boardId }" class="btn btn-sm btn-ghost w-8 text-green-600">
+									<a href="modify?id=${article.id }&boardId=${article.boardId }" class="btn btn-sm btn-ghost w-8 text-green-600">
 										<i class="fa-regular fa-pen-to-square"></i>
 									</a>
 								</li>
@@ -310,6 +321,7 @@
 				<div class="flex items-end justify-between pb-2">
 					<div>댓글 (<span class="replyCnt">${article.replyCnt }</span>)</div>
 					<div>
+						<button class="btn btn-xs btn-error rounded-none text-white" onclick="showReportModal('article', ${article.id }, 0)">신고</button>
 						<a href="list" class="btn btn-xs btn-neutral rounded-none">목록</a>
 						<button class="btn btn-xs btn-neutral rounded-none" onclick="history.back();">뒤로가기</button>
 					</div>

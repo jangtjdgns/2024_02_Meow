@@ -178,7 +178,7 @@
 		
 		const id = $("#receiptId").text();
 		const answerBody = $(".answerBody").val();
-		const reportProcessing = $(".reportProcessing").val();
+		const processing = $(".processing").val();
 		const memberId = $("#memberId").val();
 		
 		if(answerBody.trim().length < 2) {
@@ -193,7 +193,7 @@
 		    	inquiryId: id,
 		    	recipientId: memberId,
 		    	answerBody: answerBody,
-		    	reportProcessing: reportProcessing,
+		    	processing: processing,
 		    	
 		    },
 		    dataType: 'json',
@@ -294,12 +294,11 @@
 						    <span class="label-text text-xs">문의 종류 선택</span>
 					  	</div>
 					</label>
-					<div class="join grid grid-cols-5">
+					<div class="join grid grid-cols-4">
 					  	<input class="inquiryType join-item btn btn-sm text-xs" type="radio" name="inquiryType" value="1" aria-label="전체" checked autocomplete="off" />
 					  	<input class="inquiryType join-item btn btn-sm text-xs" type="radio" name="inquiryType" value="2" aria-label="문의" autocomplete="off" />
-					  	<input class="inquiryType join-item btn btn-sm text-xs" type="radio" name="inquiryType" value="3" aria-label="신고" autocomplete="off" />
-					  	<input class="inquiryType join-item btn btn-sm text-xs" type="radio" name="inquiryType" value="4" aria-label="버그제보" autocomplete="off" />
-					  	<input class="inquiryType join-item btn btn-sm text-xs" type="radio" name="inquiryType" value="5" aria-label="기타" autocomplete="off" />
+					  	<input class="inquiryType join-item btn btn-sm text-xs" type="radio" name="inquiryType" value="3" aria-label="버그제보" autocomplete="off" />
+					  	<input class="inquiryType join-item btn btn-sm text-xs" type="radio" name="inquiryType" value="4" aria-label="기타" autocomplete="off" />
 					</div>
 					
 					<label class="form-control w-full flex-row items-center justify-between">

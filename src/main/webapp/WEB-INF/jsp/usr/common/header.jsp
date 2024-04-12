@@ -78,22 +78,22 @@
 
 <body>
 <!-- alert -->
-<div id="alert" class="fixed top-0 left-1/2 transform -translate-x-1/2 z-50"></div>
+<div id="alert" class="fixed top-0 left-1/2 transform -translate-x-1/2 [z-index:1000]"></div>
 
-<!-- customer center modal -->
-<div id="customer-center-modal">
+<!-- 모달 컨테이너 -->
+<div id="modal-container">
+	<!-- 문의 관련 모달창 -->
 	<dialog id="my_modal_3" class="modal">
 	  	<div class="modal-box">
 	    	<form method="dialog">
 	      		<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 	    	</form>
 	    	<h3 class="font-bold text-lg">고객센터</h3>
-	    	<p class="py-4 text-sm">문의, 신고, 버그 제보 등 다양한 사항들을 자유롭게 남겨주세요.</p>
+	    	<p class="py-4 text-sm">문의, 버그 제보 등 다양한 의견들을 자유롭게 남겨주세요.</p>
 	    	
 	    	<div class="py-2">
 		    	<select class="customer-type select select-sm select-bordered">
 		    		<option value="inquiry">문의</option>
-		    		<option value="report">신고</option>
 		    		<option value="bug">버그 제보</option>
 		    		<option value="suggestion">기타 건의 사항</option>
 		    	</select>
@@ -122,6 +122,76 @@
 		    
 		    <div class="py-2 text-right">
 		    	<button class="btn" onclick="submitRequest(0);">접수</button>
+		    </div>
+	  	</div> 
+	</dialog>
+	
+	<!-- 신고 관련 모달창 -->
+	<dialog id="report_modal" class="modal">
+	  	<div class="modal-box">
+	    	<form method="dialog">
+	      		<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+	    	</form>
+	    	<h3 class="font-bold text-lg">신고</h3>
+	    	<p class="py-4 text-sm">신고를 원하는 회원, 게시물 등의 번호를 입력해주세요.</p>
+	    	
+	    	<div class="py-2 grid grid-cols-3 gap-4">
+	    		<div>
+		    		<label class="label" for="relTypeCode">
+		    			<span class="label-text"><span class="text-red-700">*</span>관련 항목 유형</span>
+		    		</label>
+		    		<select id="relTypeCode" class="select select-sm select-bordered w-full">
+			    		<option value="none" selected>선택</option>
+			    		<option value="member">회원</option>
+			    		<option value="article">게시물</option>
+			    		<option value="reply">댓글</option>
+			    	</select>
+		    	</div>
+		    	
+		    	<div>
+		    		<label class="label" for="relId">
+		    			<span class="label-text"><span class="text-red-700">*</span>관련 항목 번호</span>
+		    			<div class="label-text dropdown dropdown-hover dropdown-end h-5">
+							<div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info [width:1.25rem] [min-height:1.25rem] [height:1.25rem]">
+								<svg tabindex="0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+								</svg>
+							</div>
+							<div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-40">
+								<div tabindex="0" class="card-body text-center">
+									<p><strong>회원</strong>의 경우 닉네임<br /> 입력이 가능합니다.</p>
+								</div>
+							</div>
+						</div>
+		    		</label>
+		    		<input id="relId" type="text" class="input input-sm input-bordered w-full" placeholder="번호를 입력해주세요." />
+		    	</div>
+		    	
+	    		<div>
+		    		<label class="label" for="reportType">
+		    			<span class="label-text"><span class="text-red-700">*</span>신고 유형</span>
+		    		</label>
+		    		<select id="reportType" class="select select-sm select-bordered w-full">
+			    		<option value="0" selected>선택</option>
+			    		<option value="1">스팸</option>
+			    		<option value="2">욕설 또는 비방</option>
+			    		<option value="3">성적인 콘텐츠</option>
+			    		<option value="4">저작권 침해</option>
+			    		<option value="5">사기 또는 부정행위</option>
+			    		<option value="6">기타</option>
+			    	</select>
+		    	</div>
+	    	</div>
+	    	
+	    	<div class="py-2">
+		    	<label class="label" for="report-body">
+		    		<span class="label-text"><span class="text-red-700">*</span>내용</span>
+		    	</label>
+		    	<textarea id="report-body" class="textarea textarea-bordered resize-none w-full" placeholder="신고 내용을 입력해주세요. (2글자 이상)" minLength="2"></textarea>
+		    </div>
+		    
+		    <div class="py-2 text-right">
+		    	<button class="btn" onclick="doReport();">신고</button>
 		    </div>
 	  	</div> 
 	</dialog>
@@ -168,6 +238,7 @@
 								<li><a href="../member/profile?memberId=${rq.loginedMemberId }">프로필</a></li>
 								<li><a>계정관리</a></li>
 								<li><button onclick="my_modal_3.showModal()">문의</button></li>
+								<li><button onclick="showReportModal('none', 0, 0)">신고</button></li>
 							</c:if>
 							<c:if test="${rq.authLevel == 0}">
 								<!-- 관리자 -->

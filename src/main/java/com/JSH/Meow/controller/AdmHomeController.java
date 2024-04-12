@@ -31,11 +31,12 @@ public class AdmHomeController {
 		switch(type) {
 			case "main": return jsp += "home/mainContent";
 			case "memberList": return jsp += "memberManagement/list";
+			case "memberReport": return jsp += "memberManagement/report";
 			case "articleList": return jsp += "articleManagement/list";
 			case "customerList": return jsp += "inquiryManagement/list";
 		}
 		
-		return getRootUrl();
+		return "redirect:/adm/home/main";
 	}
 	
 	
@@ -43,19 +44,11 @@ public class AdmHomeController {
 	/* 관리자 root */
 	@RequestMapping("/adm")
 	public String root1() {
-		return getRootUrl();
+		return "redirect:/adm/home/main";
 	}
 	
 	@RequestMapping("/adm/")
 	public String root2() {
-		return getRootUrl();
-	}
-	
-	private String getRootUrl() {
-		if(Util.isEmpty(rq.getAuthLevel()) || rq.getAuthLevel() != 0 ) {
-			return "redirect:/adm/member/login";
-		}
-		
 		return "redirect:/adm/home/main";
 	}
 }

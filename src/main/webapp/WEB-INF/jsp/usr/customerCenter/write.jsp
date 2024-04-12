@@ -15,7 +15,6 @@
 	   		<input class="customer-title input input-bordered w-full col-start-1 col-end-5" placeholder="2 ~ 50 글자 입력이 가능합니다." type="text" minlength="2" maxlength="50" />
 			<select class="customer-type select select-bordered col-start-5 col-end-7">
 	    		<option value="inquiry">문의</option>
-	    		<option value="report">신고</option>
 	    		<option value="bug">버그 제보</option>
 	    		<option value="suggestion">기타 건의 사항</option>
 	    	</select>

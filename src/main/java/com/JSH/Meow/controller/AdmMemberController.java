@@ -86,7 +86,7 @@ public class AdmMemberController {
 	public String doLogout() {
 		rq.logout();
 		
-		return Util.jsReplace("로그아웃 되었습니다.", "/adm");
+		return Util.jsReplace("로그아웃 되었습니다.", "/adm/member/login");
 	}
 	
 	

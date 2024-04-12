@@ -36,7 +36,8 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/favicon.ico");
 		ir.excludePathPatterns("/resource/**");
 		
-		// 로그인 필요
+		
+		/* 로그인 필요 */
 		ir = registry.addInterceptor(needLoginInterceptor);
 		ir.addPathPatterns("/usr/article/write");
 		ir.addPathPatterns("/usr/article/doWrite");
@@ -61,8 +62,10 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/customer/submitRequest");
 		ir.addPathPatterns("/usr/customer/doWriteFeedback");
 		ir.addPathPatterns("/usr/customer/doModifyFeedback");
-
-		// 로그아웃 필요
+		ir.addPathPatterns("/usr/report/doReport");
+		
+		
+		/* 로그아웃 필요 */
 		ir = registry.addInterceptor(needLogoutInterceptor);
 		ir.addPathPatterns("/usr/member/login");
 		ir.addPathPatterns("/usr/member/doLogin");
@@ -76,9 +79,16 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/adm/member/login");
 		ir.addPathPatterns("/adm/member/doLogin");
 		
-		// 관리자 권한 필요
+		
+		/* 관리자 권한 필요 */
 		ir = registry.addInterceptor(adminInterceptor);
-		ir.addPathPatterns("/adm/home/main");
+		
+		// 로그인 페이지, 로그인 제외
+		ir.excludePathPatterns("/adm/member/login");
+		ir.excludePathPatterns("/adm/member/doLogin");
+		
+		// 나머지 adm이 포함된 url 모두 추가
+		ir.addPathPatterns("/adm/**");
 	}
 
 }

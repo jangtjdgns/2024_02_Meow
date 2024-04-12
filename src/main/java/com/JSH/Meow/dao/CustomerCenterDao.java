@@ -98,12 +98,9 @@ public interface CustomerCenterDao {
 						AND I.type = 'inquiry'
 					</when>
 					<when test="inquiryType == 3">
-						AND I.type = 'report'
-					</when>
-					<when test="inquiryType == 4">
 						AND I.type = 'bug'
 					</when>
-					<when test="inquiryType == 5">
+					<when test="inquiryType == 4">
 						AND I.type = 'suggestion'
 					</when>
 				</choose>

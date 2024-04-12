@@ -101,7 +101,7 @@ function getMembers(map, radius) {
 								content += `
 									<li><button onclick="sendRequest(${memberId[idx]}, 'friend')">친구추가</button></li>
 									<li><button onclick="openPop(${loginedMemberId}, ${memberId[idx]});">채팅</button></li>
-									<li><a>신고</a></li>
+									<li><button onclick="showReportModal('member', ${memberId[idx]}, 0)">신고</button></li>
 								`;
 							}
 							
@@ -203,7 +203,7 @@ function clickNickname(memberId){
 								<button class="join-item btn btn-outline">프로필 보기</button>
 								<button class="join-item btn btn-outline" onclick="sendRequest(${result.member.id}, 'friend')">친구추가</button>
 								<button class="join-item btn btn-outline" onclick="openPop(${loginedMemberId}, ${result.member.id});">채팅</button>
-								<button class="join-item btn btn-outline">신고</button>
+								<button class="join-item btn btn-outline" onclick="showReportModal('member', ${result.member.id}, 0)">신고</button>
 							</div>
 						`;
 					}

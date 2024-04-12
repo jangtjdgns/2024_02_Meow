@@ -20,9 +20,14 @@ public class AdminInterceptor implements HandlerInterceptor {
 		Rq rq = (Rq) request.getAttribute("rq");
         Integer authLevel = rq.getAuthLevel();
         
-        // 세션에 authLevel이 없거나 관리자가 아닌 경우 처리
-        // authLevel이 null 인경우는 비로그인 일때
-        if (Util.isEmpty(authLevel) || authLevel != 0) {
+        // 비로그인 일 때 (authLevel == null), 관리자 로그인 페이지로 이동 
+        if(Util.isEmpty(authLevel)) {
+        	response.sendRedirect("/adm/member/login");
+            return false;
+        }
+        
+        // 관리자가 아닐 때, 뒤로가기
+        if (authLevel != 0) {
         	rq.jsPrintHistoryBack("관리자 전용 페이지 입니다.");
             return false;
         }

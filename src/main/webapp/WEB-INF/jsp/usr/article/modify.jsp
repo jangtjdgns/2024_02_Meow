@@ -29,7 +29,7 @@
 				<div class="w-full p-1 border-r-2 [border-color:#F9FAFB] flex justify-between">
 					<select name="boardId" id="select-board" class="select select-bordered text-base w-28" readonly>
 						<c:forEach var="board" items="${boards }" begin="${rq.loginedMemberId == 1 ? 1 : 2 }">
-							<option value="${board.id }" ${board.id == 2 ? 'selected' : '' }>${board.name }</option>
+							<option value="${board.id }" ${board.id == boardId ? 'selected' : '' }>${board.name }</option>
 						</c:forEach>
 					</select>
 					<span class="text-xs text-red-600">* 게시글 작성후 게시판 수정은 불가능 합니다.</span>

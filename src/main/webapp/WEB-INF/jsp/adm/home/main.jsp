@@ -67,7 +67,7 @@ $(function(){
 			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-users"></i> 회원 관리</summary>
 			      				<ul data-idx="0">
 					              	<li><button class="sub-title" onclick="getAdmContentJsp('memberList')">회원 목록</button></li>
-					              	<li><button class="sub-title">회원 신고 조치</button></li>
+					              	<li><button class="sub-title" onclick="getAdmContentJsp('memberReport')">회원 신고 조치</button></li>
 					              	<li><button class="sub-title">회원 통계</button></li>
 					            </ul>
 				          	</details>
@@ -153,7 +153,7 @@ $(function(){
 			</div>
 			<div id="admContentJspWrap" class="m-8 border bg-white shadow-2xl rounded-lg [height:721px] [max-height:721px]">
 				<%-- <%@ include file="../home/mainContent.jsp"%> --%>
-				<%@ include file="../inquiryManagement/list.jsp"%>
+				<%@ include file="../memberManagement/report.jsp"%>
 			</div>
 		</div>
 	</div>

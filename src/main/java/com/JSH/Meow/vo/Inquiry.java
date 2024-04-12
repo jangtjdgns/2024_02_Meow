@@ -26,8 +26,6 @@ public class Inquiry {
 		
 		if(this.type.equals("inquiry")) {
 			type = "문의"; 
-		} else if(this.type.equals("report")) {
-			type = "신고";
 		} else if(this.type.equals("bug")) {
 			type = "버그제보";
 		} else {
