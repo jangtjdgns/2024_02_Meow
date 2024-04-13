@@ -68,6 +68,7 @@ $(function(){
 			      				<ul data-idx="0">
 					              	<li><button class="sub-title" onclick="getAdmContentJsp('memberList')">회원 목록</button></li>
 					              	<li><button class="sub-title" onclick="getAdmContentJsp('memberReport')">회원 신고 조치</button></li>
+					              	<li><button class="sub-title">휴면 회원 관리</button></li>
 					              	<li><button class="sub-title">회원 통계</button></li>
 					            </ul>
 				          	</details>
@@ -81,6 +82,7 @@ $(function(){
 					              	<li><button class="sub-title">게시글 신고 조치</button></li>
 					              	<li><button class="sub-title">공지사항 등록</button></li>
 					              	<li><button class="sub-title">댓글 관리</button></li>
+					              	<li><button class="sub-title">게시판 통계</button></li>
 					            </ul>
 				          	</details>
 			      		</li>

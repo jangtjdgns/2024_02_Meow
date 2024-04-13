@@ -167,7 +167,7 @@ CREATE TABLE report (
 	relTypeCode VARCHAR(20) NOT NULL COMMENT '관련 데이터 타입 코드 (article, member, reply...)',
     relId INT UNSIGNED NOT NULL COMMENT '관련 데이터 번호',
     `body` TEXT NOT NULL COMMENT '신고 내용',
-    processingBody TEXT NULL COMMENT '처리 내용',
+    processingBody TEXT NULL COMMENT '처리 내용 (메모)',
     `type` INT UNSIGNED NOT NULL COMMENT '신고 유형 (스팸 = 1, 욕설 또는 비방 = 2, 성적인 콘텐츠 = 3, 저작권 침해 = 4, 사기 또는 부정행위 = 5, 기타 = 6)',
     processing INT UNSIGNED NULL COMMENT '회원 신고 처리 (경고 = 1, 정지 = 2, 강제탈퇴 = 3, 잘못된 신고 = 4)'
 );

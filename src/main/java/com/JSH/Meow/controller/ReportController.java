@@ -40,6 +40,8 @@ public class ReportController {
 			return ResultData.from("F-1", "신고자와 로그인 한 유저가 다릅니다.");
 		}
 		
+		// ++ 중복 신고 체크 하면 좋을듯
+		
 		// 신고 대상자 id
 		int reportedTargetId = 0;
 		
@@ -54,7 +56,7 @@ public class ReportController {
 				} catch (NumberFormatException e) {
 					member = memberService.getMemberByNickname(relId);
 				}
-				System.out.println(member);
+				
 				// 존재하지 않는 경우
 				if(member == null) {
 					return ResultData.from("F-2-1", "해당 회원은 존재하지 않습니다."); 
