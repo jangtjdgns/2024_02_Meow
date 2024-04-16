@@ -25,6 +25,7 @@ function getAdmContentJsp(type){
 
 
 $(function(){
+	
 	$(".sub-title").click(function() {
 		
 		// 버튼 유무 확인
@@ -38,6 +39,7 @@ $(function(){
 		$(".title").eq(titleIdx).addClass("btn-active");
 		
 		$(".sub-title-name").text($(this).text());
+		$(".sub-title-name").attr('data-type', $(this).closest("ul").attr("data-type"));
 		$(".title-name").text($(".title").eq(titleIdx).text().trim());
 	});
 	
@@ -65,9 +67,9 @@ $(function(){
 			      		<li>
 							<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-users"></i> 회원 관리</summary>
-			      				<ul data-idx="0">
+			      				<ul data-idx="0" data-type="member">
 					              	<li><button class="sub-title" onclick="getAdmContentJsp('memberList')">회원 목록</button></li>
-					              	<li><button class="sub-title" onclick="getAdmContentJsp('memberReport')">회원 신고 조치</button></li>
+					              	<li><button class="sub-title" onclick="getAdmContentJsp('report')">회원 신고 조치</button></li>
 					              	<li><button class="sub-title">휴면 회원 관리</button></li>
 					              	<li><button class="sub-title">회원 통계</button></li>
 					            </ul>
@@ -77,11 +79,10 @@ $(function(){
 			      		<li>
 			      			<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-regular fa-clipboard"></i> 게시판 관리</summary>
-			      				<ul data-idx="1">
+			      				<ul data-idx="1" data-type="article">
 					              	<li><button class="sub-title" onclick="getAdmContentJsp('articleList')">게시글 목록</button></li>
-					              	<li><button class="sub-title">게시글 신고 조치</button></li>
+					              	<li><button class="sub-title" onclick="getAdmContentJsp('report')">게시글 신고 조치</button></li>
 					              	<li><button class="sub-title">공지사항 등록</button></li>
-					              	<li><button class="sub-title">댓글 관리</button></li>
 					              	<li><button class="sub-title">게시판 통계</button></li>
 					            </ul>
 				          	</details>
@@ -89,8 +90,18 @@ $(function(){
 			      		
 			      		<li>
 			      			<details open>
+			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-comments"></i> 댓글 관리</summary>
+			      				<ul data-idx="2" data-type="reply">
+					              	<li><button class="sub-title">댓글 목록</button></li>
+					              	<li><button class="sub-title" onclick="getAdmContentJsp('report')">댓글 신고 조치</button></li>
+					            </ul>
+				          	</details>
+			      		</li>
+			      		
+			      		<li>
+			      			<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-envelope-open-text"></i> 건의 사항 및 문의 관리</summary>
-			      				<ul data-idx="2">
+			      				<ul data-idx="3" data-type="inquiry">
 					              	<li><button class="sub-title" onclick="getAdmContentJsp('customerList')">접수 목록</button></li>
 					            </ul>
 				          	</details>
@@ -99,7 +110,7 @@ $(function(){
 			      		<li>
 			      			<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-map-location-dot"></i> 지도</summary>
-			      				<ul data-idx="3">
+			      				<ul data-idx="4" data-type="map">
 					              	<li><button class="sub-title">지역별 회원 목록</button></li>
 					              	<li><button class="sub-title">거래 목록</button></li>
 					            </ul>
@@ -109,7 +120,7 @@ $(function(){
 			      		<li>
 			      			<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-chart-simple"></i> 기타</summary>
-			      				<ul data-idx="4">
+			      				<ul data-idx="5" data-type="etc">
 					              	<li><button class="sub-title">일정</button></li>
 					              	<li><button class="sub-title">전체 요청 기록 확인</button></li>
 					              	<li><button class="sub-title">채팅 기록 확인</button></li>
@@ -141,7 +152,7 @@ $(function(){
 				</div>
 				
 				<div class="flex items-center justify-between">
-					<div class="sub-title-name text-2xl font-bold">메인</div>
+					<div class="sub-title-name text-2xl font-bold" data-type='main'>메인</div>
 					<!-- 이부분은 공지를 등록했을때 자동으로 생성되면 좋을듯함 -->
 					<div class="self-end border-b">
 						<i class="fa-solid fa-bullhorn" style="color: #B197FC;"></i>
@@ -155,7 +166,7 @@ $(function(){
 			</div>
 			<div id="admContentJspWrap" class="m-8 border bg-white shadow-2xl rounded-lg [height:721px] [max-height:721px]">
 				<%-- <%@ include file="../home/mainContent.jsp"%> --%>
-				<%@ include file="../memberManagement/report.jsp"%>
+				<%@ include file="../common/report.jsp"%>
 			</div>
 		</div>
 	</div>

@@ -35,4 +35,9 @@ public class ReportService {
 	public void reportProcessing(int reportId, int processingType) {
 		reportDao.reportProcessing(reportId, processingType);
 	}
+
+
+	public void saveMemo(int reportId, String memo) {
+		reportDao.saveMemo(reportId, memo);
+	}
 }

@@ -64,7 +64,9 @@ public class AdmReportController {
 	// 메모 저장
 	@RequestMapping("/adm/report/saveMemo")
 	@ResponseBody
-	public ResultData saveMemo(int reportId) {
+	public ResultData saveMemo(int reportId, String memo) {
+		
+		reportService.saveMemo(reportId, memo);
 		
 		return ResultData.from("S-1", "신고 조치 상태 저장 성공");
 	}

@@ -1,5 +1,5 @@
 /**
- *  관리자 페이지
+ * 관리자 페이지
  * 회원, 게시글, 댓글 공용 report js
  */
 
@@ -23,9 +23,7 @@ function getReports(relTypeCode, status) {
 	    },
 	    dataType: 'json',
 	    success: function(data) {
-			switch(relTypeCode) {
-				case 'member': return showMemberReports(data);
-			}
+			showReports(data);
 		},
 	      	error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);
@@ -50,13 +48,13 @@ function getReport(reportId, report_modal) {
 			$(".reporterNickname").text(reportInfo.reporterNickname);
 			$(".reportedTargetNickname").text(reportInfo.reportedTargetNickname);
 			$(".regDate").text(reportInfo.regDate);
-			$(".updateDate").text(reportInfo.updateDate);
-			$(".relTypeCode").text(reportInfo.relTypeCode);
+			$(".updateDate").text(reportInfo.updateDate == null ? '-' : reportInfo.updateDate);
+			$(".relTypeCode").text(reportInfo.relTypeCodeName);
 			$(".relId").text(reportInfo.relId);
 			$(".reportType").text(reportInfo.reportType);
 			$(".processing").text(reportInfo.processing);
 			$(".reportBody").val(reportInfo.body);
-			$(".processingBody").val(reportInfo.processingBody);
+			$(".memo").val(reportInfo.memo);
 		},
 	      	error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);
@@ -74,16 +72,21 @@ function showDetailReportModal(reportId) {
 }
 
 
-// 1. 회원 신고 목록 표시
-function showMemberReports(data) {
+// 신고 목록 표시
+function showReports(data) {
 	const reports = data.data;
 	
 	$(".report-body").empty();
 	
+	if(reports.length == 0) {
+		$(".report-body").append(`<tr><th class="text-center" colspan=8>현재 조회 가능한 신고 내역이 없습니다.</th></tr>`);
+		
+	}
+	
 	for(let i = 0; i < reports.length; i++) {
 		
 		const report = `
-			<tr class="text-center z-40">
+			<tr class="text-center">
 				<th class="text-left"><input type="checkbox" class="checkbox checkboxes" value="${reports[i].id}" /></th>
 				<td class="text-left">
 					${reports[i].reporterNickname} <br />
@@ -108,19 +111,30 @@ function showMemberReports(data) {
 	checkedBoxes();
 }
 
+// 미처리, 처리 버튼 클릭 시
+function toggleProcessing(status) {
+	getReports(relType, status)
+}
+
+
 // 메모 저장
 function saveMemo() {
-	const processingBody = $(".processingBody").val();
+	
+	if(!confirm("메모를 저장하시겠습니까?")) return false;
+	
+	const reportId = $(".reportId").text();
+	const memo = $(".memo").val();
 	
 	$.ajax({
 		url: '/adm/report/saveMemo',
 	    method: 'GET',
 	    data: {
 	    	reportId: reportId,
-	    	processingBody: processingBody,
+	    	memo: memo,
 	    },
 	    dataType: 'json',
 	    success: function(data) {
+			alert("저장되었습니다.");
 		},
 	      	error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);

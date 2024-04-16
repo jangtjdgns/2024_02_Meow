@@ -63,5 +63,12 @@ public interface ReportDao {
 				WHERE id = #{reportId}
 			""")
 	void reportProcessing(int reportId, int processingType);
+	
+	@Update("""
+			UPDATE report
+			SET memo = #{memo}
+			WHERE id = #{reportId}
+			""")
+	void saveMemo(int reportId, String memo);
 
 }

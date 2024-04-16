@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<!-- 회원, 게시글, 댓글에서 공통으로 사용되므로 하나의 jsp로 구현 -->
+
 <script src="/js/adm/common/report.js"></script>
 <script>
+	var relType = '';
 	$(function() {
-		getReports('member', 'unprocessed');
+		relType = $(".sub-title-name").attr("data-type");	// 서브 제목 태그의 data-type 속성의 값을 가져옴
+		getReports(relType, 'unprocessed');
 	});
 </script>
 
@@ -58,7 +62,7 @@
         					<td class="text-center bg-gray-50 align-top">처리 내용<br />(메모)</td>
         					<td class="h-36 p-0" colspan=4>
         						<div class="textarea w-full h-full relative overflow-hidden">
-        							<textarea class="processingBody w-full h-full textarea resize-none focus:outline-none focus:border-0 p-0"></textarea>
+        							<textarea class="memo w-full h-full textarea resize-none focus:outline-none focus:border-0 p-0"></textarea>
         							<div class="absolute bottom-0 right-0 bg-white">
         								<button class="saveMemoBtn btn btn-sm w-16 rounded-none rounded-tl-lg" onclick="saveMemo()">저장</button>
         							</div>
@@ -86,8 +90,8 @@
 					</th>
 					<th class="border-0 w-1/2 justify-self-start">
 						<div class="join border">
-							<input class="join-item btn btn-sm glass w-20" type="radio" name="processing" value="unprocessed" aria-label="미처리" onchange="getReports('member', 'unprocessed')" autocomplete="off" checked />
-							<input class="join-item btn btn-sm glass w-20" type="radio" name="processing" value="processed" aria-label="처리완료" onchange="getReports('member', 'processed')" autocomplete="off" />
+							<input class="join-item btn btn-sm glass w-20" type="radio" name="processing" value="unprocessed" aria-label="미처리" onchange="toggleProcessing('unprocessed')" autocomplete="off" checked />
+							<input class="join-item btn btn-sm glass w-20" type="radio" name="processing" value="processed" aria-label="처리완료" onchange="toggleProcessing('processed')" autocomplete="off" />
 						</div>
 					</th>
 					<th class="border-0">
@@ -111,12 +115,13 @@
 					<th class="w-52">신고일시</th>
 					<th class="w-52">처리일시</th>
 					<th>처리 상태</th>
-					<th>처리 내용(메모)</th>
 				</tr>
 			</thead>
 			
 			<!-- 신고 목록 -->
-			<tbody class="report-body"></tbody>
+			<tbody class="report-body">
+				<tr><th class="text-center" colspan=8>현재 조회 가능한 신고 내역이 없습니다.</th></tr>
+			</tbody>
 		</table>
 	</div>
 </div>

@@ -16,13 +16,25 @@ public class Report {
 	private String relTypeCode;
 	private int relId;
 	private String body;
-	private String processingBody;
+	private String memo;
 	private int type;
 	private int processing;
 	
 	private String reporterNickname;
 	private String reportedTargetNickname;
 	
+	
+	public String getRelTypeCodeName() {
+		String relTypeCode = null;
+		
+		switch(this.relTypeCode) {
+			case "member": relTypeCode = "회원"; break;
+			case "article": relTypeCode = "게시물"; break;
+			case "reply": relTypeCode = "댓글"; break;
+		}
+		
+		return relTypeCode;
+	}
 	
 	public String getReportType() {
 		
