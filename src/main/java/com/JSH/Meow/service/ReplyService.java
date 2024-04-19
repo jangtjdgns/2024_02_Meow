@@ -25,6 +25,11 @@ public class ReplyService {
 		
 		return replyDao.getReplies(relId, relTypeCode);
 	}
+	
+	public List<Reply> admGetReplies(int limitFrom, int replyCnt, String searchType, String searchKeyword, boolean order) {
+		
+		return replyDao.admGetReplies(limitFrom, replyCnt, searchType, searchKeyword, order);
+	}
 
 	public void doWrite(int loginedMemberId, int relId, String relTypeCode, String body) {
 		replyDao.doWrite(loginedMemberId, relId, relTypeCode, body);

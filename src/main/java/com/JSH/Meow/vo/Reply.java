@@ -20,6 +20,8 @@ public class Reply {
 	
 	private String writerName;
 	private String profileImage;
+	private int boardId;
+	
 	
 	public String getConvertNToBr() {
 		return this.body.replaceAll("\n", "<br />");

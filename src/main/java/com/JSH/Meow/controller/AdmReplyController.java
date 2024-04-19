@@ -25,24 +25,38 @@ public class AdmReplyController {
 	}
 	
 	// 댓글들 가져오기, ajax
-	@RequestMapping("/adm/reply/getReplies")
+	@RequestMapping("/adm/reply/list")
  	@ResponseBody
- 	public ResultData<List<Reply>> getReplies(int relId) {
+ 	public ResultData<List<Reply>> admGetReplies(
+ 			@RequestParam(defaultValue = "1") int page
+			, @RequestParam(defaultValue = "10") int replyCnt
+			, @RequestParam(defaultValue = "all") String searchType
+			, @RequestParam(defaultValue = "") String searchKeyword
+			, @RequestParam(defaultValue = "false") boolean order) {
+		
+		// 표시 댓글 수를 기준으로 limit 시작 설정
+		int limitFrom = (page - 1) * replyCnt;
 		
 		// 댓글 가져오기
-		List<Reply> replies = replyService.getReplies(relId, "article");
+		List<Reply> replies = replyService.admGetReplies(limitFrom, replyCnt, searchType, searchKeyword, order);
+		
+		if(replies.size() == 0) {
+			return ResultData.from("F-1", "검색에 일치하는 댓글이 없습니다.", replies);
+		}
 		
 		return ResultData.from("S-1", "댓글 조회 성공", replies);
 	}
 	
 	
 	// 해당 댓글 정보 가져오기, ajax
-//	@RequestMapping("/usr/reply/getReplyContent")
-// 	@ResponseBody
-// 	public ResultData<Reply> getReplyContent(int id) {
-//		
-//		Reply reply = replyService.getReplyById(id);
-//		
-//		return ResultData.from("S-1", "댓글 조회 성공", reply);
-//	}
+	@RequestMapping("/adm/reply/detail")
+ 	@ResponseBody
+ 	public ResultData<Reply> getReply(int replyId) {
+		
+		Reply reply = replyService.getReplyById(replyId);
+		
+		System.out.println(reply);
+		
+		return ResultData.from("S-1", "댓글 조회 성공", reply);
+	}
 }

@@ -92,7 +92,7 @@ $(function(){
 			      			<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-comments"></i> 댓글 관리</summary>
 			      				<ul data-idx="2" data-type="reply">
-					              	<li><button class="sub-title">댓글 목록</button></li>
+					              	<li><button class="sub-title" onclick="getAdmContentJsp('replyList')">댓글 목록</button></li>
 					              	<li><button class="sub-title" onclick="getAdmContentJsp('report')">댓글 신고 조치</button></li>
 					            </ul>
 				          	</details>
@@ -166,7 +166,7 @@ $(function(){
 			</div>
 			<div id="admContentJspWrap" class="m-8 border bg-white shadow-2xl rounded-lg [height:721px] [max-height:721px]">
 				<%-- <%@ include file="../home/mainContent.jsp"%> --%>
-				<%@ include file="../common/report.jsp"%>
+				<%@ include file="../replyManagement/list.jsp"%>
 			</div>
 		</div>
 	</div>

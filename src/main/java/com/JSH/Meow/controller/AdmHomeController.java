@@ -32,6 +32,7 @@ public class AdmHomeController {
 			case "main": return jsp += "home/mainContent";
 			case "memberList": return jsp += "memberManagement/list";
 			case "articleList": return jsp += "articleManagement/list";
+			case "replyList": return jsp += "replyManagement/list";
 			case "customerList": return jsp += "inquiryManagement/list";
 			case "report": return jsp += "common/report";
 		}
