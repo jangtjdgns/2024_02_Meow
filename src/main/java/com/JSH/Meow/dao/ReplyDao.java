@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.JSH.Meow.vo.Reply;
+import com.JSH.Meow.vo.statistics.ReplyStatus;
 
 @Mapper
 public interface ReplyDao {
@@ -114,4 +115,15 @@ public interface ReplyDao {
 			WHERE id = #{id};
 			""")
 	public void doDelete(int id);
+	
+	@Select("""
+			SELECT DATE_FORMAT(regDate, '%Y-%m-%d') `date`, COUNT(*) replyCnt
+			FROM reply
+			WHERE memberId = #{memberId}
+				AND regDate >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+			GROUP BY DATE_FORMAT(regDate, '%Y-%m-%d')
+			ORDER BY regDate DESC
+			LIMIT 6
+			""")
+	public List<ReplyStatus> showWriteFreq(int memberId);
 }

@@ -18,7 +18,7 @@ import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
-import com.JSH.Meow.vo.Status;
+import com.JSH.Meow.vo.statistics.MemberStatus;
 
 /** 
  * AdminController
@@ -128,9 +128,9 @@ public class AdmMemberController {
 	// 회원 상태 정보 가져오기(pie 차트에 사용), ajax
 	@RequestMapping("/adm/member/getStatus")
 	@ResponseBody
-	public ResultData<List<Status>> getStatus() {
+	public ResultData<List<MemberStatus>> getStatus() {
 		
-		List<Status> status = memberService.getStatus();
+		List<MemberStatus> status = memberService.getStatus();
 		
 		return ResultData.from("S-1", "성공", status);
 	}

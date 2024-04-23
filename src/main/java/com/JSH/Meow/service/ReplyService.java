@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.JSH.Meow.dao.ReplyDao;
 import com.JSH.Meow.vo.Reply;
+import com.JSH.Meow.vo.statistics.ReplyStatus;
 
 @Service
 public class ReplyService {
@@ -47,9 +48,12 @@ public class ReplyService {
 		replyDao.doModify(id, body);
 	}
 
-	
 	public void doDelete(int id) {
 		replyDao.doDelete(id);
+	}
+
+	public List<ReplyStatus> showWriteFreq(int memberId) {
+		return replyDao.showWriteFreq(memberId);
 	}
 	
 }

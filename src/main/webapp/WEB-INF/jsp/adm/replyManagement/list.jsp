@@ -75,9 +75,8 @@
 		    	
 		    	if(data.success) {
 		    		const replyInfo = data.data;
-		    		console.log(replyInfo)
 		    		setReply(replyInfo);
-		    		//getArticleFreq(memberId);
+		    		getArticleFreq(replyInfo.memberId);
 		    	}
 			},
 		      	error: function(xhr, status, error) {
@@ -150,25 +149,21 @@
 	}
 	
 	
-	// 게시글 작성 빈도 차트
+	// 차트 표시
 	function getArticleFreq(memberId) {
 		
-		// 회원 선택 했는지 확인
+		// 댓글 선택 했는지 확인
 		if($(".chart-default-msg").has(".hidden").length == 0) {
 			$(".chart-default-msg").addClass("hidden");
-			$(".chart-option").removeClass("hidden");
+			$(".chart-radio").removeClass("hidden");
 		}
-		
-		const interval = $('.interval[name="interval"]:checked').val();
-		const intervalFreq = $('.intervalFreq').val();
-		const barCnt = $('.barCnt').val();
 		
 		// 차트 데이터
 		const columnChartData = {
 		    categories: [],
 		    series: [
 		       	{
-		            name: '작성한 게시글 수',
+		            name: '',
 		            data: []
 		        },
 		    ]
@@ -176,45 +171,47 @@
 		
 		// 차트 옵션
 		const options = {
-			chart: {title: '게시글 등록 현황'},
+			chart: {title: ''},
 		};
 		
+		
+		// 차트 표시
+		showWriteReplyFreq(columnChartData, options, memberId);
+	}
+	
+	
+	// 해당 회원의 댓글 작성 빈도 차트 표시
+	function showWriteReplyFreq(columnChartData, options, memberId) {
 		$.ajax({
-			url: '/adm/article/frequency',
+			url: '/adm/reply/showWriteFreq',
 		    method: 'GET',
 		    data: {
 		    	memberId: memberId,
-		    	interval: interval,
-		    	intervalFreq: intervalFreq,
-		    	barCnt: barCnt,
 		    },
 		    dataType: 'json',
 		    success: function(data) {
 		    	
 		    	if(data.success) {
-		    		const intervalFreq = data.data;
+		    		const replyStatus = data.data;
 		    		
-		    		for(let i = 0; i < intervalFreq.length; i++) {
-		    			columnChartData.categories.push(intervalFreq[i].date);				// 차트 데이터 카테고리 속성에 date 추가
-		    			columnChartData.series[0].data.push(intervalFreq[i].articleCnt);	// 차트 데이터 시리즈 속성의 데이터 속성에 게시글 수 추가
+		    		options.chart.title = data.msg;
+		    		for(let i = 0; i < replyStatus.length; i++) {
+		    			columnChartData.categories.push(replyStatus[i].date);
+		    			columnChartData.series[0].data.push(replyStatus[i].replyCnt);
 		    		}
+		    		
+		    		
 		    	}
 		    	
 		    	// 차트 추가
-		    	$("#columnChart").empty();
-				const columnChart = document.getElementById('columnChart');
+		    	$(".chart-item").eq(0).empty();
+				const columnChart = document.querySelectorAll('.chart-item')[0];
 				new toastui.Chart.columnChart({ el: columnChart, data: columnChartData, options: options });
 			},
 		      	error: function(xhr, status, error) {
 		      	console.error('Ajax error:', status, error);
 			},
 		});
-	}
-	
-	
-	// 차트 옵션 변경 시
-	function changeChartOption() {
-		getArticleFreq($("#memberId").text());
 	}
 	
 	
@@ -232,41 +229,41 @@
 	</div>
 
 	<!-- 게시글 작성 빈도 차트 -->
-	<div class="border-2 rounded-lg col-start-3 col-end-5 relative grid grid-row-2" style="grid-template-rows: 1fr 50px">
-		<div class="chart-default-msg w-full h-full flex items-center justify-center text-lg row-start-1 row-end-3">차트 확인을 원하는 회원을 선택해주세요.</div>
-
-		<!-- 열 차트 -->
-		<div id="columnChart" class="[width:95%] h-full mx-auto"></div>
-
-		<!-- 차트 옵션 -->
-		<div class="chart-option grid grid-cols-9 items-center hidden">
-			<div class="col-start-1 col-end-4 justify-self-center">
-				<span class="pr-2">막대 수:</span> <input type="number" class="chart-options barCnt input input-bordered input-sm w-20" onchange="changeChartOption()" value="7" min="2" max="10" autocomplete="off" />
-
-				<div class="dropdown dropdown-end">
-					<div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
-						<svg tabindex="0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-					</div>
-					<div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-40">
-						<div tabindex="0" class="card-body">
-							<p class="break-all">결과 값의 길이가 지정한 막대 수 보다 작을 시 반영되지 않습니다.</p>
-						</div>
+	<div class="border-2 rounded-lg col-start-3 col-end-5 relative overflow-hidden">
+		<div class="chart-default-msg w-full h-full flex items-center justify-center text-lg row-start-1 row-end-3">댓글을 선택해주세요.</div>
+		
+		<!-- 설명 -->
+		<div class="absolute bottom-2 left-2 z-50">
+			<div class="dropdown dropdown-top">
+				<div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
+					<svg tabindex="0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+					</svg>
+				</div>
+				<div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-40">
+					<div tabindex="0" class="card-body">
+						<p class="break-all">- 금일 날짜 기준 3개월 내에 작성했던 댓글들의 수를 표시합니다.</p>
+						<p class="break-all">- 최대 6개의 막대까지만 표시됩니다.</p>
 					</div>
 				</div>
 			</div>
-
-			<div class="col-start-4 col-end-7 justify-self-center">
-				<span class="pr-2">간격:</span>
-				<div class="join">
-					<input class="chart-options interval join-item btn btn-sm" onchange="changeChartOption()" type="radio" name="interval" value="year" aria-label="년" />
-					<input class="chart-options interval join-item btn btn-sm" onchange="changeChartOption()" type="radio" name="interval" value="month" aria-label="월" checked />
-					<input class="chart-options interval join-item btn btn-sm" onchange="changeChartOption()" type="radio" name="interval" value="week" aria-label="주" />
-				</div>
+		</div>
+		
+		<!-- 차트 컨테이너 -->
+		<div id="chartContainer" class="w-full h-full mx-auto">
+			<div class="carousel w-full h-full">
+				<!-- 열 차트 -->
+				<div class="carousel-item w-full chart-item columnChart" style="grid-template-columns: 14rem 1fr;"></div>
+		    	<div class="carousel-item w-full h-full chart-item" style="grid-template-columns: 14rem 1fr;">
+		    		<div class="w-full h-full flex items-center justify-center">캐러셀을 추가하여 사용해도 좋을듯</div>
+		    	</div>
 			</div>
-
-			<div class="col-start-7 col-end-10 justify-self-center">
-				<span>간격 주기:</span> <input type="number" class="chart-options intervalFreq input input-bordered input-sm w-20" onchange="changeChartOption()" value="6" min="1" autocomplete="off" />
-			</div>
+		</div>
+		
+		<!-- 컨테이너 아이템 -->
+		<div class="absolute left-1/2 -translate-x-1/2 bottom-2 hidden chart-radio">
+			<input class="carouselRadio radio radio-xs radio-info" type="radio" name="options" />
+			<input class="carouselRadio radio radio-xs radio-info" type="radio" name="options" />
 		</div>
 	</div>
 

@@ -9,7 +9,7 @@ import com.JSH.Meow.config.component.UploadComponent;
 import com.JSH.Meow.dao.MemberDao;
 import com.JSH.Meow.util.SHA256;
 import com.JSH.Meow.vo.Member;
-import com.JSH.Meow.vo.Status;
+import com.JSH.Meow.vo.statistics.MemberStatus;
 
 @Service
 public class MemberService {
@@ -93,7 +93,7 @@ public class MemberService {
 	
 	
 	// 회원 상태 가져오기
-	public List<Status> getStatus() {
+	public List<MemberStatus> getStatus() {
 		return memberDao.getStatus();
 	}
 }

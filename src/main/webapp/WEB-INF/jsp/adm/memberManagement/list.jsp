@@ -288,7 +288,7 @@
 	</div>
 	
 	<!-- 게시글 작성 빈도 차트 -->
-	<div class="border-2 rounded-lg col-start-3 col-end-5 relative grid grid-row-2" style="grid-template-rows: 1fr 50px ">
+	<div class="border-2 rounded-lg col-start-3 col-end-5 relative grid grid-row-2" style="grid-template-rows: 1fr 50px">
 		<div class="chart-default-msg w-full h-full flex items-center justify-center text-lg row-start-1 row-end-3">차트 확인을 원하는 회원을 선택해주세요.</div>
 		
 		<!-- 열 차트 -->

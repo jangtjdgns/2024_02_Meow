@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.JSH.Meow.vo.Member;
-import com.JSH.Meow.vo.Status;
+import com.JSH.Meow.vo.statistics.MemberStatus;
 
 @Mapper
 public interface MemberDao {
@@ -184,5 +184,5 @@ public interface MemberDao {
 			FROM `member`
 			GROUP BY `status`;
 			""")
-	public List<Status> getStatus();
+	public List<MemberStatus> getStatus();
 }

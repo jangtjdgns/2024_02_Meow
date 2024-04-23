@@ -3,16 +3,15 @@ package com.JSH.Meow.controller;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.JSH.Meow.service.ReplyService;
-import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.Reply;
 import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
+import com.JSH.Meow.vo.statistics.ReplyStatus;
 
 @Controller
 public class AdmReplyController {
@@ -55,8 +54,16 @@ public class AdmReplyController {
 		
 		Reply reply = replyService.getReplyById(replyId);
 		
-		System.out.println(reply);
-		
 		return ResultData.from("S-1", "댓글 조회 성공", reply);
+	}
+	
+	// 댓글 작성 빈도 가져오기, ajax
+	@RequestMapping("/adm/reply/showWriteFreq")
+	@ResponseBody
+	public ResultData<List<ReplyStatus>> showWriteFreq(int memberId) {
+		
+		List<ReplyStatus> replyStatus = replyService.showWriteFreq(memberId);
+
+		return ResultData.from("S-1", "댓글 작성 빈도", replyStatus);
 	}
 }
