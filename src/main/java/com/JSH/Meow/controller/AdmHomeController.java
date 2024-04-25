@@ -1,18 +1,21 @@
 package com.JSH.Meow.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.JSH.Meow.util.Util;
+import com.JSH.Meow.config.component.KakaoComponent;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
 public class AdmHomeController {
 	
 	private Rq rq;
+	private KakaoComponent kakaoComponent;
 	
-	public AdmHomeController (Rq rq) {
+	public AdmHomeController (Rq rq, KakaoComponent kakaoComponent) {
 		this.rq = rq;
+		this.kakaoComponent = kakaoComponent;
 	}
 	
 	// 관리자 메인 페이지
@@ -24,10 +27,12 @@ public class AdmHomeController {
 	
 	// 관리자 getContentJsp
 	@RequestMapping("/adm/content/getJsp")
-	public String getContentJsp(String type) {
+	public String getContentJsp(String type, Model model) {
 		
 		String jsp = "adm/"; 
-				
+		System.out.println(kakaoComponent.getJavascriptKey());
+		model.addAttribute("javascriptKey", kakaoComponent.getJavascriptKey());		// 앱키 js, map에서 사용
+		
 		switch(type) {
 			case "main": return jsp += "home/mainContent";
 			case "memberList": return jsp += "memberManagement/list";
@@ -35,6 +40,7 @@ public class AdmHomeController {
 			case "replyList": return jsp += "replyManagement/list";
 			case "customerList": return jsp += "inquiryManagement/list";
 			case "report": return jsp += "common/report";
+			case "map": return jsp += "map/showMap";
 		}
 		
 		return "redirect:/adm/home/main";

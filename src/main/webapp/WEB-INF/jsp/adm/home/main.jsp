@@ -58,8 +58,9 @@ $(function(){
 			  	<div class="drawer-side border-r-2">
 			    	<label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label> 
 			    	<ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-			      		<li class="text-2xl text-center pt-3 pb-6 font-bold">Meow 관리자 페이지</li>
-			      			
+			      		<li class="text-3xl text-center pt-2 pb-3 font-bold" style="background: linear-gradient(to right top, #fbc2eb, #a6c1ee); color: transparent; -webkit-background-clip: text;">
+			      			Meow
+			      		</li>	
 			      		<li>
 			      			<button class="font-bold text-lg sub-title" onclick="getAdmContentJsp('main')"><i class="fa-solid fa-house"></i> 메인</button>
 			      		</li>
@@ -111,7 +112,7 @@ $(function(){
 			      			<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-map-location-dot"></i> 지도</summary>
 			      				<ul data-idx="4" data-type="map">
-					              	<li><button class="sub-title">지역별 회원 목록</button></li>
+					              	<li><button class="sub-title" onclick="getAdmContentJsp('map')">지역별 회원 목록</button></li>
 					              	<li><button class="sub-title">거래 목록</button></li>
 					            </ul>
 				          	</details>
@@ -166,7 +167,7 @@ $(function(){
 			</div>
 			<div id="admContentJspWrap" class="m-8 border bg-white shadow-2xl rounded-lg [height:721px] [max-height:721px]">
 				<%-- <%@ include file="../home/mainContent.jsp"%> --%>
-				<%@ include file="../replyManagement/list.jsp"%>
+				<%@ include file="../map/showMap.jsp"%>
 			</div>
 		</div>
 	</div>

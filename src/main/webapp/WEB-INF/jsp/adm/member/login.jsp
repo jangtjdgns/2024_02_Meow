@@ -24,8 +24,8 @@
 	}
 </script>
 
-<div class="hero min-h-screen bg-base-200">
-  	<div class="hero-content flex-col lg:flex-row-reverse border py-40 px-20 bg-white rounded-box">
+<div class="hero min-h-screen bg-base-200" style="background-image: url(https://img.freepik.com/free-vector/hand-drawn-international-cat-day-background-with-cat-paws_23-2149460406.jpg?t=st=1714047261~exp=1714050861~hmac=4c739385c6dd1371d8ed6bc24557a567398f08752ec3885f62a01d6b9a6683ee&w=1480); background-size: cover;">
+  	<div class="hero-content flex-col lg:flex-row-reverse border py-40 px-20 bg-white rounded-box bg-opacity-95">
     	<div class="text-center lg:text-left pl-10">
       		<h1 class="text-5xl font-bold pb-12">관리자 로그인</h1>
       		<div class="[width:600px] text-lg">

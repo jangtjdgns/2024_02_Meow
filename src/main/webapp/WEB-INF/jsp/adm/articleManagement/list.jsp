@@ -245,6 +245,7 @@
 				$(this).children().children().toggleClass("fa-chevron-down");
 				$(this).children().children().toggleClass("fa-chevron-up");
 				$(this).parent().toggleClass("h-5");
+				$(this).parent().prev().toggleClass("row-end-2");
 				$(this).parent().prev().toggleClass("row-end-3");
 			}
 		})

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../common/header.jsp"%>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${javaScriptKey }&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${javascriptKey }&libraries=services"></script>
 <!-- 유저의 주소 가져오기, 기본값 대전 둔산동 -->
 <c:if test="${rq.loginedMemberId != 0 }">
 	<script>

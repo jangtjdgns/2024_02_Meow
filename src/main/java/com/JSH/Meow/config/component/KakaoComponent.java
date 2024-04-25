@@ -10,6 +10,6 @@ public class KakaoComponent {
 
     @Value("${oauth.kakao.appKey.JavaScript}")
     @Getter
-    private String javaScriptKey;
+    private String javascriptKey;
 
 }

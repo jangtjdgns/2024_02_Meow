@@ -15,12 +15,12 @@ import com.JSH.Meow.vo.Rq;
 public class HomeController {
 	
 	private MemberService memberService;
-	private KakaoComponent kakaoConfig;
+	private KakaoComponent kakaoComponent;
 	private Rq rq;
 	
-	public HomeController(MemberService memberService, KakaoComponent kakaoConfig, Rq rq) {
+	public HomeController(MemberService memberService, KakaoComponent kakaoComponent, Rq rq) {
 		this.memberService = memberService;
-		this.kakaoConfig = kakaoConfig;
+		this.kakaoComponent = kakaoComponent;
 		this.rq = rq;
 	}
 	
@@ -36,7 +36,7 @@ public class HomeController {
 		}
 		
 		model.addAttribute("memberAddress", memberAddress);
-		model.addAttribute("javaScriptKey", kakaoConfig.getJavaScriptKey());		// 앱키 js
+		model.addAttribute("javascriptKey", kakaoComponent.getJavascriptKey());		// 앱키 js
 		
 		return "usr/home/main";
 	}
