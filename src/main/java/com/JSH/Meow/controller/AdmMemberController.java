@@ -93,7 +93,7 @@ public class AdmMemberController {
 	// 회원 목록 가져오기, ajax
 	@RequestMapping("/adm/member/list")
 	@ResponseBody
-	public ResultData<List<Member>> getMembers(
+	public ResultData<List<Member>> memberList(
 			@RequestParam(defaultValue = "1") int page
 			, @RequestParam(defaultValue = "10") int memberCnt
 			, @RequestParam(defaultValue = "all") String searchType
@@ -133,5 +133,29 @@ public class AdmMemberController {
 		List<MemberStatus> status = memberService.getStatus();
 		
 		return ResultData.from("S-1", "성공", status);
+	}
+	
+	// 지도 마커 표시용 회원 목록 가져오기, ajax
+	@RequestMapping("/adm/member/getMembers")
+	@ResponseBody
+	public ResultData<List<Member>> getMembers() {
+		
+		List<Member> members = memberService.getMembers();
+		
+		if(members.size() == 0) {
+			return ResultData.from("F-1", "현재 등록된 회원이 없습니다.");
+		}
+		
+		for(Member member : members) {
+			// sns 회원의 경우 주소가 없음
+			if(member.getAddress().length() == 0) {
+				continue;
+			}
+			
+			String address = Util.convertAddressJsonToString(member.getAddress());
+			member.setAddress(address);
+		}
+		
+		return ResultData.from("S-1", "성공", members);
 	}
 }

@@ -20,18 +20,17 @@ public class AdmHomeController {
 	
 	// 관리자 메인 페이지
 	@RequestMapping("/adm/home/main")
-	public String main() {
+	public String main(Model model) {
+		model.addAttribute("javascriptKey", kakaoComponent.getJavascriptKey());		// 앱키 js, map에서 사용
 		
 		return "adm/home/main";
 	}
 	
 	// 관리자 getContentJsp
 	@RequestMapping("/adm/content/getJsp")
-	public String getContentJsp(String type, Model model) {
+	public String getContentJsp(String type) {
 		
 		String jsp = "adm/"; 
-		System.out.println(kakaoComponent.getJavascriptKey());
-		model.addAttribute("javascriptKey", kakaoComponent.getJavascriptKey());		// 앱키 js, map에서 사용
 		
 		switch(type) {
 			case "main": return jsp += "home/mainContent";

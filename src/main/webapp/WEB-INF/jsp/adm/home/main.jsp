@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/header.jsp"%>
-
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${javascriptKey }&libraries=services"></script>
+<script type="text/javascript" src="/js/map/AdmShowMap.js"></script>
 <script src="/js/common/carousel.js"></script>
 <script>
 function getAdmContentJsp(type){
@@ -23,6 +24,9 @@ function getAdmContentJsp(type){
 	});
 }
 
+const loginedMemberId = ${rq.loginedMemberId};	// 로그인 관리자의 번호
+const loginedMemberAddress = "대전 둔산동";		// 지도의 기준 주소
+const loginedMemberNickname = "관리자";			// 기본 위치에 표시될 이름
 
 $(function(){
 	

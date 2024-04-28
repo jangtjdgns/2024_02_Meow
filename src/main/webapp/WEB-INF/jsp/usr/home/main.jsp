@@ -10,7 +10,7 @@
 		const loginedMemberAddress = "${memberAddress}";
 		const loginedMemberNickname = "${rq.loginedMemberNickname}";
 	</script>
-	<script type="text/javascript" src="/js/main.js"></script>
+	<script type="text/javascript" src="/js/map/UsrShowMap.js"></script>
 	<script src="/js/common/carousel.js"></script>
 </c:if>
 <!-- <script>

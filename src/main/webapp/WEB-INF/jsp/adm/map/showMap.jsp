@@ -1,18 +1,24 @@
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${javascriptKey }&libraries=services"></script>
 
-<script>
+
+<!-- <script>
 	$(function(){
-		const javascriptKey = '${javascriptKey }'
-		console.log(javascriptKey)
-		/* var mapContainer = document.getElementById('map'),
-		mapOption = { 
-		    center: new kakao.maps.LatLng(33.450701, 126.570667),
-		    level: 3
-		};
-		
-		var map = new kakao.maps.Map(mapContainer, mapOption);  */
+		showMap();
 	})
-</script>
+</script> -->
 
-<div id="map" class="shadow" style="width:100%; height: 500px;">
+<!-- <div id="map" class="shadow" style="width:100%; height: 500px;">
+</div> -->
+
+<div class="relative overflow-hidden">
+	<div id="map" class="shadow" style="width:100%; height: 500px;">
+		<div id="radioBtn" class="join absolute z-20 top-2 left-2">
+		  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="1000" aria-label="1km" autocomplete="off" />
+		  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="2000" aria-label="2km" autocomplete="off" checked />
+		  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="3000" aria-label="3km" autocomplete="off" />
+		  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="4000" aria-label="4km" autocomplete="off" />
+		  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="5000" aria-label="5km" autocomplete="off" />
+		  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="10000" aria-label="10km" autocomplete="off" />
+		  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="500000" aria-label="all" autocomplete="off" />
+		</div>
+	</div>
 </div>
