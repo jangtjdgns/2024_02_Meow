@@ -23,7 +23,7 @@ let callback = function(result, status) {				// 주소를 검색 후 결과값�
 };
 
 // 유저들의 주소 마커표시, ajax
-function getMembers(map, radius) {
+function setMarkers(map, radius) {
 	let memberObj;
 	let membersAddress = [];
 	
@@ -50,33 +50,30 @@ function getMembers(map, radius) {
 					address: '',
 					members: ''
 				}
-				
-				// membersAddress 배열의 각 인덱스에 존재하는 객체의 address 속성 값과 member(반복문)의 값이 같은지 확인
-				// 같다 		=> 	존재함 (중복O) 			=> 	해당 배열의 인덱스 반환
-				// 같지 않다 	=> 	존재하지 않음 (중복X) 	=> 	-1 반환
 				const existIdx = membersAddress.findIndex(mObj => mObj.address === member.address);
+				const setAddress = member.address.length != 0 ? member.address : '대전 둔산동';
 				
-				const address = member.address.length != 0 ? member.address : '대전둔산동';
-				
-			  	if (existIdx === -1) {						// 중복이 아닌 경우
-			  		memberObj.address = address;			// memberObj 객체의 address 속성에 member의 주소를 값으로 추가
+			  	if (existIdx === -1) {	// 중복이 아닌 경우
+			  		memberObj.address = setAddress;
 			  		memberObj.memberId = `${member.id}`;
-			    	memberObj.members = member.nickname;	// memberObj 객체의 members 속성에 member의 닉네임을 값으로 추가
-			   	 	membersAddress.push(memberObj);			// membersAddress 배열에 memberObj 객체를 추가
-			  	} else {															// 중복인 경우
+			    	memberObj.members = member.nickname;
+			   	 	membersAddress.push(memberObj);
+			  	} else {				// 중복인 경우
 			    	membersAddress[existIdx].memberId += ',' + member.id;
-			    	membersAddress[existIdx].members += ',' + member.nickname;		// 중복되는 배열의 idx를 통해 해당 배열의 객체 속성인 members에 닉네임을 이어서 추가
+			    	membersAddress[existIdx].members += ',' + member.nickname;
 		  		}
 			});
 			
+			markers = [];
+			overlays = [];
+			
 			$(membersAddress).each(function(idx, addressInfo){
-				
 				geocoder.addressSearch(addressInfo.address, function(result, status) {
 					if (status === kakao.maps.services.Status.OK) {
 						const nicknames = addressInfo.members.split(",");
 						const memberId = addressInfo.memberId.split(",");
 						let content = `
-	                        <div id="${idx}" class="overlay-wrap w-80 border shadow-2xl rounded-xl bg-white p-2.5 absolute z-0 bottom-12 -left-32 whitespace-nowrap cursor-default">
+	                        <div id="${idx}" class="overlay-wrap w-52 border shadow-2xl rounded-xl bg-white p-2.5 absolute z-0 bottom-12 -left-32 whitespace-nowrap cursor-default">
 	                        	<div class="grid grid-cols-10 w-full break-all">
 	                    			<div class="col-start-1 col-end-2"><i class="fa-solid fa-location-dot"></i></div>
 	                    			<div class="col-start-2 col-end-10 whitespace-normal">${result[0].address_name}</div>
@@ -91,11 +88,10 @@ function getMembers(map, radius) {
 						`;
 						
 						// 유저 닉네임 추가
-						// onclick="clickNickname(${memberId[idx]});"
 						$(nicknames).each(function(idx, nickname) {
 							content += `
-								<li class="member-wrap relative h-8 text-sm overflow-hidden hover:bg-gray-100 text-center cursor-pointer" onclick="moveNickname(this);">
-									<span class="absolute left-0 bg-indigo-50">${nickname}</span>
+								<li class="nickname-wrap relative h-8 text-sm overflow-hidden hover:bg-gray-100 text-center cursor-pointer">
+									<span class="nickname absolute left-0 bg-indigo-50">${nickname}</span>
 								</li>
 							`;
 						});
@@ -120,19 +116,20 @@ function getMembers(map, radius) {
 				        } else {
 				            return marker.setMap(null);
 				        }
-						
+				        
 						const overlay = new kakao.maps.CustomOverlay({
                             content: content,
                             map: map,
                             position: marker.getPosition()
                         });
-                        
-
+						moveNickname();
+						
                         // 마커를 클릭했을 때 커스텀 오버레이를 표시
                         kakao.maps.event.addListener(marker, 'click', function () {
 							overlay.setMap(null);
                             overlay.setMap(map);
                         });
+                        
                         // 지도에 표시되는 커스텀 오버레이를 미리 제거
                         overlay.setMap(null);
                         overlays.push(overlay);
@@ -148,7 +145,7 @@ function getMembers(map, radius) {
 	});
 }
 
-// 마커 커스텀 오버레이안의 닉네임 클릭 시 해당 유저의 정보 표시
+// 닉네임 클릭 시 
 /*function clickNickname(memberId){
 	$("#map-info-wrap").addClass("shoMapInWarp");
 	
@@ -226,49 +223,108 @@ function closeMarker(btn, idx) {
 	}, 400);
 }
 
-
-function moveNickname(member) {
-	var parentWidth = $(member).width();
-    var childWidth = $(member).children().width();
-	console.log(parentWidth);
-	console.log(childWidth);
-	if(parentWidth < childWidth) {
-		console.log("hi")
-		$(member).children().animate({left: parentWidth - childWidth}, "fast");
-	}
-	console.log("-------")
+// 오버레이 내의 닉네임 태그의 마우스 이벤트
+// (오버레이 내의 닉네임 hover시 닉네임이 움직이는 함수)
+// * 첫 표시 범위를 늘렸을 때(라디오 버튼 클릭) 적용이 안되는 오류가있음. 다시 줄였다 늘리면 오류는 없어지는데 번거로움
+function moveNickname() {
+	$(".nickname-wrap").on({
+		mouseenter: function() {								// 마우스를 올렸을 때
+			$(this).children().stop(true);						// 현재 애니메이션을 초기상태로 되돌리는 작업
+			const nicknameWrapWidth  = $(this).width();			// 닉네임이 들어갈 공간의 길이
+	        const nicknameWdith = $(this).children().width();	// 닉네임 길이
+	        
+			// 닉네임의 길이가 닉네임Wrap보다 클때
+	        if (nicknameWdith > nicknameWrapWidth) {
+		        $(this).children().animate({left: nicknameWrapWidth - nicknameWdith}, 600);
+	        }
+	    },
+	    mouseleave: function() {								// 마우스를 내렸을 때
+	       	$(this).children().animate({left: 0}, 600);
+	    }
+	});
 }
 
 $(function() {
 	let map;
-
-	let mapContainer = document.getElementById('map'), // 지도를 표시할 div
-		mapOption = {
+	let level = 7;
+	let radius = 2000;
+	let mapContainer = document.getElementById('map'), 	// 지도를 표시할 태그
+		mapOption = {									// 지도 옵션
 			center: null,
-			level: 6 // 지도의 확대 레벨
+			level: level 									// 지도의 확대 레벨
 		};
-		
+	
+	// 시작 시 지도 표시
 	geocoder.addressSearch(loginedMemberAddress, function(result, status) {
 		if (status === kakao.maps.services.Status.OK) {
 			mapOption.center = new kakao.maps.LatLng(parseFloat(result[0].y), parseFloat(result[0].x));
-			map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
-			center = map.getCenter();
-			getMembers(map, 2000);
+			map = new kakao.maps.Map(mapContainer, mapOption);	// 지도 생성
+			center = map.getCenter();							// 센터 지정
+			setMarkers(map, radius);							// 마커 표시
 		} else {
 			console.error('Geocoding failed for address:', loginedMemberAddress);
 		}
 	});
 	
+	// 주소 검색
+	$(".optionBtn").click(function(){
+		let address = $('.search-address').val().trim();
+		if($(this).attr("data-defaultAddr") !== undefined) {
+			address = $(this).attr("data-defaultAddr");
+			$('.search-address').val('')
+			alertMsg('지도 초기화 완료', 'success');
+		}
+		
+		if(address.length == 0) {
+			return alertMsg("주소를 입력해주세요.", "warning");
+		}
+		
+		radius = $('#radioBtn>input:checked').val();
+		geocoder.addressSearch(address, function(result, status) {
+			if (status === kakao.maps.services.Status.OK) {
+				mapOption.center = new kakao.maps.LatLng(parseFloat(result[0].y), parseFloat(result[0].x));
+				map = new kakao.maps.Map(mapContainer, mapOption);	// 지도 생성
+				center = map.getCenter();							// 센터 지정
+				setMarkers(map, radius);							// 마커 표시
+			} else if (status === kakao.maps.services.Status.ZERO_RESULT) {		// 검색 결과 없을 때
+				alertMsg('검색 결과가 존재하지 않습니다.', 'warning');
+		        return;
+		    } else if (status === kakao.maps.services.Status.ERROR) {			// 검색 오류
+		        alert('검색 결과 중 오류가 발생했습니다.', 'error');
+		        return;
+		    } else {
+				console.error('Geocoding failed for address:', address);
+			}
+		});
+	})
+	
 	$("#radioBtn>input").change(function(){
-		circle.setMap(null)							// 원 지도에서 제거
-		$(markers).each(function(idx, marker) {		// 마커 제거
+		circle.setMap(null)						// 표시원 지도에서 제거
+		$(markers).each(function(idx, marker) {	// 마커 제거
 			marker.setMap(null);
 		});
 		
 		$(overlays).each(function(idx, overlay) {	// 오버레이 제거
 			overlay.setMap(null);
 		})
-		
-		getMembers(map, $(this).val());
+		radius = $(this).val()
+		setMarkers(map, $(this).val());
 	});
+	
+	// swap 버튼 클릭 시
+	$(".swap>input").change(function(){
+		
+		const swapWrap = $(this).closest('.swap-wrap');		// swap 클래스의 기준이 되는 부모
+		const closeWt = $(swapWrap).children('.swap').outerWidth() - $(swapWrap).outerWidth();
+		
+		$(swapWrap).animate({
+		    left: $(swapWrap).find('.swap>input').is(':checked') ? closeWt - 1 : 0
+		}, 600);
+		
+		$(swapWrap).find('.swap>input').is(':checked')
+		? setTimeout(function() {
+			$(swapWrap).parent().removeClass('z-20');
+		}, 600)
+		: $(swapWrap).parent().addClass('z-20');
+	})
 })

@@ -23,7 +23,7 @@ let callback = function(result, status) {				// 주소를 검색 후 결과값�
 };
 
 // 유저들의 주소 마커표시, ajax
-function getMembers(map, radius) {
+function setMarkers(map, radius) {
 	let memberObj;
 	let membersAddress = [];
 	
@@ -271,7 +271,7 @@ $(function() {
 			mapOption.center = new kakao.maps.LatLng(parseFloat(result[0].y), parseFloat(result[0].x));
 			map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
 			center = map.getCenter();
-			getMembers(map, 2000);
+			setMarkers(map, 2000);
 		} else {
 			console.error('Geocoding failed for address:', loginedMemberAddress);
 		}
@@ -287,6 +287,6 @@ $(function() {
 			overlay.setMap(null);
 		})
 		
-		getMembers(map, $(this).val());
+		setMarkers(map, $(this).val());
 	});
 })
