@@ -24,16 +24,15 @@
 <section class="mw b-mh">
 	<div class="relative overflow-hidden">
 		<c:if test="${rq.loginedMemberId != 0 }">
-			<div id="map" class="shadow" style="width:100%; height: 500px;">
-				<div id="radioBtn" class="join absolute z-20 top-2 left-2">
-				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="1000" aria-label="1km">
-				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="2000" aria-label="2km" checked>
-				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="3000" aria-label="3km" />
-				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="4000" aria-label="4km" />
-				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="5000" aria-label="5km" />
-				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="10000" aria-label="10km" />
-				  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="500000" aria-label="all" />
-				</div>
+			<div id="map" class="shadow" style="width:100%; height: 500px;"></div>
+			<div id="radioBtn" class="join absolute z-20 top-2 left-2">
+			  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="1000" aria-label="1km">
+			  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="2000" aria-label="2km" checked>
+			  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="3000" aria-label="3km" />
+			  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="4000" aria-label="4km" />
+			  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="5000" aria-label="5km" />
+			  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="10000" aria-label="10km" />
+			  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="500000" aria-label="all" />
 			</div>
 			<div id="map-info-wrap" class="border-2 rounded-lg p-2 opacity-90">
 				<button class="btn btn-circle btn-sm m-1" onclick="closeInfoWarp()">

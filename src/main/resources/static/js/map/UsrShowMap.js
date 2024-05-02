@@ -2,7 +2,7 @@
  * 메인페이지 상단에 표시되는 지도 관련 js
  */
 
- let geocoder = new kakao.maps.services.Geocoder();		// 주소 검색을 위한 geocoder
+let geocoder = new kakao.maps.services.Geocoder();		// 주소 검색을 위한 geocoder
 
 // 중심 좌표 기준으로 반경에 원 그리기
 var circle = new kakao.maps.Circle({
@@ -172,7 +172,6 @@ function setMarkers(map, radius) {
 
 // 마커 커스텀 오버레이안의 닉네임 클릭 시 해당 유저의 정보 표시
 function clickNickname(memberId){
-	$("#map-info-wrap").addClass("shoMapInWarp");
 	
 	$.ajax({
 		url: '../member/getMemberById',
@@ -225,6 +224,14 @@ function clickNickname(memberId){
 	});
 }
 
+// 유저 정보 컨테이너 닫기
+function closeInfoWarp() {
+	$("#map-info-wrap").css({
+		"animation": "hideMapInfoWrap .5s ease-in-out",
+		"animation-fill-mode": "forwards"
+	});
+}
+
 // 마커 커스텀 오버레이 제거
 function closeMarker(btn, idx) {
 	const overlay = $(btn).closest(".overlay-wrap").parent();
@@ -246,14 +253,6 @@ function closeMarker(btn, idx) {
 			}
 		}
 	}, 400);
-}
-
-// 유저 정보 컨테이너 닫기
-function closeInfoWarp() {
-	$("#map-info-wrap").css({
-		"animation": "hideMapInfoWrap .5s ease-in-out",
-		"animation-fill-mode": "forwards"
-	});
 }
 
 

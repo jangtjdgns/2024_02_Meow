@@ -67,7 +67,8 @@ public interface MemberDao {
 
 	@Select("""
 			SELECT * FROM `member`
-			WHERE `status` = 0;
+			WHERE `status` = 0
+			AND authLevel = 1;
 			""")
 	public List<Member> getMembers();
 	

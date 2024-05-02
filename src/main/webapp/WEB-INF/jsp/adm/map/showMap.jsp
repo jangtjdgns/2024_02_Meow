@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<!-- <script>
-	$(function(){
-		showMap();
-	})
-</script> -->
+<script type="text/javascript" src="/js/map/AdmShowMap.js"></script>
 
 <div class="relative overflow-hidden h-full">
 	<!-- 지도 -->
@@ -29,10 +24,22 @@
 		</div>
 	</div>
 	
+	<!-- 회원 정보 -->
+	<div id="member-info-wrap" class="absolute top-2 right-2 rounded-lg p-2 w-96 bg-white bg-opacity-80 z-20">
+		<div class="flex justify-between">
+			<button class="btn btn-circle btn-sm m-1" onclick="closeInfoWarp()">
+			  	<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+			</button>
+			<div class="member-info-nickname w-full self-center text-center">회원을 선택하세요.</div>
+		</div>
+		
+		<div class="member-info-body"></div>
+	</div>
+	
 	<!-- 옵션 -->
 	<div class="absolute z-20 top-12 left-2 w-96 h-44 overflow-x-hidden">
 		<div class="swap-wrap join absolute w-96 h-full top-0 left-0">
-			<div class="join-item w-full bg-white text-xs p-4">
+			<div class="join-item w-full bg-white text-xs p-4 bg-opacity-80">
 				<div class="text-center text-lg font-bold">지도 검색 옵션</div>
 				<label class="form-control w-full">
 					<div class="label">

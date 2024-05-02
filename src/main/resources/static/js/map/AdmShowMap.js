@@ -1,8 +1,8 @@
-/**
- * 관리자 페이지의 지도 관련 js
+/** 
+ * 관리자 페이지의 지도 관련 js 
  */
 
-let geocoder = new kakao.maps.services.Geocoder();		// 주소 검색을 위한 geocoder
+var geocoder = new kakao.maps.services.Geocoder();		// 주소 검색을 위한 geocoder
 
 // 중심 좌표 기준으로 반경에 원 그리기
 var circle = new kakao.maps.Circle({
@@ -11,12 +11,12 @@ var circle = new kakao.maps.Circle({
     fillColor: 'white', 		// 채우기 색깔
     fillOpacity: 0.2,  			// 채우기 불투명도
 });
-let center;
+var center;
 var line = new kakao.maps.Polyline();
 var markers = [];										// 마커를 담을 배열, 전체 초기화 용도
 var overlays = [];										// 오버레이를 담을 배열, 전체 초기화 용도
 
-let callback = function(result, status) {				// 주소를 검색 후 결과값을 리턴하는 callback 함수
+var callback = function(result, status) {				// 주소를 검색 후 결과값을 리턴하는 callback 함수
     if (status === kakao.maps.services.Status.OK) {
        	return result;
     }
@@ -84,14 +84,14 @@ function setMarkers(map, radius) {
 		                    		<div class="col-start-2 col-end-11">${nicknames.length}</div>
 	                    		</div>
 	                            <div>
-	                            	<ul class="border-2 rounded grid grid-cols-4">
+	                            	<ul class="border-2 rounded grid grid-cols-3">
 						`;
 						
 						// 유저 닉네임 추가
 						$(nicknames).each(function(idx, nickname) {
 							content += `
-								<li class="nickname-wrap relative h-8 text-sm overflow-hidden hover:bg-gray-100 text-center cursor-pointer">
-									<span class="nickname absolute left-0 bg-indigo-50">${nickname}</span>
+								<li class="nickname-wrap relative h-8 overflow-hidden hover:bg-gray-100 cursor-pointer border-r flex items-center justify-center" onclick="getMember(${memberId[idx]})">
+									<span class="nickname absolute left-0 text-sm">&nbsp;${nickname}&nbsp;</span>
 								</li>
 							`;
 						});
@@ -146,59 +146,127 @@ function setMarkers(map, radius) {
 }
 
 // 닉네임 클릭 시 
-/*function clickNickname(memberId){
-	$("#map-info-wrap").addClass("shoMapInWarp");
+function getMember(memberId){
 	
 	$.ajax({
-		url: '../member/getMemberById',
+		url: '../member/detail',
 	    method: 'GET',
 	    data: {
 	    	memberId: memberId,
 	    },
 	    dataType: 'json',
 	    success: function(data) {
-			const result = data.data;
 			if(data.success) {
-				const nickname = result.member.nickname;
-				const catsLen = result.companionCats.length;
+				const member = data.data;
 				
-				let memberInfo = `
-					<div>
-						<div class="border-2 rounded-full w-1/2 text-center text-lg mx-auto mb-3">${nickname == loginedMemberNickname ? nickname + ' (나)' : nickname}</div>
-						<div>${catsLen == 0 ? "현재 등록된 반려묘가 없습니다." : "반려묘 " + catsLen + "마리 집사"}</div>
-						<ul>
-				`;
-				for(let i = 0; i < catsLen; i++) {
-					memberInfo += `
-						<li>${i + 1}. ${result.companionCats[i].name}</li>
-					`;
+				// 전화 번호 하이픈 존재 유무 확인
+				const cellphoneNum = member.cellphoneNum;
+				let phoneNum = '';
+				// 없으면 추가
+				if(!cellphoneNum.includes("-")) {
+					phoneNum += cellphoneNum.substring(0,3) + '-';
+					phoneNum += cellphoneNum.substring(3,7) + '-';
+					phoneNum += cellphoneNum.substring(7,11);
+				} else {
+					phoneNum = cellphoneNum;
 				}
 				
-				if(nickname != loginedMemberNickname) {
-					memberInfo += `
-								</ul>
-							</div>
-							<div class="grid grid-cols-4 join">
-								<button class="join-item btn btn-outline">프로필 보기</button>
-								<button class="join-item btn btn-outline" onclick="sendRequest(${result.member.id}, 'friend')">친구추가</button>
-								<button class="join-item btn btn-outline" onclick="openPop(${loginedMemberId}, ${result.member.id});">채팅</button>
-								<button class="join-item btn btn-outline" onclick="showReportModal('member', ${result.member.id}, 0)">신고</button>
-							</div>
-						`;
-					}
+				// 주소
+				let jibunAddress= '';
+				let roadAddress = '';
 				
-				$("#map-info-wrap>div").html(memberInfo);
-				$("#map-info-wrap").css({
-					"animation": "showMapInfoWrap .5s ease-in-out",
-					"animation-fill-mode": "forwards"
-				});
+				if(member.address.length !== 0) {
+					const tempAddr = JSON.parse(member.address);
+					const detailAddress = tempAddr.detailAddress.length == 0 ? '' : ' (' + tempAddr.detailAddress + ')';
+					jibunAddress = `[${tempAddr.zonecode}] ${tempAddr.jibunAddress}${detailAddress}`;
+		    		roadAddress = `[${tempAddr.zonecode}] ${tempAddr.roadAddress}${detailAddress}`;
+				}
+				
+				// 소개말
+				let aboutMe = member.aboutMe;
+				aboutMe = aboutMe == null ? '' : aboutMe;
+				
+				// 회원 정보
+				let memberInfo = `
+					<div class="w-full border grid grid-rows-4 text-center">
+						<div class="grid grid-cols-9 text-xs border-b">
+							<div class="col-start-1 col-end-2 flex items-center justify-center font-bold bg-gray-100">이름</div>
+							<div class="col-start-2 col-end-4 flex items-center justify-center">${member.name}</div>
+							<div class="col-start-4 col-end-5 flex items-center justify-center font-bold bg-gray-100">닉네임</div>
+							<div class="col-start-5 col-end-7 flex items-center justify-center">${member.nickname}</div>
+							<div class="col-start-7 col-end-8 flex items-center justify-center font-bold bg-gray-100">나이</div>
+							<div class="col-start-8 col-end-10 flex items-center justify-center">${member.age}살</div>
+						</div>
+						<div class="grid grid-cols-9 text-xs border-b">
+							<div class="col-start-1 col-end-2 flex items-center justify-center font-bold bg-gray-100">아이디</div>
+							<div class="col-start-2 col-end-4 flex items-center justify-center">${member.loginId}</div>
+							<div class="col-start-4 col-end-5 flex items-center justify-center font-bold bg-gray-100">이메일</div>
+							<div class="col-start-5 col-end-9 flex items-center justify-center">${member.email}</div>
+							<div class="col-start-9 col-end-10 flex items-center justify-center">
+								<button class="btn btn-sm btn-ghost"><i class="fa-regular fa-envelope fa-lg"></i></button>
+							</div>
+						</div>
+						<div class="grid grid-cols-9 text-xs border-b">
+							<div class="col-start-1 col-end-2 flex items-center justify-center font-bold bg-gray-100">유형</div>
+							<div class="col-start-2 col-end-4 flex items-center justify-center">${member.snsType == null ? '자체 회원' : `SNS&nbsp;<span class="font-bold">(${member.snsType})</span>`}</div>
+							<div class="col-start-4 col-end-5 flex items-center justify-center font-bold bg-gray-100"><i class="fa-solid fa-mobile-screen-button fa-lg"></i></div>
+							<div class="col-start-5 col-end-10 flex items-center justify-center">${phoneNum}</div>
+						</div>
+						<div class="grid grid-cols-9 text-xs">
+							<div class="col-start-1 col-end-2 flex items-center justify-center font-bold bg-gray-100">접속일</div>
+							<div class="col-start-2 col-end-4 flex items-center justify-center">${member.lastLoginDaysDiff}일 전</div>
+							<div class="col-start-4 col-end-5 flex items-center justify-center font-bold bg-gray-100">가입일</div>
+							<div class="col-start-5 col-end-10 flex items-center justify-center">${member.regDate} (${getCalcDateDiffInDays(member.regDate)}일 전)</div>
+						</div>
+						
+						<!-- 주소, 소개글 부분 -->
+						<div class="grid grid-rows-4 text-center h-full border-t">
+							<div class="grid grid-cols-9 grid-rows-2 row-start-1 row-end-3 text-xs border-b">
+								<div class="col-start-1 col-end-2 row-start-1 row-end-3 flex items-center justify-center font-bold bg-gray-100 border-r">주소</div>
+								<div class="col-start-2 col-end-3 flex items-center justify-center font-bold bg-gray-100 border-b">지번</div>
+								<div class="col-start-3 col-end-10 flex items-center justify-center border-b">${jibunAddress}</div>
+								<div class="col-start-2 col-end-3 flex items-center justify-center font-bold bg-gray-100">도로명</div>
+								<div class="col-start-3 col-end-10 flex items-center justify-center">${roadAddress}</div>
+							</div>
+							<div class="grid grid-cols-9 text-xs row-start-3 row-end-5">
+								<div class="col-start-1 col-end-2 flex items-center justify-center font-bold bg-gray-100">소개</div>
+								<div class="col-start-2 col-end-10 flex items-center justify-center">
+									<textarea class="resize-none textarea w-full h-full focus:outline-none focus:border-0" placeholder="작성된 소개말이 없습니다." readonly>${aboutMe}</textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				`;
+				
+				// 회원번호
+				const memberId = `
+					<div class="badge badge-neutral badge-md">${member.id}번 회원</div>
+				`;
+				
+				$(".member-info-body").html(memberInfo);
+				$("#member-info-wrap>div>.member-info-nickname").html(memberId);
+				if(parseInt($("#member-info-wrap").css('right')) < 0) {
+					$("#member-info-wrap").css({
+						"animation": "showMapInfoWrap .5s ease-in-out",
+						"animation-fill-mode": "forwards"
+					});
+				}
 			}
 		},
 	      	error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);
 		}
 	});
-}*/
+}
+
+// 유저 정보 컨테이너 닫기
+function closeInfoWarp() {
+	$("#member-info-wrap").css({
+		"animation": "hideMapInfoWrap .5s ease-in-out",
+		"animation-fill-mode": "forwards"
+	});
+}
+
 
 // 마커 커스텀 오버레이 제거
 function closeMarker(btn, idx) {
@@ -244,6 +312,8 @@ function moveNickname() {
 	});
 }
 
+
+// 로드 후
 $(function() {
 	let map;
 	let level = 7;
