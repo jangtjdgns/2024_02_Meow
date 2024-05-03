@@ -125,7 +125,7 @@ $(function(){
 			      			<details open>
 			      				<summary class="font-bold text-lg title"><i class="fa-solid fa-chart-simple"></i> 기타</summary>
 			      				<ul data-idx="5" data-type="etc">
-					              	<li><button class="sub-title">일정</button></li>
+					              	<li><button class="sub-title" onclick="getAdmContentJsp('calendar')">일정</button></li>
 					              	<li><button class="sub-title">전체 요청 기록 확인</button></li>
 					              	<li><button class="sub-title">채팅 기록 확인</button></li>
 					              	<li><button class="sub-title">친구 상태 확인</button></li>
@@ -170,7 +170,7 @@ $(function(){
 			</div>
 			<div id="admContentJspWrap" class="m-8 border bg-white shadow-2xl rounded-lg [height:721px] [max-height:721px]">
 				<%-- <%@ include file="../home/mainContent.jsp"%> --%>
-				<%@ include file="../map/showMap.jsp"%>
+				<%@ include file="../other/calendar.jsp"%>
 			</div>
 		</div>
 	</div>

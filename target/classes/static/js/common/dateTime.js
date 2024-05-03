@@ -1,32 +1,37 @@
 
-// 날짜, 시간 가져오기
-function getDateTime(type){
+// 날짜 및 시간 특정 부분 가져오기
+function getCurrentDateTimePart(type){
 	const date = new Date();
 	
-	let returnDate;
+	let dateVal;
 	
 	switch(type) {
 		case 'year':
-			returnDate = date.getFullYear();
+			dateVal = date.getFullYear();
 			break;
 		case 'month':
-			returnDate = date.getMonth() + 1;
+			dateVal = date.getMonth() + 1;
 			break;
 		case 'day':
-			returnDate = date.getDate();
+			dateVal = date.getDate();
 			break;
 		case 'hours':
-			returnDate = date.getHours();
+			dateVal = date.getHours();
 			break;
 		case 'minutes':
-			returnDate = date.getMinutes();
+			dateVal = date.getMinutes();
 			break;
 		case 'second':
-			returnDate = date.getSeconds();
+			dateVal = date.getSeconds();
 			break;
 	}
 	
-	return returnDate < 10 ? '0' + returnDate : returnDate;
+	return dateVal < 10 ? '0' + dateVal : dateVal;
+}
+
+// 날짜&시간 데이터를 ISO 8601 형식(ex. 2024-01-01T13:00:00)으로 변환하는 함수 (캘린더에서 사용)
+function formatToISODateTime() {
+	
 }
 
 // 시간차 계산 (요청 시간)

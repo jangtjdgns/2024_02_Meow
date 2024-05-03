@@ -40,6 +40,7 @@ public class AdmHomeController {
 			case "customerList": return jsp += "inquiryManagement/list";
 			case "report": return jsp += "common/report";
 			case "map": return jsp += "map/showMap";
+			case "calendar": return jsp += "other/calendar";
 		}
 		
 		return "redirect:/adm/home/main";

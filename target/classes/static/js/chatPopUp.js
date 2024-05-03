@@ -51,7 +51,7 @@ function wsEvt() {
 				    </div>
 				    <div class="chat-bubble break-all msg">${msg}</div>
 				    <div class="chat-footer opacity-50">
-						<time class="text-xs opacity-50">${getDateTime('hours')}:${getDateTime('minutes')}</time>
+						<time class="text-xs opacity-50">${getCurrentDateTimePart('hours')}:${getCurrentDateTimePart('minutes')}</time>
 					</div>
 				</div>
 			`);
