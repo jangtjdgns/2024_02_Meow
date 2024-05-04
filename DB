@@ -172,6 +172,23 @@ CREATE TABLE report (
     processing INT UNSIGNED NULL COMMENT '회원 신고 처리 (경고 = 1, 정지 = 2, 강제탈퇴 = 3, 잘못된 신고 = 4)'
 );
 
+### calendar 테이블
+CREATE TABLE calendar (
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '일정 ID',
+	calendarId VARCHAR(10) NOT NULL COMMENT '캘린더 목록 ID',
+	regDate DATETIME NOT NULL COMMENT '일정 추가일',
+	updateDate DATETIME NOT NULL COMMENT '일정 수정일',
+	startDate DATETIME NOT NULL COMMENT '일정 시작일',
+	endDate DATETIME NULL COMMENT '일정 종료일',
+	memberId INT UNSIGNED NOT NULL COMMENT '회원 ID',
+	title VARCHAR(100) NOT NULL COMMENT '일정 제목',
+	isAllday BOOLEAN NOT NULL COMMENT '종일 일정 여부',
+	location VARCHAR(100) NULL COMMENT '일정 장소',
+	`state` VARCHAR(4) NOT NULL COMMENT '일정 상태 (Busy || Free)',
+	isPrivate BOOLEAN NOT NULL COMMENT '개인적인 일정 여부'
+);
+
+
 
 ## 테스트 데이터
 ### article

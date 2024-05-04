@@ -33,11 +33,11 @@ function getCurrentDateTimePart(type){
 	return leadZeroPad(dateVal);
 }
 
-// 날짜 & 시간 포멧
-function getformatDateTime(dt) {
+// 날짜 & 시간 객체로 변환
+function dateTimeToObject(dt) {
 	const date = new Date(dt);
 	const formatDateTime = {
-		year: date.getFullYear().toString().substring(2),
+		year: date.getFullYear().toString(),
 		month: leadZeroPad(date.getMonth() + 1),
 		day: leadZeroPad(date.getDate()),
 		hours: leadZeroPad(date.getHours()),
@@ -46,6 +46,36 @@ function getformatDateTime(dt) {
 	}
 	return formatDateTime;
 }
+
+/* === 포멧팅 === */
+// 첫번째 인자에는 객체, 두번째 인자에는 숫자
+// readableFormat 포맷팅 형식(0: 유저 친화적, 1: 기계 친화적)
+
+// 날짜 + 시간 포멧팅
+function formatDateTime(dtObj, readableFormat) {
+	switch(readableFormat) {
+		case 0: return `${dtObj.year}년${dtObj.month}월${dtObj.day}일 ${dtObj.hours}시${dtObj.minutes}분${dtObj.second}초`;
+		case 1: return `${dtObj.year}-${dtObj.month}-${dtObj.day} ${dtObj.hours}:${dtObj.minutes}:${dtObj.second}`;
+	}
+}
+
+// 날짜 포멧팅
+function formatDate(dtObj, readableFormat) {
+	switch(readableFormat) {
+		case 0: return `${dtObj.year}년${dtObj.month}월${dtObj.day}일`;
+		case 1: return `${dtObj.year}-${dtObj.month}-${dtObj.day}`;
+	}
+}
+
+// 시간 포멧팅
+function formatTime(dtObj, readableFormat) {
+	switch(readableFormat) {
+		case 0: return `${dtObj.hours}시${dtObj.minutes}분${dtObj.second}초`;
+		case 1: return `${dtObj.hours}:${dtObj.minutes}:${dtObj.second}`;
+	}
+}
+/* === 포멧팅 끝 === */
+
 
 // 시간차 계산 (요청 시간)
 function getTimeDiff(time) {

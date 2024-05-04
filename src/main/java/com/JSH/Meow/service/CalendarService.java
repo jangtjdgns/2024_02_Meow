@@ -1,6 +1,7 @@
 package com.JSH.Meow.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,29 @@ public class CalendarService {
 	public CalendarService(CalendarDao calendarDao) {
 		this.calendarDao = calendarDao;
 	}
-
-	public void createEvent(String calendarId, String startDate, String endDate, int memberId,
-			String title, boolean isAllday, String location, String state, boolean isPrivate) {
-		calendarDao.createEvent(calendarId, startDate, endDate, memberId, title, isAllday, location, state, isPrivate);
+	
+	public Calendar getCalendarById(int id) {
+		return calendarDao.getCalendarById(id);
 	}
-
+	
+	public void createEvent(Map<String, Object> eventMap) {
+		calendarDao.createEvent(eventMap);
+	}
+	
+	public int getLastInsertId() {
+		return calendarDao.getLastInsertId();
+	}
+	
 	public List<Calendar> getEvents(int memberId) {
 		return calendarDao.getEvnets(memberId);
 	}
+
+	public void updateEvent(int id, Map<String, Object> eventMap) {
+		calendarDao.updateEvent(id, eventMap);
+	}
+
+	public void deleteEvent(int id) {
+		calendarDao.deleteEvent(id);
+	}
+
 }

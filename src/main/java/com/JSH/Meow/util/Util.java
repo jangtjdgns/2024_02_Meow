@@ -2,6 +2,7 @@ package com.JSH.Meow.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,5 +97,18 @@ public class Util {
         }
         
         return address;
+	}
+	
+	// Json 데이터를 Map 타입으로 변환
+	public static Map<String, Object> jsonToMap(String jsonData) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> mapData = null;
+        try {
+        	mapData = objectMapper.readValue(jsonData, Map.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+		return mapData;
 	}
 }

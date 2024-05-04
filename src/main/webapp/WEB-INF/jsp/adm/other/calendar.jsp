@@ -4,7 +4,6 @@
 <script>
 	//캘린더를 저장할 변수 (전역)
 	var calendar;
-	var eventId = 1;	// 삭제 할 예정
 	
 	// 캘린더 view 변경
 	function onChangeView(select) {
@@ -34,35 +33,31 @@
 	    const dateRangeTag = $('.date-range');
 	    let startText = '';		// 시작일
 	    let endText = '';		// 종료일
-	    const formatDate = (fdt) => `\${fdt.year}년 \${fdt.month}월 \${fdt.day}일`;	// fdt, format Date Time
 		
 	    if (view === 'month') {
-	        const fdt = getformatDateTime(calendar.getDate());
+	        const fdt = dateTimeToObject(calendar.getDate());
 	        startText = `\${fdt.year}년 \${fdt.month}월`;
 	    } else if (view === 'week') {
-	        const startFdt = getformatDateTime(calendar.getDateRangeStart());
-	        startText = `\${formatDate(startFdt)} ~ `;
-	        const endFdt = getformatDateTime(calendar.getDateRangeEnd());
-	        endText = formatDate(endFdt);
+	        startText = `\${formatDate(dateTimeToObject(calendar.getDateRangeStart()), 1)} ~ `;
+	        endText = formatDate(dateTimeToObject(calendar.getDateRangeEnd()), 1);
 	    } else if (view === 'day') {
-	        const fdt = getformatDateTime(calendar.getDate());
-	        startText = formatDate(fdt);
+	        startText = formatDate(dateTimeToObject(calendar.getDate()), 1);
 	    }
 	    dateRangeTag.text(startText + endText);		// 날짜 범위 표시
 	}
 	
 	// 지정한 날짜가 동일한지 확인 (생성 | 수정 시), 동일하면 경고
 	function checkDateEquality(e) {
-		if(e.start.d.d.toString() === e.end.d.d.toString()) {
+		if(e.start === e.end) {
 			alertMsg('<span class="text-sm">정확한 <strong>시작일</strong>과 <strong>종료일</strong>을 설정해주세요.</span>', 'warning');
 		}
 	}
 	
-	// 기존 일정 나타내기
+	// 등록된 일정 표시
 	function showEvnet() {
 		$.ajax({
 			url: '/adm/calendar/getEvents',
-		    method: 'POST',
+		    method: 'get',
 		    data: {
 		    	memberId: loginedMemberId,
 		    },
@@ -83,6 +78,7 @@
 		    		        location: event.location,
 		    		        state: event.state,
 		    		        isPrivate: event.private,
+		    		        attendees: [loginedMemberNickname],
 		    		    });
 		    		}
 		    		calendar.createEvents(eventsArr);
@@ -94,26 +90,95 @@
 		});
 	}
 	
-	
-	// DB 일정 생성
+	// 일정 등록
 	function createEvent(eventObj) {
+		eventObj.start = formatDateTime(dateTimeToObject(eventObj.start.d.d), 1);
+		eventObj.end = formatDateTime(dateTimeToObject(eventObj.end.d.d), 1);
+		eventObj.memberId = loginedMemberId;	// 회원 번호를 객체에 추가
+		
 		$.ajax({
 			url: '/adm/calendar/createEvent',
 		    method: 'POST',
 		    data: {
-		    	calendarId: eventObj.calendarId,
-		    	startDate: eventObj.start.d.d.toISOString().slice(0, -6),
-				endDate: eventObj.end.d.d.toISOString().slice(0, -6),
-				memberId: loginedMemberId,
-				title: eventObj.title,
-				isAllday: eventObj.isAllday,
-				location: eventObj.location,
-				state: eventObj.state,
-				isPrivate: event.isPrivate,
+		    	eventJson: JSON.stringify(eventObj),
 		    },
 		    dataType: 'json',
 		    success: function(data) {
-		    	
+		    	if(data.success) {
+		    		// 이벤트 ID
+		    		const id = data.data;
+		    		// 일정 생성 메서드 (인스턴스 메서드) 
+		    		calendar.createEvents([
+						{
+					      ...eventObj,
+					      id: id,
+					      attendees: [loginedMemberNickname],
+					    },
+					]);
+		    		alertMsg(data.msg, 'success');
+		    	}
+		    	checkDateEquality(eventObj);
+			},
+		      	error: function(xhr, status, error) {
+		      	console.error('Ajax error:', status, error);
+			}
+		});
+	}
+	
+	// 일정 변경
+	function updateEvent(eventObj) {
+		
+		// 변경사항이 없으면 return
+		if(Object.keys(eventObj.changes).length === 0) {
+			return alertMsg('변경사항이 없습니다.', 'warning');
+		}
+		
+		const id = eventObj.event.id;				// eventId, 일정 ID
+		const calId = eventObj.event.calendarId;	// calendarId, 캘린더 목록 ID
+		
+		// hasOwnProperty, 해당 속성 존재여부 확인
+		eventObj.changes.hasOwnProperty('start') ? eventObj.changes.start = formatDateTime(dateTimeToObject(eventObj.changes.start.d.d), 1) : null;
+		eventObj.changes.hasOwnProperty('end') ? eventObj.changes.end = formatDateTime(dateTimeToObject(eventObj.changes.end.d.d), 1) : null;
+		
+		$.ajax({
+			url: '/adm/calendar/updateEvent',
+		    method: 'POST',
+		    data: {
+		    	id: id,
+		    	eventJson: JSON.stringify(eventObj.changes),
+		    },
+		    dataType: 'json',
+		    success: function(data) {
+		    	if(data.success) {
+		    		// 일정 수정 메서드 (인스턴스 메서드)
+		    		calendar.updateEvent(id, calId, {
+		    			  ...eventObj.changes,
+		    		});
+		    		
+		    		alertMsg(data.msg, 'success');
+		    	}
+			},
+		      	error: function(xhr, status, error) {
+		      	console.error('Ajax error:', status, error);
+			}
+		});
+	}
+	
+	// 일정 삭제
+	function deleteEvent(eventObj) {
+		$.ajax({
+			url: '/adm/calendar/deleteEvent',
+		    method: 'GET',
+		    data: {
+		    	id: eventObj.id,
+		    },
+		    dataType: 'json',
+		    success: function(data) {
+		    	if(data.success) {
+		    		// 일정 삭제 메서드 (인스턴스 메서드)
+		    		calendar.deleteEvent(eventObj.id, eventObj.calendarId);
+		    		alertMsg(data.msg, 'error');
+		    	}
 			},
 		      	error: function(xhr, status, error) {
 		      	console.error('Ajax error:', status, error);
@@ -177,77 +242,25 @@
 		    	},
 		  	},
 		});
-		
+		// 내 일정 표시
 		showEvnet();
 		
 		
 		/* 객체 리터럴로 바꿔도 좋을듯 */
 		// 일정 생성 이벤트 추가 (인스턴스 이벤트)
 		calendar.on('beforeCreateEvent', (eventObj) => {
-			// 일정 생성 메서드 (인스턴스 메서드)
-			calendar.createEvents([
-				{
-			      ...eventObj,
-			      id: 'event' + eventId,
-			    },
-			]);
-			const getEvnet = calendar.getEvent('event' + eventId++, eventObj.calendarId);
 			createEvent(eventObj);
-			checkDateEquality(eventObj)
 		});
 		
 		// 일정 수정 이벤트 추가 (인스턴스 이벤트)
 		calendar.on('beforeUpdateEvent', (eventObj) => {
-			const id = eventObj.event.id;
-			const calId = eventObj.event.calendarId;
-			// 일정 수정 메서드 (인스턴스 메서드)
-			calendar.updateEvent(id, calId, {
-				  ...eventObj.changes,
-			});
-			// checkDateEquality(calendar.getEvent(id, calId));
+			updateEvent(eventObj);
 		});
 		
 		// 일정 삭제 이벤트 추가 (인스턴스 이벤트)
 		calendar.on('beforeDeleteEvent', (eventObj) => {
-			// 일정 삭제 메서드 (인스턴스 메서드)
-			calendar.deleteEvent(eventObj.id, eventObj.calendarId);
-			alertMsg('삭제되었습니다.', 'error');
+			deleteEvent(eventObj);
 		});
-		
-		/* calendar.createEvents([
-			{
-			    id: 'event1',
-			    calendarId: 'cal1',
-			    title: '점심 약속',
-			    start: '2024-05-03T12:00:00',
-			    end: '2024-05-03T13:00:00',
-			},
-			{
-			    id: 'event2',
-			    calendarId: 'cal2',
-			    title: '주간 회의',
-			    start: '2024-05-03T13:00:00',
-			    end: '2024-05-03T14:00:00',
-			},
-			{
-				id: 'event3',
-				calendarId: 'cal1',
-				title: '여행',
-				start: '2024-05-04',
-				end: '2024-05-04',
-				isAllday: true,
-				category: 'allday',
-			},
-			{
-				id: 'event4',
-				calendarId: 'cal2',
-				title: '휴가',
-				start: '2024-05-04',
-				end: '2024-05-04',
-				isAllday: true,
-				category: 'allday',
-			},
-		]); */
 	})
 </script>
 <div class="grid h-full" style="grid-template-rows: 4rem 1fr">
