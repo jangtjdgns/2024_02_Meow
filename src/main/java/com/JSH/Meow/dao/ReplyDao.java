@@ -34,7 +34,7 @@ public interface ReplyDao {
 			AND R.relId = #{relId}
 			ORDER BY R.id DESC
 			""")
-	List<Reply> getReplies(int relId, String relTypeCode);
+	public List<Reply> getReplies(int relId, String relTypeCode);
 	
 	
 	@Select("""
@@ -75,7 +75,7 @@ public interface ReplyDao {
 				LIMIT #{limitFrom}, #{replyCnt}
 			</script>
 			""")
-	List<Reply> admGetReplies(int limitFrom, int replyCnt, String searchType, String searchKeyword, boolean order);
+	public List<Reply> admGetReplies(int limitFrom, int replyCnt, String searchType, String searchKeyword, boolean order);
 	
 	@Insert("""
 			INSERT INTO reply

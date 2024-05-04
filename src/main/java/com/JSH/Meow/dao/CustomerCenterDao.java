@@ -23,7 +23,7 @@ public interface CustomerCenterDao {
 			    , imagePath = #{imagePath}
 			    , `status` = 'progress'
 			""")
-	void submitRequest(int memberId, String type, String title, String body, String imagePath);
+	public void submitRequest(int memberId, String type, String title, String body, String imagePath);
 	
 	@Select("""
 			SELECT LAST_INSERT_ID();
@@ -37,13 +37,13 @@ public interface CustomerCenterDao {
 			ON C.memberId = M.id
 			WHERE C.memberId = #{memberId}
 			""")
-	List<Inquiry> getInquiryHistory(int memberId);
+	public List<Inquiry> getInquiryHistory(int memberId);
 	
 	@Select("""
 			SELECT * FROM inquiry
 			WHERE id = #{receiptId}
 			""")
-	Inquiry getInquiryByReceiptId(int receiptId);
+	public Inquiry getInquiryByReceiptId(int receiptId);
 	
 	@Select("""
 			SELECT C.*, M.nickname
@@ -52,7 +52,7 @@ public interface CustomerCenterDao {
 			ON C.memberId = M.id
 			ORDER BY C.id DESC
 			""")
-	List<CustomerFeedback> getFeedback();
+	public List<CustomerFeedback> getFeedback();
 	
 	@Insert("""
 			INSERT INTO customer_feedback
@@ -61,7 +61,7 @@ public interface CustomerCenterDao {
 			memberId = #{memberId},
 			content = #{content}
 			""")
-	void doWriteFeedback(int memberId, String content);
+	public void doWriteFeedback(int memberId, String content);
 	
 	@Select("""
 			SELECT C.*, M.nickname
@@ -70,7 +70,7 @@ public interface CustomerCenterDao {
 			ON C.memberId = M.id
 			WHERE C.id = #{feedbackId}
 			""")
-	CustomerFeedback getCustomerFeedbackByFeedbackId(int feedbackId);
+	public CustomerFeedback getCustomerFeedbackByFeedbackId(int feedbackId);
 	
 	@Update("""
 			UPDATE customer_feedback
@@ -78,13 +78,13 @@ public interface CustomerCenterDao {
 				, content = #{content}
 			WHERE id = #{feedbackId}
 			""")
-	void doModifyFeedback(int feedbackId, String content);
+	public void doModifyFeedback(int feedbackId, String content);
 	
 	@Select("""
 			SELECT COUNT(*) FROM inquiry
 			WHERE `status` = 'progress';
 			""")
-	int getProgressCount();
+	public int getProgressCount();
 	
 	@Select("""
 			<script>
@@ -113,7 +113,7 @@ public interface CustomerCenterDao {
 				LIMIT #{limitFrom}, #{inquiryCnt}
 			</script>
 			""")
-	List<Inquiry> getInquiries(int limitFrom, int inquiryCnt, String status, int inquiryType, boolean order);
+	public List<Inquiry> getInquiries(int limitFrom, int inquiryCnt, String status, int inquiryType, boolean order);
 	
 	@Select("""
 			SELECT I.*, M.nickname
@@ -122,7 +122,7 @@ public interface CustomerCenterDao {
 			ON I.memberId = M.id
 			WHERE I.id = #{id}
 			""")
-	Inquiry admGetInquiryById(int id);
+	public Inquiry admGetInquiryById(int id);
 	
 	@Update("""
 			UPDATE inquiry
@@ -131,6 +131,6 @@ public interface CustomerCenterDao {
 			    , `status` = 'complete'
 			WHERE id = #{inquiryId}
 			""")
-	void answerInquiry(int inquiryId, String answerBody);
+	public void answerInquiry(int inquiryId, String answerBody);
 	
 }

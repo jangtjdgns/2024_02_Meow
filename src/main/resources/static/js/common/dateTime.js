@@ -1,3 +1,7 @@
+// 날짜 및 시간 앞자리에 0 채우기
+function leadZeroPad(val) {
+	return val < 10 ? '0' + val : val;
+}
 
 // 날짜 및 시간 특정 부분 가져오기
 function getCurrentDateTimePart(type){
@@ -26,12 +30,21 @@ function getCurrentDateTimePart(type){
 			break;
 	}
 	
-	return dateVal < 10 ? '0' + dateVal : dateVal;
+	return leadZeroPad(dateVal);
 }
 
-// 날짜&시간 데이터를 ISO 8601 형식(ex. 2024-01-01T13:00:00)으로 변환하는 함수 (캘린더에서 사용)
-function formatToISODateTime() {
-	
+// 날짜 & 시간 포멧
+function getformatDateTime(dt) {
+	const date = new Date(dt);
+	const formatDateTime = {
+		year: date.getFullYear().toString().substring(2),
+		month: leadZeroPad(date.getMonth() + 1),
+		day: leadZeroPad(date.getDate()),
+		hours: leadZeroPad(date.getHours()),
+		minutes: leadZeroPad(date.getMinutes()),
+		second: leadZeroPad(date.getSeconds()),
+	}
+	return formatDateTime;
 }
 
 // 시간차 계산 (요청 시간)

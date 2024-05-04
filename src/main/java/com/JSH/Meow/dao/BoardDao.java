@@ -11,11 +11,11 @@ import com.JSH.Meow.vo.Board;
 public interface BoardDao {
 
 	@Select("SELECT * FROM board")
-	List<Board> getBoards();
+	public List<Board> getBoards();
 	
 	@Select("""
 			SELECT * FROM board
 			WHERE id = #{boardId}
 			""")
-	Board getBoardById(int boardId);
+	public Board getBoardById(int boardId);
 }

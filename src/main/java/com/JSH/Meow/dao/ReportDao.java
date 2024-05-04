@@ -22,7 +22,7 @@ public interface ReportDao {
 				, `body` = #{reportBody}
 				, `type` = #{reportType}
 			""")
-	void doReport(int reporterId, int reportedTargetId, String relTypeCode, String relId, String reportBody, int reportType);
+	public void doReport(int reporterId, int reportedTargetId, String relTypeCode, String relId, String reportBody, int reportType);
 	
 	@Select("""
 			<script>
@@ -41,7 +41,7 @@ public interface ReportDao {
 				</if>
 			</script>
 			""")
-	List<Report> getReportsByRelTypeCode(String relTypeCode, String status);
+	public List<Report> getReportsByRelTypeCode(String relTypeCode, String status);
 	
 	@Select("""
 			SELECT R.*
@@ -54,7 +54,7 @@ public interface ReportDao {
 			ON R.reportedTargetId = M2.id
 			WHERE R.id = #{reportId}
 			""")
-	Report getReportById(int reportId);
+	public Report getReportById(int reportId);
 	
 	@Update("""
 				UPDATE report
@@ -62,13 +62,13 @@ public interface ReportDao {
 					, `processing` = #{processingType}
 				WHERE id = #{reportId}
 			""")
-	void reportProcessing(int reportId, int processingType);
+	public void reportProcessing(int reportId, int processingType);
 	
 	@Update("""
 			UPDATE report
 			SET memo = #{memo}
 			WHERE id = #{reportId}
 			""")
-	void saveMemo(int reportId, String memo);
+	public void saveMemo(int reportId, String memo);
 
 }
