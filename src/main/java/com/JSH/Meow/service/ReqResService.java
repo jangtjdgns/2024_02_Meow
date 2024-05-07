@@ -35,4 +35,8 @@ public class ReqResService {
 	public void deleteRoom(int senderId) {
 		reqResDao.deleteRoom(senderId);
 	}
+
+	public List<ReqRes> getRequests() {
+		return reqResDao.getRequests();
+	}
 }

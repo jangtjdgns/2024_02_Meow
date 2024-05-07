@@ -24,7 +24,7 @@ function checkRequests(loginedMemberId) {
 						notification = `
 							<div class="grid items-center gap-1 my-0.5 p-0.5 text-sm text-center rounded-lg hover:bg-gray-100" style="grid-template-columns: 30px 1fr">
 								<div>${i + 1}</div>
-								<div class="text-left">${result[i].writerName}님의 ${code} 요청</div>
+								<div class="text-left">${result[i].requesterNickname}님의 ${code} 요청</div>
 								<div class=" col-start-2 col-end-3 flex items-center justify-between">
 									<div class="text-xs">${getTimeDiff(timeDiffSec)}</div>
 									<div class="flex">

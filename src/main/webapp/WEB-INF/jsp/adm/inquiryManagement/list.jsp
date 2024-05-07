@@ -22,7 +22,6 @@
 		    },
 		    dataType: 'json',
 		    success: function(data) {
-		    	console.log(data)
 		    	$(".inquiries").empty();
 		    	if(data.success) {
 		    		const inquiries = data.data;
@@ -74,7 +73,6 @@
 		    	
 		    	if(data.success) {
 		    		const inquiryInfo = data.data;
-		    		console.log(inquiryInfo)
 		    		const formattedDate = getFormattedDateStatus(inquiryInfo);
 		    		
 		    		let answerBody = null;

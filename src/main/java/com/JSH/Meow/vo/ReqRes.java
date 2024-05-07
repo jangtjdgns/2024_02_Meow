@@ -16,7 +16,8 @@ public class ReqRes {
 	private String status;
 	private String code;
 	
-	private String writerName;
+	private String requesterNickname;
+	private String recipientNickname;
 	private int timeDiffSec;
 	
 	public String getCodeName() {
@@ -29,5 +30,18 @@ public class ReqRes {
 		}
 		
 		return code;
+	}
+	
+	public String getStatusName() {
+		String status = null;
+		
+		switch(this.status) {
+			case "refuse": status = "거절"; break;
+			case "accepted": status = "수락"; break;
+			case "checked": status = "확인"; break;
+			case "pending": status = "보류"; break;
+		}
+		
+		return status;
 	}
 }
