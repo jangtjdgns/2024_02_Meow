@@ -26,7 +26,7 @@ import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
-public class MemberController {
+public class UsrMemberController {
 	
 	private MemberService memberService;
 	private MemberDeletionService memberDeletionService;
@@ -36,7 +36,7 @@ public class MemberController {
 	private UploadService uploadService;
 	private Rq rq;
 	
-	public MemberController(MemberService memberService, MemberDeletionService memberDeletionService, CompanionCatService companionCatService, SnsInfoService snsInfoService, EmailService emailService, UploadService uploadService, Rq rq) {
+	public UsrMemberController(MemberService memberService, MemberDeletionService memberDeletionService, CompanionCatService companionCatService, SnsInfoService snsInfoService, EmailService emailService, UploadService uploadService, Rq rq) {
 		this.memberService = memberService;
 		this.memberDeletionService = memberDeletionService;
 		this.companionCatService = companionCatService;

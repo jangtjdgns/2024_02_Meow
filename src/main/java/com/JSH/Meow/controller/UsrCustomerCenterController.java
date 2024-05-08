@@ -15,11 +15,11 @@ import com.JSH.Meow.vo.Inquiry;
 import com.JSH.Meow.vo.ResultData;
 
 @Controller
-public class CustomerCenterController {
+public class UsrCustomerCenterController {
 	
 	private CustomerCenterService customerCenterService;
 	
-	public CustomerCenterController(CustomerCenterService customerCenterService) {
+	public UsrCustomerCenterController(CustomerCenterService customerCenterService) {
 		this.customerCenterService = customerCenterService;
 	}
 	

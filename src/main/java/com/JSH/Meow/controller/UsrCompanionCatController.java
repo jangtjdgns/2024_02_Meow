@@ -18,12 +18,12 @@ import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
-public class CompanionCatController {
+public class UsrCompanionCatController {
 	private CompanionCatService companionCatService;
 	private UploadService uploadService;
 	private Rq rq;
 	
-	public CompanionCatController(CompanionCatService companionCatService, UploadService uploadService, Rq rq) {
+	public UsrCompanionCatController(CompanionCatService companionCatService, UploadService uploadService, Rq rq) {
 		this.companionCatService = companionCatService;
 		this.uploadService = uploadService;
 		this.rq = rq;

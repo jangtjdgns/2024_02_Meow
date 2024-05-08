@@ -6,11 +6,11 @@ import com.JSH.Meow.service.FriendService;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
-public class FriendController {
+public class UsrFriendController {
 	private FriendService friendService;
 	private Rq rq;
 	
-	public FriendController(FriendService friendService, Rq rq) {
+	public UsrFriendController(FriendService friendService, Rq rq) {
 		this.friendService = friendService;
 		this.rq = rq;
 	}

@@ -15,11 +15,11 @@ import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
-public class ReplyController {
+public class UsrReplyController {
 	private ReplyService replyService;
 	private Rq rq;
 	
-	public ReplyController(ReplyService replyService, Rq rq) {
+	public UsrReplyController(ReplyService replyService, Rq rq) {
 		this.replyService = replyService;
 		this.rq = rq;
 	}

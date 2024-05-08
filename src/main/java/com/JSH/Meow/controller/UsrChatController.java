@@ -12,11 +12,11 @@ import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
-public class ChatController {
+public class UsrChatController {
 	private ChatService chatService;
 	private Rq rq;
 	
-	public ChatController(ChatService chatService, Rq rq) {
+	public UsrChatController(ChatService chatService, Rq rq) {
 		this.chatService = chatService;
 		this.rq = rq;
 	}

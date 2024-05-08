@@ -16,11 +16,11 @@ import com.JSH.Meow.vo.Rq;
  * */
 
 @Controller
-public class ReactionController {
+public class UsrReactionController {
 	private ReactionService reactionService;
 	private Rq rq;
 	
-	public ReactionController(ReactionService reactionService, Rq rq) {
+	public UsrReactionController(ReactionService reactionService, Rq rq) {
 		this.reactionService = reactionService;
 		this.rq = rq;
 	}

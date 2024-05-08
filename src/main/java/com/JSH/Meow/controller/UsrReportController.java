@@ -15,7 +15,7 @@ import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
-public class ReportController {
+public class UsrReportController {
 	
 	private ReportService reportService;
 	private MemberService memberService;
@@ -23,7 +23,7 @@ public class ReportController {
 	private ReplyService replyService;
 	private Rq rq;
 	
-	public ReportController(ReportService reportService, MemberService memberService, ArticleService articleService, ReplyService replyService, Rq rq) {
+	public UsrReportController(ReportService reportService, MemberService memberService, ArticleService articleService, ReplyService replyService, Rq rq) {
 		this.reportService = reportService;
 		this.memberService = memberService;
 		this.articleService = articleService;
