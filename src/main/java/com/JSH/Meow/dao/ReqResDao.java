@@ -27,7 +27,7 @@ public interface ReqResDao {
 			INNER JOIN `member` M
 				ON R.requesterId = M.id
 			WHERE R.recipientId = #{memberId}
-				AND R.`status` = 'pending';
+				AND R.`status` = 'pending'
 			""")
 	public List<ReqRes> checkRequests(int memberId);
 	
@@ -48,7 +48,7 @@ public interface ReqResDao {
 			AND `status` != 'refuse'
 			AND `code` = #{code}
 			ORDER BY id DESC
-			LIMIT 1;
+			LIMIT 1
 			""")
 	public ReqRes getReqStatus(int requesterId, int recipientId, String code);
 	
@@ -58,7 +58,7 @@ public interface ReqResDao {
 			    , `status` = 'refuse'
 			WHERE requesterId = #{senderId}
 			AND `status` = 'pending'
-			AND `code` = 'chat';
+			AND `code` = 'chat'
 			""")
 	public void deleteRoom(int senderId);
 	
@@ -71,6 +71,7 @@ public interface ReqResDao {
 				ON R.requesterId = M1.id
 			LEFT JOIN `member` M2
 				ON R.recipientId = M2.id
+			ORDER BY id DESC
 			""")
 	public List<ReqRes> getRequests();
 }

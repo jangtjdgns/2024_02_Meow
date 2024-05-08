@@ -39,7 +39,7 @@ public class ReqRes {
 			case "refuse": status = "거절"; break;
 			case "accepted": status = "수락"; break;
 			case "checked": status = "확인"; break;
-			case "pending": status = "보류"; break;
+			case "pending": status = "미확인"; break;	// 또는 보류
 		}
 		
 		return status;
