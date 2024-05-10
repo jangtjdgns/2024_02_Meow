@@ -31,10 +31,8 @@ $(function(){
 	
 	$(".sub-title").click(function() {
 		
-		// 버튼 유무 확인
-		if(!$(this).has(".btn-active")) {
-			$(this).addClass("btn-active");
-		}
+		$(".sub-title").removeClass("btn-active");
+		$(this).addClass("btn-active");
 		
 		const titleIdx = parseInt($(this).closest("ul").attr("data-idx"));
 		
@@ -127,8 +125,8 @@ $(function(){
 			      				<ul data-idx="5" data-type="etc">
 					              	<li><button class="sub-title" onclick="getAdmContentJsp('calendar')">일정</button></li>
 					              	<li><button class="sub-title" onclick="getAdmContentJsp('requestHistory')">전체 요청 기록 확인</button></li>
-					              	<li><button class="sub-title">채팅 기록 확인</button></li>
-					              	<li><button class="sub-title">친구 상태 확인</button></li>
+					              	<!-- <li><button class="sub-title">채팅 기록 확인</button></li>
+					              	<li><button class="sub-title">친구 상태 확인</button></li> -->
 					            </ul>
 				          	</details>
 			      		</li>
@@ -169,8 +167,8 @@ $(function(){
 				</div>
 			</div>
 			<div id="admContentJspWrap" class="m-8 border bg-white shadow-2xl rounded-lg [height:721px] [max-height:721px]">
-				<%-- <%@ include file="../home/mainContent.jsp"%> --%>
-				<%@ include file="../other/requestHistory.jsp"%>
+				<%@ include file="../home/mainContent.jsp"%>
+				<%-- <%@ include file="../other/requestHistory.jsp"%> --%>
 			</div>
 		</div>
 	</div>

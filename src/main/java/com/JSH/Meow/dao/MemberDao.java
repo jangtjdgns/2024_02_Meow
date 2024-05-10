@@ -186,4 +186,12 @@ public interface MemberDao {
 			GROUP BY `status`;
 			""")
 	public List<MemberStatus> getStatus();
+	
+	@Update("""
+			UPDATE `member`
+			SET updateDate = NOW()
+				, profileImage = #{imagePath}
+			WHERE id = #{id}
+			""")
+	public void updateProfileImage(int id, String imagePath);
 }

@@ -46,7 +46,7 @@ function setDateRange() {
     dateRangeTag.text(startText + endText);		// 날짜 범위 표시
 }
 
-// 지정한 날짜가 동일한지 확인 (생성 | 수정 시), 동일하면 경고
+// 지정한 날짜가 동일한지 확인 (일정 생성시), 동일하면 경고
 function checkDateEquality(e) {
 	if(e.start === e.end) {
 		alertMsg('<span class="text-sm">정확한 <strong>시작일</strong>과 <strong>종료일</strong>을 설정해주세요.</span>', 'warning');
@@ -76,7 +76,7 @@ function showEvnet() {
 	    		        end: event.endDate,
 	    		        isAllday: event.allday,
 	    		        location: event.location,
-	    		        state: event.state,
+	    		        state: event.stateName,
 	    		        isPrivate: event.private,
 	    		        attendees: [loginedMemberNickname],
 	    		    });
@@ -189,6 +189,10 @@ function deleteEvent(eventObj) {
 
 // 로드 후
 $(function(){
+	
+	// 영문요일 한글로 변경
+	const dayEngToKor = day => ({ 0: '일', 1: '월', 2: '화', 3: '수', 4: '목', 5: '금', 6: '토' })[day];
+	
 	// 캘린더가 표시될 컨테이너(태그)
 	const container = document.getElementById('calendar');
 	// 캘린더 옵션 설정
@@ -226,39 +230,59 @@ $(function(){
 	      		backgroundColor: 'violet',
 	    	},
 	  	],
+		template: {
+			popupIsAllday() { return '하루 종일' },
+			popupStateFree() { return '자유' },
+			popupStateBusy() { return '바쁨' },
+			titlePlaceholder() { return '제목' },
+			locationPlaceholder() { return '장소' },
+			startDatePlaceholder() { return '시작일' },
+			endDatePlaceholder() { return '종료일' },
+			popupSave() { return '등록' },
+			popupUpdate() { return '변경' },
+			popupEdit() { return '수정' },
+			popupDelete() { return '삭제' },
+			monthGridHeaderExceed(hiddenEvents) { return `<span class="text-sm hover:text-black">+${hiddenEvents}</span>` },
+			milestoneTitle() {return `<span class="flex justify-end items-center [font-size:11px] [height:72px]">마일스톤</span>` },
+			taskTitle() { return `<span class="flex justify-end items-center [font-size:11px] [height:72px]">작업</span>` },
+			alldayTitle() { return `<span class="flex justify-end items-center [font-size:11px] [height:72px]">하루 일정</span>` },
+			monthMoreTitleDate: moreTitle => `<span class="toastui-calendar-more-title-date">${moreTitle.date}</span> <span class="toastui-calendar-more-title-day">${dayEngToKor(moreTitle.day)}</span>`,
+			monthDayName: model => dayEngToKor(model.day),
+			weekDayName: model => `<span class="text-2xl">${model.date}</span>&nbsp;&nbsp;<span>${dayEngToKor(model.day)}</span>`,
+  		},
 	  	useFormPopup: true,		// 일정 생성 팝업
 	  	useDetailPopup: true,	// 일정 상세 팝업
 	};
 	
 	// 캘린더 생성
 	calendar = new Calendar(container, options)
-	// 캘린더 날짜 범위 표시
-	setDateRange();
-	// 토요일 색상 변경 (기본색 없음, 구분되게 파란색으로 설정)
+	// 테마 설정
 	calendar.setTheme({
+		// 토요일 색상 변경 (기본색 없음, 구분되게 파란색으로 설정)
 	  	common: {
 	    	saturday: {
 	      		color: 'rgba(64, 64, 255, 0.8)',
 	    	},
 	  	},
-	});
-	// 내 일정 표시
-	showEvnet();
-	
-	
-	/* 객체 리터럴로 바꿔도 좋을듯 */
-	// 일정 생성 이벤트 추가 (인스턴스 이벤트)
-	calendar.on('beforeCreateEvent', (eventObj) => {
-		createEvent(eventObj);
-	});
-	
-	// 일정 수정 이벤트 추가 (인스턴스 이벤트)
-	calendar.on('beforeUpdateEvent', (eventObj) => {
-		updateEvent(eventObj);
+	  	// 월 기준, 더보기 팝업 커스텀 스타일
+	  	month: {
+		    moreView: {
+		      	border: '1px solid grey',
+		      	boxShadow: '0 2px 6px 0 grey',
+	      		backgroundColor: 'white',
+		      	width: 320,
+		      	height: 200,
+		    },
+  		},
 	});
 	
-	// 일정 삭제 이벤트 추가 (인스턴스 이벤트)
-	calendar.on('beforeDeleteEvent', (eventObj) => {
-		deleteEvent(eventObj);
+	setDateRange();		// 캘린더 날짜 범위 표시
+	showEvnet();		// 내 일정 표시
+	
+	// 인스턴스 이벤트 추가
+	calendar.on({
+		beforeCreateEvent: (eventObj) => { createEvent(eventObj) },		// 일정 생성
+		beforeUpdateEvent: (eventObj) => { updateEvent(eventObj) },		// 일정 수정
+		beforeDeleteEvent: (eventObj) => { deleteEvent(eventObj) }		// 일정 삭제
 	});
 })

@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<script src="/js/adm/home/pieChart.js"></script>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<!-- <script src="/js/adm/home/pieChart.js"></script> -->
+<script src="/js/adm/other/calendar.js"></script>
 <script>
 function getNoticeArticle() {
 	$.ajax({
@@ -41,41 +43,108 @@ function getNoticeArticle() {
 	});
 }
 
+
+// 프로필 이미지 초기화
+function resetProfileImage(){
+	$("#input_profile_image").val("");
+	$("#imagePreview").attr("src", "");
+}
+
+
+// 이미지 업데이트
+function doUpdateProfileImage(form) {
+	event.preventDefault();	// submit 막기
+	
+	if(!confirm('프로필 이미지를 변경하시겠습니까?')) {
+		alertMsg('프로필 이미지 변경을 취소합니다.', 'default');
+		return false;
+	} 
+	
+	let formData = new FormData(form);							// 폼 데이터 객체 생성
+	formData.append('memberId', loginedMemberId)
+	let imageFiles = form[0].files;								// 파일 추출
+	if (imageFiles.length > 0) formData.append('profileImage', imageFiles);	// 파일이 있으면 데이터 추가
+	
+	$.ajax({
+		url: '/adm/member/profileImage/doUpdate',
+	    method: 'POST',
+	    data: formData,
+	    contentType: false,
+	    processData: false,
+	    dataType: 'json',
+	    success: function(data) {
+	    	alertMsg(data.msg + '<br /><span class="text-xs">* 재로그인 후 프로필 이미지가 적용됩니다.</span>', data.success ? 'success' : 'warning');
+		},
+	      	error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		},
+	});
+}
+
 $(function(){
 	getNoticeArticle();
+	
+	calendar.setOptions({
+		isReadOnly: true,
+		useDetailPopup: false,
+		month: {
+	    	isAlways6Weeks: false,
+	  	},
+	});
+	
+	// 메인 아바타 업데이트 버튼 표시 토글 효과
+	$(".main-avatar").on({
+		mouseenter: () => {  $(this).find('.update-profile').fadeIn(200) },
+	    mouseleave: () => { $(this).find('.update-profile').fadeOut(200) }
+	});
+	
+	// 프로필 이미지 수정
+	$("#input_profile_image").change(function(){
+		let imageFiles = $(this)[0].files;
+		if (imageFiles.length > 0) {
+	        const imageURL = URL.createObjectURL(imageFiles[0]);
+	        $("#imagePreview").attr("src", imageURL);
+	    }
+	})
 })
 </script>
 
 <div class="grid grid-cols-3 grid-rows-3 p-4 gap-4 h-full">
 	<div class="border-2 rounded-lg col-start-1 col-end-3 row-start-1 row-end-3 p-1 relative overflow-scroll">
-		<div id="pieChart" class="w-full h-full"></div>
-		<div class="absolute bottom-2 right-2 text-xs text-blue-600">* 10분마다 자동으로 갱신됨</div>
+		<!-- <div id="pieChart" class="w-full h-full"></div>
+		<div class="absolute bottom-2 right-2 text-xs text-blue-600">* 10분마다 자동으로 갱신됨</div> -->
+		<div id="calendar" class="h-full"></div>
 	</div>
 
-	<div class="border-2 rounded-lg">
-		<div class="font-bold flex items-center justify-between px-3">
-			<div>날짜</div>
-			<div><i class="fa-solid fa-plus"></i></div>
-		</div>
-		<div>
-			<ul>
-				<li><a href="">1</a></li>
-				<li><a href="">2</a></li>
-				<li><a href="">3</a></li>
-				<li><a href="">4</a></li>
-			</ul>
-		</div>
-	</div>
-	
-	<div class="border-2 rounded-lg">
-		<div>신고 접수 내역</div>
-		<div>
-			<ul>
-				<li><a href="">1</a></li>
-				<li><a href="">2</a></li>
-				<li><a href="">3</a></li>
-				<li><a href="">4</a></li>
-			</ul>
+	<div class="border-2 rounded-lg row-start-1 row-end-3">
+		<div class="card w-full h-full">
+			<figure class="px-10 pt-10 pb-2">
+				<div class="avatar rounded-full overflow-hidden main-avatar ring ring-offset-2">
+					<div class="w-36">
+						<c:if test="${rq.loginedMemberProfileImage == null}">
+							<div class="w-full h-full pointer-events-none flex justify-center items-center text-center font-Jalnan text-sm">이미지 없음</div>
+						</c:if>
+						<c:if test="${rq.loginedMemberProfileImage != null}">
+							<img src="${rq.loginedMemberProfileImage }" />
+						</c:if>
+						
+						<div class="update-profile hidden w-full h-full absolute bottom-0 bg-black bg-opacity-20">
+							<div class="h-4/5"></div>
+							<div class="h-1/5 text-sm text-white text-center bg-black bg-opacity-40 font-Pretendard">
+								<button class="w-full h-full pb-2" onclick="update_profile_image_modal.showModal()">프로필 수정</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</figure>
+			
+			<div class="card-body items-center text-center">
+				<h2 class="card-title">${rq.loginedMemberNickname }</h2>
+				<p>정보 들어가는 곳</p>
+				<div class="card-actions">
+					<button class="btn btn-primary">액션 버튼</button>
+				</div>
+			</div>
 		</div>
 	</div>
 	
@@ -147,3 +216,32 @@ $(function(){
 		</table>
 	</div>
 </div>
+
+<!-- 이미지 수정 모달 -->
+<dialog id="update_profile_image_modal" class="modal">
+		<div class="modal-box">
+			<form method="dialog">
+				<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+			</form>
+			<h3 class="font-bold text-lg">프로필 이미지 변경</h3>
+			<p class="text-xs">* 이미지 변경 후 <b class="text-red-600">재로그인</b> 시 적용됩니다.</p>
+			
+			<div class="text-center">
+				<div class="avatar rounded-full overflow-hidden main-avatar ring ring-offset-2 my-8">
+					<div class="w-36">
+						<img id="imagePreview" src="${rq.loginedMemberProfileImage }" />
+					</div>
+				</div>
+			</div>
+			
+			<form onsubmit="doUpdateProfileImage(this)" enctype="multipart/form-data">
+				<div class="flex items-center gap-2">
+					<input type="file" id="input_profile_image" name="profileImage" class="file-input file-input-sm file-input-bordered w-full" accept="image/gif, image/jpeg, image/png" autocomplete="off" />
+					<button type="button" class="btn btn-circle btn-sm" onclick="resetProfileImage()"><i class="fa-solid fa-rotate-right"></i></button>
+				</div>
+				<div class="text-right mt-4">
+					<button class="btn btn-sm">변경</button>
+				</div>
+			</form>
+		</div>
+</dialog>

@@ -96,4 +96,9 @@ public class MemberService {
 	public List<MemberStatus> getStatus() {
 		return memberDao.getStatus();
 	}
+	
+	// 프로필 이미지 변경
+	public void updateProfileImage(int id, String imagePath) {
+		memberDao.updateProfileImage(id, imagePath);
+	}
 }

@@ -1,5 +1,6 @@
 package com.JSH.Meow.controller;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.JSH.Meow.service.CompanionCatService;
 import com.JSH.Meow.service.EmailService;
@@ -158,4 +160,42 @@ public class AdmMemberController {
 		
 		return ResultData.from("S-1", "성공", members);
 	}
+	
+	// 프로필 이미지 변경, ajax
+	@RequestMapping("/adm/member/profileImage/doUpdate")
+	@ResponseBody
+	public ResultData doUpdateProfileImage(int memberId, @RequestParam MultipartFile[] profileImage) throws NoSuchAlgorithmException, IOException {
+		
+		// 본인 확인
+		if(memberId != rq.getLoginedMemberId()) {
+			return ResultData.from("F-1", "변경 권한이 없습니다."); 
+		}
+		
+		// 이미지
+		Member member = memberService.getMemberById(memberId);
+		String imagePath = member.getProfileImage();
+		
+		for(MultipartFile image: profileImage) {
+			// 이미지 확장자 확인, jpg, jpeg, png, gif 가능
+			boolean isImageTypeSupported = uploadService.isImageTypeValid(image);
+			
+			if(isImageTypeSupported) {
+				// 업로드된 기존 이미지를 삭제
+				if(!Util.isEmpty(imagePath)) {			
+					uploadService.deleteProfileImage(imagePath);
+				}
+				
+				// 이미지 업로드
+				uploadService.uploadFile(image, "member");
+				imagePath = uploadService.getProfileImagePath("member");
+				break;
+			}
+		}
+		
+		// 프로필 이미지 변경
+		memberService.updateProfileImage(memberId, imagePath);
+		
+		return ResultData.from("S-1", "프로필 이미지가 변경되었습니다.");
+	}
+		
 }

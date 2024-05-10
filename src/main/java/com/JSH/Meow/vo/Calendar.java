@@ -20,4 +20,12 @@ public class Calendar {
     private String location;
     private String state;
     private boolean isPrivate;
+    
+    public String getStateName() {
+    	switch(this.state) {
+    		case "Busy": return "바쁨";
+    		case "Free": return "자유";    		
+    	}
+    	return this.state;
+    }
 }
