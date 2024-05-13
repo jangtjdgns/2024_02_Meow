@@ -191,7 +191,7 @@
 								<%-- <input class="join-item btn btn-outline [min-height:1rem] [height:1.2rem] [padding-left:.5rem]" type="radio" name="options" ${i == 1 ? 'checked' : '' }/> --%>
 								<div class="join absolute left-1/2 -translate-x-1/2 bottom-4">
 									<c:forEach var="i" begin="1" end="${companionCats.size() }" step="1">
-										<input class="carouselRadio radio radio-info mx-1 glass" type="radio" name="options" ${i == 1 ? 'checked' : '' }/>
+										<input class="carouselRadio radio radio-info mx-1 glass" type="radio" name="options" data-idx="${i - 1}" ${i == 1 ? 'checked' : '' }/>
 									</c:forEach>
 								</div>
 							</c:if>

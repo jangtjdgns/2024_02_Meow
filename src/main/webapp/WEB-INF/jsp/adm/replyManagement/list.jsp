@@ -61,7 +61,6 @@
 	
 	// 댓글 정보 가져오기
 	function admGetReply(replyId) {
-		console.log(replyId)
 		$.ajax({
 			url: '/adm/reply/detail',
 		    method: 'GET',
@@ -262,8 +261,8 @@
 		
 		<!-- 컨테이너 아이템 -->
 		<div class="absolute left-1/2 -translate-x-1/2 bottom-2 hidden chart-radio">
-			<input class="carouselRadio radio radio-xs radio-info" type="radio" name="options" />
-			<input class="carouselRadio radio radio-xs radio-info" type="radio" name="options" />
+			<input class="carouselRadio radio radio-xs radio-info" type="radio" data-idx="0" name="carouselRadio" />
+			<input class="carouselRadio radio radio-xs radio-info" type="radio" data-idx="1" name="carouselRadio" />
 		</div>
 	</div>
 

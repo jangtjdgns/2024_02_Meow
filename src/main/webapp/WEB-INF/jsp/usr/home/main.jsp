@@ -13,16 +13,80 @@
 	<script type="text/javascript" src="/js/map/UsrShowMap.js"></script>
 	<script src="/js/common/carousel.js"></script>
 </c:if>
-<!-- <script>
+<script>
+	function carouselPlay() {
+		playCarousel($(".carousel-item").length, true, $('.carousel').width(), 7000);
+	}
+	
+	$(function(){
+		carouselPlay();
+		$(window).resize(() => carouselPlay());
+	})
+	
 	//메인페이지에만 효과 적용
+	/* 
 	if (window.location.pathname === '/usr/home/main') {
 		$("body").prepend(`<div class="h-10 border-b" style="background-color: #EEEDEB;"></div>`);
 		$("body").css('overflow-y', 'hidden');
-	}
-</script> -->
+	} 
+	*/
+</script>
 
 <section class="mw b-mh">
-	<div class="w-full h-[65vh] bg-[lightslategray]"></div>
+	<div class="w-full h-[65vh] bg-[lightslategray] relative">
+		<!-- Meow 소개 -->
+		<!-- 인기게시글 -->
+		<div class="absolute w-full h-full">
+			<div class="carousel w-full h-full">
+				<div class="carousel-item w-full">
+					<div class="w-3/5 h-full border mx-auto">
+					</div>
+				</div>
+				
+		    	<div class="carousel-item w-full text-white text-9xl">2</div>
+		    	
+		    	<div class="carousel-item w-full text-white text-9xl">3</div>
+		    	
+		    	<div class="carousel-item w-full text-white text-9xl">4</div>
+		    	
+		    	<div class="carousel-item w-full text-white text-9xl">5</div>
+			</div>
+		</div>
+		
+		<!-- 캐러셀 시작, 정지 버튼 -->
+		<div class="absolute top-2 left-2">
+			<label id="carousel-play" class="carousel-playStop btn btn-sm w-8" onclick="carouselPlay()"><i class="fa-solid fa-play"></i>
+				<input class="hidden" type="radio" name="carouselPlay" autocomplete="off" />
+			</label>
+			<label id="carousel-stop" class="carousel-playStop btn btn-sm w-8" onclick="stopCarousel()"><i class="fa-solid fa-pause"></i>
+				<input class="hidden" type="radio" name="carouselPlay" checked autocomplete="off" />
+			</label>
+		</div>
+		
+		<!-- 캐러셀 이전, 다음 버튼 -->
+		<div class="absolute flex justify-between transform -translate-y-1/2 inset-x-[10%] top-1/2">
+	      	<div class="carouselMoveBtn btn btn-lg btn-circle bg-opacity-20 border-0"><i class="fa-solid fa-lg fa-angle-left"></i></div>
+	      	<div class="carouselMoveBtn btn btn-lg btn-circle bg-opacity-20 border-0"><i class="fa-solid fa-lg fa-angle-right"></i></div>
+	    </div>
+		
+		<!-- 캐러셀 라디오 버튼 -->
+		<div class="absolute left-1/2 -translate-x-1/2 bottom-2">
+			<input id="cr-01" class="carouselRadio hidden peer/cr-01" type="radio" name="carouselRadio" data-idx="0" checked autocomplete="off" />
+			<label for="cr-01" class="inline-block h-1 px-2 bg-blue-50 cursor-pointer peer-checked/cr-01:bg-sky-500"></label>
+			
+			<input id="cr-02" class="carouselRadio hidden peer/cr-02" type="radio" name="carouselRadio" data-idx="1" autocomplete="off" />
+			<label for="cr-02" class="inline-block h-1 px-2 bg-blue-50 cursor-pointer peer-checked/cr-02:bg-sky-500"></label>
+			
+			<input id="cr-03" class="carouselRadio hidden peer/cr-03" type="radio" name="carouselRadio" data-idx="2" autocomplete="off" />
+			<label for="cr-03" class="inline-block h-1 px-2 bg-blue-50 cursor-pointer peer-checked/cr-03:bg-sky-500"></label>
+			
+			<input id="cr-04" class="carouselRadio hidden peer/cr-04" type="radio" name="carouselRadio" data-idx="3" autocomplete="off" />
+			<label for="cr-04" class="inline-block h-1 px-2 bg-blue-50 cursor-pointer peer-checked/cr-04:bg-sky-500"></label>
+			
+			<input id="cr-05" class="carouselRadio hidden peer/cr-05" type="radio" name="carouselRadio" data-idx="4" autocomplete="off" />
+			<label for="cr-05" class="inline-block h-1 px-2 bg-blue-50 cursor-pointer peer-checked/cr-05:bg-sky-500"></label>
+		</div>
+	</div>
 </section>
 
 <section class="mw mb-40 text-center">
@@ -36,7 +100,7 @@
 	</div>
 </section>
 
-<section class="mw">
+<section class="mw mb-60">
 	<div class="relative overflow-hidden flex justify-center pl-52">
 		<c:if test="${rq.loginedMemberId != 0 }">
 			<div id="map" class="shadow w-[80%] h-[550px] rounded-box">
@@ -72,4 +136,5 @@
 	</div>
 </section>
 
+<%@ include file="../common/scrollButtons.jsp"%>
 <%@ include file="../common/footer.jsp"%>

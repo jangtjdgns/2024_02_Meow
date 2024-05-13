@@ -45,7 +45,7 @@ $(function(){
 	});
 	
 	// 캐러셀 자동 움직임 함수(carousel.js)
-	carouselMoveAuto($(".carousel-item").length, false, 24, 10000);
+	playCarousel($(".carousel-item").length, false, 24, 10000);
 })
 
 </script>
