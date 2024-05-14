@@ -73,4 +73,9 @@ public class ArticleService {
 	public List<Interval> getArticleFreq(int memberId, String interval, int intervalFreq, int barCnt) {
 		return articleDao.getArticleFreq(memberId, interval, intervalFreq, barCnt);
 	}
+
+	// 최신 게시글 가져오기, 개수 지정
+	public List<Article> getLatestArticles(int count) {
+		return articleDao.getLatestArticles(count);
+	}
 }

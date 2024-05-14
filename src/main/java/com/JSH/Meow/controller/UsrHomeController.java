@@ -1,26 +1,32 @@
 package com.JSH.Meow.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.JSH.Meow.config.component.KakaoComponent;
+import com.JSH.Meow.service.ArticleService;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.util.Util;
+import com.JSH.Meow.vo.Article;
 import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.Rq;
 
 @Controller
-public class HomeController {
+public class UsrHomeController {
 	
 	private MemberService memberService;
 	private KakaoComponent kakaoComponent;
+	private ArticleService articleService;
 	private Rq rq;
 	
-	public HomeController(MemberService memberService, KakaoComponent kakaoComponent, Rq rq) {
+	public UsrHomeController(MemberService memberService, KakaoComponent kakaoComponent, ArticleService articleService, Rq rq) {
 		this.memberService = memberService;
 		this.kakaoComponent = kakaoComponent;
+		this.articleService = articleService;
 		this.rq = rq;
 	}
 	
@@ -35,8 +41,12 @@ public class HomeController {
 	        memberAddress = Util.convertAddressJsonToString(member.getAddress());
 		}
 		
+		// 배너에 표시할 최신 게시글 3개 가져오기
+		List<Article> articles = articleService.getLatestArticles(3);
+		
 		model.addAttribute("memberAddress", memberAddress);
 		model.addAttribute("javascriptKey", kakaoComponent.getJavascriptKey());		// 앱키 js
+		model.addAttribute("articles", articles);
 		
 		return "usr/home/main";
 	}

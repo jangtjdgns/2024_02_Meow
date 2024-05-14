@@ -32,7 +32,6 @@ $(function(){
 		curIdx = parseInt($(this).data('idx'));
 		carouselWidth = $('.carousel').width();
 		const move = curIdx * carouselWidth;
-		console.log(curIdx);
 		carouselMove(curIdx, move);
 	})
 	

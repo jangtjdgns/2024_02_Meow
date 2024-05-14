@@ -34,12 +34,24 @@
 
 <section class="mw b-mh">
 	<div class="w-full h-[65vh] bg-[lightslategray] relative">
-		<!-- Meow 소개 -->
-		<!-- 인기게시글 -->
 		<div class="absolute w-full h-full">
 			<div class="carousel w-full h-full">
+				<!-- Meow 소개 -->
+				<!-- 최신 게시글 -->
 				<div class="carousel-item w-full">
-					<div class="w-3/5 h-full border mx-auto">
+					<div class="w-3/5 h-full mx-auto py-2 grid grid-cols-2">
+						<div class="border text-center grid" style="grid-template-rows: 20% 1fr 20%">
+							<div class="self-center">
+								<c:out value="${articles[0].title}"/><br />
+								<span class="badge badge-ghost"><c:out value="${articles[0].boardName}"/></span>
+							</div>
+							<div><c:out value="${articles[0].body}"/></div>
+							<div><c:out value="${articles[0].regDate}"/></div>
+						</div>
+						<div class="grid grid-rows-2">
+							<div class="border"><c:out value="${articles[1].title}"/></div>
+							<div class="border"><c:out value="${articles[2].title}"/></div>
+						</div>
 					</div>
 				</div>
 				
@@ -53,12 +65,12 @@
 			</div>
 		</div>
 		
-		<!-- 캐러셀 시작, 정지 버튼 -->
-		<div class="absolute top-2 left-2">
-			<label id="carousel-play" class="carousel-playStop btn btn-sm w-8" onclick="carouselPlay()"><i class="fa-solid fa-play"></i>
+		<!-- 캐러셀 자동 스크롤 시작, 정지 버튼 -->
+		<div class="absolute top-2 right-2 bg-white bg-opacity-10 scale-50 p-1 rounded-lg">
+			<label id="carousel-play" class="carousel-playStop btn btn-sm btn-ghost w-8" onclick="carouselPlay()"><i class="fa-solid fa-play" style="color: #ffffff;"></i>
 				<input class="hidden" type="radio" name="carouselPlay" autocomplete="off" />
 			</label>
-			<label id="carousel-stop" class="carousel-playStop btn btn-sm w-8" onclick="stopCarousel()"><i class="fa-solid fa-pause"></i>
+			<label id="carousel-stop" class="carousel-playStop btn btn-sm btn-ghost w-8" onclick="stopCarousel()"><i class="fa-solid fa-pause" style="color: #ffffff;"></i>
 				<input class="hidden" type="radio" name="carouselPlay" checked autocomplete="off" />
 			</label>
 		</div>

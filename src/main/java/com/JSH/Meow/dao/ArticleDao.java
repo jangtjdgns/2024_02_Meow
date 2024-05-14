@@ -278,5 +278,15 @@ public interface ArticleDao {
 				</script>
 			""")
 	public List<Interval> getArticleFreq(int memberId, String interval, int intervalFreq, int barCnt);
+	
+	@Select("""
+			SELECT A.*, B.name boardName
+			FROM article A
+			LEFT JOIN board B
+			ON A.boardId = B.id
+			ORDER BY A.id DESC
+			LIMIT #{count};
+			""")
+	public List<Article> getLatestArticles(int count);
 
 }
