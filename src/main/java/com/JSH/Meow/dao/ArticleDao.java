@@ -53,7 +53,7 @@ public interface ArticleDao {
 				</if>
 				GROUP BY A.id
 				ORDER BY A.id DESC
-				LIMIT ${limitFrom}, ${itemsInAPage};
+				LIMIT ${limitFrom}, ${itemsInAPage}
 			</script>
 			""")
 	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage, int searchType, String searchKeyword);
@@ -171,7 +171,7 @@ public interface ArticleDao {
 	public void doModify(int id, String title, String body);
 
 	@Select("""
-			SELECT LAST_INSERT_ID();
+			SELECT LAST_INSERT_ID()
 			""")
 	public int getLastInsertId();
 
@@ -239,7 +239,7 @@ public interface ArticleDao {
 			    AND A.regDate >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
 			GROUP BY A.id
 			ORDER BY reactionLikeCnt DESC, A.id DESC
-			LIMIT 6;
+			LIMIT 6
 			""")
 	public List<Article> getHotArticles();
 	
@@ -252,7 +252,7 @@ public interface ArticleDao {
 			    ON A.memberId = M.id
 			WHERE boardId = 2
 			ORDER BY id DESC
-			LIMIT 5;
+			LIMIT 5
 			""")
 	public List<Article> getNoticeArticles();
 	
@@ -280,12 +280,19 @@ public interface ArticleDao {
 	public List<Interval> getArticleFreq(int memberId, String interval, int intervalFreq, int barCnt);
 	
 	@Select("""
-			SELECT A.*, B.name boardName
+			SELECT A.*
+			    , B.name boardName
+			    , IFNULL(SUM(R.point), 0) reactionLikeCnt
 			FROM article A
 			LEFT JOIN board B
-			ON A.boardId = B.id
+			    ON A.boardId = B.id
+			LEFT JOIN reaction R
+			    ON A.id = R.relId
+			    AND relTypeCode = 'article'
+			    AND reactionType = 0
+			GROUP BY A.id
 			ORDER BY A.id DESC
-			LIMIT #{count};
+			LIMIT #{count}
 			""")
 	public List<Article> getLatestArticles(int count);
 

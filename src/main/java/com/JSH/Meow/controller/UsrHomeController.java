@@ -41,8 +41,8 @@ public class UsrHomeController {
 	        memberAddress = Util.convertAddressJsonToString(member.getAddress());
 		}
 		
-		// 배너에 표시할 최신 게시글 3개 가져오기
-		List<Article> articles = articleService.getLatestArticles(3);
+		// 배너에 표시할 최신 게시글 4개 가져오기
+		List<Article> articles = articleService.getLatestArticles(4);
 		
 		model.addAttribute("memberAddress", memberAddress);
 		model.addAttribute("javascriptKey", kakaoComponent.getJavascriptKey());		// 앱키 js

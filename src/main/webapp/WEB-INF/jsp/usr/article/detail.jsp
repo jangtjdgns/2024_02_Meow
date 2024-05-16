@@ -222,128 +222,129 @@
 	})
 </script>
 
-<section class="mw b-mh relative">
-	<div class="border w-full [height:480px] absolute top-0 z-10">
-		<img src="https://img.freepik.com/free-vector/cats-doodle-pattern-background_53876-100663.jpg?w=900&t=st=1710412076~exp=1710412676~hmac=a3b9244e4cb10307314db65461bb7052aa5e39285a4ff512399bfca4beb1a042" class="w-full h-full object-cover">
-	</div>
-	
-	<div class="mx-auto max-w-4xl w-full bg-white p-14 absolute top-20 left-1/2 z-20 -translate-x-1/2 bg-opacity-95 rounded">
-		<div class="pb-2 flex items-center justify-between">
-			<div class="boardName"><a href="list?boardId=${article.boardId }" class="text-blue-600 hover:font-bold">${board.name }</a></div>
-			<div class="text-sm flex justify-between gap-2">
-				<div class="flex gap-2">
-					<!-- 게시글 작성자 -->
-					<div>
-						<span class="text-xs"><i class="fa-regular fa-user"></i></span>
-						<div class="dropdown dropdown-right">
-						  	<div tabindex="0" role="button"><span class="text-gray-600 font-bold">${article.writerName }</span></div>
-						  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 border shadow-lg bg-base-100 rounded-box w-32">
-								<li><a href="../member/profile?memberId=${article.memberId }">프로필 보기</a></li>
-								<c:if test="${rq.loginedMemberId != article.memberId }">
-									<li><button onclick="sendRequest(${article.memberId }, 'friend')">친구추가</button></li>
-									<li><button onclick="openPop(${rq.loginedMemberId }, ${article.memberId });">채팅</button></li>
-									<li><button onclick="showReportModal('member', ${article.memberId }, 0)">신고</button></li>
-								</c:if>
-							</ul>
-						</div>
-					</div>
-					
-					<!-- 게시글 작성일 -->
-					<div class="px-2">
-						<span class="text-xs"><i class="fa-regular fa-clock"></i></span>
-						<span class="text-gray-600">${article.regDate }</span>
-					</div>
-					
-					<!-- 게시글 댓글수 -->
-					<div>
-						<span class="text-xs"><i class="fa-regular fa-comment-dots"></i></span>
-						<span class="text-gray-600 replyCnt">${article.replyCnt }</span>
-					</div>
-					
-					<!-- 게시글 좋아요수 -->
-					<div>
-						<span class="text-xs"><i class="fa-regular fa-thumbs-up"></i></span>
-						<span class="text-gray-600 reactionLikeCnt">${article.reactionLikeCnt }</span>
-					</div>
-					
-					<!-- 게시글 조회수 -->
-					<div>
-						<span class="text-xs"><i class="fa-regular fa-eye"></i></span>
-						<span class="text-gray-600">${article.hitCnt }</span>
-					</div>
-				</div>
-				
-				<div>
-					<c:if test="${rq.loginedMemberId == article.memberId }">
-						<div class="dropdown dropdown-bottom dropdown-end">
-							<div tabindex="0" role="button" class="btn btn-xs btn-ghost btn-circle">
-								<i class="fa-solid fa-gear text-gray-700"></i>
+<section class="mw b-mh">
+	<div class="relative h-full">
+		<div class="border w-full [height:480px] absolute top-0 z-10">
+			<img src="https://img.freepik.com/free-vector/cats-doodle-pattern-background_53876-100663.jpg?w=900&t=st=1710412076~exp=1710412676~hmac=a3b9244e4cb10307314db65461bb7052aa5e39285a4ff512399bfca4beb1a042" class="w-full h-full object-cover">
+		</div>
+		
+		<div class="mx-auto max-w-4xl w-full bg-white p-14 absolute top-20 left-1/2 z-20 -translate-x-1/2 bg-opacity-95 rounded">
+			<div class="pb-2 flex items-center justify-between">
+				<div class="boardName"><a href="list?boardId=${article.boardId }" class="text-blue-600 hover:font-bold">${board.name }</a></div>
+				<div class="text-sm flex justify-between gap-2">
+					<div class="flex gap-2">
+						<!-- 게시글 작성자 -->
+						<div>
+							<span class="text-xs"><i class="fa-regular fa-user"></i></span>
+							<div class="dropdown dropdown-right">
+							  	<div tabindex="0" role="button"><span class="text-gray-600 font-bold">${article.writerName }</span></div>
+							  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 border shadow-lg bg-base-100 rounded-box w-32">
+									<li><a href="../member/profile?memberId=${article.memberId }">프로필 보기</a></li>
+									<c:if test="${rq.loginedMemberId != article.memberId }">
+										<li><button onclick="sendRequest(${article.memberId }, 'friend')">친구추가</button></li>
+										<li><button onclick="openPop(${rq.loginedMemberId }, ${article.memberId });">채팅</button></li>
+										<li><button onclick="showReportModal('member', ${article.memberId }, 0)">신고</button></li>
+									</c:if>
+								</ul>
 							</div>
-							<ul tabindex="0" class="menu dropdown-content z-[1] p-2 [flex-direction:row] flex-nowrap items-center gap-1 mt-1 p-1 shadow rounded-xl bg-white">
-								<li>
-									<a href="modify?id=${article.id }&boardId=${article.boardId }" class="btn btn-sm btn-ghost w-8 text-green-600">
-										<i class="fa-regular fa-pen-to-square"></i>
-									</a>
-								</li>
-								<li>
-									<a href="doDelete?id=${article.id }" class="btn btn-sm btn-ghost w-8 text-red-600" onclick="if(!confirm('정말 삭제하시겠습니까?')) return false;">
-										<i class="fa-regular fa-trash-can"></i>
-									</a>
-								</li>
-							</ul>
 						</div>
-					</c:if>
+						
+						<!-- 게시글 작성일 -->
+						<div class="px-2">
+							<span class="text-xs"><i class="fa-regular fa-clock"></i></span>
+							<span class="text-gray-600">${article.regDate }</span>
+						</div>
+						
+						<!-- 게시글 댓글수 -->
+						<div>
+							<span class="text-xs"><i class="fa-regular fa-comment-dots"></i></span>
+							<span class="text-gray-600 replyCnt">${article.replyCnt }</span>
+						</div>
+						
+						<!-- 게시글 좋아요수 -->
+						<div>
+							<span class="text-xs"><i class="fa-regular fa-thumbs-up"></i></span>
+							<span class="text-gray-600 reactionLikeCnt">${article.reactionLikeCnt }</span>
+						</div>
+						
+						<!-- 게시글 조회수 -->
+						<div>
+							<span class="text-xs"><i class="fa-regular fa-eye"></i></span>
+							<span class="text-gray-600">${article.hitCnt }</span>
+						</div>
+					</div>
+					
+					<div>
+						<c:if test="${rq.loginedMemberId == article.memberId }">
+							<div class="dropdown dropdown-bottom dropdown-end">
+								<div tabindex="0" role="button" class="btn btn-xs btn-ghost btn-circle">
+									<i class="fa-solid fa-gear text-gray-700"></i>
+								</div>
+								<ul tabindex="0" class="menu dropdown-content z-[1] p-2 [flex-direction:row] flex-nowrap items-center gap-1 mt-1 p-1 shadow rounded-xl bg-white">
+									<li>
+										<a href="modify?id=${article.id }&boardId=${article.boardId }" class="btn btn-sm btn-ghost w-8 text-green-600">
+											<i class="fa-regular fa-pen-to-square"></i>
+										</a>
+									</li>
+									<li>
+										<a href="doDelete?id=${article.id }" class="btn btn-sm btn-ghost w-8 text-red-600" onclick="if(!confirm('정말 삭제하시겠습니까?')) return false;">
+											<i class="fa-regular fa-trash-can"></i>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</c:if>
+					</div>
 				</div>
 			</div>
-		</div>
-		
-		<!-- 게시글 제목, 내용 -->
-		<div>
-			<div class="text-3xl font-LINESeed pb-5">${article.title }</div>
-			<textarea id="body" class="hidden">${article.body}</textarea>
-			<div id="viewer" class="[min-height:30vh] mb-5"></div>
-		</div>
-		
-		<!-- 게시글 좋아요 & 싫어요 -->
-		<div class="flex justify-center gap-2">
-			<button id="reactionLikeBtn-article-${article.id }" class="btn [min-width:7rem] reactionBtn-article-${article.id }" onclick="doReaction('article', 0, ${article.id})" ${rq.loginedMemberId != 0 ? '' : 'disabled'}>
-				<i class="fa-solid fa-thumbs-up"></i> <span class="reactionCount-article"></span>
-			</button>
 			
-			<button id="reactionDislikeBtn-article-${article.id }" class="btn [min-width:7rem] reactionBtn-article-${article.id }" onclick="doReaction('article', 1, ${article.id})" ${rq.loginedMemberId != 0 ? '' : 'disabled'}>
-				<i class="fa-solid fa-thumbs-down"></i> <span class="reactionCount-article"></span>
-			</button>
-		</div>
-		
-		<!-- 댓글 -->
-		<div class="w-full pt-4">
-			<div class="border-b-2 pb-4">
-				<div class="flex items-end justify-between pb-2">
-					<div>댓글 (<span class="replyCnt">${article.replyCnt }</span>)</div>
-					<div>
-						<button class="btn btn-xs btn-error rounded-none text-white" onclick="showReportModal('article', ${article.id }, 0)">신고</button>
-						<a href="list" class="btn btn-xs btn-neutral rounded-none">목록</a>
-						<button class="btn btn-xs btn-neutral rounded-none" onclick="history.back();">뒤로가기</button>
+			<!-- 게시글 제목, 내용 -->
+			<div>
+				<div class="text-3xl font-LINESeed pb-5">${article.title }</div>
+				<textarea id="body" class="hidden">${article.body}</textarea>
+				<div id="viewer" class="[min-height:30vh] mb-5"></div>
+			</div>
+			
+			<!-- 게시글 좋아요 & 싫어요 -->
+			<div class="flex justify-center gap-2">
+				<button id="reactionLikeBtn-article-${article.id }" class="btn [min-width:7rem] reactionBtn-article-${article.id }" onclick="doReaction('article', 0, ${article.id})" ${rq.loginedMemberId != 0 ? '' : 'disabled'}>
+					<i class="fa-solid fa-thumbs-up"></i> <span class="reactionCount-article"></span>
+				</button>
+				
+				<button id="reactionDislikeBtn-article-${article.id }" class="btn [min-width:7rem] reactionBtn-article-${article.id }" onclick="doReaction('article', 1, ${article.id})" ${rq.loginedMemberId != 0 ? '' : 'disabled'}>
+					<i class="fa-solid fa-thumbs-down"></i> <span class="reactionCount-article"></span>
+				</button>
+			</div>
+			
+			<!-- 댓글 -->
+			<div class="w-full pt-4">
+				<div class="border-b-2 pb-4">
+					<div class="flex items-end justify-between pb-2">
+						<div>댓글 (<span class="replyCnt">${article.replyCnt }</span>)</div>
+						<div>
+							<button class="btn btn-xs btn-error rounded-none text-white" onclick="showReportModal('article', ${article.id }, 0)">신고</button>
+							<a href="list" class="btn btn-xs btn-neutral rounded-none">목록</a>
+							<button class="btn btn-xs btn-neutral rounded-none" onclick="history.back();">뒤로가기</button>
+						</div>
 					</div>
+					
+					<!-- 댓글 입력 form -->
+					<form action="../reply/doWrite" onsubmit="replyFormOnSubmit(this); return false;">
+						<input type="hidden" id="articleId" name="relId" value="${article.id }"/>
+						<input type="hidden" name="relTypeCode" value="article"/>
+						<input type="hidden" id="boardId" name="boardId" value="${article.boardId }" />
+						<textarea name="body" id="replyInput" class="textarea textarea-bordered w-full h-24 resize-none" placeholder="댓글을 입력해주세요." ${rq.loginedMemberId == 0 ? "disabled" : "" } ></textarea>
+						<div class="flex justify-end pt-2">
+							<button class="btn btn-sm w-20" ${rq.loginedMemberId == 0 ? "disabled" : "" }>작성</button>
+						</div>
+					</form>
 				</div>
 				
-				<!-- 댓글 입력 form -->
-				<form action="../reply/doWrite" onsubmit="replyFormOnSubmit(this); return false;">
-					<input type="hidden" id="articleId" name="relId" value="${article.id }"/>
-					<input type="hidden" name="relTypeCode" value="article"/>
-					<input type="hidden" id="boardId" name="boardId" value="${article.boardId }" />
-					<textarea name="body" id="replyInput" class="textarea textarea-bordered w-full h-24 resize-none" placeholder="댓글을 입력해주세요." ${rq.loginedMemberId == 0 ? "disabled" : "" } ></textarea>
-					<div class="flex justify-end pt-2">
-						<button class="btn btn-sm w-20" ${rq.loginedMemberId == 0 ? "disabled" : "" }>작성</button>
-					</div>
-				</form>
+				<!-- 댓글들이 표시되는 곳 -->
+				<div id="replies" class="text-sm px-1.5"></div>
 			</div>
-			
-			<!-- 댓글들이 표시되는 곳 -->
-			<div id="replies" class="text-sm px-1.5"></div>
 		</div>
 	</div>
 </section>
 
 <%@ include file="../common/scrollButtons.jsp"%>
-<%@ include file="../common/footer.jsp"%>

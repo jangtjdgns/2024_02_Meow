@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../common/header.jsp"%>
-
+<script src="/js/common/carousel.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${javascriptKey }&libraries=services"></script>
 <!-- 유저의 주소 가져오기, 기본값 대전 둔산동 -->
 <c:if test="${rq.loginedMemberId != 0 }">
@@ -11,7 +11,6 @@
 		const loginedMemberNickname = "${rq.loginedMemberNickname}";
 	</script>
 	<script type="text/javascript" src="/js/map/UsrShowMap.js"></script>
-	<script src="/js/common/carousel.js"></script>
 </c:if>
 <script>
 	function carouselPlay() {
@@ -21,6 +20,20 @@
 	$(function(){
 		carouselPlay();
 		$(window).resize(() => carouselPlay());
+		
+		// 배너 이미지 있는경우 이미지 추출
+		$('.articles-body').each(function(idx, item){
+			const text = $(item).val();
+			const regex = /!\[.*?\]\((.*?\.(?:jpg|jpeg|png|gif))\)/gi;
+			const imageUrl = regex.exec(text)[1];
+			const randomNumber = Math.floor(Math.random() * 6) + 1;
+			
+			if(imageUrl !== null) {
+				$('.bn-article-wrap').eq(idx).css('background-image', `url(\${imageUrl})`);
+			} else {
+				$('.bn-article-wrap').eq(idx).addClass('bg-indigo-200');
+			}
+		})
 	})
 	
 	//메인페이지에만 효과 적용
@@ -39,19 +52,24 @@
 				<!-- Meow 소개 -->
 				<!-- 최신 게시글 -->
 				<div class="carousel-item w-full">
-					<div class="w-3/5 h-full mx-auto py-2 grid grid-cols-2">
-						<div class="border text-center grid" style="grid-template-rows: 20% 1fr 20%">
-							<div class="self-center">
-								<c:out value="${articles[0].title}"/><br />
-								<span class="badge badge-ghost"><c:out value="${articles[0].boardName}"/></span>
-							</div>
-							<div><c:out value="${articles[0].body}"/></div>
-							<div><c:out value="${articles[0].regDate}"/></div>
-						</div>
-						<div class="grid grid-rows-2">
-							<div class="border"><c:out value="${articles[1].title}"/></div>
-							<div class="border"><c:out value="${articles[2].title}"/></div>
-						</div>
+					<div class="w-3/5 h-full mx-auto py-2 grid grid-cols-2 grid-rows-2 gap-0.5 z-10">
+						<c:forEach var="article" items="${articles }" varStatus="status">
+							<a href="../article/detail?boardId=${article.boardId }&id=${article.id }" class="bn-article-wrap" style="background-size: cover;">
+								<div class="bg-black bg-opacity-50 hover:bg-opacity-60 transition-[background-color] duration-[0.4s] text-center text-white h-full grid" style="grid-template-rows: 46px 1fr 46px;">
+									<div class="h-full bg-black bg-opacity-5">
+										<div class="w-[511px] text-xl px-2 truncate">${article.title}</div>
+									</div>
+									
+									<div><input type="hidden" class="articles-body" value="${article.body}" /></div>
+									
+									<div class="bg-black bg-opacity-5 flex gap-3 items-center justify-center text-sm">
+										<span class="badge badge-sm badge-ghost">${article.boardName}</span>
+										<div><i class="fa-solid fa-thumbs-up" style="color: #33a0fb;"></i> ${article.reactionLikeCnt }</div>
+										<div>${article.regDate.substring(2, 10) }</div>
+									</div>
+								</div>
+							</a>
+						</c:forEach>
 					</div>
 				</div>
 				
@@ -82,7 +100,7 @@
 	    </div>
 		
 		<!-- 캐러셀 라디오 버튼 -->
-		<div class="absolute left-1/2 -translate-x-1/2 bottom-2">
+		<div class="absolute left-1/2 -translate-x-1/2 bottom-2 z-20">
 			<input id="cr-01" class="carouselRadio hidden peer/cr-01" type="radio" name="carouselRadio" data-idx="0" checked autocomplete="off" />
 			<label for="cr-01" class="inline-block h-1 px-2 bg-blue-50 cursor-pointer peer-checked/cr-01:bg-sky-500"></label>
 			
