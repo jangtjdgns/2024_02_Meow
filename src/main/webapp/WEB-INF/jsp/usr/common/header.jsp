@@ -282,7 +282,7 @@
 					<ul>
 						<li><a href="../article/list?boardId=2">공지사항</a></li>
 						<li><a href="">갤러리</a></li>
-						<li><a href="">글작성</a></li>
+						<li><a href="../article/write">글작성</a></li>
 					</ul>
 				</li>
 				<!-- <li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line"><a href="">지도</a></li> -->

@@ -255,10 +255,10 @@
 							<span class="text-gray-600">${article.regDate }</span>
 						</div>
 						
-						<!-- 게시글 댓글수 -->
+						<!-- 게시글 조회수 -->
 						<div>
-							<span class="text-xs"><i class="fa-regular fa-comment-dots"></i></span>
-							<span class="text-gray-600 replyCnt">${article.replyCnt }</span>
+							<span class="text-xs"><i class="fa-regular fa-eye"></i></span>
+							<span class="text-gray-600">${article.hitCnt }</span>
 						</div>
 						
 						<!-- 게시글 좋아요수 -->
@@ -267,10 +267,10 @@
 							<span class="text-gray-600 reactionLikeCnt">${article.reactionLikeCnt }</span>
 						</div>
 						
-						<!-- 게시글 조회수 -->
+						<!-- 게시글 댓글수 -->
 						<div>
-							<span class="text-xs"><i class="fa-regular fa-eye"></i></span>
-							<span class="text-gray-600">${article.hitCnt }</span>
+							<span class="text-xs"><i class="fa-regular fa-comment-dots"></i></span>
+							<span class="text-gray-600 replyCnt">${article.replyCnt }</span>
 						</div>
 					</div>
 					

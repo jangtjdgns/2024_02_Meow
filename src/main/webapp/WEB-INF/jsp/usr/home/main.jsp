@@ -14,22 +14,21 @@
 </c:if>
 <script>
 	function carouselPlay() {
-		playCarousel($(".carousel-item").length, true, $('.carousel').width(), 7000);
+		playCarousel($(".carousel-item").length, true, $('.carousel').width(), 10000);
 	}
 	
 	$(function(){
 		carouselPlay();
 		$(window).resize(() => carouselPlay());
 		
-		// 배너 이미지 있는경우 이미지 추출
+		// 배너 이미지 있는경우 이미지 추출후 배경으로 사용
 		$('.articles-body').each(function(idx, item){
 			const text = $(item).val();
 			const regex = /!\[.*?\]\((.*?\.(?:jpg|jpeg|png|gif))\)/gi;
-			const imageUrl = regex.exec(text)[1];
-			const randomNumber = Math.floor(Math.random() * 6) + 1;
+			const imageUrl = regex.exec(text);
 			
 			if(imageUrl !== null) {
-				$('.bn-article-wrap').eq(idx).css('background-image', `url(\${imageUrl})`);
+				$('.bn-article-wrap').eq(idx).css('background-image', `url(\${imageUrl[1]})`);
 			} else {
 				$('.bn-article-wrap').eq(idx).addClass('bg-indigo-200');
 			}
@@ -46,7 +45,7 @@
 </script>
 
 <section class="mw b-mh">
-	<div class="w-full h-[65vh] bg-[lightslategray] relative">
+	<div class="w-full h-[65vh] bg-[slategray] relative">
 		<div class="absolute w-full h-full">
 			<div class="carousel w-full h-full">
 				<!-- Meow 소개 -->
@@ -55,18 +54,18 @@
 					<div class="w-3/5 h-full mx-auto py-2 grid grid-cols-2 grid-rows-2 gap-0.5 z-10">
 						<c:forEach var="article" items="${articles }" varStatus="status">
 							<a href="../article/detail?boardId=${article.boardId }&id=${article.id }" class="bn-article-wrap" style="background-size: cover;">
-								<div class="bg-black bg-opacity-50 hover:bg-opacity-60 transition-[background-color] duration-[0.4s] text-center text-white h-full grid" style="grid-template-rows: 46px 1fr 46px;">
-									<div class="h-full bg-black bg-opacity-5">
-										<div class="w-[511px] text-xl px-2 truncate">${article.title}</div>
+								<div class="bg-black bg-opacity-50 hover:bg-opacity-60 transition-[background-color] duration-[0.4s] text-center text-indigo-100 h-full grid" style="grid-template-rows: 65px 1fr;">
+									<div class="h-full bg-black bg-opacity-5 grid items-center" style="grid-template-rows: 2fr 1fr;">
+										<div class="max-w-[511px] text-lg px-2 truncate">${article.title}</div>
+										<div class="flex gap-2.5 items-center justify-center text-xs pb-2">
+											<span class="badge badge-sm badge-ghost mr-1">${article.boardName}</span>
+											<div><i class="fa-solid fa-comment-dots"></i> ${article.hitCnt }</div>
+											<div><i class="fa-solid fa-thumbs-up"></i> ${article.reactionLikeCnt }</div>
+											<div><i class="fa-solid fa-eye"></i> ${article.hitCnt }</div>
+											<div><i class="fa-solid fa-clock"></i> ${article.regDate.substring(2, 10) }</div>
+										</div>
 									</div>
-									
 									<div><input type="hidden" class="articles-body" value="${article.body}" /></div>
-									
-									<div class="bg-black bg-opacity-5 flex gap-3 items-center justify-center text-sm">
-										<span class="badge badge-sm badge-ghost">${article.boardName}</span>
-										<div><i class="fa-solid fa-thumbs-up" style="color: #33a0fb;"></i> ${article.reactionLikeCnt }</div>
-										<div>${article.regDate.substring(2, 10) }</div>
-									</div>
 								</div>
 							</a>
 						</c:forEach>
