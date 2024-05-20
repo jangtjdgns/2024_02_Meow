@@ -16,7 +16,7 @@ public class NaverComponent {
     @Getter
     private String cliendSecret;
     
-    @Value("${oauth.naver.get-info.url}")
+    @Value("${oauth.naver.get_info.url}")
     @Getter
     private String infoUrl;
 }

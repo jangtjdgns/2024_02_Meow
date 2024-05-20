@@ -105,7 +105,7 @@
 	                
 	                <div class="mt-2 flex justify-between">
 		                <div><a href="login/naver" class="btn naver-login-btn">N</a></div>
-		                <div><a href="login/naver" class="btn naver-login-btn">A</a></div>
+		                <div><a href="login/kakao" class="btn naver-login-btn">K</a></div>
 		                <div><a href="login/naver" class="btn naver-login-btn">V</a></div>
 		                <div><a href="login/naver" class="btn naver-login-btn">E</a></div>
 		                <div><a href="login/naver" class="btn naver-login-btn">R</a></div>
