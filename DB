@@ -40,12 +40,13 @@ CREATE TABLE `member` (
 CREATE TABLE sns_info (
   id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '소셜 로그인 회원번호',
   snsId VARCHAR(255) NOT NULL UNIQUE COMMENT '소셜 로그인 계정 고유ID',
-  snsConnectDate DATETIME NULL COMMENT '첫 소셜 로그인 일',
+  snsConnectDate DATETIME NULL COMMENT '소셜 로그인 첫 연동 일',
   snsType VARCHAR(10) NOT NULL COMMENT 'SNS 타입 (naver, kakao, google)',
-  memberId INT UNSIGNED NOT NULL,
+  memberId INT UNSIGNED NULL,
   `name` VARCHAR(255) NOT NULL COMMENT '소셜 계정 이름',
   mobile VARCHAR(20) NULL COMMENT '소셜 계정 전화번호',
-  email VARCHAR(255) NULL COMMENT '소셜 계정 이메일'
+  email VARCHAR(255) NULL COMMENT '소셜 계정 이메일',
+  profileImage VARCHAR(255) NULL COMMENT 'SNS 프로필사진 파일명'
 );
 
 ### member_deletion_reason 테이블

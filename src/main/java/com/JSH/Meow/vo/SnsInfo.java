@@ -16,4 +16,5 @@ public class SnsInfo {
 	private String name;
 	private String mobile;
 	private String email;
+	private String profileImage;
 }

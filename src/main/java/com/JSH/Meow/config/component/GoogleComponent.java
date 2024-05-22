@@ -10,39 +10,33 @@ import lombok.Getter;
 
 @Component
 @Getter
-public class KakaoComponent {
+public class GoogleComponent {
 
-    @Value("${oauth.kakao.client.appKey.native_app}")
-    private String nativeAppKey;
+    @Value("${oauth.google.client.id}")
+    private String clientId;
 	
-    @Value("${oauth.kakao.client.appKey.rest_api}")
-    private String restApiKey;
-    
-    @Value("${oauth.kakao.client.appKey.javascript}")
-    private String javascriptKey;
-    
-    @Value("${oauth.kakao.client.appKey.admin}")
-    private String adminKey;
-    
-    @Value("${oauth.kakao.client.secret}")
+    @Value("${oauth.google.client.secret}")
     private String clientSecret;
     
-    @Value("${oauth.kakao.uri.authorize}")
+    @Value("${oauth.google.uri.authorize}")
     private String authUri;
     
-    @Value("${oauth.kakao.uri.token}")
+    @Value("${oauth.google.uri.token}")
     private String tokenUri;
     
-    @Value("${oauth.kakao.uri.user_info}")
+    @Value("${oauth.google.uri.user_info}")
     private String userInfoUri;
     
-    @Value("${oauth.kakao.uri.redirect}")
+    @Value("${oauth.google.uri.scope}")
+    private String scope;
+    
+    @Value("${oauth.google.uri.redirect}")
     private String redirectUri;
     
-    @Value("${oauth.kakao.type.response}")
+    @Value("${oauth.google.type.response}")
     private String responseType;
     
-    @Value("${oauth.kakao.type.grant}")
+    @Value("${oauth.google.type.grant}")
     private String grantType;
     
     private String state;

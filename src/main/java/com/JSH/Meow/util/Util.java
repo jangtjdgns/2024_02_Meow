@@ -80,6 +80,13 @@ public class Util {
 		return dateTime.format(outputFormatter);
 	}
 	
+	// 현재시간
+	public static String currentTime() {
+		LocalDateTime currentTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		return currentTime.format(formatter);
+	}
+	
 	// 지도에 마커 표시용
 	public static String convertAddressJsonToString(String address) {
         ObjectMapper objectMapper = new ObjectMapper();
