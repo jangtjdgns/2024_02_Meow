@@ -146,7 +146,7 @@
 	}
 </script>
 
-<div class="border-2 shadow-xl rounded-2xl p-10">
+<div class="bg-white border-2 shadow-xl rounded-2xl p-10">
 	<div class="[max-height:60vh] text-right">
 		<textarea id="input-feedback" class="textarea textarea-bordered resize-none w-full h-20" style="transition: height .2s;" placeholder="고객님의 소중한 의견은 저희에게 큰 도움이 됩니다. 언제든지 편하게 개선사항이나 피드백을 남겨주세요!"></textarea>
 		<button class="btn my-4" onclick="doWriteFeedback()">작성</button>

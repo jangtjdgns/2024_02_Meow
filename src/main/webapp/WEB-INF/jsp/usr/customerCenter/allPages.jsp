@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<div class="border-2 shadow-xl rounded-2xl p-10">
+<div class="bg-white border-2 shadow-xl rounded-2xl p-10">
 	<div class="text-sm py-2"><span class="text-red-700">* </span> 표시는 로그인 후 이용가능한 페이지입니다.</div>
 	<div class="grid grid-cols-3 gap-3">
 		<ul class="menu w-full">

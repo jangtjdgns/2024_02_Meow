@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <!-- Frequently Asked Questions -->
-<div class="border-2 shadow-xl rounded-2xl p-10">
+<div class="bg-white border-2 shadow-xl rounded-2xl p-10">
 	<div class="collapse collapse-arrow border shadow my-4 hover:bg-gray-50">
 	  	<input type="checkbox" /> 
 	  	<div class="collapse-title text-lg font-medium">

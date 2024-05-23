@@ -159,12 +159,11 @@ function getCustomerContent(contentId) {
 				</div>
 				
 				<!-- 부제목 버튼 클릭 시 나타낼 고객센터 컨텐츠 컨테이너 -->
-				<div id="customer-content" class="bg-white absolute top-20 left-0 mx-4 pb-20 [width:calc(100%-2rem)] z-0 opacity-0" style="transition: opacity .4s;"></div>
+				<div id="customer-content" class="bg-opacity-0 absolute top-20 left-0 mx-4 pb-20 [width:calc(100%-2rem)] z-0 opacity-0" style="transition: opacity .4s;"></div>
 			</div>
-			
-<!-- 		<div>asdasd</div> -->
 		</div>
 	</div>
 </section>
-
-<%@ include file="../common/footer.jsp"%>
+</body>
+</html>
+<%-- <%@ include file="../common/footer.jsp"%> --%>
