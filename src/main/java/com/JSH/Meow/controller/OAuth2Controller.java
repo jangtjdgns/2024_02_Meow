@@ -1,6 +1,5 @@
 package com.JSH.Meow.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -9,15 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.JSH.Meow.config.component.GoogleComponent;
-import com.JSH.Meow.config.component.KakaoComponent;
-import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.service.OAuth2Service;
 import com.JSH.Meow.service.SnsInfoService;
 import com.JSH.Meow.util.Util;
-import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.ResultData;
-import com.JSH.Meow.vo.Rq;
 import com.JSH.Meow.vo.SnsInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,26 +20,18 @@ import jakarta.servlet.http.HttpServletRequest;
 public class OAuth2Controller {
 	
 	private OAuth2Service oAuth2Service;
-	private KakaoComponent kakaoComponent;
-	private GoogleComponent googleComponent;
 	private SnsInfoService snsInfoService;
-	private MemberService memberService;
-	private Rq rq;
 	
-	public OAuth2Controller(OAuth2Service oAuth2Service, KakaoComponent kakaoComponent, GoogleComponent googleComponent, SnsInfoService snsInfoService, MemberService memberService, Rq rq){
+	public OAuth2Controller(OAuth2Service oAuth2Service, SnsInfoService snsInfoService){
 		this.oAuth2Service = oAuth2Service;
-		this.kakaoComponent = kakaoComponent;
-		this.googleComponent = googleComponent;
 		this.snsInfoService = snsInfoService;
-		this.memberService = memberService;
-		this.rq = rq;
 	}
 	
 	// sns login 버튼 클릭
 	@RequestMapping("/usr/member/login/{snsType}")
-	public String OAuth2Login(@PathVariable String snsType) throws UnsupportedEncodingException {
+	public String OAuth2Login(@PathVariable String snsType) {
 		
-	    return "redirect:" + oAuth2Service.getAuthUri(snsType);
+	    return "redirect:" + oAuth2Service.getAuthorizeUri(snsType);
 	}
 	
 	// 인터셉터 변경해야함

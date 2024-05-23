@@ -29,7 +29,7 @@ CREATE TABLE `member` (
  	age INT UNSIGNED NOT NULL COMMENT '나이',
  	address TEXT NOT NULL COMMENT '주소, json형태',
  	cellphoneNum VARCHAR(20) NOT NULL COMMENT '전화번호',
-  	email VARCHAR(254) NOT NULL UNIQUE COMMENT '이메일',
+  	email VARCHAR(254) NOT NULL COMMENT '이메일, 원래는 Unique 해야함',
  	`status` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '회원 상태 (활동 = 0, 정지 = 1, 휴면 = 2, 탈퇴 = 3, 강제 탈퇴 = 4)',
   	lastLoginDate DATETIME NULL COMMENT '마지막 로그인 일시',
   	profileImage VARCHAR(255) NOT NULL COMMENT '프로필사진 파일명',

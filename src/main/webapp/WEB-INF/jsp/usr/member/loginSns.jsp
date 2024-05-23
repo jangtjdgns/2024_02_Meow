@@ -17,18 +17,18 @@
     	    },
     	    dataType: 'json',
     	    success: function(data) {
-    	    	console.log(data);
-    	    	// 기록 o
+    	    	
+    	    	// 이전 로그인 기록 있음
     	    	if(data.success) {
     	    		window.location.replace(`/usr/member/doLogin/sns?snsId=\${snsInfo.snsId}`);
     	    	} 
-    	    	// 기록 x
+    	    	// 이전 로그인 기록 없음
     	    	else {
     	    		$('.sns-join-wrap').show('slow');
     	    		$('#snsType').text(snsInfo.snsType);
     	    		$('#name').val(snsInfo.name);
     	    		$('#cellphoneNum').val(snsInfo.mobile);
-    	    		$('#inputEmail').val(snsInfo.email);
+    	    		$('#inputEmail').val(snsInfo.email == 'null' ? '' : snsInfo.email);
     	    		$('#profileImage').val(snsInfo.profileImage);
     	    		$('#imagePreview').attr('src', snsInfo.profileImage);
     	    	}
@@ -38,8 +38,6 @@
     		}
     	});
 	}
-	
-	// 
 	
 	$(function() {
         let snsInfo = JSON.parse($('.snsInfo').text());
@@ -115,15 +113,29 @@
 	        <div class="form-control">
 	            <label class="label">
 	                <span class="label-text">이메일</span>
+	                <div class="label-text text-xs">
+						<div class="dropdown dropdown-end dropdown-top dropdown-hover scale-[0.8] rounded-full">
+							<div tabindex="0" role="button" class="btn btn-sm btn-circle"><i class="fa-solid fa-exclamation"></i></div>
+							<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-64 px-3">
+							    <li>이메일이 등록되어 있지 않은 경우 서비스 이용에 제한이 있을 수 있습니다.</span></li>
+							    <li class="py-2">본인의 SNS에 이메일이 등록된 경우 이메일이 표시됩니다.</li>
+							    <li>이메일 등록을 원하지 않는 경우 하단의 이메일 등록 X를 체크해주세요.</li>
+						  	</ul>
+						</div>
+					</div>
 	            </label>
 		        <input id="inputEmail" name="email" type="email" placeholder="이메일 입력" data-korName="이메일" class="input input-bordered w-full focus:outline-none" readonly />
+		        <label class="label items-center justify-start gap-2">
+		        	<span class="label-text align-center">이메일 등록 X</span>
+		        	<input type="checkbox" class="emailNotReg checkbox"/>
+		        </label>
 	        </div>
 	        
 	        <!-- 프로필 사진 -->
 	        <div class="form-control">
 	            <label class="label">
 	                <span class="label-text">프로필 사진</span>
-	                <span class="label-text"><span class="text-red-700">* </span>SNS 프로필 이미지가 연동됩니다.</span>
+	                <span class="label-text text-xs"><span class="text-red-700">* </span>SNS 프로필 이미지가 연동됩니다.</span>
 	            </label>
 	            <div class="flex items-center gap-2">
 	            	<input type="text" id="profileImage" class="input input-bordered w-full no-validation focus:outline-none" name="profileImage" placeholder="등록된 프로필 이미지가 없습니다." readonly />

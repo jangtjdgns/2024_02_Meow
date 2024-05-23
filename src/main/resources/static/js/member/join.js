@@ -101,6 +101,7 @@ const joinFormOnSubmit = function(form){
 }
 
 // SNS 회원가입 유효성 검사
+let lastFields = 2;	// 마지막 필드 index, 기본 2, 변경 1
 const snsJoinFormOnSubmit = function(form){
 	const formFields = [
 		form.name,
@@ -110,7 +111,7 @@ const snsJoinFormOnSubmit = function(form){
 		form.email
 	];
 	
-	for (let i = 2; i < formFields.length + 2; i++) {
+	for (let i = 2; i < formFields.length + lastFields; i++) {
 	    const field = formFields[i - 2];
 	    
 		// 공백 아님을 검증
@@ -279,6 +280,12 @@ $(function(){
 	$(".dupInput").change(function(){
 		$(this).attr("id") == 'loginId' ? isDupChecked[0] = false : isDupChecked[1] = false;
 	})
+	
+	// emailNotReg 체크박스 변경시,
+	$('.emailNotReg').change(function() {
+		 $(this).is(':checked') ? lastFields = 1 : lastFields = 2;
+		 changeInputBorderColor($('#inputEmail'), true, "input-error");
+	});
 	
 	// 비밀번호 확인
 	$("#loginPwChk").change(function(){

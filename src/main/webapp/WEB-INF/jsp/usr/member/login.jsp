@@ -104,11 +104,11 @@
 	                </div>
 	                
 	                <div class="mt-2 flex justify-between">
-		                <div><a href="login/naver" class="btn naver-login-btn">N</a></div>
-		                <div><a href="login/kakao" class="btn naver-login-btn">K</a></div>
-		                <div><a href="login/google" class="btn naver-login-btn">G</a></div>
-		                <div><a href="login/naver" class="btn naver-login-btn">E</a></div>
-		                <div><a href="login/naver" class="btn naver-login-btn">R</a></div>
+	                	<!-- 원래는 로고만 있는 축약형 사용은 금지임. 소셜로그인 디자인 가이드를 참고해야함 -->
+		                <div><a href="login/naver" class="btn border-0 w-[60px] h-[60px] font-SBAggroB text-[36px] bg-[#03c75a] text-white pt-[5px] hover:bg-[#03ba55]">N</a></div>
+		                <div><a href="login/kakao" class="btn border-0 w-[60px] h-[60px] bg-[#FEE500] pt-0 hover:bg-[#f5d800]"><img src="/images/sns_login_icon/kakao.png" class="scale-[1.3]" /></a></div>
+		                <div><a href="login/google" class="btn border-0 w-[60px] h-[60px]"><img src="/images/sns_login_icon/google.png" class="scale-[1.3]" /></a></div>
+		                <div><a href="login/github" class="btn p-0 border-0 w-[60px] h-[60px] overflow-hidden"><i class="fa-brands fa-square-github scale-[5]" style="color: #000000;"></i></a></div>
 				    </div>
 	            </form>
 	        </div>

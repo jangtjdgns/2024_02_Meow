@@ -10,30 +10,30 @@ import lombok.Getter;
 
 @Component
 @Getter
-public class NaverComponent {
+public class GithubComponent {
 
-    @Value("${oauth.naver.client.id}")
+    @Value("${oauth.github.client.id}")
     private String clientId;
 
-    @Value("${oauth.naver.client.secret}")
+    @Value("${oauth.github.client.secret}")
     private String clientSecret;
     
-    @Value("${oauth.naver.uri.authorize}")
+    @Value("${oauth.github.uri.authorize}")
     private String authUri;
     
-    @Value("${oauth.naver.uri.token}")
+    @Value("${oauth.github.uri.token}")
     private String tokenUri;
     
-    @Value("${oauth.naver.uri.user_info}")
+    @Value("${oauth.github.uri.user_info}")
     private String userInfoUri;
     
-    @Value("${oauth.naver.uri.redirect}")
+    @Value("${oauth.github.uri.redirect}")
     private String redirectUri;
     
-    @Value("${oauth.naver.type.response}")
+    @Value("${oauth.github.type.response}")
     private String responseType;
     
-    @Value("${oauth.naver.type.grant}")
+    @Value("${oauth.github.type.grant}")
     private String grantType;
     
     private String state;

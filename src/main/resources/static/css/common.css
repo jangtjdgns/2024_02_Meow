@@ -19,26 +19,6 @@ input[type='number'] {
 
 
 
-/* login.jsp */
-
-/* 네이버 로그인 커스텀 버튼 */
-.naver-login-btn {
-    width: 60px;
-    height: 60px;
-    background-color: rgb(3, 199, 90);
-    color: white;
-    font-family: 'SBAggroB';
-    font-size: 32px;
-    padding-top: 5px;
-}
-
-.naver-login-btn:hover {
-    background-color: rgb(3, 186, 85);
-}
-
-
-
-
 
 .h-mh {
 	min-height: calc(11vh + 50px);

@@ -21,9 +21,9 @@
 				<div tabindex="0" role="button" class="btn btn-sm btn-circle m-1"><i class="fa-solid fa-exclamation"></i></div>
 				<p tabindex="0" class="dropdown-content z-[1] menu p2 shadow bg-base-100 rounded-box w-52 break-all">
 					${member.profileImage }
-			</p>
-		</div>
-		<img class="w-1/2 mx-auto" src="${member.profileImage }" alt="" />
+				</p>
+			</div>
+			<img class="w-1/2 mx-auto" src="${member.profileImage }" alt="" />
 		</div>
 		
 		<p class="pt-4 pb-2">이미지를 업로드해주세요.</p>
