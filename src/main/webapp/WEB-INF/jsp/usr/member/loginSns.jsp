@@ -2,49 +2,66 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="pageTitle" value="JOIN" />
-
 <%@ include file="../common/header.jsp"%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/js/member/join.js"></script>
 
+<script>
+	// 로그인 기록 확인
+	function hasLoggedInBefore(snsInfo) {
+		$.ajax({
+    		url: '/usr/member/sns/checkLogin',
+    	    method: 'POST',
+    	    data: {
+    	    	snsId: snsInfo.snsId,
+    	    },
+    	    dataType: 'json',
+    	    success: function(data) {
+    	    	console.log(data);
+    	    	// 기록 o
+    	    	if(data.success) {
+    	    		window.location.replace(`/usr/member/doLogin/sns?snsId=\${snsInfo.snsId}`);
+    	    	} 
+    	    	// 기록 x
+    	    	else {
+    	    		$('.sns-join-wrap').show('slow');
+    	    		$('#snsType').text(snsInfo.snsType);
+    	    		$('#name').val(snsInfo.name);
+    	    		$('#cellphoneNum').val(snsInfo.mobile);
+    	    		$('#inputEmail').val(snsInfo.email);
+    	    		$('#profileImage').val(snsInfo.profileImage);
+    	    		$('#imagePreview').attr('src', snsInfo.profileImage);
+    	    	}
+    		},
+    	      	error: function(xhr, status, error) {
+    	      	console.error('Ajax error:', status, error);
+    		}
+    	});
+	}
+	
+	// 
+	
+	$(function() {
+        let snsInfo = JSON.parse($('.snsInfo').text());
+        $('.snsInfoJson').val($('.snsInfo').text())
+        hasLoggedInBefore(snsInfo);
+	})
+</script>
+
 <section class="b-mh py-5 border-t bg-gray-50">
-	<div class="max-w-xl mx-auto card shrink-0 w-full bg-white shadow-xl border">
-		<form action="doJoin" method="post" class="card-body" onsubmit="joinFormOnSubmit(this); return false;" enctype="multipart/form-data">
-			
-			<!-- 아이디 -->
-			<div class="form-control">
-		        <label class="label">
-		            <span class="label-text">아이디</span>
-		        </label>
-				<div class="flex gap-2">
-			        <input id="loginId" name="loginId" type="text" placeholder="아이디 입력" data-korName="아이디" class="input input-bordered w-full dupInput" minlength="8" maxlength="20" autocomplete="off" />
-			        <button type="button" class="dupCheckBtn btn" data-input="loginId">중복확인</button>
-			    </div>
-	        </div>
-	        
-	        <!-- 비밀번호 -->
-	        <div class="form-control">
-	            <label class="label">
-	                <span class="label-text">비밀번호</span>
-	            </label>
-	            <input id="loginPw" name="loginPw" type="password" placeholder="비밀번호 입력" data-korName="비밀번호" class="input input-bordered" minlength="10" maxlength="30" autocomplete="off" />
-	        </div>
-	        
-	        <!-- 비밀번호 확인란 -->
-	        <div class="form-control">
-	            <label class="label">
-	                <span class="label-text">비밀번호 확인</span>
-	            </label>
-	            <input id="loginPwChk" type="password" placeholder="비밀번호 확인 입력" data-korName="비밀번호확인" class="input input-bordered no-validation" minlength="10" maxlength="30" autocomplete="off" />
-	        </div>
-	        
-	        <!-- 이름 -->
+	<div class="snsInfo hidden">${snsInfo }</div>
+	
+	<!-- 회원 가입란 -->
+	<div class="sns-join-wrap max-w-xl mx-auto card shrink-0 w-full bg-white shadow-xl border hidden">
+		<form action="http://localhost:8085/usr/member/snsDoJoin" method="post" class="card-body" onsubmit="snsJoinFormOnSubmit(this); return false;">
+			<input name="snsInfoJson" type="hidden" class="snsInfoJson no-validation" value="" />
+			<!-- 이름 -->
 	        <div class="form-control">
 	            <label class="label">
 	                <span class="label-text">이름</span>
+	                <span id="snsType" class="label-text badge badge-accent badge-outline"></span>
 	            </label>
-	            <input name="name" type="text" placeholder="이름 입력" data-korName="이름" class="input input-bordered" minlength="2" maxlength="50" autocomplete="off"/>
+	            <input id="name" name="name" type="text" placeholder="이름 입력" data-korName="이름" class="input input-bordered focus:outline-none" minlength="2" maxlength="50" readonly />
 	        </div>
 	        
 	        <!-- 닉네임 -->
@@ -91,41 +108,32 @@
 	            <label class="label">
 	                <span class="label-text">전화번호</span>
 	            </label>
-	            <input name="cellphoneNum" type="text" placeholder="전화번호 입력" data-korName="전화번호" class="input input-bordered" maxlength="13" autocomplete="off" />
+	            <input id="cellphoneNum" name="cellphoneNum" type="text" placeholder="전화번호 입력" data-korName="전화번호" class="input input-bordered" maxlength="13" autocomplete="off" />
 	        </div>
 	        
 	        <!-- 이메일 -->
 	        <div class="form-control">
 	            <label class="label">
 	                <span class="label-text">이메일</span>
-	                <span class="label-text"><span class="text-red-700">* </span>입력한 이메일을 변경할 시 재인증이 필요합니다.</span>
 	            </label>
-	            <div class="flex gap-2 pb-2">
-		            <input id="inputEmail" name="email" type="email" placeholder="이메일 입력" data-korName="이메일" class="input input-bordered w-full" minlength="6" maxlength="200" autocomplete="off" />
-	            	<button type="button" class="btn senMailBtn no-validation" onclick="sendMailAuthCode()">인증코드 발송</button>
-	            </div>
-	            
-	            <div id="authCodeWrap" class="flex gap-2 hidden">
-	            	<input id="authCode" type="text" placeholder="이메일 인증코드 입력 6자리" class="input input-bordered w-full" minlength="6" maxlength="6" autocomplete="off" />
-	           		<button type="button" class="btn" onclick="checkAuthCode()">확인</button>
-	           	</div>
+		        <input id="inputEmail" name="email" type="email" placeholder="이메일 입력" data-korName="이메일" class="input input-bordered w-full focus:outline-none" readonly />
 	        </div>
 	        
 	        <!-- 프로필 사진 -->
 	        <div class="form-control">
 	            <label class="label">
 	                <span class="label-text">프로필 사진</span>
+	                <span class="label-text"><span class="text-red-700">* </span>SNS 프로필 이미지가 연동됩니다.</span>
 	            </label>
 	            <div class="flex items-center gap-2">
-		            <input id="profileImage" name="profileImage" type="file" class="file-input file-input-bordered w-full no-validation" accept="image/gif, image/jpeg, image/png" />
+	            	<input type="text" id="profileImage" class="input input-bordered w-full no-validation focus:outline-none" name="profileImage" placeholder="등록된 프로필 이미지가 없습니다." readonly />
 		            <div class="dropdown dropdown-hover dropdown-top dropdown-end">
 					  	<div tabindex="0" role="button" class="btn btn-sm btn-circle bg-white mt-1"><i class="fa-solid fa-image"></i></div>
 					  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-96">
 						    <li><img id="imagePreview" src="" alt="선택된 이미지가 없음"/></li>
 					  	</ul>
 					</div>
-		            <button type="button" class="btn btn-circle btn-sm bg-white" onclick="resetImage()"><i class="fa-solid fa-rotate-right"></i></button>
-	            </div>
+		    	</div>
 	        </div>
 	        
 	        <!-- 소개말 -->
@@ -139,9 +147,10 @@
 	        <!-- 가입, 취소 버튼 -->
 	        <div class="grid grid-cols-2 gap-4 mt-6">
 	            <button class="btn btn-primary">가입</button>
-	            <button type=button class="btn" onclick="history.back()">취소</button>
+	            <button type="button" class="btn" onclick="history.back()">취소</button>
 	        </div>
-	    </form>
+		</form>
 	</div>
 </section>
+
 <%@ include file="../common/footer.jsp"%>

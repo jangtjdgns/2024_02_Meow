@@ -231,7 +231,7 @@
 								</c:if>
 							</div>
 						</div>
-						<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-30 p-2 shadow bg-base-100 rounded-box w-24">
+						<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-30 p-2 shadow bg-base-100 rounded-box w-32">
 							<li class="font-bold"><a>${rq.loginedMemberNickname }</a></li>
 							<c:if test="${rq.authLevel == 1}">
 								<!-- 유저 -->

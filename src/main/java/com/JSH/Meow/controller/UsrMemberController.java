@@ -24,6 +24,10 @@ import com.JSH.Meow.vo.CompanionCat;
 import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
+import com.JSH.Meow.vo.SnsInfo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class UsrMemberController {
@@ -58,16 +62,17 @@ public class UsrMemberController {
 	// 회원가입
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public String doJoin(String loginId
-				, String loginPw
-				, String name
-				, String nickname
-				, int age
-				, String address
-				, String cellphoneNum
-				, String email
-				, @RequestParam MultipartFile[] profileImage
-				, String aboutMe) throws NoSuchAlgorithmException, IOException {
+	public String doJoin(
+			String loginId
+			, String loginPw
+			, String name
+			, String nickname
+			, int age
+			, String address
+			, String cellphoneNum
+			, String email
+			, @RequestParam MultipartFile[] profileImage
+			, String aboutMe) throws NoSuchAlgorithmException, IOException {
 		
 		if (Util.isEmpty(loginId)) {
 			return Util.jsHistoryBack("아이디를 입력해주세요.");
@@ -104,7 +109,7 @@ public class UsrMemberController {
 		if (Util.isEmpty(aboutMe)) {
 			aboutMe = null;
 		}
-		if (aboutMe.length() > 100) {
+		if (!Util.isEmpty(aboutMe) && aboutMe.length() > 100) {
 			return Util.jsHistoryBack("최대 100글자 입력이 가능합니다.");
 		}
 		
@@ -136,6 +141,58 @@ public class UsrMemberController {
 		return Util.jsReplace(Util.f("%s 님이 가입되었습니다.", nickname), "/");
 	}
 	
+	
+	// SNS유저 회원가입
+	@RequestMapping("/usr/member/snsDoJoin")
+	@ResponseBody
+	public String snsDoJoin(
+			String snsInfoJson
+			, String name
+			, String nickname
+			, int age
+			, String address
+			, String cellphoneNum
+			, String email
+			, String profileImage
+			, String aboutMe) throws JsonMappingException, JsonProcessingException {
+		
+		if (Util.isEmpty(nickname)) {
+			return Util.jsHistoryBack("닉네임을 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(age)) {
+			return Util.jsHistoryBack("나이를 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(address)) {
+			return Util.jsHistoryBack("주소를 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(cellphoneNum)) {
+			return Util.jsHistoryBack("전화번호를 입력해주세요.");
+		}
+		
+		if (Util.isEmpty(aboutMe)) {
+			aboutMe = null;
+		}
+		
+		if (!Util.isEmpty(aboutMe) && aboutMe.length() > 100) {
+			return Util.jsHistoryBack("최대 100글자 입력이 가능합니다.");
+		}
+		
+		// 회원 등록
+		memberService.joinMember("", "", name, nickname, age, address, cellphoneNum, email, profileImage, aboutMe);
+		int memberId = memberService.getLastInsertId();
+		
+		// sns_info 테이블에 SNS 관련 데이터 저장
+		SnsInfo snsInfo = new ObjectMapper().readValue(snsInfoJson, SnsInfo.class);
+		snsInfo.setMemberId(memberId);
+		snsInfoService.saveSnsMemberInfo(snsInfo);
+		
+		return Util.jsReplace(Util.f("%s 님이 가입되었습니다.", nickname), "/");
+	}
+	
+	
 	// 회원가입 인증번호 발송, ajax
 	@RequestMapping("/usr/sendMail/join")
 	@ResponseBody
@@ -155,6 +212,7 @@ public class UsrMemberController {
 		
 		return ResultData.from("S-1", "인증메일이 발송되었습니다. 이메일을 확인해주세요.", authCode);
 	}
+	
 	
 	// 로그인 페이지
 	@RequestMapping("/usr/member/login")
@@ -193,6 +251,21 @@ public class UsrMemberController {
 	}
 	
 	
+	// sns 로그인
+	@RequestMapping("/usr/member/doLogin/sns")
+	@ResponseBody
+	public String snsDoLogin(String snsId) {
+		
+		// 이미 검증 후 로그인 진행하므로 따로 검증할 필요없음
+		SnsInfo snsInfo = snsInfoService.getSnsInfoBySnsId(snsId);
+		Member member = memberService.getMemberById(snsInfo.getMemberId());
+		
+		rq.login(member);
+		
+		return Util.jsReplace(Util.f("%s님 환영합니다.", member.getNickname()), "/");
+	}
+	
+	
 	// 로그아웃
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
@@ -217,7 +290,7 @@ public class UsrMemberController {
 			return rq.jsReturnOnView(Util.f("%d번 회원은 존재하지 않습니다.", memberId));
 		}
 		
-		String snsType = snsInfoService.getSnsTypeBymemberId(memberId);
+		String snsType = snsInfoService.getSnsTypeByMemberId(memberId);
 		
 		List<CompanionCat> companionCats = companionCatService.getCompanionCats(memberId);
 		
@@ -259,7 +332,7 @@ public class UsrMemberController {
 		
 		if(sectionNo == 0) {
 			// sns 회원은 계정 수정이 불가함, 단, 이미지, 소개말은 가능 (+주소?)
-			String snsType = snsInfoService.getSnsTypeBymemberId(memberId);
+			String snsType = snsInfoService.getSnsTypeByMemberId(memberId);
 			
 			if(snsType != null) {
 				return rq.jsReturnOnView("SNS 로그인 회원은 계정 정보 수정이 불가합니다.");
@@ -298,7 +371,7 @@ public class UsrMemberController {
 			return rq.jsReturnOnView("본인 계정이 아닙니다.");
 		}
 
-		String snsType = snsInfoService.getSnsTypeBymemberId(memberId);
+		String snsType = snsInfoService.getSnsTypeByMemberId(memberId);
 		
 		if(snsType != null) {
 			return rq.jsReturnOnView("SNS 로그인 회원은 계정 정보 변경이 불가합니다.");

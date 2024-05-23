@@ -120,16 +120,18 @@ public class NaverController {
 		Member member = memberService.getMemberByNickname(nickname);
 		
 		// 첫 로그인 시 회원 등록
+		/*
 		if(member == null) {
 			member = joinNewMember(snsId, name, nickname, mobile, email, snsProfile);
 		}
-		
+		*/
 		rq.login(member);
 		
 		return Util.jsReplace(Util.f("%s님 환영합니다.", nickname), "/");
 	}
 	
 	// 첫 소셜로그인 시 회원등록, memberId로 관리하기 위해 추가
+	/*
 	private Member joinNewMember(String snsId, String name, String nickname, String mobile, String email, String snsProfile) {
 		
 	    memberService.joinMember("", "", name, nickname, 0, "", mobile, email, snsProfile, "");
@@ -142,4 +144,5 @@ public class NaverController {
 	    
 	    return newMember;
 	}
+	*/
 }

@@ -118,4 +118,18 @@ public class Util {
         
 		return mapData;
 	}
+	
+	// 객체를 Json 데이터로 변환
+	public static String objectTojson(Object object) {
+		
+		String jsonData = null;
+		
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+        	jsonData = objectMapper.writeValueAsString(object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return jsonData;
+	}
 }

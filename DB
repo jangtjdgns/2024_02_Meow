@@ -21,7 +21,7 @@ CREATE TABLE `member` (
   	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '회원 번호',
   	regDate DATETIME NOT NULL COMMENT '가입일',
   	updateDate DATETIME NOT NULL COMMENT '수정일',
-  	loginId VARCHAR(20) NOT NULL UNIQUE COMMENT '아이디',
+  	loginId VARCHAR(20) NOT NULL COMMENT '아이디, 소셜회원으로 인한 Unique 제약사항 제거',
 	loginPw VARCHAR(64) NOT NULL COMMENT '비밀번호',
 	authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '권한 레벨 (일반 = 1, 관리자 = 0)',
  	`name` VARCHAR(50) NOT NULL COMMENT '이름',

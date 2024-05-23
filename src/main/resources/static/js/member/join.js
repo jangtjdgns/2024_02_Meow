@@ -37,7 +37,7 @@ let isDupChecked = [false, false];	// 중복 확인 되었는지 여부, [아이
 let isPwConfirmed = false;			// 비밀번호 확인되었는지 여부
 let isCodeConfirmed = false;		// 이메일 인증코드 확인 되었는지 여부
 
-// 회원가입 유효성 검사 함수
+// 자체 회원가입 유효성 검사 함수
 const joinFormOnSubmit = function(form){
 	const formFields = [
 		form.loginId,
@@ -100,13 +100,55 @@ const joinFormOnSubmit = function(form){
 	form.submit();
 }
 
+// SNS 회원가입 유효성 검사
+const snsJoinFormOnSubmit = function(form){
+	const formFields = [
+		form.name,
+		form.nickname,
+		form.age,
+		form.cellphoneNum,
+		form.email
+	];
+	
+	for (let i = 2; i < formFields.length + 2; i++) {
+	    const field = formFields[i - 2];
+	    
+		// 공백 아님을 검증
+	    if(!validataNotBlank($(field))) {
+			return field.focus();
+		}
+		
+	    // 정규표현식 검증
+	    if(!validataRegex($(field), i)) {
+			return field.focus();
+		}
+  	}
+	
+	if(!address.zonecode) {
+		alertMsg("주소를 입력해주세요.", "error");
+		return $(".find-postal-code").focus();
+	}
+	
+	const addressToJson = JSON.stringify(address);
+	form.address.value = addressToJson;
+	
+	// 중복 확인(닉네임)
+	if(!isDupChecked[1]) {
+		alertMsg("닉네임 중복 확인을 진행해주세요.", "error");
+		return formFields[3].focus();
+	}
+	
+	form.submit();
+}
+
+
 // 중복확인
 function dupCheck(type, input){
 	const inputName = type == 'loginId' ? '아이디' : '닉네임';
 	const regIdx = type == 'loginId' ? 0 : 3;
 	
 	$.ajax({
-		url : "../member/duplicationCheck",
+		url : "http://localhost:8085/usr/member/duplicationCheck",
 		method : "get",
 		data : {
 			"type": type,
@@ -229,13 +271,13 @@ $(function(){
 	
 	// 중복확인 버튼 클릭 시
 	$(".dupCheckBtn").click(function(){
-		const type = $(this).attr("data-input");  
+		const type = $(this).attr("data-input");
 		dupCheck(type, $(`#${type}`));
 	})
 	
 	// 중복확인란 값 변경 시
 	$(".dupInput").change(function(){
-		$(this).attr("id") == 'loginId' ? isDupChecked[0] : isDupChecked[1];
+		$(this).attr("id") == 'loginId' ? isDupChecked[0] = false : isDupChecked[1] = false;
 	})
 	
 	// 비밀번호 확인

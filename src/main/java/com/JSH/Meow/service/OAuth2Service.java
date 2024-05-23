@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +37,6 @@ public class OAuth2Service {
 	// token 정보
 	// 토큰을 요청할때는 POST 요청을 사용했어야하는데, 지금까지 GET 요청을 사용했어서 에러가 났던거였음.
 	public Map<String, Object> getTokenMap(String code, String snsType) {
-	    String tokenUri = getTokenUri(snsType);
 	    
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -54,7 +52,7 @@ public class OAuth2Service {
 	    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
 	    RestTemplate restTemplate = new RestTemplate();
-	    String response = restTemplate.postForObject(tokenUri, request, String.class);
+	    String response = restTemplate.postForObject(getTokenUri(snsType), request, String.class);
 
 	    return Util.jsonToMap(response);
 	}
