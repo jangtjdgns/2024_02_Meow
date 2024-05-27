@@ -93,7 +93,7 @@
 							<option value="2" ${searchType == 2 ? 'selected' : ''}>내용</option>
 							<option value="3" ${searchType == 3 ? 'selected' : ''}>제목+내용</option>
 					    </select>
-					    <button class="btn btn-sm h-10 join-item">
+					    <button class="btn btn-sm h-10 join-item border border-gray-300">
 							<i class="fa-solid fa-magnifying-glass"></i>
 						</button>
 					</div>

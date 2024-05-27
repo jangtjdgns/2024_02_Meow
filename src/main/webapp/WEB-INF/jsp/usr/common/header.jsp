@@ -281,7 +281,6 @@
 					<a href="../article/list">게시판</a>
 					<ul>
 						<li><a href="../article/list?boardId=2">공지사항</a></li>
-						<li><a href="">갤러리</a></li>
 						<li><a href="../article/write">글작성</a></li>
 					</ul>
 				</li>

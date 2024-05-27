@@ -33,7 +33,7 @@ function customerBtnClick($this){
 		if(idx == 1 || idx == 3 || idx == 4) {
 			wt = idx == 1 || idx == 3 ? parseFloat($this.css("width")) + 16 : parseFloat($this.css("width")) * 2 + 32;
 		}
-		$this.css("width", "864px");
+		$this.css("width", "992px");
 		
 		if(idx == 0 || idx == 1) {
 			ht = parseFloat($this.css("height")) - 50;
@@ -87,7 +87,6 @@ function getCustomerContent(contentId) {
 						</div>
 					</div>
 				`);
-				console.log("12312")
 			}
 		},
 	      	error: function(xhr, status, error) {
@@ -98,14 +97,19 @@ function getCustomerContent(contentId) {
 </script>
 
 <section class="border-t b-mh">
-	<div class="mx-auto max-w-4xl">
-		<div class="text-4xl pt-16 pb-4 px-4 font-Jalnan">고객센터</div>
+	<div class="max-w-5xl min-w-[1024px] mx-auto">
+		<!-- <div class="text-4xl pt-16 pb-4 px-4">고객센터</div> -->
+		<div class="flex items-center justify-between text-4xl pt-10 px-6">
+			<div class="font-bold text-3xl">
+				<img src="/images/companionCat/cat.png" class="pointer-events-none">고객센터
+			</div>
+		</div>
+		<div class="border-b mt-2 mb-10"></div>
 		
-		<div class="customer-subtitle p-4 grid grid-cols-6 gap-3 text-base">
-<!-- 			<button class="btn btn-circle btn-outline btn-active w-full">메 인</button> -->
+		<div class="customer-subtitle pb-4 px-4 grid grid-cols-6 gap-3 text-base">
 			<button class="btn btn-circle btn-outline w-full">문의하기</button>
 			<button class="btn btn-circle btn-outline w-full">접수 내역 확인하기</button>
-			<button class="btn btn-circle btn-outline w-full ">자주 묻는 질문</button>
+			<button class="btn btn-circle btn-outline w-full ">FAQ</button>
 			<button class="btn btn-circle btn-outline w-full">고객 의견 수렴</button>
 			<button class="btn btn-circle btn-outline w-full">바로가기</button>
 		</div>
@@ -164,6 +168,5 @@ function getCustomerContent(contentId) {
 		</div>
 	</div>
 </section>
-</body>
-</html>
+
 <%-- <%@ include file="../common/footer.jsp"%> --%>

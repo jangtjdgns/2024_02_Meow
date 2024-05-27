@@ -105,11 +105,10 @@
 	})
 </script>
 
-<section class="border-t b-mh">
-	<div class="grid" style="grid-template-columns: 384px 1fr">
-		<div class="p-10 border b-mh">사이드</div>
-		<div class="px-12 bg-gray-50">
-			<div class="flex items-center justify-between pt-10">
+<section class="border-t b-mh mw">
+	<div class="border bg-gray-50">
+		<div class="px-12 max-w-6xl min-w-[1024px] mx-auto bg-white bg-opacity-60">
+			<div class="flex items-center justify-between pt-10 px-6">
 				<div class="font-bold text-3xl">
 					<img src="/images/companionCat/cat.png" class="pointer-events-none">내 반려묘
 				</div>
@@ -131,7 +130,7 @@
 			<div class="grid grid-cols-3 grid-rows-1 w-full">
 				<!-- 반려묘 추가 -->
 				<c:forEach var="cat" items="${companionCats }" varStatus="status">
-					<div class="card-scale flex justify-center cat-info [transform:scale(0.85)]">
+					<div class="card-scale flex justify-center cat-info min-w-[360px] [transform:scale(0.8)]">
 						<input class="companion-cat-id" type="hidden" value="${cat.id }" />
 						<div class="card card-compact card-wrap w-96 bg-base-100 shadow-xl p-2 overflow-hidden bg-green-100">
 					  		<figure>
@@ -161,9 +160,9 @@
 				</c:forEach>
 				
 				<!-- 추가된 반려묘가 8마리 미만일 때 -->
-				<div id="companionCatRegBtn" class="[transform:scale(0.85)] flex justify-center [min-height:570px]">
+				<div id="companionCatRegBtn" class="[transform:scale(0.8)] flex justify-center [min-height:570px]">
 					<c:if test="${companionCats.size() < 8 }">
-						<div class="card card-compact w-96 p-2 overflow-hidden">
+						<div class="card card-compact w-96 min-w-[360px] p-2 overflow-hidden">
 							<a href="../companionCat/register" class="card-body w-full companion-cat-reg border-2 flex items-center justify-center hover:border-4 bg-white">
 								<i class="fa-solid fa-plus"></i>
 							</a>

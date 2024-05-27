@@ -119,13 +119,14 @@
 </section>
 
 <section class="mw mb-40 text-center">
+	<div class="pb-10 text-2xl">게시판 바로가기</div>
 	<div class="join">
-		<button class="btn btn-outline btn-accent w-32 h-32 join-item rounded-none border-r-0">전체</button>
-		<button class="btn btn-outline btn-accent w-32 h-32 join-item border-r-0">공지사항</button>
-		<button class="btn btn-outline btn-accent w-32 h-32 join-item border-r-0">자유</button>
-		<button class="btn btn-outline btn-accent w-32 h-32 join-item border-r-0">반려묘</button>
-		<button class="btn btn-outline btn-accent w-32 h-32 join-item border-r-0">거래</button>
-		<button class="btn btn-outline btn-accent w-32 h-32 join-item rounded-none">모임</button>
+		<a href="../article/list" class="btn btn-outline btn-accent w-32 h-32 join-item rounded-none border-r-0">전체</a>
+		<a href="../article/list?boardId=2" class="btn btn-outline btn-accent w-32 h-32 join-item border-r-0">공지사항</a>
+		<a href="../article/list?boardId=3" class="btn btn-outline btn-accent w-32 h-32 join-item border-r-0">자유</a>
+		<a href="../article/list?boardId=4" class="btn btn-outline btn-accent w-32 h-32 join-item border-r-0">반려묘</a>
+		<a href="../article/list?boardId=5" class="btn btn-outline btn-accent w-32 h-32 join-item border-r-0">거래</a>
+		<a href="../article/list?boardId=6" class="btn btn-outline btn-accent w-32 h-32 join-item rounded-none">모임</a>
 	</div>
 </section>
 
