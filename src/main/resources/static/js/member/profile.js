@@ -58,9 +58,9 @@ $(function(){
         	parseInt($("#profile-side").css("top", defaultPos));
         }
         
-        // 현재 스크롤 위치가 끝부분일 때, calc((현재 스크롤 위치 + 브라우저 높이) - 프로필 사이드바 높이 - padding-bottom)
+        // 현재 스크롤 위치가 끝부분일 때, calc((현재 스크롤 위치 + 브라우저 높이) - 프로필 사이드바 높이 - padding-bottom - footer)
         if(scrollPosition >= totalHeight) {
-        	parseInt($("#profile-side").css("top", `calc(${scrollPosition + window.innerHeight}px - ${profileSideHeight} - 11rem)`));
+        	parseInt($("#profile-side").css("top", `calc(${scrollPosition + window.innerHeight}px - ${profileSideHeight} - 11rem - ${$('footer').height()})`));
         }
 	});
 })

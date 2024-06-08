@@ -29,6 +29,10 @@ public class Member {
 	private String authCode;
 	private int lastLoginDaysDiff;
 	
+	private int articleCnt;
+	private int catCnt;
+	private int reactionLikeCnt;
+	
 	public String getStatus() {
 		switch(this.status) {
 			case 0: return "활동";

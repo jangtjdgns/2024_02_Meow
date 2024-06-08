@@ -41,12 +41,27 @@ public class UsrHomeController {
 	        memberAddress = Util.convertAddressJsonToString(member.getAddress());
 		}
 		
-		// 배너에 표시할 최신 게시글 4개 가져오기
-		List<Article> articles = articleService.getLatestArticles(4);
+		// 배너에 표시할 HOT 게시글 n개 가져오기
+		List<Article> hotArticles = articleService.getHotArticles(3);
+		
+		// 배너에 표시할 최신 게시글 n개 가져오기
+		List<Article> latestArticles = articleService.getLatestArticles(3);
+		
+		// 명예의 전당
+		// 1. 게시글 작성왕
+		Member topArticleWriters = memberService.getTopArticleWriters();
+		// 2. 게시글 추천왕
+		Member topLikedArticles = memberService.getTopLiked("article");
+		// 3. 댓글 추천왕
+		Member topLikedReplies = memberService.getTopLiked("reply");
 		
 		model.addAttribute("memberAddress", memberAddress);
-		model.addAttribute("javascriptKey", kakaoComponent.getJavascriptKey());		// 앱키 js
-		model.addAttribute("articles", articles);
+		model.addAttribute("javascriptKey", kakaoComponent.getJavascriptKey());		// 앱키 js, 카카오 지도 표시용
+		model.addAttribute("hotArticles", hotArticles);
+		model.addAttribute("latestArticles", latestArticles);
+		model.addAttribute("topArticleWriters", topArticleWriters);
+		model.addAttribute("topLikedArticles", topLikedArticles);
+		model.addAttribute("topLikedReplies", topLikedReplies);
 		
 		return "usr/home/main";
 	}

@@ -5,7 +5,7 @@ let curIdx = 0;		// 캐러셀 현재 idx 전역
 $(function(){
 	carouselMove(0, 0);			// 맨 앞으로 초기화
 	
-	const carouselSize = $(".carousel-item").length; 							// 캐러셀 아이템 개수
+	const carouselSize = $(".carousel-item").length; 						// 캐러셀 아이템 개수
 	let carouselWidth = parseInt($(".carousel-item:first").css("width"));	// 캐러셀 너비
 	curIdx = $(".carouselRadio:checked").index();							// 캐러셀 현재 idx
 	
@@ -34,15 +34,6 @@ $(function(){
 		const move = curIdx * carouselWidth;
 		carouselMove(curIdx, move);
 	})
-	
-	// 쉬프트+휠 할때의 curIdx 구하기
-	/*$('.carousel').on('wheel', function(event) {
-	    if (event.shiftKey) {
-			setTimeout(function(){
-				console.log($(".carousel").scrollLeft());
-			}, 600)
-		}
-	});*/
 })
 
 // 캐러셀 아이템 이동 함수
@@ -68,7 +59,7 @@ function playCarousel(size, isHorizontal, len, time) {
 		$('.carouselRadio').eq(curIdx).prop('checked', true);
 		
 		let move = isHorizontal ? $(".carousel").scrollLeft() + len : $(".carousel").scrollTop() + len;
-		move = move >= size * len ? 0 : move;
+		move = move >= (curIdx + 1) * len ? 0 : move;
 		
 		carouselWidth = len;
 		
@@ -82,4 +73,15 @@ function stopCarousel() {
 	$('.carousel-playStop').removeClass('btn-active');
 	$('#carousel-stop').addClass('btn-active');
 	clearInterval(carouselInterval); 
+}
+
+// 캐러셀 indicator 버튼 사용 시 움직임 애니메이션, .cr-indicator-btn
+function moveCarouselAnimation(crItem) {
+	$('html, body').animate({
+		scrollTop: $('#hall-of-fame').offset().top,
+	}, 'slow');
+	
+	$('.cr').animate({
+		scrollLeft: 300 * (parseInt($(crItem).text()) - 1),
+	}, 'fast');
 }

@@ -61,13 +61,20 @@ public class ArticleService {
 	public void increaseHitCnt(int id) {
 		articleDao.increaseHitCnt(id);
 	}
-
-	public List<Article> getHotArticles() {
-		return articleDao.getHotArticles();
+	
+	// HOT 게시글 가져오기, 좋아요 기준 (제한: 일주일 내에 작성된 게시글 중)
+	public List<Article> getWeeklyHotArticles() {
+		return articleDao.getWeeklyHotArticles();
 	}
 	
-	public List<Article> getNoticeArticles() {
-		return articleDao.getNoticeArticles();
+	// HOT 게시글 가져오기, 좋아요 기준 (제한없음)
+	public List<Article> getHotArticles(int count) {
+		return articleDao.getHotArticles(count);
+	}
+	
+	// 최신 공지사항 가져오기, 개수 지정
+	public List<Article> getNoticeArticles(int count) {
+		return articleDao.getNoticeArticles(count);
 	}
 	
 	public List<Interval> getArticleFreq(int memberId, String interval, int intervalFreq, int barCnt) {

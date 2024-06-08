@@ -420,6 +420,7 @@ select[readonly] {
 	position: absolute;
 	top: 197.65px;
 	transition: top .8s ease-out;
+	z-index: 50;
 }
 
 .side-btn-wrap > .btn {

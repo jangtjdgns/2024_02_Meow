@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<footer>
+<footer class="min-w-[1024px]">
 	<div class="p-10 bg-base-200 text-base-content">
 		<div class="footer max-w-6xl mx-auto">
 			<nav>

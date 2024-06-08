@@ -101,4 +101,14 @@ public class MemberService {
 	public void updateProfileImage(int id, String imagePath) {
 		memberDao.updateProfileImage(id, imagePath);
 	}
+	
+	// 게시글 작성왕
+	public Member getTopArticleWriters() {
+		return memberDao.getTopArticleWriters();
+	}
+	
+	// 추천왕
+	public Member getTopLiked(String relTypeCode) {
+		return memberDao.getTopLiked(relTypeCode);
+	}
 }

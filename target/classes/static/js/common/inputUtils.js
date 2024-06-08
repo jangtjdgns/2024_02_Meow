@@ -90,3 +90,11 @@ function changeInputBorderColor(field, isValid, errorClass){
 	}
 	
 }
+
+
+// textarea 입력한 글자수 표시
+function checkInputTextLength(input) {
+	$(input).on("input", function(){
+		$(".inputTextLength").text($(this).val().trim().length);
+	});
+}

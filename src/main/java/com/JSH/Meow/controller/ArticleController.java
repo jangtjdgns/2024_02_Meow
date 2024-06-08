@@ -104,11 +104,11 @@ public class ArticleController {
 	}
 	
 	// 핫 게시글 가져오기, ajax
-	@RequestMapping("/usr/article/getHotArticles")
+	@RequestMapping("/usr/article/getWeeklyHotArticles")
 	@ResponseBody
-	public ResultData<List<Article>> getHotArticles() {
+	public ResultData<List<Article>> getWeeklyHotArticles() {
 		
-		List<Article> hotArticles = articleService.getHotArticles();
+		List<Article> hotArticles = articleService.getWeeklyHotArticles();
 		
 		if(hotArticles.size() == 0) {
 			return ResultData.from("F-1", "핫 게시글이 없음");

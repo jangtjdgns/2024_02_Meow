@@ -48,7 +48,7 @@
 		<div class="flex items-center border-2 border-t-0">
 			<div class="self-center text-base mx-4 my-2 font-bold">게시판</div>
 			<span class="border-r-2 h-full"></span>
-			<select name="boardId" id="select-board" class="select select-ghost select-sm text-base mx-1">
+			<select name="boardId" id="select-board" class="select select-ghost select-sm text-base mx-1 focus:outline-none focus:border-0">
 				<c:forEach var="board" items="${boards }">
 					<option value="${board.id }" ${boardId == board.id ? 'selected' : '' }>${board.name }</option>
 				</c:forEach>

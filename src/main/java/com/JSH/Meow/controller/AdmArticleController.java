@@ -62,7 +62,7 @@ public class AdmArticleController {
 	@ResponseBody
 	public ResultData<List<Article>> getNoticeArticle() {
 		
-		List<Article> noticeArticles = articleService.getNoticeArticles();
+		List<Article> noticeArticles = articleService.getNoticeArticles(4);
 		
 		if(noticeArticles.size() == 0) {
 			return ResultData.from("F-1", "등록된 공지사항이 없습니다.");

@@ -75,10 +75,10 @@
 					            <label class="label" for="aboutCat">
 					                <span class="label-text">소개말</span>
 					            </label>
-					            <!-- 이 부분 join.jsp에도 적용 해야함  -->
+					            
 					            <div class="textarea textarea-bordered p-0 relative">
-					            	<textarea id="aboutCat" name="aboutCat" placeholder="소개해보세요!" rows="5" class="w-full h-full textarea resize-none" data-korName="소개말" maxLength="300"></textarea>
-					            	<div class="absolute bottom-0 right-0 border-l border-t rounded-tl-lg p-1 w-16 text-center"><span id="aboutCatLength">0</span>/300</div>
+					            	<textarea id="aboutCat" name="aboutCat" placeholder="소개해보세요!" oninput="checkInputTextLength(this)" rows="5" class="w-full h-full textarea resize-none focus:border-0" data-korName="소개말" maxLength="300"></textarea>
+					            	<div class="absolute bottom-0 right-0 border-l border-t rounded-tl-lg p-1 min-w-16 text-center bg-white bg-opacity-70"><span class="inputTextLength">0</span> / 300</div>
 					            </div>
 					       	</div>
 					       	

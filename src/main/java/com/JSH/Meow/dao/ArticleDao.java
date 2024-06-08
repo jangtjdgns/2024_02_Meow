@@ -241,7 +241,25 @@ public interface ArticleDao {
 			ORDER BY reactionLikeCnt DESC, A.id DESC
 			LIMIT 6
 			""")
-	public List<Article> getHotArticles();
+	public List<Article> getWeeklyHotArticles();
+	
+	@Select("""
+			SELECT A.*
+			    , M.nickname writerName
+			    , (SELECT COUNT(*) FROM reply WHERE relId = A.id) replyCnt
+			    , IFNULL(SUM(R.point), 0) reactionLikeCnt
+			FROM article A
+			LEFT JOIN `member` M
+			    ON A.memberId = M.id
+			LEFT JOIN reaction R
+			    ON A.id = R.relId
+			    AND R.reactionType = 0
+			WHERE R.relTypeCode = 'article'
+			GROUP BY A.id
+			ORDER BY reactionLikeCnt DESC, A.id DESC
+			LIMIT #{count}
+			""")
+	public List<Article> getHotArticles(int count);
 	
 	@Select("""
 			SELECT A.*
@@ -252,9 +270,9 @@ public interface ArticleDao {
 			    ON A.memberId = M.id
 			WHERE boardId = 2
 			ORDER BY id DESC
-			LIMIT 5
+			LIMIT #{count}
 			""")
-	public List<Article> getNoticeArticles();
+	public List<Article> getNoticeArticles(int count);
 	
 	@Select("""
 			<script>
@@ -282,6 +300,7 @@ public interface ArticleDao {
 	@Select("""
 			SELECT A.*
 			    , B.name boardName
+			    , (SELECT COUNT(*) FROM reply WHERE relId = A.id) replyCnt
 			    , IFNULL(SUM(R.point), 0) reactionLikeCnt
 			FROM article A
 			LEFT JOIN board B

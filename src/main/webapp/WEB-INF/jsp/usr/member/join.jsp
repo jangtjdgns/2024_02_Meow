@@ -133,7 +133,10 @@
 	            <label class="label">
 	                <span class="label-text">소개말</span>
 	            </label>
-	            <textarea name="aboutMe" placeholder="자신을 소개해보세요!" rows="5" class="textarea textarea-bordered resize-none" maxlength="100"></textarea>
+	            <div class="textarea textarea-bordered p-0 relative">
+	            	<textarea name="aboutMe" placeholder="자신을 소개해보세요!" oninput="checkInputTextLength(this)" rows="5" class="w-full h-full textarea resize-none focus:border-0" data-korName="소개말" maxLength="300"></textarea>
+	            	<div class="absolute bottom-0 right-0 border-l border-t rounded-tl-lg p-1 min-w-16 text-center bg-white bg-opacity-70"><span class="inputTextLength">0</span> / 300</div>
+	            </div>
 	        </div>
 	        
 	        <!-- 가입, 취소 버튼 -->

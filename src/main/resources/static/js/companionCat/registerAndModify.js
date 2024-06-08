@@ -44,12 +44,6 @@ $(function(){
 		}
 	});
 	
-	// 소개말 변경 시, 글자수 표시
-	$("#aboutCat").on("input", function(){
-		$("#aboutCatLength").text($(this).val().trim().length)
-	});
-	
-	
 	// 이미지 미리보기
 	$("#profileImage").change(function(){
 		let imageFiles = $(this)[0].files;

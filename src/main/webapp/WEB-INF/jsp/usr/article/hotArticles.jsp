@@ -7,10 +7,10 @@
 -->
 
 <script>
-	const getHotArticles = function(){
+	const getWeeklyHotArticles = function(){
 		
 		$.ajax({
-			url: "../article/getHotArticles",
+			url: "../article/getWeeklyHotArticles",
 			method: "get",
 			dataType: "json",
 			success: function(data) {
@@ -104,6 +104,6 @@
 	}
 	
 	$(function(){
-		getHotArticles();
+		getWeeklyHotArticles();
 	})
 </script>

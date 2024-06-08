@@ -194,4 +194,31 @@ public interface MemberDao {
 			WHERE id = #{id}
 			""")
 	public void updateProfileImage(int id, String imagePath);
+	
+	@Select("""
+			SELECT M.*
+			    , COUNT(*) AS articleCnt
+			    , (SELECT COUNT(*) FROM companion_cat WHERE memberId = M.id) AS catCnt
+			FROM `member` M
+			INNER JOIN article A
+			ON M.id = A.memberId
+			WHERE M.authLevel = 1
+			GROUP BY A.memberId
+			ORDER BY articleCnt DESC, M.id ASC
+			LIMIT 1
+			""")
+	public Member getTopArticleWriters();
+	
+	@Select("""
+			SELECT M.*
+				, IFNULL(SUM(R.point), 0) AS reactionLikeCnt
+			FROM `member` M
+			INNER JOIN reaction R ON M.id = R.memberId
+			WHERE R.reactionType = 0
+			AND R.relTypeCode = #{relTypeCode}
+			GROUP BY M.id
+			ORDER BY reactionLikeCnt DESC, M.id ASC
+			LIMIT 1
+			""")
+	public Member getTopLiked(String relTypeCode);
 }

@@ -215,7 +215,7 @@
 			<c:if test="${rq.loginedMemberId != 0 }">
 				<script>
 					$(function() {
-						checkRequests(${rq.loginedMemberId});
+						checkRequests(${rq.loginedMemberId});	// 알림 확인
 					})
 				</script>
 				
@@ -256,8 +256,8 @@
 									<span id="notification-count" class="badge badge-xs badge-primary indicator-item hidden"></span>
 								</div>
 							</button>
-						  	<div tabindex="0" id="notification" class="dropdown-content z-[1] p-2 menu shadow bg-base-100 rounded-box w-56">
-						  		
+						  	<div tabindex="0" id="notification" class="dropdown-content z-10 p-2 menu shadow bg-base-100 rounded-box w-56">
+						  		<!-- 알림 목록 표시란 -->
 						  	</div>
 						</div>					
 					</div>
@@ -287,10 +287,6 @@
 				<!-- <li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line"><a href="">지도</a></li> -->
 				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line">
 					<a href="../customer/main">고객센터</a>
-					<ul>
-						<li><a href="">문의</a></li>
-						<li><a href="">내역</a></li>
-					</ul>
 				</li>
 			</ul>
 		</div>

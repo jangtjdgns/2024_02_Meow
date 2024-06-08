@@ -1,5 +1,5 @@
 /**
- * 메인페이지 상단에 표시되는 지도 관련 js
+ * Meow 메인페이지 표시되는 지도 관련 js
  */
 
 let geocoder = new kakao.maps.services.Geocoder();		// 주소 검색을 위한 geocoder
@@ -98,7 +98,7 @@ function setMarkers(map, radius) {
 									<div class="dropdown dropdown-right">
 									  	<div tabindex="0" role="button" class="plus-btn"><i class="fa-solid fa-plus"></i></div>
 									  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 border shadow-lg bg-base-100 rounded-box w-32">
-											<li><a>프로필 보기</a></li>
+											<li><a href="../member/profile?memberId=${memberId[idx]}">프로필 보기</a></li>
 							`;
 							
 							if(nickname != loginedMemberNickname) {
@@ -203,7 +203,7 @@ function clickNickname(memberId){
 								</ul>
 							</div>
 							<div class="grid grid-cols-4 join">
-								<button class="join-item btn btn-outline">프로필 보기</button>
+								<a href="../member/profile?memberId=${result.member.id}" class="join-item btn btn-outline">프로필 보기</a>
 								<button class="join-item btn btn-outline" onclick="sendRequest(${result.member.id}, 'friend')">친구추가</button>
 								<button class="join-item btn btn-outline" onclick="openPop(${loginedMemberId}, ${result.member.id});">채팅</button>
 								<button class="join-item btn btn-outline" onclick="showReportModal('member', ${result.member.id}, 0)">신고</button>
