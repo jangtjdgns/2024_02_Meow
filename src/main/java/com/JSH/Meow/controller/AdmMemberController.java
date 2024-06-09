@@ -78,6 +78,8 @@ public class AdmMemberController {
 		}
 		
 		rq.login(member);
+		memberService.updateLastLoginDate(member.getId());
+		
 		
 		return Util.jsReplace(Util.f("%s님 환영합니다.", member.getNickname()), "/adm");
 	}
@@ -194,8 +196,9 @@ public class AdmMemberController {
 		
 		// 프로필 이미지 변경
 		memberService.updateProfileImage(memberId, imagePath);
+		rq.updateProfileImage(imagePath);
 		
-		return ResultData.from("S-1", "프로필 이미지가 변경되었습니다.");
+		return ResultData.from("S-1", "프로필 이미지가 변경되었습니다.<br /><span class='text-xs'>* 새로고침을 진행해주세요.</span>");
 	}
 		
 }

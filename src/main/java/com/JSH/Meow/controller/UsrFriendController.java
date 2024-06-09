@@ -15,5 +15,5 @@ public class UsrFriendController {
 		this.rq = rq;
 	}
 	
-	// 관리자 페이지 만들 쯤에 추가할듯 함
+	// 관리자 페이지 만들 쯤에 추가할듯 함, 이 부분이 고민이 필요함
 }

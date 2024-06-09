@@ -69,6 +69,11 @@ public class Rq {
 		this.session.removeAttribute("authLevel");
 	}
 	
+	// 프로필 이미지 업데이트
+	public void updateProfileImage(String imagePath) {
+		this.session.setAttribute("loginedMemberProfileImage", imagePath);
+	}
+	
 	// session getAuthLevel
 	public Integer getAuthLevel() {
 		if(this.session.getAttribute("authLevel") == null) {

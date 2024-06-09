@@ -73,7 +73,7 @@ function doUpdateProfileImage(form) {
 	    processData: false,
 	    dataType: 'json',
 	    success: function(data) {
-	    	alertMsg(data.msg + '<br /><span class="text-xs">* 재로그인 후 프로필 이미지가 적용됩니다.</span>', data.success ? 'success' : 'warning');
+	    	alertMsg(data.msg + '<br /><span class="text-xs">* 변경후 새로고침을 진행해주세요.</span>', data.success ? 'success' : 'warning');
 		},
 	      	error: function(xhr, status, error) {
 	      	console.error('Ajax error:', status, error);
@@ -224,7 +224,7 @@ $(function(){
 				<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 			</form>
 			<h3 class="font-bold text-lg">프로필 이미지 변경</h3>
-			<p class="text-xs">* 이미지 변경 후 <b class="text-red-600">재로그인</b> 시 적용됩니다.</p>
+			<p class="text-sm">* 이미지 변경 후 <u class="text-red-600">새로고침</u>을 진행해주세요.</p>
 			
 			<div class="text-center">
 				<div class="avatar rounded-full overflow-hidden main-avatar ring ring-offset-2 my-8">

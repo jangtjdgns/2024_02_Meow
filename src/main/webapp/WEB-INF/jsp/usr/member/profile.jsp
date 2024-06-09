@@ -13,25 +13,32 @@
 			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 		</form>
 		<h3 class="font-bold text-lg">이미지 변경</h3>
-		<p class="py-2 pl-2 text-sm">* 소셜 유저의 경우 본래의 SNS 프로필 이미지는 변경되지않습니다.</p>
+		<p class="pt-2 pl-2 text-sm">* <u>소셜 유저</u>의 경우 본래의 SNS 프로필 이미지는 변경되지 않습니다.</p>
+		<p class="pb-2 pl-2 text-sm">* 이미지 변경 후 <u class="text-red-600">새로고침</u>을 진행해주세요.</p>
 		
-		<div class="py-4">
-			<span>현재 이미지 정보</span>
-			<div class="dropdown dropdown-bottom scale-75 rounded-full">
-				<div tabindex="0" role="button" class="btn btn-sm btn-circle m-1"><i class="fa-solid fa-exclamation"></i></div>
-				<p tabindex="0" class="dropdown-content z-[1] menu p2 shadow bg-base-100 rounded-box w-52 break-all">
-					${member.profileImage }
-				</p>
+		<form onsubmit="doUpdateProfileImage(this)" enctype="multipart/form-data">
+			<div class="py-4">
+				<span>현재 이미지 정보</span>
+				<div class="dropdown dropdown-bottom scale-75 rounded-full">
+					<div tabindex="0" role="button" class="btn btn-sm btn-circle m-1"><i class="fa-solid fa-exclamation"></i></div>
+					<p tabindex="0" class="dropdown-content z-[1] menu p2 shadow bg-base-100 rounded-box w-52 break-all">
+						${member.profileImage }
+					</p>
+				</div>
+				<div class="w-[288px] min-h-[100px] border">
+					<img id="imagePreview" src="${member.profileImage }" alt="선택된 이미지가 없음" />
+				</div>
 			</div>
-			<img class="w-1/2 mx-auto" src="${member.profileImage }" alt="" />
-		</div>
-		
-		<p class="pt-4 pb-2">이미지를 업로드해주세요.</p>
-		<input type="file" class="file-input file-input-bordered w-full max-w-xs" accept="image/gif, image/jpeg, image/png" />
-		
-		<div class="text-right">
-			<button class="btn">변경</button>
-		</div>
+			
+			<div class="py-4 flex items-center gap-2">
+				<input id="profileImage" name="profileImage" type="file" onchange="previewImage(this)" class="file-input file-input-bordered file-input-sm w-full max-w-xs" accept="image/gif, image/jpeg, image/png" />
+				<button type="button" class="btn btn-circle btn-sm bg-white" onclick="resetImage()"><i class="fa-solid fa-rotate-right"></i></button>
+			</div>
+			
+			<div class="text-right">
+				<button class="btn btn-sm btn-primary">변경</button>
+			</div>
+		</form>
 	</div>
 </dialog>
 
@@ -134,6 +141,10 @@
 							    	<div>* 구글 로그인 계정입니다.</div>
 							    	<a href="" target="_blank" class="btn">구글 계정 정보 수정</a>
 							    </c:when>
+							    <c:when test="${snsType == 'google'}">
+							    	<div>* 구글 로그인 계정입니다.</div>
+							    	<a href="" target="_blank" class="btn">깃허브 계정 정보 수정</a>
+							    </c:when>
 							    <c:otherwise>
 							    	<a href="userAccount?memberId=${member.id }" class="btn">계정 관리 바로가기</a>
 							    </c:otherwise>
@@ -200,7 +211,38 @@
 					
 					<div class="profile-content">
 						<div class="text-xl border-b border-black p-2">반려묘 관리</div>
-						<div class="pt-12 pb-24 px-6"></div>
+						<div class="py-12 px-6">
+							<a href="../companionCat/view?memberId=${rq.loginedMemberId }" class="btn">내 반려묘 페이지로 이동</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="bg-white border shadow-2xl rounded-3xl my-32">
+				<div class="p-10 text-3xl">친구</div>
+				<div class="p-6">
+					<div class="profile-content">
+						<div class="text-xl border-b border-black p-2">친구 목록 <span>(${friends.size() }명)</span></div>
+						<div class="py-12 mb-12 px-8 grid grid-cols-3 gap-4">
+							<c:if test="${friends.size() == 0}">
+								<div class="col-start-1 col-end-3">현재 등록된 친구가 없습니다.</div>
+							</c:if>
+							
+							<c:forEach var="friend" items="${friends }" varStatus="status">
+								<div class="border shadow-md transition-[transform] duration-[0.4s] hover:scale-105 cursor-pointer">
+									<div class="grid grid-cols-7 min-h-16 overflow-hidden">
+										<div class="col-start-1 col-end-3 border-r scale-150 rotate-12 relative bg-indigo-50">
+											<div class="absolute top-1/2 left-1/2 trnasform -translate-x-1/2 -translate-y-1/2 -rotate-12 scale-[0.6]">
+												${status.count }
+											</div>
+										</div>
+										<div class="col-start-3 col-end-8 justify-self-center self-center font-semibold">
+											${friend.senderId == rq.loginedMemberId ? friend.receiverNickname : friend.senderNickname }
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -152,14 +152,14 @@
 		<div class="w-[1024px] mx-auto">
 			<div class="text-xl font-semibold pb-4">게시판에서 재미있는 글들을 확인해보세요</div>
 			<div class="grid grid-cols-3 grid-rows-2 gap-6 h-[20rem] justify-center">
-				<a href="../article/list" class="btn btn-outline text-[#BDB76B] bg-[#fffef2] border-[#BDB76B] hover:bg-[#BDB76B] hover:border-[#BDB76B] h-full grid grid-cols-3">
+				<a href="../article/list" class="btn btn-outline text-[#BDB76B] bg-[#fffef2] border-[#BDB76B] hover:bg-[#BDB76B] hover:border-[#BDB76B] h-full grid grid-cols-3 shadow-xl">
 					<div class="col-start-1 col-end-3 grid text-left mx-2" style="grid-template-rows: 1fr 2fr;">
 						<div class="font-semibold text-lg">전체 게시판</div>
 						<div class="font-normal self-center">모든 게시글을 볼 수 있어요.</div>
 					</div>
 					<img src="https://img.icons8.com/?size=100&id=yln7W1tiSYJz&format=png&color=000000" alt="" />
 				</a>
-				<a href="../article/list?boardId=2" class="btn btn-outline text-[#DEB887] bg-[#fff9f2] border-[#DEB887] hover:bg-[#DEB887] hover:border-[#DEB887] h-full grid grid-cols-3">
+				<a href="../article/list?boardId=2" class="btn btn-outline text-[#DEB887] bg-[#fff9f2] border-[#DEB887] hover:bg-[#DEB887] hover:border-[#DEB887] h-full grid grid-cols-3 shadow-xl">
 					<div class="col-start-1 col-end-3 grid text-left mx-2" style="grid-template-rows: 1fr 2fr;">
 						<div class="font-semibold text-lg">공지사항 게시판</div>
 						<div class="font-normal self-center">오늘의 Meow 소식을 확인해보세요.</div>
@@ -167,7 +167,7 @@
 					<img src="https://img.icons8.com/?size=100&id=7EoumkdcLQEo&format=png&color=000000" alt="" />
 				</a>
 				
-				<a href="../article/list?boardId=3" class="btn btn-outline text-[#BC8F8F] bg-[#fff2f2] border-[#BC8F8F] hover:bg-[#BC8F8F] hover:border-[#BC8F8F] h-full grid grid-cols-3">
+				<a href="../article/list?boardId=3" class="btn btn-outline text-[#BC8F8F] bg-[#fff2f2] border-[#BC8F8F] hover:bg-[#BC8F8F] hover:border-[#BC8F8F] h-full grid grid-cols-3 shadow-xl">
 					<div class="col-start-1 col-end-3 grid text-left mx-2" style="grid-template-rows: 1fr 2fr;">
 						<div class="font-semibold text-lg">자유 게시판</div>
 						<div class="font-normal self-center">자유롭게 게시글을 작성해보세요!</div>
@@ -175,7 +175,7 @@
 					<img src="https://img.icons8.com/?size=100&id=6ExjWWj6a5p3&format=png&color=000000" alt="" />
 				</a>
 				
-				<a href="../article/list?boardId=4" class="btn btn-outline text-[#00D7C0] bg-[#f0fffd] border-[#00D7C0] hover:bg-[#00D7C0] hover:border-[#00D7C0] h-full grid grid-cols-3">
+				<a href="../article/list?boardId=4" class="btn btn-outline text-[#00D7C0] bg-[#f0fffd] border-[#00D7C0] hover:bg-[#00D7C0] hover:border-[#00D7C0] h-full grid grid-cols-3 shadow-xl">
 					<div class="col-start-1 col-end-3 grid text-left mx-2" style="grid-template-rows: 1fr 2fr;">
 						<div class="font-semibold text-lg">반려묘 게시판</div>
 						<div class="font-normal self-center">우리의 고양이 친구들을 만나보세요!</div>
@@ -183,7 +183,7 @@
 					<img src="https://img.icons8.com/?size=100&id=tvJZdxwTxU5v&format=png&color=000000" alt="" />
 				</a>
 				
-				<a href="../article/list?boardId=5" class="btn btn-outline text-[#778899] bg-[#f0f7ff] border-[#778899] hover:bg-[#778899] hover:border-[#778899] h-full grid grid-cols-3">
+				<a href="../article/list?boardId=5" class="btn btn-outline text-[#778899] bg-[#f0f7ff] border-[#778899] hover:bg-[#778899] hover:border-[#778899] h-full grid grid-cols-3 shadow-xl">
 					<div class="col-start-1 col-end-3 grid text-left mx-2" style="grid-template-rows: 1fr 2fr;">
 						<div class="font-semibold text-lg">거래 게시판</div>
 						<div class="font-normal self-center">고양이 집사들을 위한 용품 거래 공간입니다.</div>
@@ -191,7 +191,7 @@
 					<img src="https://img.icons8.com/?size=100&id=UDDUYWPLoNks&format=png&color=000000" alt="" />
 				</a>
 				
-				<a href="../article/list?boardId=6" class="btn btn-outline text-[#6524d9] bg-[#f5f0fc] border-[#6524d9] hover:bg-[#6524d9] hover:border-[#6524d9] h-full grid grid-cols-3">
+				<a href="../article/list?boardId=6" class="btn btn-outline text-[#6524d9] bg-[#f5f0fc] border-[#6524d9] hover:bg-[#6524d9] hover:border-[#6524d9] h-full grid grid-cols-3 shadow-xl">
 					<div class="col-start-1 col-end-3 grid text-left mx-2" style="grid-template-rows: 1fr 2fr;">
 						<div class="font-semibold text-lg">모임 게시판</div>
 						<div class="font-normal self-center">고양이 사랑이 가득한 모임입니다.</div>
@@ -210,7 +210,7 @@
 		<div class="overflow-hidden grid" style="grid-template-columns: 1fr 1024px 1fr;">
 			<div></div>
 			<c:if test="${rq.loginedMemberId != 0 }">
-				<div id="map" class="shadow w-[1024px] h-[550px] rounded-box">
+				<div id="map" class="shadow w-[1024px] h-[550px] rounded-box shadow">
 					<div id="radioBtn" class="join absolute z-20 top-2 left-2">
 					  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="1000" aria-label="1km" autocomplete="off" />
 					  	<input class="join-item btn btn-sm btn-neutral text-xs w-12" type="radio" name="options" value="2000" aria-label="2km" checked autocomplete="off" />
@@ -231,7 +231,7 @@
 			</c:if>
 			
 			<c:if test="${rq.loginedMemberId == 0 }">
-				<div class="flex items-center justify-center border bg-gray-200 opacity-90 text-lg w-[1024px] min-w-[1024px] h-[550px] rounded-box">
+				<div class="flex items-center justify-center border bg-gray-200 opacity-90 text-lg w-[1024px] min-w-[1024px] h-[550px] rounded-box shadow">
 					<span class="pr-1.5">로그인 후 이용가능합니다.</span>
 					<a class="text-red-600 hover:text-red-700 hover:underline " href="../member/login">로그인 이동</a>
 				</div>
@@ -243,26 +243,30 @@
 		</div>
 	</section>
 	
-	<!-- 각 부분 랭킹, 댓글왕, 추천왕, 작성왕 등 -->
+	<!-- 각 부분 랭킹 표시, 댓글왕, 추천왕, 작성왕 등 -->
 	<section id="hall-of-fame" class="mw relative py-32 bg-gray-50">
 		<div class="w-[1024px] mx-auto">
 			<div class="text-xl font-semibold pb-4">MEOW 명예의 전당</div>
 		</div>
 		
 		<div class="w-[1024px] mx-auto">
-			<div class="cr inline-flex snap-x snap-mandatory overflow-x-scroll scroll-smooth p-4 space-x-4 border-2 bg-neutral rounded-box">
+			<div class="cr inline-flex snap-x snap-mandatory overflow-x-scroll scroll-smooth p-4 space-x-4 border rounded-box shadow-2xl">
 				<!-- 작성왕 -->
 				<div id="item1" class="cr-item box-content flex flex-none snap-center">
 					<div class="card bg-base-100 shadow-xl w-[300px] h-[400px] bg-[#fffff5]">
-						<figure class="border-b">
-							<img src="${topArticleWriters.profileImage }" alt="프로필 이미지가 없습니다." class="h-[180px] flex justify-center items-center" />
+						<figure class="border-b py-4">
+							<div class="avatar">
+							  	<div class="w-36 rounded-full">
+							    	<img src="${topArticleWriters.profileImage }" alt="프로필 이미지가 없습니다." class="h-[180px] flex justify-center items-center" />
+							  	</div>
+							</div>
 						</figure>
 						<div class="card-body">
 							<h2 class="card-title"><i class="fa-solid fa-star" style="color: #FFD43B;"></i> 작성왕</h2>
 							<h2 class="card-title justify-end">
 								<span style="background: linear-gradient(140deg, #ff9f71, #ffe6cc); color: transparent; -webkit-background-clip: text;">${topArticleWriters.nickname }</span> 님
 							</h2>
-							<p><span class="font-bold underline">${topArticleWriters.articleCnt }</span> 개의 게시글을 작성했습니다!</p>
+							<p>총 <span class="font-bold underline">${topArticleWriters.articleCnt }</span> 개의 게시글을 작성했습니다!</p>
 						</div>
 					</div>
 				</div>
@@ -270,18 +274,23 @@
 				<!-- 게시글 추천왕 -->
 				<div id="item2" class="cr-item box-content flex flex-none snap-center">
 					<div class="card bg-base-100 shadow-xl w-[300px] h-[400px] bg-[#f5fbff]">
-						<figure class="border-b">
-							<img src="${topLikedArticles.profileImage }" alt="프로필 이미지가 없습니다." class="h-[180px] flex justify-center items-center" />
+						<figure class="border-b py-4">
+							<div class="avatar">
+							  	<div class="w-36 rounded-full">
+							    	<img src="${topLikedArticles.profileImage }" alt="프로필 이미지가 없습니다." class="h-[180px] flex justify-center items-center" />
+							  	</div>
+							</div>
 						</figure>
+						
 						<div class="card-body">
 							<h2 class="card-title">
-								<i class="fa-solid fa-star" style="color: #74C0FC;"></i>게시글 추천왕
+								<i class="fa-solid fa-star" style="color: #74C0FC;"></i>추천왕
 							</h2>
 							<h2 class="card-title justify-end">
 								<span style="background: linear-gradient(140deg, #0080c0, #d0f0ff); color: transparent; -webkit-background-clip: text;">${topLikedArticles.nickname }</span> 님
 							</h2>
-							<p><span class="font-bold underline">${topLikedArticles.reactionLikeCnt }</span> 개의 추천을 받았습니다!</p>
-							<p><div class="badge badge-info">게시글 기준</div></p>
+							<p>총 <span class="font-bold underline">${topLikedArticles.reactionLikeCnt }</span> 개의 추천을 받았습니다!</p>
+							<p><div class="badge badge-info">게시글</div></p>
 						</div>
 					</div>
 				</div>
@@ -289,18 +298,23 @@
 				<!-- 댓글 추천왕 -->
 				<div id="item3" class="cr-item box-content flex flex-none snap-center">
 					<div class="card bg-base-100 shadow-xl w-[300px] h-[400px] bg-[#f8fff5]">
-						<figure class="border-b">
-							<img src="${topLikedReplies.profileImage }" alt="프로필 이미지가 없습니다." class="h-[180px] flex justify-center items-center" />
+						<figure class="border-b py-4">
+							<div class="avatar">
+							  	<div class="w-36 rounded-full">
+							    	<img src="${topLikedReplies.profileImage }" alt="프로필 이미지가 없습니다." class="h-[180px] flex justify-center items-center" />
+							  	</div>
+							</div>
 						</figure>
+						
 						<div class="card-body">
 							<h2 class="card-title">
-								<i class="fa-solid fa-star" style="color: #63E6BE;"></i>댓글 추천왕
+								<i class="fa-solid fa-star" style="color: #63E6BE;"></i>추천왕
 							</h2>
 							<h2 class="card-title justify-end">
 								<span style="background: linear-gradient(140deg, #00d700, #9bffb5); color: transparent; -webkit-background-clip: text;">${topLikedReplies.nickname }</span> 님
 							</h2>
-							<p><span class="font-bold underline">${topLikedReplies.reactionLikeCnt }</span> 개의 추천을 받았습니다!</p>
-							<p><div class="badge badge-accent">댓글 기준</div></p>
+							<p>총 <span class="font-bold underline">${topLikedReplies.reactionLikeCnt }</span> 개의 추천을 받았습니다!</p>
+							<p><div class="badge badge-accent">댓글</div></p>
 						</div>
 					</div>
 				</div>

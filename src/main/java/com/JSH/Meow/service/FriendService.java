@@ -15,16 +15,14 @@ public class FriendService {
 		this.friendDao = friendDao;
 	}
 	
-	public void sendResponse(int senderId, int receiverId) {
-		friendDao.sendResponse(senderId, receiverId);
+	// 친구 요청 응답
+	public void acceptFriend(int senderId, int receiverId) {
+		friendDao.acceptFriend(senderId, receiverId);
 	}
-
-	public List<Friend> checkRequests(int memberId) {
-		return friendDao.checkRequests(memberId);
-	}
-
-	public Friend getFriendStatus(int senderId, int receiverId) {
-		return friendDao.getFriendStatus(senderId, receiverId);
+	
+	// 친구 목록 가져오기
+	public List<Friend> getFriendsById(int memberId) {
+		return friendDao.getFriendsById(memberId);
 	}
 
 }

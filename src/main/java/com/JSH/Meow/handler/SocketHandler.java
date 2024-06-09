@@ -66,22 +66,6 @@ public class SocketHandler extends TextWebSocketHandler {
 	}
 	
 	
-	/* 네이버 json 파싱하는 곳에서 메서드로 사용하면 좋을듯
-	private String parseMessageString(String jsonMsg, String fieldName) {
-		// JSON 문자열을 JsonObject로 파싱
-		ObjectMapper objectMapper = new ObjectMapper();
-		
-		try {
-			JsonNode jsonNode = objectMapper.readTree(jsonMsg);
-			return jsonNode.get(fieldName).asText();
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
-		
-		return null;
-	}*/
-	
-	
 	// 웹소켓을 열고 닫을때 메시지 출력
 	private void onWebSocketOpenClose(WebSocketSession session, String content, String type) {
 		HttpSession httpSession = (HttpSession) session.getAttributes().get("HTTP_SESSION");

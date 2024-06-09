@@ -18,28 +18,21 @@ public interface FriendDao {
 				, senderId = #{senderId}
 			    , receiverId = #{receiverId}
 			""")
-	public void sendResponse(int senderId, int receiverId);
-
+	public void acceptFriend(int senderId, int receiverId);
 	
 	@Select("""
-			SELECT F.*, M.nickname writerName, TIMESTAMPDIFF(SECOND, requestDate, NOW()) timeDiffSec
+			SELECT F.*, M1.nickname senderNickname, M2.nickname receiverNickname
 			FROM friend F
-			INNER JOIN `member` M
-			ON F.senderId = M.id
-			WHERE F.receiverId = #{memberId}
-			AND F.`status` = 'pending';
+			LEFT JOIN `member` M1
+				ON M1.id = F.senderId
+			LEFT JOIN `member` M2
+				ON M2.id = F.receiverId
+			WHERE F.deleteDate IS NULL
+				AND (
+					F.senderId = #{memberId}
+					OR F.receiverId = #{memberId} 
+				);
 			""")
-	public List<Friend> checkRequests(int memberId);
+	public List<Friend> getFriendsById(int memberId);
 
-	
-	@Select("""
-			SELECT * FROM friend
-			WHERE (
-				(senderId = #{senderId} AND receiverId = #{receiverId})
-			    OR (senderId = #{receiverId} AND receiverId = #{senderId})
-			)
-			AND `status` != 'refuse'
-			""")
-	public Friend getFriendStatus(int senderId, int receiverId);
-	
 }

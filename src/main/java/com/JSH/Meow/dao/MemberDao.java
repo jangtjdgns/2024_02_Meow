@@ -194,7 +194,7 @@ public interface MemberDao {
 			WHERE id = #{id}
 			""")
 	public void updateProfileImage(int id, String imagePath);
-	
+
 	@Select("""
 			SELECT M.*
 			    , COUNT(*) AS articleCnt
@@ -203,7 +203,7 @@ public interface MemberDao {
 			INNER JOIN article A
 			ON M.id = A.memberId
 			WHERE M.authLevel = 1
-			GROUP BY A.memberId
+			GROUP BY M.id
 			ORDER BY articleCnt DESC, M.id ASC
 			LIMIT 1
 			""")
@@ -213,12 +213,21 @@ public interface MemberDao {
 			SELECT M.*
 				, IFNULL(SUM(R.point), 0) AS reactionLikeCnt
 			FROM `member` M
-			INNER JOIN reaction R ON M.id = R.memberId
-			WHERE R.reactionType = 0
-			AND R.relTypeCode = #{relTypeCode}
+			INNER JOIN reaction R
+			ON M.id = R.memberId
+			WHERE M.authLevel = 1
+				AND R.reactionType = 0
+				AND R.relTypeCode = #{relTypeCode}
 			GROUP BY M.id
 			ORDER BY reactionLikeCnt DESC, M.id ASC
 			LIMIT 1
 			""")
 	public Member getTopLiked(String relTypeCode);
+	
+	@Update("""
+			UPDATE `member`
+			SET lastLoginDate = NOW()
+			WHERE id = #{id}
+			""")
+	public void updateLastLoginDate(int id);
 }

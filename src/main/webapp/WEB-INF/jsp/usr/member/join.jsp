@@ -117,7 +117,7 @@
 	                <span class="label-text">프로필 사진</span>
 	            </label>
 	            <div class="flex items-center gap-2">
-		            <input id="profileImage" name="profileImage" type="file" class="file-input file-input-bordered w-full no-validation" accept="image/gif, image/jpeg, image/png" />
+		            <input id="profileImage" name="profileImage" type="file" onchange="previewImage(this)" class="file-input file-input-bordered w-full no-validation" accept="image/gif, image/jpeg, image/png" />
 		            <div class="dropdown dropdown-hover dropdown-top dropdown-end">
 					  	<div tabindex="0" role="button" class="btn btn-sm btn-circle bg-white mt-1"><i class="fa-solid fa-image"></i></div>
 					  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-96">

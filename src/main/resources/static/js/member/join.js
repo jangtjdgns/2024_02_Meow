@@ -262,12 +262,6 @@ function resetAddress() {
     $("#detailAddress").val("");
 }
 
-// 이미지 초기화
-function resetImage(){
-	$("#profileImage").val("");
-	$("#imagePreview").attr("src", "");
-}
-
 $(function(){
 	
 	// 중복확인 버튼 클릭 시
@@ -307,14 +301,5 @@ $(function(){
 		$(".senMailBtn").attr("disabled", false);
 		$("#authCode").attr("disabled", false);
 		$("#authCodeWrap").addClass("hidden");
-	})
-	
-	// 이미지 미리보기
-	$("#profileImage").change(function(){
-		let imageFiles = $(this)[0].files;
-		if (imageFiles.length > 0) {
-	        const imageURL = URL.createObjectURL(imageFiles[0]);
-	        $("#imagePreview").attr("src", imageURL);
-	    }
 	})
 })

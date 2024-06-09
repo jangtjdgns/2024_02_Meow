@@ -13,4 +13,7 @@ public class Friend {
 	private String deleteDate;
 	private String senderId;
 	private String receiverId;
+	
+	private String senderNickname;
+	private String receiverNickname;
 }

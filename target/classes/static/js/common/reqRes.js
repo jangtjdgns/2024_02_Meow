@@ -112,6 +112,7 @@ function sendResponse(id, requesterId, status, code) {
 			// openPop(${result[0].requesterId}, ${result[0].recipientId})
 			checkRequests($("#recipientId").val());
 			alertMsg(data.msg, "default");
+			checkRequests(loginedMemberId);
 			
 			if(status == 'accepted' && code == 'chat') {
 				openPop(requesterId, recipientId);

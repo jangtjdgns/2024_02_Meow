@@ -80,7 +80,6 @@ function validataNotBlank(field){
 	return false;
 }
 
-
 // input 색상 변경 함수
 function changeInputBorderColor(field, isValid, errorClass){
 	field.removeClass(errorClass);
@@ -91,10 +90,25 @@ function changeInputBorderColor(field, isValid, errorClass){
 	
 }
 
-
 // textarea 입력한 글자수 표시
 function checkInputTextLength(input) {
 	$(input).on("input", function(){
 		$(".inputTextLength").text($(this).val().trim().length);
 	});
+}
+
+
+// 이미지 미리보기
+function previewImage(inputFile) {
+	let imageFiles = $(inputFile)[0].files;
+	if (imageFiles.length > 0) {
+        const imageURL = URL.createObjectURL(imageFiles[0]);
+        $("#imagePreview").attr("src", imageURL);
+    }
+}
+
+// 이미지 초기화
+function resetImage(){
+	$("#profileImage").val("");
+	$("#imagePreview").attr("src", "");
 }

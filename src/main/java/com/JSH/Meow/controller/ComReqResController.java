@@ -87,7 +87,7 @@ public class ComReqResController {
 		reqResService.sendResponse(id, status);
 		
 		if(code.equals("friend") && status.equals("accepted")) {			
-			friendService.sendResponse(requesterId, recipientId);
+			friendService.acceptFriend(requesterId, recipientId);
 		}
 		
 		String msg = null;

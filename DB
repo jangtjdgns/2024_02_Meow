@@ -41,7 +41,7 @@ CREATE TABLE sns_info (
   id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '소셜 로그인 회원번호',
   snsId VARCHAR(255) NOT NULL UNIQUE COMMENT '소셜 로그인 계정 고유ID',
   snsConnectDate DATETIME NULL COMMENT '소셜 로그인 첫 연동 일',
-  snsType VARCHAR(10) NOT NULL COMMENT 'SNS 타입 (naver, kakao, google)',
+  snsType VARCHAR(10) NOT NULL COMMENT 'SNS 타입 (naver, kakao, google, github)',
   memberId INT UNSIGNED NULL,
   `name` VARCHAR(255) NOT NULL COMMENT '소셜 계정 이름',
   mobile VARCHAR(20) NULL COMMENT '소셜 계정 전화번호',

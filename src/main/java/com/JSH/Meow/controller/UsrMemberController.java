@@ -15,12 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.JSH.Meow.service.CompanionCatService;
 import com.JSH.Meow.service.EmailService;
+import com.JSH.Meow.service.FriendService;
 import com.JSH.Meow.service.MemberDeletionService;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.service.SnsInfoService;
 import com.JSH.Meow.service.UploadService;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.CompanionCat;
+import com.JSH.Meow.vo.Friend;
 import com.JSH.Meow.vo.Member;
 import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
@@ -35,15 +37,19 @@ public class UsrMemberController {
 	private MemberService memberService;
 	private MemberDeletionService memberDeletionService;
 	private CompanionCatService companionCatService;
+	private FriendService friendService;
 	private SnsInfoService snsInfoService;
 	private EmailService emailService;
 	private UploadService uploadService;
 	private Rq rq;
 	
-	public UsrMemberController(MemberService memberService, MemberDeletionService memberDeletionService, CompanionCatService companionCatService, SnsInfoService snsInfoService, EmailService emailService, UploadService uploadService, Rq rq) {
+	public UsrMemberController(MemberService memberService, MemberDeletionService memberDeletionService
+			, CompanionCatService companionCatService, FriendService friendService, SnsInfoService snsInfoService
+			, EmailService emailService, UploadService uploadService, Rq rq) {
 		this.memberService = memberService;
 		this.memberDeletionService = memberDeletionService;
 		this.companionCatService = companionCatService;
+		this.friendService = friendService;
 		this.snsInfoService = snsInfoService;
 		this.emailService = emailService;
 		this.uploadService = uploadService;
@@ -246,6 +252,7 @@ public class UsrMemberController {
 		}
 		
 		rq.login(member);
+		memberService.updateLastLoginDate(member.getId());
 		
 		return Util.jsReplace(Util.f("%s님 환영합니다.", member.getNickname()), "/");
 	}
@@ -261,6 +268,7 @@ public class UsrMemberController {
 		Member member = memberService.getMemberById(snsInfo.getMemberId());
 		
 		rq.login(member);
+		memberService.updateLastLoginDate(member.getId());
 		
 		return Util.jsReplace(Util.f("%s님 환영합니다.", member.getNickname()), "/");
 	}
@@ -276,7 +284,7 @@ public class UsrMemberController {
 		return Util.jsReplace("로그아웃 되었습니다.", "/");
 	}
 	
-	
+	// 프로필 페이지
 	@RequestMapping("/usr/member/profile")
 	public String showProfile(Model model, int memberId) {
 		
@@ -292,11 +300,16 @@ public class UsrMemberController {
 		
 		String snsType = snsInfoService.getSnsTypeByMemberId(memberId);
 		
+		// 반려묘 목록
 		List<CompanionCat> companionCats = companionCatService.getCompanionCats(memberId);
+		
+		// 친구 목록
+		List<Friend> friends = friendService.getFriendsById(memberId);
 		
 		model.addAttribute("member", member);
 		model.addAttribute("snsType", snsType);
 		model.addAttribute("companionCats", companionCats);
+		model.addAttribute("friends", friends);
 		
 		return "usr/member/profile";
 	}
@@ -354,7 +367,7 @@ public class UsrMemberController {
 	}
 	
 	
-	// 한개만 수정해도 모든 값을 다가져와서 수정하고있음, 후에 수정예정
+	// 한개만 수정해도 모든 값을 다가져와서 수정하고있음, 수정 필요할 수도
 	@RequestMapping("/usr/member/doModify")
 	@ResponseBody
 	public String doModify(int memberId, String name, int age, String address, String cellphoneNum, String email) {
@@ -380,6 +393,58 @@ public class UsrMemberController {
 		memberService.doModify(memberId, name, age, address, cellphoneNum, email);
 		
 		return Util.jsReplace(Util.f("%s님의 계정 정보가 변경되었습니다.", member.getNickname()), "/");
+	}
+	
+	
+	// 프로필 이미지 변경, ajax
+	@RequestMapping("/usr/member/profileImage/doUpdate")
+	@ResponseBody
+	public ResultData doUpdateProfileImage(int memberId, @RequestParam MultipartFile[] profileImage) throws IOException {
+		
+		Member member = memberService.getMemberById(memberId);
+		
+		// 존재 유뮤 확인
+		if(member == null) {
+			return ResultData.from("F-1", Util.f("%d번 회원은 존재하지 않습니다.", memberId));
+		}
+		
+		// 권한 체크
+		if(memberId != rq.getLoginedMemberId()) {
+			return ResultData.from("F-2", "본인 계정이 아닙니다.");
+		}
+		
+		String snsType = snsInfoService.getSnsTypeByMemberId(memberId);
+		
+		if(snsType != null) {
+			return ResultData.from("F-3", "SNS 로그인 회원은 계정 정보 변경이 불가합니다.");
+		}
+		
+		
+		// 이미지
+		String imagePath = member.getProfileImage();
+		
+		for(MultipartFile image: profileImage) {
+			// 이미지 확장자 확인, jpg, jpeg, png, gif 가능
+			boolean isImageTypeSupported = uploadService.isImageTypeValid(image);
+			
+			if(isImageTypeSupported) {
+				// 업로드된 기존 이미지를 삭제 (존재하면 삭제)
+				if(!Util.isEmpty(imagePath)) {			
+					uploadService.deleteProfileImage(imagePath);
+				}
+				
+				// 이미지 업로드
+				uploadService.uploadFile(image, "member");
+				imagePath = uploadService.getProfileImagePath("member");
+				break;
+			}
+		}
+		
+		// 프로필 이미지 변경
+		memberService.updateProfileImage(memberId, imagePath);
+		rq.updateProfileImage(imagePath);	// 이미지 변경후 현제 세션에 다시 저장
+		
+		return ResultData.from("S-1", "프로필 이미지가 변경되었습니다.<br /><span class='text-xs'>* 새로고침을 진행해주세요.</span>");
 	}
 	
 	

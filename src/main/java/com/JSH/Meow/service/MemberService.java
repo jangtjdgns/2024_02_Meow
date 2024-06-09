@@ -107,8 +107,13 @@ public class MemberService {
 		return memberDao.getTopArticleWriters();
 	}
 	
-	// 추천왕
+	// 게시글 및 댓글 추천왕
 	public Member getTopLiked(String relTypeCode) {
 		return memberDao.getTopLiked(relTypeCode);
+	}
+	
+	// 로그인 시 날짜 업데이트
+	public void updateLastLoginDate(int id) {
+		memberDao.updateLastLoginDate(id);
 	}
 }

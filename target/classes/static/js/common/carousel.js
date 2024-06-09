@@ -84,4 +84,7 @@ function moveCarouselAnimation(crItem) {
 	$('.cr').animate({
 		scrollLeft: 300 * (parseInt($(crItem).text()) - 1),
 	}, 'fast');
+	
+	$('.cr-indicator-btn').removeClass('btn-active');
+	$(crItem).addClass('btn-active');
 }

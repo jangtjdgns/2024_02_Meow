@@ -1,3 +1,41 @@
+/**
+ * 프로필 페이지 js
+ */
+
+// 프로필 이미지 변경
+function doUpdateProfileImage(form) {
+	event.preventDefault();	// submit 막기
+	
+	if(!confirm('프로필 이미지를 변경하시겠습니까?')) {
+		alertMsg('프로필 이미지 변경을 취소합니다.', 'default');
+		return false;
+	} 
+	
+	let formData = new FormData(form);							// 폼 데이터 객체 생성
+	formData.append('memberId', loginedMemberId)
+	let imageFiles = form[0].files;								// 파일 추출
+	if (imageFiles.length > 0) formData.append('profileImage', imageFiles);	// 파일이 있으면 데이터 추가
+	else {
+		alertMsg('변경할 이미지를 선택해주세요.', 'warning');
+		return false;
+	}
+	
+	$.ajax({
+		url: '/usr/member/profileImage/doUpdate',
+	    method: 'POST',
+	    data: formData,
+	    contentType: false,
+	    processData: false,
+	    dataType: 'json',
+	    success: function(data) {
+	    	alertMsg(data.msg + '', data.success ? 'success' : 'warning');
+		},
+	      	error: function(xhr, status, error) {
+	      	console.error('Ajax error:', status, error);
+		},
+	});
+}
+
 $(function(){
 	// 프로필 페이지 사이드바 top 기본(최상위) 위치, (헤더 높이 + 3rem)		3rem == 48px 
 	const defaultPos = parseFloat($(".h-mh").css("height")) + 48;
