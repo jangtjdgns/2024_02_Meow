@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.JSH.Meow.config.component.KakaoComponent;
+import com.JSH.Meow.component.KakaoComponent;
 import com.JSH.Meow.vo.Rq;
 
 @Controller

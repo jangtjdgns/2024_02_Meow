@@ -19,10 +19,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.JSH.Meow.config.component.GithubComponent;
-import com.JSH.Meow.config.component.GoogleComponent;
-import com.JSH.Meow.config.component.KakaoComponent;
-import com.JSH.Meow.config.component.NaverComponent;
+import com.JSH.Meow.component.GithubComponent;
+import com.JSH.Meow.component.GoogleComponent;
+import com.JSH.Meow.component.KakaoComponent;
+import com.JSH.Meow.component.NaverComponent;
 import com.JSH.Meow.util.Util;
 import com.JSH.Meow.vo.SnsInfo;
 

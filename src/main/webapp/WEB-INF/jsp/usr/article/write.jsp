@@ -27,7 +27,7 @@
 				<div class="bg-gray-50 w-full h-full flex items-center justify-center border-b-2 border-white py-4">게시판</div>
 				<div class="w-full p-1 border-r-2 [border-color:#F9FAFB] flex justify-between">
 					<select name="boardId" id="select-board" class="select select-sm focus:outline-none w-24 h-full">
-						<c:forEach var="board" items="${boards }" begin="${rq.loginedMemberId == 1 ? 1 : 2 }">
+						<c:forEach var="board" items="${boards }" begin="${rq.authLevel == 0 ? 1 : 2 }">
 							<option value="${board.id }" ${board.id == 2 ? 'selected' : '' }>${board.name }</option>
 						</c:forEach>
 					</select>

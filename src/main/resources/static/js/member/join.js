@@ -174,10 +174,9 @@ function dupCheck(type, input){
 				isDupChecked[1] = success;
 			}
 			
-			const msg = success ? `사용가능한 ${inputName} 입니다.` : `사용할 수 없는 ${inputName} 입니다.`;
 			const alertType = success ? 'success' : 'error';
 			changeInputBorderColor(input, success, "input-error");
-			alertMsg(msg, alertType);
+			alertMsg(data.msg, alertType);
 			return input.focus();
 		},
 		error : function(xhr, status, error){
@@ -220,7 +219,6 @@ function sendMailAuthCode() {
 		},
 		dataType : "json",
 		success : function(data){
-			
 			if(data.success){
 				authCode = data.data;
 				isEmailSent = true;
@@ -275,12 +273,6 @@ $(function(){
 		$(this).attr("id") == 'loginId' ? isDupChecked[0] = false : isDupChecked[1] = false;
 	})
 	
-	// emailNotReg 체크박스 변경시,
-	$('.emailNotReg').change(function() {
-		 $(this).is(':checked') ? lastFields = 1 : lastFields = 2;
-		 changeInputBorderColor($('#inputEmail'), true, "input-error");
-	});
-	
 	// 비밀번호 확인
 	$("#loginPwChk").change(function(){
 		checkPw();
@@ -297,6 +289,7 @@ $(function(){
 	// 이메일이 변경될 때
 	$("#inputEmail").change(function(){
 		isEmailSent = false;
+		authCode = '';
 		$("#authCodeWrap>input").val("");
 		$(".senMailBtn").attr("disabled", false);
 		$("#authCode").attr("disabled", false);

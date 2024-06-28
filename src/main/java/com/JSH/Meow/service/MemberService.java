@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.JSH.Meow.config.component.UploadComponent;
+import com.JSH.Meow.component.UploadComponent;
 import com.JSH.Meow.dao.MemberDao;
 import com.JSH.Meow.util.SHA256;
 import com.JSH.Meow.vo.Member;

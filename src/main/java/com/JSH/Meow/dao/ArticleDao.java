@@ -31,7 +31,7 @@ public interface ArticleDao {
 					AND R.relTypeCode = 'article'
 				LEFT JOIN board B
 					ON A.boardId = B.id
-				WHERE 1 = 1
+				WHERE M.status != 3
 				<if test="boardId != null and boardId != 1">
 					AND A.boardId = #{boardId}
 				</if>
@@ -178,8 +178,10 @@ public interface ArticleDao {
 	@Select("""
 			<script>
 				SELECT COUNT(*)
-				FROM article
-				WHERE 1 = 1
+				FROM article A
+				LEFT JOIN `member` M
+			 		ON A.memberId = M.id
+				WHERE M.status != 3
 				<if test="boardId != 1">
 					AND boardId = #{boardId}
 				</if>

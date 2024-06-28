@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.JSH.Meow.config.component.UploadComponent;
+import com.JSH.Meow.component.UploadComponent;
 
 @Service
 public class UploadService {

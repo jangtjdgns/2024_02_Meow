@@ -149,6 +149,7 @@ public interface MemberDao {
 	@Update("""
 			UPDATE `member`
 			SET `status` = #{status}
+				, profileImage = NULL
 			WHERE id = #{memberId}
 			""")
 	public void doDelete(int memberId, int status);

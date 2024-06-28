@@ -236,7 +236,7 @@
 							<c:if test="${rq.authLevel == 1}">
 								<!-- 유저 -->
 								<li><a href="../member/profile?memberId=${rq.loginedMemberId }">프로필</a></li>
-								<li><a>계정관리</a></li>
+								<li><a href="../member/userAccount?memberId=${rq.loginedMemberId }">계정관리</a></li>
 								<li><button onclick="my_modal_3.showModal()">문의</button></li>
 								<li><button onclick="showReportModal('none', 0, 0)">신고</button></li>
 							</c:if>

@@ -14,6 +14,10 @@ import com.JSH.Meow.vo.Reply;
 import com.JSH.Meow.vo.ResultData;
 import com.JSH.Meow.vo.Rq;
 
+// 사용안함
+// 유저 신고 기능은 고객센터 컨트롤러에서 한번에 함
+// 단, 처리는 관리자 신고 컨트롤러에서 따로 관리함
+
 @Controller
 public class UsrReportController {
 	

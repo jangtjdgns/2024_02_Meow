@@ -25,12 +25,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /** 
- * ArticleController
+ * UsrArticleController
  * 게시글을 관리하는 컨트롤러
  * */
 
 @Controller
-public class ArticleController {
+public class UsrArticleController {
 	
 	private ArticleService articleService;
 	private BoardService boardService;
@@ -38,7 +38,7 @@ public class ArticleController {
 	private UploadService uploadService;
 	private Rq rq;
 	
-	public ArticleController(ArticleService articleService, BoardService boardService, ReplyService replyService, UploadService uploadService, Rq rq) {
+	public UsrArticleController(ArticleService articleService, BoardService boardService, ReplyService replyService, UploadService uploadService, Rq rq) {
 		this.articleService = articleService;
 		this.boardService = boardService;
 		this.replyService = replyService;

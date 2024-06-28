@@ -1,4 +1,4 @@
-package com.JSH.Meow.config.component;
+package com.JSH.Meow.component;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,36 +10,38 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.JSH.Meow.util.Util;
+
 import lombok.Getter;
 
 @Component
 public class UploadComponent {
 	
 	// 기본 업로드 경로
-	@Value("${upload.directory}")
+	@Value("${upload.directory.default}")
     @Getter
     private String uploadDirectory;
 	
-	@Getter
-	private String fileName;
-	
-	// 게시글 이미지 업로드
-	@Value("/images/upload/article")
+	// 게시글 이미지 업로드 경로
+	@Value("${upload.directory.article}")
 	private String articleImagePath;
 	
 	// 회원 프로필 이미지 업로드 경로
-	@Value("/images/upload/profile/member/")
+	@Value("${upload.directory.profile.member}")
 	private String profileMemberImagePath;
 	
 	// 반려묘 프로필 이미지 업로드 경로
-	@Value("/images/upload/profile/companionCat/")
+	@Value("${upload.directory.profile.cat}")
 	private String profileCompanionCatImagePath;
+	
+	@Getter
+	private String fileName;
 	
 	
 	// 파일 업로드
 	public void uploadFile(MultipartFile file, String type) throws IOException {
 		String directory = null;
-		String originalFileName = file.getOriginalFilename();
+		String originalFileName = Util.removeSpaces(file.getOriginalFilename());
 		
 		// 프로필 이미지 타입 확인 후 경로 지정
 		if(isImageTypeValid(file)) {

@@ -48,11 +48,6 @@ public class Rq {
 		this.loginedMemberId = loginedMemberId;
 	}
 	
-	public String jsReturnOnView(String msg) {
-		this.req.setAttribute("msg", msg);
-		return "usr/common/jsReturnOnView";
-	}
-	
 	// session login
 	public void login(Member member) {
 		this.session.setAttribute("loginedMemberId", member.getId());
@@ -97,8 +92,14 @@ public class Rq {
 	public void deleteChatRoom() {
 		this.session.removeAttribute("chatRoomId");
 	}
-
-	// jsPrintHistoryBack
+	
+	// jsReturnOnView
+	public String jsReturnOnView(String msg) {
+		this.req.setAttribute("msg", msg);
+		return "usr/common/jsReturnOnView";
+	}
+		
+	// jsPrintHistoryBack, 인터셉터에서만 사용됨
 	public void jsPrintHistoryBack(String msg) {
 		res.setContentType("text/html; charset=UTF-8;");
 		

@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.JSH.Meow.config.component.UploadComponent;
+import com.JSH.Meow.component.UploadComponent;
 import com.JSH.Meow.dao.CompanionCatDao;
 import com.JSH.Meow.vo.CompanionCat;
 

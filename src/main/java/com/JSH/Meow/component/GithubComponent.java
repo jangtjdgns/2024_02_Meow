@@ -1,4 +1,4 @@
-package com.JSH.Meow.config.component;
+package com.JSH.Meow.component;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;

@@ -23,6 +23,14 @@ public class Util {
 		
 		return num == null;
 	}
+	
+	// 문자열 공백을 빈 문자열로 변경
+	public static String removeSpaces(String str) {
+        if (str.contains(" ")) {
+            str = str.replace(" ", "");
+        }
+        return str;
+    }
 
 	// String foramt
 	public static String f(String format, Object... args) {

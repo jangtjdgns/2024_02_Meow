@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.JSH.Meow.config.component.KakaoComponent;
+import com.JSH.Meow.component.KakaoComponent;
 import com.JSH.Meow.service.ArticleService;
 import com.JSH.Meow.service.MemberService;
 import com.JSH.Meow.util.Util;

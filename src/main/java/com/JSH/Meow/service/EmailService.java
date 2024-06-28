@@ -1,7 +1,6 @@
 package com.JSH.Meow.service;
 
 import java.util.Random;
-import java.util.UUID;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;

@@ -85,8 +85,7 @@
 			return;
 		}
 
-		const editor = $(form).find('.toast-ui-editor').data(
-				'data-toast-editor');
+		const editor = $(form).find('.toast-ui-editor').data('data-toast-editor');
 		/* const html = editor.getHTML(); */
 		const markdown = editor.getMarkdown().trim();
 

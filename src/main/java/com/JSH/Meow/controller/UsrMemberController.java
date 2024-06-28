@@ -447,10 +447,10 @@ public class UsrMemberController {
 		return ResultData.from("S-1", "프로필 이미지가 변경되었습니다.<br /><span class='text-xs'>* 새로고침을 진행해주세요.</span>");
 	}
 	
-	
+	// 회원 탈퇴
 	@RequestMapping("/usr/member/doDelete")
 	@ResponseBody
-	public String doDelete(int memberId, String deletionReasonCode, @RequestParam(defaultValue = "") String customDeletionReason) {
+	public String doDelete(int memberId, String loginPw, String deletionReasonCode, @RequestParam(defaultValue = "") String customDeletionReason) throws NoSuchAlgorithmException {
 		
 		Member member = memberService.getMemberById(memberId);
 		
@@ -462,6 +462,12 @@ public class UsrMemberController {
 		// 권한 체크
 		if(memberId != rq.getLoginedMemberId()) {
 			return rq.jsReturnOnView("본인 계정이 아닙니다.");
+		}
+		
+		// 비밀번호 일치 유무 확인
+		boolean equalsPw = memberService.getPasswordEquality(loginPw, member.getLoginPw());
+		if(equalsPw) {
+			return Util.jsHistoryBack("비밀번호가 일치하지 않습니다.");
 		}
 		
 		// 업로드된 회원 프로필이미지는 삭제 진행
@@ -618,7 +624,7 @@ public class UsrMemberController {
 	// 비밀번호 재설정, ajax
 	@RequestMapping("/usr/doReset/loginPw")
 	@ResponseBody
-	public ResultData resetLoginPwPop(@RequestParam(defaultValue = "0")int memberId, String resetLoginPw) throws NoSuchAlgorithmException {
+	public ResultData doResetLoginPw(@RequestParam(defaultValue = "0")int memberId, String resetLoginPw) throws NoSuchAlgorithmException {
 		
 		if(memberId == 0 && rq.getLoginedMemberId() == 0) {
 			return ResultData.from("F-1", "이메일 인증이 확인되지 않았습니다.");

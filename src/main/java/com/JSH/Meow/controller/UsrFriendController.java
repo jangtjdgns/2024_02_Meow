@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import com.JSH.Meow.service.FriendService;
 import com.JSH.Meow.vo.Rq;
 
+// 사용안함
 @Controller
 public class UsrFriendController {
 	private FriendService friendService;
