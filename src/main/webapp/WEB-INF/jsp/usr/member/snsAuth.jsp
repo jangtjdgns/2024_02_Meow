@@ -41,7 +41,7 @@
 	
 	$(function() {
         let snsInfo = JSON.parse($('.snsInfo').text());
-        $('.snsInfoJson').val($('.snsInfo').text())
+        $('.snsInfoJson').val($('.snsInfo').text());
         hasLoggedInBefore(snsInfo);
 	})
 </script>

@@ -207,8 +207,8 @@
 		<div>
 			<c:if test="${rq.loginedMemberId == 0 }">
 				<div class="w-full flex justify-end">
-					<a href="../member/login" class="btn btn-ghost btn-xs h-8">로그인</a>
-					<a href="../member/join" class="btn btn-ghost btn-xs h-8">회원가입</a>		
+					<a href="http://localhost:8085/usr/member/login" class="btn btn-ghost btn-xs h-8">로그인</a>
+					<a href="http://localhost:8085/usr/member/join" class="btn btn-ghost btn-xs h-8">회원가입</a>		
 				</div>
 			</c:if>
 			
@@ -235,8 +235,8 @@
 							<li class="font-bold"><a>${rq.loginedMemberNickname }</a></li>
 							<c:if test="${rq.authLevel == 1}">
 								<!-- 유저 -->
-								<li><a href="../member/profile?memberId=${rq.loginedMemberId }">프로필</a></li>
-								<li><a href="../member/userAccount?memberId=${rq.loginedMemberId }">계정관리</a></li>
+								<li><a href="http://localhost:8085/usr/member/profile?memberId=${rq.loginedMemberId }">프로필</a></li>
+								<li><a href="http://localhost:8085/usr/member/userAccount?memberId=${rq.loginedMemberId }">계정관리</a></li>
 								<li><button onclick="my_modal_3.showModal()">문의</button></li>
 								<li><button onclick="showReportModal('none', 0, 0)">신고</button></li>
 							</c:if>
@@ -244,7 +244,7 @@
 								<!-- 관리자 -->
 								<li><a href="/adm">관리자 페이지</a></li>
 							</c:if>
-							<li><a href="../member/doLogout" onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;">로그아웃</a></li>
+							<li><a href="http://localhost:8085/usr/member/doLogout" onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;">로그아웃</a></li>
 						</ul>
 					</div>
 					
@@ -271,22 +271,22 @@
 					<a href="/">메인</a>
 				</li>
 				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line">
-					<a href="../companionCat/view?memberId=${rq.loginedMemberId }">반려묘</a>
+					<a href="http://localhost:8085/usr/companionCat/view?memberId=${rq.loginedMemberId }">반려묘</a>
 					<ul>
-						<li><a href="../companionCat/view?memberId=${rq.loginedMemberId }">내반려묘</a></li>
-						<li><a href="../companionCat/register">등록</a></li>
+						<li><a href="http://localhost:8085/usr/companionCat/view?memberId=${rq.loginedMemberId }">내반려묘</a></li>
+						<li><a href="http://localhost:8085/usr/companionCat/register">등록</a></li>
 					</ul>
 				</li>
 				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line">
-					<a href="../article/list">게시판</a>
+					<a href="http://localhost:8085/usr/article/list">게시판</a>
 					<ul>
-						<li><a href="../article/list?boardId=2">공지사항</a></li>
-						<li><a href="../article/write">글작성</a></li>
+						<li><a href="http://localhost:8085/usr/article/list?boardId=2">공지사항</a></li>
+						<li><a href="http://localhost:8085/usr/article/write">글작성</a></li>
 					</ul>
 				</li>
 				<!-- <li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line"><a href="">지도</a></li> -->
 				<li class="nav-btn nav-btn-primary nav-btn-ghost nav-btn-open-line">
-					<a href="../customer/main">고객센터</a>
+					<a href="http://localhost:8085/usr/customer/main">고객센터</a>
 				</li>
 			</ul>
 		</div>

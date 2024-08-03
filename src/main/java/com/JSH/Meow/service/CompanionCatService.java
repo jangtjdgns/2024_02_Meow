@@ -1,10 +1,8 @@
 package com.JSH.Meow.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.JSH.Meow.component.UploadComponent;
 import com.JSH.Meow.dao.CompanionCatDao;
@@ -26,6 +24,10 @@ public class CompanionCatService {
 
 	public void doRegister(int memberId, String name, String gender, String birthDate, String profileImage, String aboutCat) {
 		companionCatDao.doRegister(memberId, name, gender, birthDate, profileImage, aboutCat);
+	}
+	
+	public int getCatCountById(int memberId) {
+		return companionCatDao.getCatCountById(memberId);
 	}
 
 	public CompanionCat getCompanionCatById(int catId) {

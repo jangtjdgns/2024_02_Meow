@@ -57,11 +57,7 @@ public class UsrReplyController {
 		
 		replyService.doWrite(rq.getLoginedMemberId(), relId, relTypeCode, body);
 		
-		int id = replyService.getLastInsertId();
-		
-		Reply reply = replyService.getReplyById(relId);
-		
-		return ResultData.from("S-1", "댓글이 작성되었습니다.", reply);
+		return ResultData.from("S-1", "댓글이 작성되었습니다.");
 	}
 	
 	// 댓글 수정

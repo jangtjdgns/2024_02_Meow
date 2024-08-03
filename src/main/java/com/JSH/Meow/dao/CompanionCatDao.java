@@ -41,6 +41,12 @@ public interface CompanionCatDao {
 	public void doRegister(int memberId, String name, String gender, String birthDate, String profileImage, String aboutCat);
 	
 	@Select("""
+			SELECT COUNT(*) FROM companion_cat
+			WHERE memberId = #{memberId}
+			""")
+	public int getCatCountById(int memberId);
+	
+	@Select("""
 			SELECT * FROM companion_cat
 			WHERE id = #{catId}
 			""")

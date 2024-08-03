@@ -66,6 +66,7 @@ public class UsrReportController {
 					return ResultData.from("F-2-1", "해당 회원은 존재하지 않습니다."); 
 				}
 				reportedTargetId = member.getId();
+				relId = String.valueOf(reportedTargetId);
 				break;
 			
 			// 게시글 조회

@@ -49,6 +49,12 @@ public class UsrCompanionCatController {
 	// 반려묘 등록 페이지
 	@RequestMapping("/usr/companionCat/register")
 	public String register() {
+		int countCats = companionCatService.getCatCountById(rq.getLoginedMemberId());
+		
+		// 이미 등록된 반려묘의 수가 8마리를 초과하는 경우 등록 제한
+		if(countCats >= 8) {
+			return rq.jsReturnOnView("최대 8마리의 반려묘 등록이 가능합니다.");
+		}
 		
 		return "usr/companionCat/register";
 	}

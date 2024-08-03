@@ -50,7 +50,7 @@ public class OAuth2Controller {
 		
 		model.addAttribute("snsInfo", Util.objectTojson(snsInfo));
 		
-		return "usr/member/loginSns";
+		return "usr/member/snsAuth";
 	}
 	
 	// 로그인 기록 확인

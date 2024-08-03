@@ -80,7 +80,7 @@ function setMarkers(map, radius) {
 	                        	<div class="grid grid-cols-10 w-full break-all">
 	                    			<div class="col-start-1 col-end-2"><i class="fa-solid fa-location-dot"></i></div>
 	                    			<div class="col-start-2 col-end-10 whitespace-normal">${result[0].address_name}</div>
-	                    			<button class="btn btn-xs btn-square col-start-10 col-end-11" onclick="closeMarker(this, ${idx});">
+	                    			<button class="btn btn-xs btn-square col-start-10 col-end-11" onclick="closeOverlay(this, ${idx});">
 										<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
 									</button>
 		                    		<div class="col-start-1 col-end-2"><i class="fa-solid fa-user"></i></div>
@@ -233,7 +233,7 @@ function closeInfoWarp() {
 }
 
 // 마커 커스텀 오버레이 제거
-function closeMarker(btn, idx) {
+function closeOverlay(btn, idx) {
 	const overlay = $(btn).closest(".overlay-wrap").parent();
 
 	overlay.css({

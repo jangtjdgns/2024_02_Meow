@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../common/header.jsp"%>
 <script>
-	//옵션 버튼 토글 함수
+	//옵션 버튼 토글 함수, 편집 모드
 	function toggleOption($this) {
 		// hover 효과
 		const border = `
@@ -45,15 +45,16 @@
 	/* 삭제 */
 	// deleteCat
 	function deleteCat(btn) {
-		// 클릭한 카드 idx
-		const cardIdx = $(btn).closest(".card-scale").index();
-		
 		if(!confirm("정말 삭제 하시곘습니까?")) {
 			return alert("취소합니다.");
 		}
 		
+		// 클릭한 카드 idx
+		const cardIdx = $(btn).closest(".card-scale").index();
 		const catId= $(".companion-cat-id").eq(cardIdx).val();
+		
 		$(".card-scale").eq(cardIdx).remove();
+		
 		doDeleteCat(loginedMemberId, catId);
 	}
 	

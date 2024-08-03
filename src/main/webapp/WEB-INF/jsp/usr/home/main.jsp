@@ -150,7 +150,7 @@
 	<!-- 게시판 바로가기 -->
 	<section class="mw py-32 bg-gray-50">
 		<div class="w-[1024px] mx-auto">
-			<div class="text-xl font-semibold pb-4">게시판에서 재미있는 글들을 확인해보세요</div>
+			<div class="text-xl font-semibold pb-4">게시판에서 재미있는 글들을 확인해 보세요</div>
 			<div class="grid grid-cols-3 grid-rows-2 gap-6 h-[20rem] justify-center">
 				<a href="../article/list" class="btn btn-outline text-[#BDB76B] bg-[#fffef2] border-[#BDB76B] hover:bg-[#BDB76B] hover:border-[#BDB76B] h-full grid grid-cols-3 shadow-xl">
 					<div class="col-start-1 col-end-3 grid text-left mx-2" style="grid-template-rows: 1fr 2fr;">
@@ -205,7 +205,7 @@
 	<!-- 내 주변 회원 지도 -->
 	<section class="mw py-32">
 		<div class="w-[1024px] mx-auto">
-			<div class="text-xl font-semibold pb-4">내 주변 집사들과 소통해보세요</div>
+			<div class="text-xl font-semibold pb-4">내 주변 집사들과 소통해요</div>
 		</div>
 		<div class="overflow-hidden grid" style="grid-template-columns: 1fr 1024px 1fr;">
 			<div></div>

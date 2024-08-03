@@ -61,7 +61,7 @@
 					                <span class="label-text text-xs"><span class="text-red-600 font-bold pr-1">*</span>이미지는 선택하지 않으면 변경되지 않습니다.</span>
 					            </label>
 					            <div class="flex items-center gap-2">
-						            <input id="profileImage" name="profileImage" type="file" data-korName="프로필이미지" class="file-input file-input-bordered w-full" accept="image/gif, image/jpeg, image/png" />
+						            <input id="profileImage" name="profileImage" type="file" data-korName="프로필이미지" onchange="previewImage(this)" class="file-input file-input-bordered w-full" accept="image/gif, image/jpeg, image/png" />
 						            <div class="dropdown dropdown-hover dropdown-top dropdown-end">
 								  		<div tabindex="0" role="button" class="btn btn-sm btn-circle bg-white mt-1"><i class="fa-solid fa-image"></i></div>
 									  	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
@@ -82,10 +82,10 @@
 					            <label class="label" for="aboutCat">
 					                <span class="label-text">소개말</span>
 					            </label>
-					            <!-- 이 부분 join.jsp에도 적용 해야함  -->
+					            
 					            <div class="textarea textarea-bordered p-0 relative">
-					            	<textarea id="aboutCat" name="aboutCat" placeholder="소개해보세요!" rows="5" class="w-full h-full textarea resize-none" data-korName="소개말" maxLength="300">${companionCat.aboutCat }</textarea>
-					            	<div class="absolute bottom-0 right-0 border-l border-t rounded-tl-lg p-1 w-16 text-center"><span id="aboutCatLength">0</span>/300</div>
+					            	<textarea id="aboutCat" name="aboutCat" placeholder="소개해보세요!" oninput="checkInputTextLength(this)" rows="5" class="w-full h-full textarea resize-none" data-korName="소개말" maxLength="300">${companionCat.aboutCat }</textarea>
+					            	<div class="absolute bottom-0 right-0 border-l border-t rounded-tl-lg p-1 w-16 text-center"><span class="inputTextLength">0</span> / 300</div>
 					            </div>
 					       	</div>
 					       	
